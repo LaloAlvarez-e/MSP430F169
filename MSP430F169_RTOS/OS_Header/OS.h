@@ -12,9 +12,10 @@
 #include <msp430f169.h>
 #include <intrinsics.h>
 #include <stdint.h>
+#include <stdarg.h>
 #include "TimerB.h"
 
-#define NUMTHREADS  (2)        // maximum number of threads
+#define NUMTHREADS  (3)        // maximum number of threads
 #define STACKSIZE   (0x100)      // number of 8-bit words in stack per thread
 
 struct TCB{ //Thread control block
@@ -33,8 +34,7 @@ typedef enum
 void OS__vLaunch(void);
 
 /*Threads*/
-OS_nStatus OS__enAddMainThreads(void(*vTask0)(void),
-void(*vTask1)(void));
+OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...);
 /*,
 void(*vTask2)(void),
 void(*vTask3)(void));

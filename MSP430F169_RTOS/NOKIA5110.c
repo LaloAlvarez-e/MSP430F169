@@ -126,7 +126,7 @@ void NOKIA5110__vInit(void)
 
 	SPI__vInit(SPI_enModeMaster, SPI_enMSBFirst,SPI_enClockIdleLow,SPI_enClockSampleFirst,SPI_enClockDiv2);
 	SPI__vInitPin(SPI_enPinCLK|SPI_enPinSS|SPI_enPinMOSI|SPI_enPinMISO);
-	//for(u32Delay=0; u32Delay<0x5FFFF; u32Delay++);
+	for(u32Delay=0; u32Delay<0xFFF; u32Delay++);
     NOKIA5110__vSendCommand(0x21);
     NOKIA5110__vSendCommand(0xB0);
     NOKIA5110__vSendCommand(0x04);

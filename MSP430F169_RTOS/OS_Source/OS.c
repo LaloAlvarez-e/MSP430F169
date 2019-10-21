@@ -69,27 +69,33 @@ uint16_t u16PeriodTask0, void(*vPeriodicTask1)(void), uint16_t u16PeriodTask1)
 	return OS_enOK;
 }
 
-OS_nStatus OS__enAddMainThreads(void(*vTask0)(void),
-void(*vTask1)(void))
-/*,
-void(*vTask2)(void),
-void(*vTask3)(void))*/{
+OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...)
+{
 	uint8_t u8Status;
+	int8_t s8Pos=0;
+	void(*pvTask)(void);
+    void(vTask)(void);
 	u8Status = OS__u16StartCriticalSection();
-	OS_sTCBs[0].next = &OS_sTCBs[1]; // 0 points to 1
-	OS_sTCBs[1].next = &OS_sTCBs[0]; // 1 points to 2
-	//OS_sTCBs[2].next = &OS_sTCBs[3]; // 2 points to 0
-	//OS_sTCBs[3].next = &OS_sTCBs[0]; // 2 points to 0
+	va_list ap; //crea puntero de los argumentos
+	va_start(ap, s8Cant);//maneja la memoria de los argumentos empezando desde el ultimo conocido ingresado
 
-	OS_vSetInitialStack(0); 
-	OS_ps16Stacks[0][STACKSIZE-1] =((int16_t)vTask0); // PC
-	OS_vSetInitialStack(1); 
-	OS_ps16Stacks[1][STACKSIZE-1] =((int16_t)vTask1); // PC
-	/*OS_vSetInitialStack(2);
-	OS_ps16Stacks[2][STACKSIZE-1] =((int16_t)vTask2)&0xFF; // PC
-	OS_vSetInitialStack(3);
-	OS_ps16Stacks[3][STACKSIZE-1] =((int16_t)vTask3)&0xFF; // PC
-	*/
+	if(s8Cant<1)
+	    return OS_enERROR;
+
+	for(s8Pos=0; s8Pos<s8Cant-1; s8Pos++)
+	{
+	    OS_sTCBs[s8Pos].next = &OS_sTCBs[s8Pos+1]; // 0 points to 1
+	}
+	OS_sTCBs[s8Cant-1].next= &OS_sTCBs[0];
+
+    for(s8Pos=0; s8Pos<s8Cant; s8Pos++)
+    {
+        pvTask=(void (*)(void))va_arg(ap,void*);
+        OS_vSetInitialStack(s8Pos);
+        OS_ps16Stacks[s8Pos][STACKSIZE-1] =((int16_t)pvTask); // PC
+    }
+
+    va_end(ap); //reinicia el puntero
 	OS_psRunPt = &OS_sTCBs[0];        // thread 0 will run first
 	OS__vEndCriticalSection(u8Status);
 	return OS_enOK; // successful
