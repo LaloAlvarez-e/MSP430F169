@@ -13,7 +13,8 @@
 #include <intrinsics.h>
 #include <stdint.h>
 #include <stdarg.h>
-#include "TimerB.h"
+#include "Watchdog.h"
+#include "GPIO.h"
 
 #define NUMTHREADS  (3)        // maximum number of threads
 #define STACKSIZE   (0x100)      // number of 8-bit words in stack per thread
@@ -58,6 +59,9 @@ void OS__vSignalSemaphore(int8_t *ps8Semaphore);
 /*Critical Sections*/
 uint16_t OS__u16StartCriticalSection(void);
 void OS__vEndCriticalSection(uint16_t u16Status);
+
+
+void OS__vSuspendMainThead(void);
 
 
 #endif /* OS_H_ */

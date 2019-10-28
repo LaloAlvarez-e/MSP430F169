@@ -131,7 +131,7 @@ void OS__vWaitSemaphore(int8_t *ps8Semaphore)
 	/*Wait until data are available*/
 	while(*ps8Semaphore == 0){
 	_enable_interrupt(); /* interrupts can occur here*/
-	_nop();
+	OS__vSuspendMainThead();
 	_disable_interrupt();
 	}
 	*ps8Semaphore = (*ps8Semaphore) - 1;
@@ -150,15 +150,20 @@ void OS__vSignalSemaphore(int8_t *ps8Semaphore)
 
 void OS__vLaunch(void){
 
-	/*Clear pending Interrupt of Timer Overflow*/
-	TimerB__vClearInterrupt(TimerB_enInterruptCC0);
-	/*Enable Interrupt of Timer Overflow*/
-	TimerB__vEnableInterrupt(TimerB_enInterruptCC0);
+    Watchdog__vClearInterrupt(Watchdog_enInterruptWDT);
+    Watchdog__vEnableInterrupt(Watchdog_enInterruptWDT);
 	
-	/*Intialization of Timer: Normal Mode MAX and CLK div64 ~~ 1ms*/
-	TimerB__vInit(TimerB_enModeUp_TBCL0,TimerB_enClockDiv1,8000-1);
+    Watchdog__vInit(Watchdog_enModeInterval,Watchdog_enClockSMCLK,Watchdog_enDiv8192);
 
 	OS_vStartOS();                   // start on the first task
+}
+
+
+
+void OS__vSuspendMainThead(void)
+{
+    Watchdog__vClearCount();
+    Watchdog__vSetInterrupt(Watchdog_enInterruptWDT);
 }
 
 void OS_vStartOS(void)
@@ -187,9 +192,10 @@ void OS_vStartOS(void)
 
 
 
-#pragma vector=TIMERB0_VECTOR
-__interrupt void TIMERB0_IRQ(void)
+#pragma vector=WDT_VECTOR
+__interrupt void WDT_IRQ(void)
 {
+    LEDAMBER_OUT^=LEDAMBER_PIN;
 	asm volatile (
     " push R15 \n"
     " push R14 \n"
