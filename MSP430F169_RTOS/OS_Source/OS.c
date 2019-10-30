@@ -47,25 +47,52 @@ void OS_vSetInitialStack(uint8_t i){
 
 }
 
-void (*OS_vPeriodicTask0)(void);
-void (*OS_vPeriodicTask1)(void);
-uint16_t OS_u16PeriodTask0=0, OS_u16PeriodTask1=0;
+void (*OS_vPeriodicTask[10])(void);
+uint16_t OS_u16PeriodTask[10];
 uint32_t OS_u32MaxPeriod=0;
-OS_nStatus OS__enAddPeriodicThreads(void(*vPeriodicTask0)(void), 
-uint16_t u16PeriodTask0, void(*vPeriodicTask1)(void), uint16_t u16PeriodTask1)
+int8_t OS_s8PeriodicTaskCount=0;
+OS_nStatus OS__enAddPeriodicThreads(int8_t s8Cant,...)
 {
-	OS_vPeriodicTask0=vPeriodicTask0;
-	OS_vPeriodicTask1=vPeriodicTask1;
-	if(u16PeriodTask0!=0)
-		OS_u16PeriodTask0=u16PeriodTask0;
-	else
-		OS_u16PeriodTask0=1;
-	if(u16PeriodTask1!=0)
-		OS_u16PeriodTask1=u16PeriodTask1;
-	else
-		OS_u16PeriodTask1=1;
-		
-	OS_u32MaxPeriod= (OS_u16PeriodTask0*OS_u16PeriodTask1);
+    uint8_t u8Status;
+    int8_t s8Pos=0;
+    int8_t s8Result=0;
+    uint32_t u32PeriodMax=0;
+    u8Status = OS__u16StartCriticalSection();
+    va_list ap; //crea puntero de los argumentos
+    va_start(ap, s8Cant);//maneja la memoria de los argumentos empezando desde el ultimo conocido ingresado
+
+    if(s8Cant<1)
+        return OS_enERROR;
+
+    for(s8Pos=0; s8Pos<s8Cant; s8Pos++)
+    {
+        OS_vPeriodicTask[s8Pos]=(void (*)(void))va_arg(ap,void*);
+        OS_u16PeriodTask[s8Pos]=(uint16_t)va_arg(ap,uint16_t);
+
+        if(OS_u16PeriodTask[s8Pos]==0)
+            OS_u16PeriodTask[s8Pos]=1;
+
+        if(u32PeriodMax<OS_u16PeriodTask[s8Pos])
+            u32PeriodMax=OS_u16PeriodTask[s8Pos];
+    }
+    while(s8Result!=s8Cant)
+    {
+        s8Result=0;
+        for(s8Pos=0; s8Pos<s8Cant; s8Pos++)
+        {
+            if((u32PeriodMax%OS_u16PeriodTask[s8Pos])==0)
+            {
+                s8Result++;
+            }
+        }
+        if(s8Result!=s8Cant)
+            u32PeriodMax++;
+    }
+
+	OS_u32MaxPeriod= u32PeriodMax;
+	OS_s8PeriodicTaskCount= s8Cant;
+	va_end(ap); //reinicia el puntero
+    OS__vEndCriticalSection(u8Status);
 	return OS_enOK;
 }
 
@@ -74,7 +101,6 @@ OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...)
 	uint8_t u8Status;
 	int8_t s8Pos=0;
 	void(*pvTask)(void);
-    void(vTask)(void);
 	u8Status = OS__u16StartCriticalSection();
 	va_list ap; //crea puntero de los argumentos
 	va_start(ap, s8Cant);//maneja la memoria de los argumentos empezando desde el ultimo conocido ingresado
@@ -103,17 +129,6 @@ OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...)
 
 void OS_vScheduler(void)
 {	
-	static uint32_t u32Count= 0;
-	u32Count%=OS_u32MaxPeriod;
-	 if(((uint32_t)u32Count%(uint32_t)OS_u16PeriodTask0) == 0)
-	 { 
-		 OS_vPeriodicTask0();
-	 }
-	 if(((uint32_t)u32Count%(uint32_t)OS_u16PeriodTask1) == 0)
-	 { 
-		 OS_vPeriodicTask1();
-	 }	
-	u32Count++;
 	OS_psRunPt = OS_psRunPt->next; // Round Robin scheduler
 }
 
@@ -146,14 +161,48 @@ void OS__vSignalSemaphore(int8_t *ps8Semaphore)
 	OS__vEndCriticalSection(u16Status);
 }
 
+/*
+uint32_t OS_u32MailBoxData;  // shared data
+int8_t  OS_s8MailBoxSend=0; // semaphore
+int8_t  OS_s8MailBoxAck=0;  // semaphore
+uint8_t OS_u8MailBoxLost=0;
+
+void OS__vInitMailBox(void){
+    OS_u32MailBoxData=0;  // shared data
+    OS_s8MailBoxSend=0; // semaphore
+    OS_s8MailBoxAck=0;  // semaphore
+
+}
+
+
+void OS__vSendMailBox(uint32_t u32Data){
+    OS_u32MailBoxData = u32Data;
+  if(OS_s8MailBoxSend){
+      OS_u8MailBoxLost++;
+  }else{
+      OS__vSignalSemaphore(&OS_s8MailBoxSend);
+  }
+}
+
+uint32_t OS__u32ReadMailBox(void){
+    OS__vWaitSemaphore(&OS_s8MailBoxSend);
+    return OS_u32MailBoxData; // read mail
+}
+
+*/
 
 
 void OS__vLaunch(void){
 
     Watchdog__vClearInterrupt(Watchdog_enInterruptWDT);
     Watchdog__vEnableInterrupt(Watchdog_enInterruptWDT);
-	
+    TimerB__vClearInterrupt(TimerB_enInterruptCC0);
+    TimerB__vEnableInterrupt(TimerB_enInterruptCC0);
+
+    TimerB__vInit(TimerB_enModeUp_TBCL0,TimerB_enClockDiv1,8000-1);
     Watchdog__vInit(Watchdog_enModeInterval,Watchdog_enClockSMCLK,Watchdog_enDiv8192);
+
+
 
 	OS_vStartOS();                   // start on the first task
 }
@@ -190,7 +239,23 @@ void OS_vStartOS(void)
 
 
 
+#pragma vector=TIMERB0_VECTOR
+__interrupt void TIMERB0_IRQ(void)
+{
+    static uint32_t u32Count= 0;
+    int8_t s8Pos=0;
+    u32Count%=OS_u32MaxPeriod;
 
+    for(s8Pos=0; s8Pos<OS_s8PeriodicTaskCount; s8Pos++)
+    {
+        if(((uint32_t)u32Count%(uint32_t)OS_u16PeriodTask[s8Pos]) == 0)
+        {
+            OS_vPeriodicTask[s8Pos]();
+        }
+
+    }
+    u32Count++;
+}
 
 #pragma vector=WDT_VECTOR
 __interrupt void WDT_IRQ(void)

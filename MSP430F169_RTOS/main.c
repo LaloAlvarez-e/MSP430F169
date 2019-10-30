@@ -28,9 +28,9 @@ void main(void)
     NOKIA5110__vInit();
     NOKIA5110__vSetCursor(0,0);
     NOKIA5110__vClear();
-    NOKIA5110__u16Print("InDev Mutex\n\rBoton 1:\n\rBoton 2:",&u8Column,&u8Row);
+    NOKIA5110__u16Print("InDev Mutex\n\rBoton 1:\n\rBoton 2:\n\r\n\rSuspend ",&u8Column,&u8Row);
     OS__vInitSemaphore(&MAIN_s8SemaphoreSPI,SEMAPHORE_enInitMUTEX);
-    OS__enAddPeriodicThreads(&Task5,400,&Task6,300);
+    OS__enAddPeriodicThreads(2,&Task5,400,&Task6,300);
     OS__enAddMainThreads(3,&Task1, &Task2,&Task3);
     OS__vLaunch();
 }
@@ -137,6 +137,8 @@ void Task4 (void)
     {
     }
 }
+
+
 void Task5 (void)
 {
     static uint8_t u8Previous=PBUTTON2_READPIN;
@@ -160,12 +162,11 @@ void Task6 (void)
     static uint8_t u8Actual=PBUTTON1_READPIN;
     u8Actual=PBUTTON1_READPORT & PBUTTON1_READPIN;
 
-    LEDBLUE_OUT|=LEDBLUE_PIN;
+    LEDBLUE_OUT^=LEDBLUE_PIN;
    if(u8Previous!=u8Actual)
     {
         if(u8Actual==0)
         {
-            LEDBLUE_OUT&=~LEDBLUE_PIN;
             MAIN_u8CountBUTTON1++;
         }
 

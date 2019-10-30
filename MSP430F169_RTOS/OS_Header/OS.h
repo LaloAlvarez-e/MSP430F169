@@ -14,6 +14,7 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include "Watchdog.h"
+#include "TimerB.h"
 #include "GPIO.h"
 
 #define NUMTHREADS  (3)        // maximum number of threads
@@ -40,10 +41,7 @@ OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...);
 void(*vTask2)(void),
 void(*vTask3)(void));
 */
-OS_nStatus OS__enAddPeriodicThreads(void(*vPeriodicTask0)(void), 
-uint16_t u16PeriodTask0,
-void(*vPeriodicTask1)(void), 
-uint16_t u16PeriodTask1);
+OS_nStatus OS__enAddPeriodicThreads(int8_t s8Cant,...);
 
 typedef enum
 {
@@ -55,6 +53,13 @@ typedef enum
 void OS__vInitSemaphore(int8_t *ps8Semaphore, SEMAPHORE_nTypeInit enInitValue);
 void OS__vWaitSemaphore(int8_t *ps8Semaphore);
 void OS__vSignalSemaphore(int8_t *ps8Semaphore);
+
+/* MailBox*/
+
+void OS__vInitMailBox(void);
+void OS__vSendMailBox(uint32_t u32Data);
+uint32_t OS__u32ReadMailBox(void);
+
 
 /*Critical Sections*/
 uint16_t OS__u16StartCriticalSection(void);
