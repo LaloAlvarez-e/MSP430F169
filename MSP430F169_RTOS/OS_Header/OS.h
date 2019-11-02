@@ -23,6 +23,8 @@
 struct TCB{ //Thread control block
 	int16_t *sp;       // pointer to stack (valid for threads not running)
 	struct TCB *next;  // linked-list pointer
+	int8_t *blockedPointer;
+	int8_t  blockedValue;
 };
 typedef struct TCB TCB_TypeDef;
 
@@ -31,6 +33,11 @@ typedef enum
 	OS_enOK  =0,
 	OS_enERROR,
 }OS_nStatus;
+
+typedef enum
+{
+    OS_enUnblocked  =0,
+}OS_nBlocked;
 
 
 void OS__vLaunch(void);

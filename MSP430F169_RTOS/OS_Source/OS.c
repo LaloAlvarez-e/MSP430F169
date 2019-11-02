@@ -111,8 +111,10 @@ OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...)
 	for(s8Pos=0; s8Pos<s8Cant-1; s8Pos++)
 	{
 	    OS_sTCBs[s8Pos].next = &OS_sTCBs[s8Pos+1]; // 0 points to 1
+        OS_sTCBs[s8Pos].blockedPointer = OS_enUnblocked;
 	}
 	OS_sTCBs[s8Cant-1].next= &OS_sTCBs[0];
+    OS_sTCBs[s8Cant-1].blockedPointer= OS_enUnblocked;
 
     for(s8Pos=0; s8Pos<s8Cant; s8Pos++)
     {
@@ -129,7 +131,22 @@ OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...)
 
 void OS_vScheduler(void)
 {	
-	OS_psRunPt = OS_psRunPt->next; // Round Robin scheduler
+    TCB_TypeDef *psActualPt =OS_psRunPt;
+    TCB_TypeDef *psBestPt=OS_psRunPt->next;
+    uint32_t u32BlockedState=0;
+
+    do
+    {
+        psActualPt = psActualPt->next; // Round Robin scheduler
+        u32BlockedState=(uint32_t)psActualPt->blockedPointer;
+        if(u32BlockedState==OS_enUnblocked)
+        {
+                psBestPt=psActualPt;
+                break;
+        }
+
+    }while(OS_psRunPt != psActualPt);
+    OS_psRunPt=psBestPt;
 }
 
 /* SpinLock semaphore*/
@@ -143,21 +160,40 @@ void OS__vWaitSemaphore(int8_t *ps8Semaphore)
 {
 	uint16_t u16Status;
 	u16Status = OS__u16StartCriticalSection();
+    *ps8Semaphore = (*ps8Semaphore) - 1;
 	/*Wait until data are available*/
-	while(*ps8Semaphore == 0){
-	_enable_interrupt(); /* interrupts can occur here*/
-	OS__vSuspendMainThead();
-	_disable_interrupt();
+	if(*ps8Semaphore < 0)
+	{
+	    OS_psRunPt->blockedPointer=ps8Semaphore;
+        OS_psRunPt->blockedValue=*ps8Semaphore;
+        OS__vEndCriticalSection(u16Status);
+        OS__vSuspendMainThead();
 	}
-	*ps8Semaphore = (*ps8Semaphore) - 1;
 	OS__vEndCriticalSection(u16Status);
 } 
 
 void OS__vSignalSemaphore(int8_t *ps8Semaphore)
 {
 	uint16_t u16Status;
+    TCB_TypeDef *psActualPt =OS_psRunPt;
 	u16Status = OS__u16StartCriticalSection();
 	*ps8Semaphore = (*ps8Semaphore) + 1;
+    if(*ps8Semaphore <= 0)
+    {
+        psActualPt=OS_psRunPt;
+        do
+        {
+            psActualPt=psActualPt->next;
+            if(psActualPt->blockedPointer==ps8Semaphore)
+            {
+                psActualPt->blockedValue++;
+                if(psActualPt->blockedValue==0)
+                {
+                    psActualPt->blockedPointer=0;
+                }
+            }
+        }while(psActualPt!=OS_psRunPt);
+    }
 	OS__vEndCriticalSection(u16Status);
 }
 
