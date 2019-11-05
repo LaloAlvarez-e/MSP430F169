@@ -189,9 +189,9 @@ void OS__vSignalSemaphore(int8_t *ps8Semaphore)
             if(psActualPt->blockedPointer==ps8Semaphore)
             {
                 psActualPt->blockedValue++;
-                if(psActualPt->blockedValue==0)
+                if(psActualPt->blockedValue==OS_enUnblocked)
                 {
-                    psActualPt->blockedPointer=0;
+                    psActualPt->blockedPointer=OS_enUnblocked;
                 }
             }
         }while(psActualPt!=OS_psRunPt);
