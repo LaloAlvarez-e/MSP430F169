@@ -28,7 +28,7 @@ void main(void)
     NOKIA5110__vInit();
     NOKIA5110__vSetCursor(0,0);
     NOKIA5110__vClear();
-    NOKIA5110__u16Print("InDev Mutex\n\rBoton 1:\n\rBoton 2:\n\r\n\rSuspend ",&u8Column,&u8Row);
+    NOKIA5110__u16Print("InDev Mutex\n\rBoton 1:\n\rBoton 2:\n\r\n\rBlocking ",&u8Column,&u8Row);
     OS__vInitSemaphore(&MAIN_s8SemaphoreSPI,SEMAPHORE_enInitMUTEX);
     OS__enAddPeriodicThreads(2,&Task5,50,&Task6,80);
     OS__enAddMainThreads(3,&Task1, &Task2,&Task3);

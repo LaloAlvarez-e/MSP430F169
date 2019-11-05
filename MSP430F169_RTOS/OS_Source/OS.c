@@ -112,9 +112,11 @@ OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...)
 	{
 	    OS_sTCBs[s8Pos].next = &OS_sTCBs[s8Pos+1]; // 0 points to 1
         OS_sTCBs[s8Pos].blockedPointer = OS_enUnblocked;
+        OS_sTCBs[s8Pos].blockedValue = OS_enUnblocked;
 	}
 	OS_sTCBs[s8Cant-1].next= &OS_sTCBs[0];
     OS_sTCBs[s8Cant-1].blockedPointer= OS_enUnblocked;
+    OS_sTCBs[s8Cant-1].blockedValue = OS_enUnblocked;
 
     for(s8Pos=0; s8Pos<s8Cant; s8Pos++)
     {
@@ -180,7 +182,7 @@ void OS__vSignalSemaphore(int8_t *ps8Semaphore)
 	*ps8Semaphore = (*ps8Semaphore) + 1;
     if(*ps8Semaphore <= 0)
     {
-        psActualPt=OS_psRunPt;
+
         do
         {
             psActualPt=psActualPt->next;
