@@ -214,13 +214,27 @@ void OS__vInitMailBox(OS_nMailBox* enMailBox)
 void OS__vSendMailBox(OS_nMailBox* enMailBox,uint32_t u32Data)
 {
     enMailBox->data= u32Data;
-    if(enMailBox->semaphore)
+    if(enMailBox->semaphore > 0)
         enMailBox->lost++;
     else
       OS__vSignalSemaphore(&enMailBox->semaphore);
 
 }
 
+uint32_t OS__u32GetMailBoxData(OS_nMailBox* enMailBox)
+{
+    return enMailBox->data; // read mail
+}
+
+uint32_t OS__u32GetMailBoxLost(OS_nMailBox* enMailBox)
+{
+    return enMailBox->lost; // read mail
+}
+
+int8_t* OS__u32GetMailBoxSemaphore(OS_nMailBox* enMailBox)
+{
+    return enMailBox->semaphore; // read mail
+}
 uint32_t OS__u32ReadMailBox(OS_nMailBox* enMailBox)
 {
     OS__vWaitSemaphore(&enMailBox->semaphore);

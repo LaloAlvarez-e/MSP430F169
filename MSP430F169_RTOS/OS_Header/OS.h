@@ -73,6 +73,9 @@ void OS__vInitMailBox(OS_nMailBox* enMailBox);
 void OS__vSendMailBox(OS_nMailBox* enMailBox,uint32_t u32Data);
 uint32_t OS__u32ReadMailBox(OS_nMailBox* enMailBox);
 
+uint32_t OS__u32GetMailBoxData(OS_nMailBox* enMailBox);
+uint32_t OS__u32GetMailBoxLost(OS_nMailBox* enMailBox);
+int8_t* OS__u32GetMailBoxSemaphore(OS_nMailBox* enMailBox);
 
 /*Critical Sections*/
 uint16_t OS__u16StartCriticalSection(void);
