@@ -199,35 +199,34 @@ void OS__vSignalSemaphore(int8_t *ps8Semaphore)
 	OS__vEndCriticalSection(u16Status);
 }
 
-/*
 uint32_t OS_u32MailBoxData;  // shared data
 int8_t  OS_s8MailBoxSend=0; // semaphore
-int8_t  OS_s8MailBoxAck=0;  // semaphore
 uint8_t OS_u8MailBoxLost=0;
 
-void OS__vInitMailBox(void){
-    OS_u32MailBoxData=0;  // shared data
-    OS_s8MailBoxSend=0; // semaphore
-    OS_s8MailBoxAck=0;  // semaphore
+void OS__vInitMailBox(OS_nMailBox* enMailBox)
+{
+    enMailBox->data=0;  // shared data
+    enMailBox->semaphore=0; // semaphore
+    enMailBox->lost=0; // lost data
 
 }
 
+void OS__vSendMailBox(OS_nMailBox* enMailBox,uint32_t u32Data)
+{
+    enMailBox->data= u32Data;
+    if(enMailBox->semaphore)
+        enMailBox->lost++;
+    else
+      OS__vSignalSemaphore(&enMailBox->semaphore);
 
-void OS__vSendMailBox(uint32_t u32Data){
-    OS_u32MailBoxData = u32Data;
-  if(OS_s8MailBoxSend){
-      OS_u8MailBoxLost++;
-  }else{
-      OS__vSignalSemaphore(&OS_s8MailBoxSend);
-  }
 }
 
-uint32_t OS__u32ReadMailBox(void){
-    OS__vWaitSemaphore(&OS_s8MailBoxSend);
-    return OS_u32MailBoxData; // read mail
+uint32_t OS__u32ReadMailBox(OS_nMailBox* enMailBox)
+{
+    OS__vWaitSemaphore(&enMailBox->semaphore);
+    return enMailBox->data; // read mail
 }
 
-*/
 
 
 void OS__vLaunch(void){

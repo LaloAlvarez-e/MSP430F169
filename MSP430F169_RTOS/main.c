@@ -18,6 +18,9 @@ int8_t MAIN_s8SemaphoreSPI=0;
 uint8_t MAIN_u8CountBUTTON1=0;
 uint8_t MAIN_u8CountBUTTON2=0;
 
+OS_nMailBox MAIN_enMailBoxBUTTON1={0,0,0};
+OS_nMailBox MAIN_enMailBoxBUTTON2={0,0,0};
+
 void main(void)
 {
     uint8_t u8Column=0, u8Row=0;

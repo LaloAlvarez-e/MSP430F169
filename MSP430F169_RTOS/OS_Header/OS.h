@@ -28,6 +28,13 @@ struct TCB{ //Thread control block
 };
 typedef struct TCB TCB_TypeDef;
 
+typedef struct
+{
+    uint32_t data;
+    int8_t   semaphore;
+    uint8_t  lost  ;
+}OS_nMailBox;
+
 typedef enum
 {
 	OS_enOK  =0,
@@ -62,10 +69,9 @@ void OS__vWaitSemaphore(int8_t *ps8Semaphore);
 void OS__vSignalSemaphore(int8_t *ps8Semaphore);
 
 /* MailBox*/
-
-void OS__vInitMailBox(void);
-void OS__vSendMailBox(uint32_t u32Data);
-uint32_t OS__u32ReadMailBox(void);
+void OS__vInitMailBox(OS_nMailBox* enMailBox);
+void OS__vSendMailBox(OS_nMailBox* enMailBox,uint32_t u32Data);
+uint32_t OS__u32ReadMailBox(OS_nMailBox* enMailBox);
 
 
 /*Critical Sections*/
