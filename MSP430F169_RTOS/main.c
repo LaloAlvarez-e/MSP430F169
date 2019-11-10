@@ -14,10 +14,10 @@ void Task4 (void);
 void Task5 (void);
 void Task6 (void);
 
-int8_t MAIN_s8SemaphoreSPI=0;
+OS_sSemaphore MAIN_sSemaphoreSPI={0,0,0};
 
-OS_nMailBox MAIN_enMailBoxBUTTON1={0,0,0};
-OS_nMailBox MAIN_enMailBoxBUTTON2={0,0,0};
+OS_sMailBox MAIN_sMailBoxBUTTON1={0,0,0};
+OS_sMailBox MAIN_sMailBoxBUTTON2={0,0,0};
 
 void main(void)
 {
@@ -30,16 +30,23 @@ void main(void)
     NOKIA5110__vInit();
     NOKIA5110__vSetCursor(0,0);
     NOKIA5110__vClear();
-    NOKIA5110__u16Print("InDev Mutex\n\rBoton 1:\n\rBoton 2:\n\r\n\rBlocking ",&u8Column,&u8Row);
 
 
-    OS__vInitMailBox(&MAIN_enMailBoxBUTTON1);
-    OS__vInitMailBox(&MAIN_enMailBoxBUTTON2);
-    OS__vSendMailBox(&MAIN_enMailBoxBUTTON1,0);
-    OS__vSendMailBox(&MAIN_enMailBoxBUTTON2,0);
-    OS__vInitSemaphore(&MAIN_s8SemaphoreSPI,SEMAPHORE_enInitMUTEX);
+    u8Column=0, u8Row=0;
+    NOKIA5110__u16Print("InDev\n\rInitializing\n\rRTOS ",&u8Column,&u8Row);
+
+    OS__vInitMailBox(&MAIN_sMailBoxBUTTON1);
+    OS__vInitMailBox(&MAIN_sMailBoxBUTTON2);
+    OS__vSendMailBox(&MAIN_sMailBoxBUTTON1,0);
+    OS__vSendMailBox(&MAIN_sMailBoxBUTTON2,0);
+    OS__vInitSemaphore(&MAIN_sSemaphoreSPI,SEMAPHORE_enInitMUTEX);
     OS__enAddPeriodicThreads(2,&Task5,50,&Task6,80);
     OS__enAddMainThreads(3,&Task1, &Task2,&Task3);
+    NOKIA5110__vSetCursor(0,0);
+    NOKIA5110__vClear();
+    u8Column=0, u8Row=0;
+    NOKIA5110__u16Print("InDev RTOS\n\rBoton 1:\n\rBoton 2:\n\r\n\rMailBox ",&u8Column,&u8Row);
+
     OS__vLaunch();
 }
 
@@ -53,14 +60,14 @@ void Task1(void)
 
     while(1)
     {
-        u16ValueBoton=OS__u32ReadMailBox(&MAIN_enMailBoxBUTTON1);
+        u16ValueBoton=OS__u32ReadMailBox(&MAIN_sMailBoxBUTTON1);
         u8Column=9;
         u8Row=1;
 
         CONV__u8IntToStringCeros(u16ValueBoton,3,&TASK1_cConv[0]);
-        OS__vWaitSemaphore(&MAIN_s8SemaphoreSPI);
+        OS__vWaitSemaphore(&MAIN_sSemaphoreSPI);
         NOKIA5110__u8SendString((char*)TASK1_cConv,&u8Column,&u8Row);
-        OS__vSignalSemaphore(&MAIN_s8SemaphoreSPI);
+        OS__vSignalSemaphore(&MAIN_sSemaphoreSPI);
         OS__vSuspendMainThead();
 
     }
@@ -73,14 +80,14 @@ void Task2 (void)
     uint16_t u16ValueBoton=0;
     while(1)
     {
-        u16ValueBoton=OS__u32ReadMailBox(&MAIN_enMailBoxBUTTON2);
+        u16ValueBoton=OS__u32ReadMailBox(&MAIN_sMailBoxBUTTON2);
         u8Column=9;
         u8Row=2;
 
         CONV__u8IntToStringCeros(u16ValueBoton,3,&TASK2_cConv[0]);
-        OS__vWaitSemaphore(&MAIN_s8SemaphoreSPI);
+        OS__vWaitSemaphore(&MAIN_sSemaphoreSPI);
         NOKIA5110__u8SendString((char*)TASK2_cConv,&u8Column,&u8Row);
-        OS__vSignalSemaphore(&MAIN_s8SemaphoreSPI);
+        OS__vSignalSemaphore(&MAIN_sSemaphoreSPI);
         OS__vSuspendMainThead();
 
     }
@@ -102,14 +109,14 @@ void Task3 (void)
             if(u8Actual==0)
             {
                 LEDRED_OUT&=~LEDRED_PIN;
-                OS__vSendMailBox(&MAIN_enMailBoxBUTTON1,0);
-                OS__vSendMailBox(&MAIN_enMailBoxBUTTON2,0);
+                OS__vSendMailBox(&MAIN_sMailBoxBUTTON1,0);
+                OS__vSendMailBox(&MAIN_sMailBoxBUTTON2,0);
                 u8Column=0;
                 u8Row=3;
 
-                OS__vWaitSemaphore(&MAIN_s8SemaphoreSPI);
+                OS__vWaitSemaphore(&MAIN_sSemaphoreSPI);
                 NOKIA5110__u8SendString((char*)"Count Reset",&u8Column,&u8Row);
-                OS__vSignalSemaphore(&MAIN_s8SemaphoreSPI);
+                OS__vSignalSemaphore(&MAIN_sSemaphoreSPI);
 
             }
             else
@@ -118,9 +125,9 @@ void Task3 (void)
                 u8Column=0;
                 u8Row=3;
 
-                OS__vWaitSemaphore(&MAIN_s8SemaphoreSPI);
+                OS__vWaitSemaphore(&MAIN_sSemaphoreSPI);
                 NOKIA5110__u8SendString((char*)"           ",&u8Column,&u8Row);
-                OS__vSignalSemaphore(&MAIN_s8SemaphoreSPI);
+                OS__vSignalSemaphore(&MAIN_sSemaphoreSPI);
             }
 
         }
@@ -148,9 +155,9 @@ void Task5 (void)
     {
         if(u8Actual==0)
         {
-            u8Value=OS__u32GetMailBoxData(&MAIN_enMailBoxBUTTON2);
+            u8Value=OS__u32GetDataMailBox(&MAIN_sMailBoxBUTTON2);
             u8Value++;
-            OS__vSendMailBox(&MAIN_enMailBoxBUTTON2,u8Value);
+            OS__vSendMailBox(&MAIN_sMailBoxBUTTON2,u8Value);
         }
 
     }
@@ -168,9 +175,9 @@ void Task6 (void)
     {
         if(u8Actual==0)
         {
-            u8Value=OS__u32GetMailBoxData(&MAIN_enMailBoxBUTTON1);
+            u8Value=OS__u32GetDataMailBox(&MAIN_sMailBoxBUTTON1);
             u8Value++;
-            OS__vSendMailBox(&MAIN_enMailBoxBUTTON1,u8Value);
+            OS__vSendMailBox(&MAIN_sMailBoxBUTTON1,u8Value);
         }
 
     }

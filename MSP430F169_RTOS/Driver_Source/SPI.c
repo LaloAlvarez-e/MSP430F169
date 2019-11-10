@@ -124,12 +124,6 @@ void SPI__vInitPin(SPI_nPin enPin)
 	{
         P3SEL|=BIT1;
 	}
-	if((enPin&SPI_enPinSS)==SPI_enPinSS)
-	{
-	    P3DIR|=BIT0;
-	    P3OUT|=BIT0;
-	    P3SEL&=~BIT0;
-	}		
 }
 void SPI__vDeInitPin(SPI_nPin enPin)
 {
@@ -157,7 +151,7 @@ void SPI__vSendReceiveDataMaster(uint8_t* pu8DataOut, uint8_t* pu8DataIn, int16_
 {
 	IFG1&=~(UTXIFG0|URXIFG0);
 	*pu8DataIn=U0RXBUF;
-    P3OUT&=~BIT0;
+
 	while((uint16_t)s16DataNumber>0)
 	{
 	    U0TXBUF=*pu8DataOut;
@@ -169,7 +163,6 @@ void SPI__vSendReceiveDataMaster(uint8_t* pu8DataOut, uint8_t* pu8DataIn, int16_
 		s16DataNumber--;
 	}
 
-    P3OUT|=BIT0;
 }
 
 void SPI__vSendDataMaster(uint8_t* pu8DataOut,int16_t s16DataNumber )
@@ -178,7 +171,6 @@ void SPI__vSendDataMaster(uint8_t* pu8DataOut,int16_t s16DataNumber )
     IFG1&=~(UTXIFG0|URXIFG0);
     u8Dummy=U0RXBUF;
 
-    P3OUT&=~BIT0;
 	while((uint16_t)s16DataNumber>0)
 	{
 	    U0TXBUF=*pu8DataOut;
@@ -189,5 +181,4 @@ void SPI__vSendDataMaster(uint8_t* pu8DataOut,int16_t s16DataNumber )
 		s16DataNumber--;
 	}
 
-    P3OUT|=BIT0;
 }

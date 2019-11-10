@@ -23,17 +23,27 @@
 struct TCB{ //Thread control block
 	int16_t *sp;       // pointer to stack (valid for threads not running)
 	struct TCB *next;  // linked-list pointer
-	int8_t *blockedPointer;
+    struct TCB *nextblockedTCB;
 	int8_t  blockedValue;
 };
 typedef struct TCB TCB_TypeDef;
 
+typedef int8_t OS_u8Semaphore;
+
+typedef struct
+{
+    int8_t   value;
+    TCB_TypeDef*  initBlockTCB  ;
+    TCB_TypeDef*  lastBlockTCB  ;
+}OS_sSemaphore;
+
+
 typedef struct
 {
     uint32_t data;
-    int8_t   semaphore;
+    OS_sSemaphore   semaphore;
     uint8_t  lost  ;
-}OS_nMailBox;
+}OS_sMailBox;
 
 typedef enum
 {
@@ -64,18 +74,18 @@ typedef enum
 }SEMAPHORE_nTypeInit;
 
 /*SpinLock Semaphore (MUTEX MUTual EXclusion)*/
-void OS__vInitSemaphore(int8_t *ps8Semaphore, SEMAPHORE_nTypeInit enInitValue);
-void OS__vWaitSemaphore(int8_t *ps8Semaphore);
-void OS__vSignalSemaphore(int8_t *ps8Semaphore);
+void OS__vInitSemaphore(OS_sSemaphore *ps8Semaphore, SEMAPHORE_nTypeInit enInitValue);
+void OS__vWaitSemaphore(OS_sSemaphore *ps8Semaphore);
+void OS__vSignalSemaphore(OS_sSemaphore *ps8Semaphore);
 
 /* MailBox*/
-void OS__vInitMailBox(OS_nMailBox* enMailBox);
-void OS__vSendMailBox(OS_nMailBox* enMailBox,uint32_t u32Data);
-uint32_t OS__u32ReadMailBox(OS_nMailBox* enMailBox);
+void OS__vInitMailBox(OS_sMailBox* psMailBox);
+void OS__vSendMailBox(OS_sMailBox* psMailBox,uint32_t u32Data);
+uint32_t OS__u32ReadMailBox(OS_sMailBox* psMailBox);
 
-uint32_t OS__u32GetMailBoxData(OS_nMailBox* enMailBox);
-uint32_t OS__u32GetMailBoxLost(OS_nMailBox* enMailBox);
-int8_t* OS__u32GetMailBoxSemaphore(OS_nMailBox* enMailBox);
+uint32_t OS__u32GetDataMailBox(OS_sMailBox* psMailBox);
+uint8_t OS__u8GetLostMailBox(OS_sMailBox* psMailBox);
+int8_t OS__u32GetSemaphoreMailBox(OS_sMailBox* psMailBox);
 
 /*Critical Sections*/
 uint16_t OS__u16StartCriticalSection(void);

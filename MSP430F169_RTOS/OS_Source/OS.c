@@ -111,11 +111,11 @@ OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...)
 	for(s8Pos=0; s8Pos<s8Cant-1; s8Pos++)
 	{
 	    OS_sTCBs[s8Pos].next = &OS_sTCBs[s8Pos+1]; // 0 points to 1
-        OS_sTCBs[s8Pos].blockedPointer = OS_enUnblocked;
+        OS_sTCBs[s8Pos].nextblockedTCB = OS_enUnblocked;
         OS_sTCBs[s8Pos].blockedValue = OS_enUnblocked;
 	}
 	OS_sTCBs[s8Cant-1].next= &OS_sTCBs[0];
-    OS_sTCBs[s8Cant-1].blockedPointer= OS_enUnblocked;
+    OS_sTCBs[s8Cant-1].nextblockedTCB= OS_enUnblocked;
     OS_sTCBs[s8Cant-1].blockedValue = OS_enUnblocked;
 
     for(s8Pos=0; s8Pos<s8Cant; s8Pos++)
@@ -140,7 +140,7 @@ void OS_vScheduler(void)
     do
     {
         psActualPt = psActualPt->next; // Round Robin scheduler
-        u32BlockedState=(uint32_t)psActualPt->blockedPointer;
+        u32BlockedState=(uint32_t)psActualPt->blockedValue;
         if(u32BlockedState==OS_enUnblocked)
         {
                 psBestPt=psActualPt;
@@ -153,92 +153,104 @@ void OS_vScheduler(void)
 
 /* SpinLock semaphore*/
 
-void OS__vInitSemaphore(int8_t *ps8Semaphore, SEMAPHORE_nTypeInit enInitValue)
+void OS__vInitSemaphore(OS_sSemaphore *psSemaphore, SEMAPHORE_nTypeInit enInitValue)
 {
-	*ps8Semaphore=(int8_t)enInitValue;
+	psSemaphore->value=(int8_t)enInitValue;
+    psSemaphore->initBlockTCB=OS_enUnblocked;
+    psSemaphore->lastBlockTCB=OS_enUnblocked;
 }
 
-void OS__vWaitSemaphore(int8_t *ps8Semaphore)
+void OS__vWaitSemaphore(OS_sSemaphore *psSemaphore)
 {
 	uint16_t u16Status;
 	u16Status = OS__u16StartCriticalSection();
-    *ps8Semaphore = (*ps8Semaphore) - 1;
-	/*Wait until data are available*/
-	if(*ps8Semaphore < 0)
+    psSemaphore->value = (psSemaphore->value) - 1;
+
+	if(psSemaphore->value < 0)
 	{
-	    OS_psRunPt->blockedPointer=ps8Semaphore;
-        OS_psRunPt->blockedValue=*ps8Semaphore;
+	    if(psSemaphore->initBlockTCB == OS_enUnblocked)
+	        psSemaphore->initBlockTCB=OS_psRunPt;
+	    else
+	        psSemaphore->lastBlockTCB->nextblockedTCB=OS_psRunPt;
+
+        psSemaphore->lastBlockTCB=OS_psRunPt;
+        psSemaphore->lastBlockTCB->nextblockedTCB=0;
+        OS_psRunPt->blockedValue=psSemaphore->value;
         OS__vEndCriticalSection(u16Status);
         OS__vSuspendMainThead();
 	}
 	OS__vEndCriticalSection(u16Status);
 } 
 
-void OS__vSignalSemaphore(int8_t *ps8Semaphore)
+void OS__vSignalSemaphore(OS_sSemaphore *psSemaphore)
 {
 	uint16_t u16Status;
-    TCB_TypeDef *psActualPt =OS_psRunPt;
+    TCB_TypeDef* psActualPt =psSemaphore->initBlockTCB;
 	u16Status = OS__u16StartCriticalSection();
-	*ps8Semaphore = (*ps8Semaphore) + 1;
-    if(*ps8Semaphore <= 0)
+	psSemaphore->value = (psSemaphore->value) + 1;
+    if(psSemaphore->value <= 0)
     {
 
-        do
+        psActualPt->blockedValue++;
+        psSemaphore->initBlockTCB=psActualPt->nextblockedTCB;
+        psActualPt=psActualPt->nextblockedTCB;
+        while(psActualPt!=0)
         {
-            psActualPt=psActualPt->next;
-            if(psActualPt->blockedPointer==ps8Semaphore)
-            {
-                psActualPt->blockedValue++;
-                if(psActualPt->blockedValue==OS_enUnblocked)
-                {
-                    psActualPt->blockedPointer=OS_enUnblocked;
-                }
-            }
-        }while(psActualPt!=OS_psRunPt);
+            psActualPt->blockedValue++;
+            psActualPt=psActualPt->nextblockedTCB;
+        };
     }
 	OS__vEndCriticalSection(u16Status);
 }
 
-uint32_t OS_u32MailBoxData;  // shared data
-int8_t  OS_s8MailBoxSend=0; // semaphore
-uint8_t OS_u8MailBoxLost=0;
 
-void OS__vInitMailBox(OS_nMailBox* enMailBox)
+void OS__vInitMailBox(OS_sMailBox* psMailBox)
 {
-    enMailBox->data=0;  // shared data
-    enMailBox->semaphore=0; // semaphore
-    enMailBox->lost=0; // lost data
+    psMailBox->data=0;  // shared data
+    psMailBox->semaphore.initBlockTCB=0; // semaphore
+    psMailBox->semaphore.lastBlockTCB=0; // semaphore
+    psMailBox->semaphore.value=0; // semaphore
+    psMailBox->lost=0; // lost data
 
 }
 
-void OS__vSendMailBox(OS_nMailBox* enMailBox,uint32_t u32Data)
+void OS__vSendMailBox(OS_sMailBox* psMailBox,uint32_t u32Data)
 {
-    enMailBox->data= u32Data;
-    if(enMailBox->semaphore > 0)
-        enMailBox->lost++;
+    uint16_t u16Status;
+    u16Status = OS__u16StartCriticalSection();
+    psMailBox->data= u32Data;
+    OS__vEndCriticalSection(u16Status);
+    if(psMailBox->semaphore.value > 0)
+        psMailBox->lost++;
     else
-      OS__vSignalSemaphore(&enMailBox->semaphore);
+      OS__vSignalSemaphore(&psMailBox->semaphore);
 
 }
 
-uint32_t OS__u32GetMailBoxData(OS_nMailBox* enMailBox)
+uint32_t OS__u32GetDataMailBox(OS_sMailBox* psMailBox)
 {
-    return enMailBox->data; // read mail
+    return psMailBox->data; // read mail
 }
 
-uint32_t OS__u32GetMailBoxLost(OS_nMailBox* enMailBox)
+uint8_t OS__u8GetLostMailBox(OS_sMailBox* psMailBox)
 {
-    return enMailBox->lost; // read mail
+    return psMailBox->lost; // read mail
 }
 
-int8_t* OS__u32GetMailBoxSemaphore(OS_nMailBox* enMailBox)
+int8_t OS__u32GetSemaphoreMailBox(OS_sMailBox* psMailBox)
 {
-    return enMailBox->semaphore; // read mail
+    return psMailBox->semaphore.value; // read mail
 }
-uint32_t OS__u32ReadMailBox(OS_nMailBox* enMailBox)
+
+uint32_t OS__u32ReadMailBox(OS_sMailBox* psMailBox)
 {
-    OS__vWaitSemaphore(&enMailBox->semaphore);
-    return enMailBox->data; // read mail
+    uint32_t u32Value;
+    uint16_t u16Status;
+    OS__vWaitSemaphore(&psMailBox->semaphore);
+    u16Status = OS__u16StartCriticalSection();
+    u32Value=psMailBox->data;
+    OS__vEndCriticalSection(u16Status);
+    return u32Value; // read mail
 }
 
 
