@@ -13,6 +13,19 @@
 #include <stdint.h>
 #include <intrinsics.h>
 
+#define SPI_FIFOSIZE (64u)
+
+typedef struct
+{
+    uint8_t* put;
+    uint8_t* get;
+    int8_t   counter;
+    int8_t   init;
+    uint8_t  buffer[SPI_FIFOSIZE];
+}SPI_FIFO_TypeDef;
+
+
+
 typedef enum
 {
 	SPI_enModeSlave   =0,
@@ -56,6 +69,9 @@ typedef enum
 	SPI_enPinMOSI  =4,
 	SPI_enPinCLK   =8,
 }SPI_nPin;
+
+
+void SPI__vInitFifo(SPI_FIFO_TypeDef* sFifo);
 
 void SPI__vInit(SPI_nMode enMode,SPI_nDataOrder enDataOrder,SPI_nClockPolarity enPolarity, SPI_nClockPhase enPhase, SPI_nClock enClockSource );
 void SPI__vDeInit(void);

@@ -51,6 +51,7 @@ void (*OS_vPeriodicTask[10])(void);
 uint16_t OS_u16PeriodTask[10];
 uint32_t OS_u32MaxPeriod=0;
 int8_t OS_s8PeriodicTaskCount=0;
+int8_t OS_s8MainTaskCount=0;
 OS_nStatus OS__enAddPeriodicThreads(int8_t s8Cant,...)
 {
     uint8_t u8Status;
@@ -111,12 +112,16 @@ OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...)
 	for(s8Pos=0; s8Pos<s8Cant-1; s8Pos++)
 	{
 	    OS_sTCBs[s8Pos].next = &OS_sTCBs[s8Pos+1]; // 0 points to 1
-        OS_sTCBs[s8Pos].nextblockedTCB = OS_enUnblocked;
-        OS_sTCBs[s8Pos].blockedValue = OS_enUnblocked;
+        OS_sTCBs[s8Pos].nextblockedTask = OS_enUnblocked;
+        OS_sTCBs[s8Pos].blockedPriority = OS_enUnblocked;
+        //OS_sTCBs[s8Pos].nextSleepTask = OS_enAwake;
+        OS_sTCBs[s8Pos].sleep = OS_enAwake;
 	}
 	OS_sTCBs[s8Cant-1].next= &OS_sTCBs[0];
-    OS_sTCBs[s8Cant-1].nextblockedTCB= OS_enUnblocked;
-    OS_sTCBs[s8Cant-1].blockedValue = OS_enUnblocked;
+    OS_sTCBs[s8Cant-1].nextblockedTask= OS_enUnblocked;
+    OS_sTCBs[s8Cant-1].blockedPriority = OS_enUnblocked;
+    //OS_sTCBs[s8Cant-1].nextSleepTask = OS_enAwake;
+    OS_sTCBs[s8Cant-1].sleep = OS_enAwake;
 
     for(s8Pos=0; s8Pos<s8Cant; s8Pos++)
     {
@@ -126,6 +131,8 @@ OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...)
     }
 
     va_end(ap); //reinicia el puntero
+
+    OS_s8MainTaskCount+= s8Cant;
 	OS_psRunPt = &OS_sTCBs[0];        // thread 0 will run first
 	OS__vEndCriticalSection(u8Status);
 	return OS_enOK; // successful
@@ -140,8 +147,8 @@ void OS_vScheduler(void)
     do
     {
         psActualPt = psActualPt->next; // Round Robin scheduler
-        u32BlockedState=(uint32_t)psActualPt->blockedValue;
-        if(u32BlockedState==OS_enUnblocked)
+        u32BlockedState=(uint32_t)psActualPt->blockedPriority;
+        if((u32BlockedState==OS_enUnblocked) && (psActualPt->sleep== OS_enAwake))
         {
                 psBestPt=psActualPt;
                 break;
@@ -153,14 +160,14 @@ void OS_vScheduler(void)
 
 /* SpinLock semaphore*/
 
-void OS__vInitSemaphore(OS_sSemaphore *psSemaphore, SEMAPHORE_nTypeInit enInitValue)
+void OS__vInitSemaphore(OS_Semaphore_TypeDef *psSemaphore, SEMAPHORE_nTypeInit enInitValue)
 {
 	psSemaphore->value=(int8_t)enInitValue;
-    psSemaphore->initBlockTCB=OS_enUnblocked;
-    psSemaphore->lastBlockTCB=OS_enUnblocked;
+    psSemaphore->firstBlockedTask=OS_enUnblocked;
+    psSemaphore->lastBlockedTask=OS_enUnblocked;
 }
 
-void OS__vWaitSemaphore(OS_sSemaphore *psSemaphore)
+void OS__vWaitSemaphore(OS_Semaphore_TypeDef *psSemaphore)
 {
 	uint16_t u16Status;
 	u16Status = OS__u16StartCriticalSection();
@@ -168,53 +175,66 @@ void OS__vWaitSemaphore(OS_sSemaphore *psSemaphore)
 
 	if(psSemaphore->value < 0)
 	{
-	    if(psSemaphore->initBlockTCB == OS_enUnblocked)
-	        psSemaphore->initBlockTCB=OS_psRunPt;
+	    if(psSemaphore->firstBlockedTask == OS_enUnblocked)
+	        psSemaphore->firstBlockedTask=OS_psRunPt;
 	    else
-	        psSemaphore->lastBlockTCB->nextblockedTCB=OS_psRunPt;
+	        psSemaphore->lastBlockedTask->nextblockedTask=OS_psRunPt;
 
-        psSemaphore->lastBlockTCB=OS_psRunPt;
-        psSemaphore->lastBlockTCB->nextblockedTCB=0;
-        OS_psRunPt->blockedValue=psSemaphore->value;
+        psSemaphore->lastBlockedTask=OS_psRunPt;
+        psSemaphore->lastBlockedTask->nextblockedTask=0;
+        OS_psRunPt->blockedPriority=psSemaphore->value;
         OS__vEndCriticalSection(u16Status);
         OS__vSuspendMainThead();
 	}
 	OS__vEndCriticalSection(u16Status);
 } 
 
-void OS__vSignalSemaphore(OS_sSemaphore *psSemaphore)
+void OS__vSignalSemaphore(OS_Semaphore_TypeDef *psSemaphore)
 {
 	uint16_t u16Status;
-    TCB_TypeDef* psActualPt =psSemaphore->initBlockTCB;
+    TCB_TypeDef* psActualPt =psSemaphore->firstBlockedTask;
 	u16Status = OS__u16StartCriticalSection();
 	psSemaphore->value = (psSemaphore->value) + 1;
-    if(psSemaphore->value <= 0)
+    if(psActualPt!=0)
     {
 
-        psActualPt->blockedValue++;
-        psSemaphore->initBlockTCB=psActualPt->nextblockedTCB;
-        psActualPt=psActualPt->nextblockedTCB;
+        psActualPt->blockedPriority++;
+        psSemaphore->firstBlockedTask=psActualPt->nextblockedTask;
+        psActualPt=psActualPt->nextblockedTask;
         while(psActualPt!=0)
         {
-            psActualPt->blockedValue++;
-            psActualPt=psActualPt->nextblockedTCB;
+            psActualPt->blockedPriority++;
+            psSemaphore->lastBlockedTask=psActualPt;
+            psActualPt=psActualPt->nextblockedTask;
         };
     }
 	OS__vEndCriticalSection(u16Status);
 }
 
 
-void OS__vInitMailBox(OS_sMailBox* psMailBox)
+void OS__vInitMailBox(OS_MailBox_TypeDef* psMailBox)
 {
     psMailBox->data=0;  // shared data
-    psMailBox->semaphore.initBlockTCB=0; // semaphore
-    psMailBox->semaphore.lastBlockTCB=0; // semaphore
-    psMailBox->semaphore.value=0; // semaphore
+    psMailBox->semaphore.firstBlockedTask=0; // semaphore
+    psMailBox->semaphore.lastBlockedTask=0; // semaphore
+    OS__vInitSemaphore(&psMailBox->semaphore,SEMAPHORE_enInitSYNC);
     psMailBox->lost=0; // lost data
 
 }
 
-void OS__vSendMailBox(OS_sMailBox* psMailBox,uint32_t u32Data)
+void OS__vInitMailBoxFIFO(OS_MailBoxFIFO_TypeDef* psMailBoxFIFO)
+{
+    psMailBoxFIFO->get=psMailBoxFIFO->buffer;
+    psMailBoxFIFO->put=psMailBoxFIFO->buffer;
+    psMailBoxFIFO->lost=0;
+    psMailBoxFIFO->init=0;
+    OS__vInitSemaphore(&psMailBoxFIFO->semaphoreCOUNTER,SEMAPHORE_enInitSYNC);
+    OS__vInitSemaphore(&psMailBoxFIFO->semaphoreMUTEX,SEMAPHORE_enInitMUTEX);
+}
+
+
+
+void OS__vSendMailBox_MAIN(OS_MailBox_TypeDef* psMailBox,uint32_t u32Data)
 {
     uint16_t u16Status;
     u16Status = OS__u16StartCriticalSection();
@@ -224,34 +244,126 @@ void OS__vSendMailBox(OS_sMailBox* psMailBox,uint32_t u32Data)
         psMailBox->lost++;
     else
       OS__vSignalSemaphore(&psMailBox->semaphore);
-
 }
 
-uint32_t OS__u32GetDataMailBox(OS_sMailBox* psMailBox)
+void OS__vSendMailBox_EVENT(OS_MailBox_TypeDef* psMailBox,uint32_t u32Data)
+{
+    OS__vSendMailBox_MAIN(psMailBox,u32Data);
+}
+
+OS_nFifo OS__enSendMailBoxFIFO_EVENT(OS_MailBoxFIFO_TypeDef* psMailBoxFIFO,uint32_t u32Data)
+{
+    if(psMailBoxFIFO->semaphoreCOUNTER.value == OS_FIFOSIZE)
+    {
+        psMailBoxFIFO->lost++;
+        return OS_enFifoFULL;
+    }
+    *(psMailBoxFIFO->put)=u32Data;
+    psMailBoxFIFO->put++;
+    if(psMailBoxFIFO->put == &psMailBoxFIFO->buffer[OS_FIFOSIZE])
+    {
+        psMailBoxFIFO->put =psMailBoxFIFO->buffer;
+    }
+    OS__vSignalSemaphore(&psMailBoxFIFO->semaphoreCOUNTER);
+    return OS_enFifoOK;
+}
+
+OS_nFifo OS__enSendMailBoxFIFO_MAIN(OS_MailBoxFIFO_TypeDef* psMailBoxFIFO,uint32_t u32Data)
+{
+
+    if(psMailBoxFIFO->semaphoreCOUNTER.value == OS_FIFOSIZE)
+    {
+        psMailBoxFIFO->lost++;
+        return OS_enFifoFULL;
+    }
+    OS__vWaitSemaphore(&psMailBoxFIFO->semaphoreMUTEX);
+
+    *(psMailBoxFIFO->put)=u32Data;
+    psMailBoxFIFO->put++;
+    if(psMailBoxFIFO->put == &psMailBoxFIFO->buffer[OS_FIFOSIZE])
+    {
+        psMailBoxFIFO->put =psMailBoxFIFO->buffer;
+    }
+
+    OS__vSignalSemaphore(&psMailBoxFIFO->semaphoreMUTEX);
+    OS__vSignalSemaphore(&psMailBoxFIFO->semaphoreCOUNTER);
+    return OS_enFifoOK;
+}
+
+OS_nFifo OS__enReadMailBox_MAIN(OS_MailBox_TypeDef* psMailBox, uint32_t* u32Value)
+{
+    uint16_t u16Status;
+    OS__vWaitSemaphore(&psMailBox->semaphore);
+    u16Status = OS__u16StartCriticalSection();
+    *u32Value=psMailBox->data;
+    OS__vEndCriticalSection(u16Status);
+    return OS_enFifoOK; // read mail
+}
+
+OS_nFifo OS__enReadMailBox_EVENT(OS_MailBox_TypeDef* psMailBox, uint32_t* u32Value)
+{
+    uint16_t u16Status;
+    if(psMailBox->semaphore.value <= 0)
+        return OS_enFifoEMPTY;
+    OS__vWaitSemaphore(&psMailBox->semaphore);
+    u16Status = OS__u16StartCriticalSection();
+    *u32Value=psMailBox->data;
+    OS__vEndCriticalSection(u16Status);
+    return OS_enFifoOK; // read mail
+}
+
+OS_nFifo OS__enReadMailBoxFIFO_EVENT(OS_MailBoxFIFO_TypeDef* psMailBoxFIFO,uint32_t* u32Data)
+{
+    if(psMailBoxFIFO->semaphoreCOUNTER.value <= 0)
+    {
+        return OS_enFifoEMPTY;
+    }
+
+    OS__vWaitSemaphore(&psMailBoxFIFO->semaphoreCOUNTER);
+
+    *u32Data=*(psMailBoxFIFO->get);
+    psMailBoxFIFO->get++;
+    if(psMailBoxFIFO->get == &psMailBoxFIFO->buffer[OS_FIFOSIZE])
+    {
+        psMailBoxFIFO->get =psMailBoxFIFO->buffer;
+    }
+
+    return OS_enFifoOK;
+}
+
+
+OS_nFifo OS__enReadMailBoxFIFO_MAIN(OS_MailBoxFIFO_TypeDef* psMailBoxFIFO,uint32_t* u32Data)
+{
+    OS__vWaitSemaphore(&psMailBoxFIFO->semaphoreCOUNTER);
+    OS__vWaitSemaphore(&psMailBoxFIFO->semaphoreMUTEX);
+
+    *u32Data=*(psMailBoxFIFO->get);
+    psMailBoxFIFO->get++;
+    if(psMailBoxFIFO->get == &psMailBoxFIFO->buffer[OS_FIFOSIZE])
+    {
+        psMailBoxFIFO->get =psMailBoxFIFO->buffer;
+    }
+
+    OS__vSignalSemaphore(&psMailBoxFIFO->semaphoreMUTEX);
+    return OS_enFifoOK;
+}
+
+
+uint32_t OS__u32GetDataMailBox(OS_MailBox_TypeDef* psMailBox)
 {
     return psMailBox->data; // read mail
 }
 
-uint8_t OS__u8GetLostMailBox(OS_sMailBox* psMailBox)
+uint8_t OS__u8GetLostMailBox(OS_MailBox_TypeDef* psMailBox)
 {
     return psMailBox->lost; // read mail
 }
 
-int8_t OS__u32GetSemaphoreMailBox(OS_sMailBox* psMailBox)
+int8_t OS__u32GetSemaphoreMailBox(OS_MailBox_TypeDef* psMailBox)
 {
     return psMailBox->semaphore.value; // read mail
 }
 
-uint32_t OS__u32ReadMailBox(OS_sMailBox* psMailBox)
-{
-    uint32_t u32Value;
-    uint16_t u16Status;
-    OS__vWaitSemaphore(&psMailBox->semaphore);
-    u16Status = OS__u16StartCriticalSection();
-    u32Value=psMailBox->data;
-    OS__vEndCriticalSection(u16Status);
-    return u32Value; // read mail
-}
 
 
 
@@ -277,6 +389,25 @@ void OS__vSuspendMainThead(void)
     Watchdog__vClearCount();
     Watchdog__vSetInterrupt(Watchdog_enInterruptWDT);
 }
+/*
+OS_Sleep_TypeDef OS_sSleep;
+void OS__vInitSleep(void)
+{
+    OS_sSleep.firstSleepTask=OS_enAwake;
+    OS_sSleep.lastSleepTask=OS_enAwake;
+
+}
+*/
+void OS__vSleepMainThead(uint16_t u16Sleep)
+{
+    uint16_t u16Status;
+    u16Status = OS__u16StartCriticalSection();
+    OS_psRunPt->sleep=u16Sleep;
+    OS__vEndCriticalSection(u16Status);
+    OS__vSuspendMainThead();
+
+}
+
 
 void OS_vStartOS(void)
 {
@@ -305,25 +436,19 @@ void OS_vStartOS(void)
 #pragma vector=TIMERB0_VECTOR
 __interrupt void TIMERB0_IRQ(void)
 {
-    static uint32_t u32Count= 0;
-    int8_t s8Pos=0;
-    u32Count%=OS_u32MaxPeriod;
-
-    for(s8Pos=0; s8Pos<OS_s8PeriodicTaskCount; s8Pos++)
+    int8_t s8Iter =0;
+    for(s8Iter=0; s8Iter<OS_s8MainTaskCount; s8Iter++)
     {
-        if(((uint32_t)u32Count%(uint32_t)OS_u16PeriodTask[s8Pos]) == 0)
+        if(OS_sTCBs[s8Iter].sleep>0)
         {
-            OS_vPeriodicTask[s8Pos]();
+            OS_sTCBs[s8Iter].sleep--;
         }
-
     }
-    u32Count++;
 }
 
 #pragma vector=WDT_VECTOR
 __interrupt void WDT_IRQ(void)
 {
-    LEDAMBER_OUT^=LEDAMBER_PIN;
 	asm volatile (
     " push R15 \n"
     " push R14 \n"

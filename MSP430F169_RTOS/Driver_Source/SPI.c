@@ -6,6 +6,24 @@
  */ 
 
 #include "SPI.h"
+
+SPI_FIFO_TypeDef SPI_sTxFifo;
+SPI_FIFO_TypeDef SPI_sRxFifo;
+
+
+SPI_FIFO_TypeDef* SPI_sTxFifoActive;
+SPI_FIFO_TypeDef* SPI_sRxFifoActive;
+
+void SPI__vInitFifo(SPI_FIFO_TypeDef* sFifo)
+{
+    sFifo->counter=0;
+    sFifo->init=0;
+    sFifo->get=sFifo->buffer;
+    sFifo->put=sFifo->buffer;
+}
+
+
+
 void SPI__vDeInit(void)
 {
     U0CTL=SWRST;
@@ -141,10 +159,6 @@ void SPI__vDeInitPin(SPI_nPin enPin)
 	{
         P3SEL&=~BIT1;
 	}
-	if((enPin&SPI_enPinSS)==SPI_enPinSS)
-	{
-        P3DIR&=~BIT0;
-	}	
 }
 
 void SPI__vSendReceiveDataMaster(uint8_t* pu8DataOut, uint8_t* pu8DataIn, int16_t s16DataNumber )
