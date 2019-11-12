@@ -196,3 +196,22 @@ void SPI__vSendDataMaster(uint8_t* pu8DataOut,int16_t s16DataNumber )
 	}
 
 }
+
+
+void SPI__vReceiveDataMaster(uint8_t* pu8DataIn,int16_t s16DataNumber )
+{
+    uint8_t u8Dummy=0;
+    IFG1&=~(UTXIFG0|URXIFG0);
+    u8Dummy=U0RXBUF;
+
+    while((uint16_t)s16DataNumber>0)
+    {
+        U0TXBUF=0;
+        while((IFG1&(UTXIFG0))==0);
+        IFG1&=~(UTXIFG0);
+        *pu8DataIn=U0RXBUF;
+        pu8DataIn++;
+        s16DataNumber--;
+    }
+
+}

@@ -13,6 +13,7 @@ void Task3 (void);
 void Task4 (void);
 void Task5 (void);
 void Task6 (void);
+void Task7 (void);
 
 OS_Semaphore_TypeDef MAIN_sSemaphoreSPI={0,0,0};
 
@@ -41,11 +42,11 @@ void main(void)
     OS__vSendMailBox_EVENT(&MAIN_sMailBoxBUTTON2,0);
     OS__vInitSemaphore(&MAIN_sSemaphoreSPI,SEMAPHORE_enInitMUTEX);
     //OS__enAddPeriodicThreads(2,&Task5,50,&Task6,80);
-    OS__enAddMainThreads(6,&Task1,&Task2,&Task3,&Task4,&Task5,&Task6);
+    OS__enAddMainThreads(7,&Task1,&Task2,&Task3,&Task4,&Task5,&Task6,&Task7);
     NOKIA5110__vSetCursor(0,0);
     NOKIA5110__vClear();
     u8Column=0, u8Row=0;
-    NOKIA5110__u16Print("InDev RTOS\n\rBoton 1:\n\rBoton 2:\n\r\nBlocking\r\nBounded Wait",&u8Column,&u8Row);
+    NOKIA5110__u16Print("InDev RTOS\n\rBoton 1:\n\rBoton 2:\n\r\nTemp:\r\nRTOS",&u8Column,&u8Row);
 
     OS__vLaunch();
 }
@@ -107,7 +108,6 @@ void Task3 (void)
     {
         u8Actual=PBUTTON3_READPORT & PBUTTON3_READPIN;
 
-        LEDRED_OUT|=LEDRED_PIN;
         if(u8Previous!=u8Actual)
         {
             if(u8Actual==0)
@@ -126,6 +126,7 @@ void Task3 (void)
             else
             {
 
+                LEDRED_OUT|=LEDRED_PIN;
                 u8Column=0;
                 u8Row=3;
 
@@ -136,14 +137,57 @@ void Task3 (void)
 
         }
         u8Previous=u8Actual;
-        OS__vSuspendMainThead();
+        OS__vSleepMainThead(33);
      }
 }
 
 void Task4 (void)
 {
+    uint16_t u16Data=0;
+    uint8_t u8Data[2]={0};
+    float fTemperature=0;
+
+    uint8_t u8Column=5, u8Row=4;
+    char TASK4_cConv[10]="0";
+
+    P2DIR|=BIT7;
+    P2OUT|=BIT7;
+    P2SEL&=~BIT7;
+
     while(1)
     {
+        P2OUT&=~BIT7;
+        OS__vWaitSemaphore(&MAIN_sSemaphoreSPI);
+        SPI__vReceiveDataMaster(u8Data,2);
+        OS__vSignalSemaphore(&MAIN_sSemaphoreSPI);
+        u16Data=u8Data[1];
+        u16Data|=u8Data[0]<<8;
+
+        P2OUT|=BIT7;
+        u8Column=5;
+        u8Row=4;
+        if((u16Data&2)==0)
+        {
+             if(u16Data&4)
+             {
+                 OS__vWaitSemaphore(&MAIN_sSemaphoreSPI);
+                 NOKIA5110__u8SendString("Z     ",&u8Column,&u8Row);
+                 OS__vSignalSemaphore(&MAIN_sSemaphoreSPI);
+
+             }
+             else
+             {
+                 u16Data>>=3;
+                 fTemperature=u16Data*0.25;
+
+                 CONV__u8FloatToString(fTemperature,1,1,3,2,&TASK4_cConv[0]);
+
+                 OS__vWaitSemaphore(&MAIN_sSemaphoreSPI);
+                 NOKIA5110__u8SendString((char*)TASK4_cConv,&u8Column,&u8Row);
+                 OS__vSignalSemaphore(&MAIN_sSemaphoreSPI);
+             }
+        }
+        OS__vSleepMainThead(1000);
     }
 }
 
@@ -193,5 +237,13 @@ void Task6 (void)
         }
         u8Previous=u8Actual;
         OS__vSleepMainThead(60);
+    }
+}
+
+void Task7 (void)
+{
+    while(1)
+    {
+
     }
 }

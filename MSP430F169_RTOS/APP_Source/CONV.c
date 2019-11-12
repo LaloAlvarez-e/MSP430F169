@@ -214,7 +214,7 @@ const int64_t s64Dec[16]=
  1000000000,10000000000,100000000000,1000000000000,
  10000000000000,100000000000000,1000000000000000
 };
-/* ToDo Actualizar Float*/
+/* ToDo Actualizar Float Problems with some parameters*/
 uint8_t CONV__u8FloatToString(double dNumber,uint8_t u8Positive,uint8_t u8Padding0,int32_t s32Enteros,int32_t s32Decimals,char* pcConv)
 {
     int64_t s64Deci=0; //contiene los dDecimales en version entero

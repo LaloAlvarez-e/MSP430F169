@@ -17,8 +17,8 @@
 #include "TimerB.h"
 #include "GPIO.h"
 
-#define NUMTHREADS  (6)        // maximum number of threads
-#define STACKSIZE   (150)      // number of 8-bit words in stack per thread
+#define NUMTHREADS  (7)        // maximum number of threads
+#define STACKSIZE   (130)      // number of 8-bit words in stack per thread
 
 struct TCB{ //Thread control block
 	int16_t *sp;       // pointer to stack (valid for threads not running)
