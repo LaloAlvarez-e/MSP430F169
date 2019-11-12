@@ -25,7 +25,7 @@ struct TCB{ //Thread control block
 	struct TCB *next;  // linked-list pointer
     struct TCB *nextblockedTask;
 	int8_t  blockedPriority;
-	//struct TCB *nextSleepTask;
+	struct TCB *nextSleepTask;
     uint16_t sleep;
 };
 typedef struct TCB TCB_TypeDef;
@@ -93,10 +93,7 @@ void OS__vLaunch(void);
 
 /*Threads*/
 OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...);
-/*,
-void(*vTask2)(void),
-void(*vTask3)(void));
-*/
+
 OS_nStatus OS__enAddPeriodicThreads(int8_t s8Cant,...);
 
 typedef enum

@@ -34,7 +34,7 @@ void main(void)
 
     u8Column=0, u8Row=0;
     NOKIA5110__u16Print("InDev\n\rInitializing\n\rRTOS ",&u8Column,&u8Row);
-    //OS__vInitSleep();
+    OS__vInitSleep();
     OS__vInitMailBox(&MAIN_sMailBoxBUTTON1);
     OS__vInitMailBox(&MAIN_sMailBoxBUTTON2);
     OS__vSendMailBox_EVENT(&MAIN_sMailBoxBUTTON1,0);
@@ -136,7 +136,8 @@ void Task3 (void)
 
         }
         u8Previous=u8Actual;
-        OS__vSuspendMainThead();
+        OS__vSleepMainThead(33);
+        //OS__vSuspendMainThead();
      }
 }
 

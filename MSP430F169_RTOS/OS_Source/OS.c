@@ -14,7 +14,7 @@ void OS_vSetInitialStack(uint8_t i);
 TCB_TypeDef  OS_sTCBs[NUMTHREADS];
 TCB_TypeDef* OS_psRunPt;
 int16_t   OS_ps16Stacks[NUMTHREADS][STACKSIZE];
-
+OS_Sleep_TypeDef OS_sSleep;
 
 uint16_t OS__u16StartCriticalSection(void)
 {
@@ -114,13 +114,13 @@ OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...)
 	    OS_sTCBs[s8Pos].next = &OS_sTCBs[s8Pos+1]; // 0 points to 1
         OS_sTCBs[s8Pos].nextblockedTask = OS_enUnblocked;
         OS_sTCBs[s8Pos].blockedPriority = OS_enUnblocked;
-        //OS_sTCBs[s8Pos].nextSleepTask = OS_enAwake;
+        OS_sTCBs[s8Pos].nextSleepTask = OS_enAwake;
         OS_sTCBs[s8Pos].sleep = OS_enAwake;
 	}
 	OS_sTCBs[s8Cant-1].next= &OS_sTCBs[0];
     OS_sTCBs[s8Cant-1].nextblockedTask= OS_enUnblocked;
     OS_sTCBs[s8Cant-1].blockedPriority = OS_enUnblocked;
-    //OS_sTCBs[s8Cant-1].nextSleepTask = OS_enAwake;
+    OS_sTCBs[s8Cant-1].nextSleepTask = OS_enAwake;
     OS_sTCBs[s8Cant-1].sleep = OS_enAwake;
 
     for(s8Pos=0; s8Pos<s8Cant; s8Pos++)
@@ -143,6 +143,7 @@ void OS_vScheduler(void)
     TCB_TypeDef *psActualPt =OS_psRunPt;
     TCB_TypeDef *psBestPt=OS_psRunPt->next;
     uint32_t u32BlockedState=0;
+
 
     do
     {
@@ -176,7 +177,10 @@ void OS__vWaitSemaphore(OS_Semaphore_TypeDef *psSemaphore)
 	if(psSemaphore->value < 0)
 	{
 	    if(psSemaphore->firstBlockedTask == OS_enUnblocked)
+	    {
 	        psSemaphore->firstBlockedTask=OS_psRunPt;
+            psSemaphore->firstBlockedTask->nextblockedTask=0;
+	    }
 	    else
 	        psSemaphore->lastBlockedTask->nextblockedTask=OS_psRunPt;
 
@@ -389,20 +393,31 @@ void OS__vSuspendMainThead(void)
     Watchdog__vClearCount();
     Watchdog__vSetInterrupt(Watchdog_enInterruptWDT);
 }
-/*
-OS_Sleep_TypeDef OS_sSleep;
+
 void OS__vInitSleep(void)
 {
     OS_sSleep.firstSleepTask=OS_enAwake;
     OS_sSleep.lastSleepTask=OS_enAwake;
 
 }
-*/
+
 void OS__vSleepMainThead(uint16_t u16Sleep)
 {
     uint16_t u16Status;
     u16Status = OS__u16StartCriticalSection();
+
+    if(OS_sSleep.firstSleepTask == OS_enAwake)
+    {
+        OS_sSleep.firstSleepTask=OS_psRunPt;
+        OS_sSleep.firstSleepTask->nextSleepTask=0;
+    }
+    else
+        OS_sSleep.lastSleepTask->nextSleepTask=OS_psRunPt;
+
+    OS_sSleep.lastSleepTask=OS_psRunPt;
+    OS_sSleep.lastSleepTask->nextSleepTask=0;
     OS_psRunPt->sleep=u16Sleep;
+
     OS__vEndCriticalSection(u16Status);
     OS__vSuspendMainThead();
 
@@ -436,14 +451,38 @@ void OS_vStartOS(void)
 #pragma vector=TIMERB0_VECTOR
 __interrupt void TIMERB0_IRQ(void)
 {
-    int8_t s8Iter =0;
-    for(s8Iter=0; s8Iter<OS_s8MainTaskCount; s8Iter++)
+    TCB_TypeDef* psActualSleep =OS_sSleep.firstSleepTask;
+    TCB_TypeDef* psPreviousSleep =0;
+
+    while(psActualSleep!=0)
     {
-        if(OS_sTCBs[s8Iter].sleep>0)
+
+        psActualSleep->sleep--;
+        if(psActualSleep->sleep==0)
         {
-            OS_sTCBs[s8Iter].sleep--;
+            if(psActualSleep!=OS_sSleep.firstSleepTask)
+            {
+                psPreviousSleep->nextSleepTask=psActualSleep->nextSleepTask;
+                psActualSleep=psPreviousSleep->nextSleepTask;
+
+            }
+            else
+            {
+                psActualSleep=psActualSleep->nextSleepTask;
+                OS_sSleep.firstSleepTask=psActualSleep;
+                OS_sSleep.lastSleepTask =psActualSleep;
+            }
         }
+        else
+        {
+            psPreviousSleep=psActualSleep;
+            OS_sSleep.lastSleepTask=psActualSleep;
+            psActualSleep=psActualSleep->nextSleepTask;
+        }
+
     }
+
+
 }
 
 #pragma vector=WDT_VECTOR
