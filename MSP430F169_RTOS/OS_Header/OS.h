@@ -12,6 +12,7 @@
 #include <msp430f169.h>
 #include <intrinsics.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <stdarg.h>
 #include "Watchdog.h"
 #include "TimerB.h"
@@ -20,13 +21,37 @@
 #define NUMTHREADS  (7)        // maximum number of threads
 #define STACKSIZE   (130)      // number of 8-bit words in stack per thread
 
+typedef enum
+{
+    OS_enRunning =0,
+    OS_enSleep =1,
+    OS_enBlocked=2,
+}OS_nStates;
+
+#define TASK_NAME_LENGHT (24u)
 struct TCB{ //Thread control block
-	int16_t *sp;       // pointer to stack (valid for threads not running)
-	struct TCB *next;  // linked-list pointer
-    struct TCB *nextblockedTask;
-	int8_t  blockedPriority;
-	//struct TCB *nextSleepTask;
+/*
+
+    uint8_t priority;   // static priority of the task, 0 is the lowest
+    uint8_t basePriority;   //pririty at moment
+
+*/
+
+    int16_t *topOfStack;    //actual stack pointer
+    int16_t *stack;         // start of the stack (first location)
+    int16_t *endOfStack;    //end of the stack (last location)
+
+
+    struct TCB *first;  // linked-list pointer
+    struct TCB *next;  // linked-list pointer
+    struct TCB *previous;  // linked-list pointer
+
+    uint8_t state;      //state of task
+    struct TCB *nextblockedTask;// linked-list pointer to blocked
+    struct TCB *previousblockedTask;// linked-list pointer to blocked
     uint16_t sleep;
+
+    char name[TASK_NAME_LENGHT];      //name of the task
 };
 typedef struct TCB TCB_TypeDef;
 
@@ -92,7 +117,8 @@ typedef enum
 void OS__vLaunch(void);
 
 /*Threads*/
-OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...);
+TCB_TypeDef* OS__psAddMainThreads(void(*pvTask)(void),char* pcName,uint16_t u16StackSize);
+
 /*,
 void(*vTask2)(void),
 void(*vTask3)(void));

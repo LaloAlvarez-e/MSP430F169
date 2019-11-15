@@ -8,12 +8,10 @@
 
 void OS_vStartOS(void);
 void OS_vScheduler(void);
-void OS_vSetInitialStack(uint8_t i);
+void OS_vSetInitialStack(TCB_TypeDef*  psTCB,void(*pvTask)(void));
 
 
-TCB_TypeDef  OS_sTCBs[NUMTHREADS];
-TCB_TypeDef* OS_psRunPt;
-int16_t   OS_ps16Stacks[NUMTHREADS][STACKSIZE];
+TCB_TypeDef* OS_psRunPt =0;
 
 
 uint16_t OS__u16StartCriticalSection(void)
@@ -28,22 +26,23 @@ void OS__vEndCriticalSection(uint16_t u16Status)
     _set_interrupt_state(u16Status);
 }
 
-void OS_vSetInitialStack(uint8_t i){
-	OS_sTCBs[i].sp = &OS_ps16Stacks[i][STACKSIZE-14]; // thread stack pointer
-	OS_ps16Stacks[i][STACKSIZE-1] = 0x0101; // PC
-	OS_ps16Stacks[i][STACKSIZE-2] = 0x0008; // SR
-	OS_ps16Stacks[i][STACKSIZE-3] = 0x1515; // R15
-	OS_ps16Stacks[i][STACKSIZE-4] = 0x1414; // R14
-	OS_ps16Stacks[i][STACKSIZE-5] = 0x1313; // R13
-	OS_ps16Stacks[i][STACKSIZE-6] = 0x1212; // R12
-	OS_ps16Stacks[i][STACKSIZE-7] = 0x1111; // R11
-	OS_ps16Stacks[i][STACKSIZE-8] = 0x1010; // R10
-	OS_ps16Stacks[i][STACKSIZE-9] = 0x0909; // R9
-	OS_ps16Stacks[i][STACKSIZE-10] = 0x0808; // R8
-	OS_ps16Stacks[i][STACKSIZE-11] = 0x0707; // R7
-	OS_ps16Stacks[i][STACKSIZE-12] = 0x0606; // R6
-	OS_ps16Stacks[i][STACKSIZE-13] = 0x0505; // R5
-	OS_ps16Stacks[i][STACKSIZE-14] = 0x0404; // R4
+void OS_vSetInitialStack(TCB_TypeDef*  psTCB,void(*pvTask)(void))
+{
+    psTCB->topOfStack =psTCB->endOfStack-13; // thread stack pointer
+    psTCB->endOfStack[0] = (int16_t)pvTask; // PC
+    psTCB->endOfStack[-1] = 0x0008; // SR
+    psTCB->endOfStack[-2] = 0x1515; // R15
+    psTCB->endOfStack[-3] = 0x1414; // R14
+    psTCB->endOfStack[-4] = 0x1313; // R13
+    psTCB->endOfStack[-5] = 0x1212; // R12
+    psTCB->endOfStack[-6] = 0x1111; // R11
+    psTCB->endOfStack[-7] = 0x1010; // R10
+    psTCB->endOfStack[-8] = 0x0909; // R9
+    psTCB->endOfStack[-9] = 0x0808; // R8
+    psTCB->endOfStack[-10] = 0x0707; // R7
+    psTCB->endOfStack[-11] = 0x0606; // R6
+    psTCB->endOfStack[-12] = 0x0505; // R5
+    psTCB->endOfStack[-13] = 0x0404; // R4
 
 }
 
@@ -54,101 +53,79 @@ int8_t OS_s8PeriodicTaskCount=0;
 int8_t OS_s8MainTaskCount=0;
 OS_nStatus OS__enAddPeriodicThreads(int8_t s8Cant,...)
 {
-    uint8_t u8Status;
-    int8_t s8Pos=0;
-    int8_t s8Result=0;
-    uint32_t u32PeriodMax=0;
-    u8Status = OS__u16StartCriticalSection();
-    va_list ap; //crea puntero de los argumentos
-    va_start(ap, s8Cant);//maneja la memoria de los argumentos empezando desde el ultimo conocido ingresado
-
-    if(s8Cant<1)
-        return OS_enERROR;
-
-    for(s8Pos=0; s8Pos<s8Cant; s8Pos++)
-    {
-        OS_vPeriodicTask[s8Pos]=(void (*)(void))va_arg(ap,void*);
-        OS_u16PeriodTask[s8Pos]=(uint16_t)va_arg(ap,uint16_t);
-
-        if(OS_u16PeriodTask[s8Pos]==0)
-            OS_u16PeriodTask[s8Pos]=1;
-
-        if(u32PeriodMax<OS_u16PeriodTask[s8Pos])
-            u32PeriodMax=OS_u16PeriodTask[s8Pos];
-    }
-    while(s8Result!=s8Cant)
-    {
-        s8Result=0;
-        for(s8Pos=0; s8Pos<s8Cant; s8Pos++)
-        {
-            if((u32PeriodMax%OS_u16PeriodTask[s8Pos])==0)
-            {
-                s8Result++;
-            }
-        }
-        if(s8Result!=s8Cant)
-            u32PeriodMax++;
-    }
-
-	OS_u32MaxPeriod= u32PeriodMax;
-	OS_s8PeriodicTaskCount= s8Cant;
-	va_end(ap); //reinicia el puntero
-    OS__vEndCriticalSection(u8Status);
-	return OS_enOK;
+    return OS_enOK;
 }
 
-OS_nStatus OS__enAddMainThreads(int8_t s8Cant,...)
+TCB_TypeDef* OS__psAddMainThreads(void(*pvTask)(void),char* pcName,uint16_t u16StackSize)
 {
 	uint8_t u8Status;
 	int8_t s8Pos=0;
-	void(*pvTask)(void);
-	u8Status = OS__u16StartCriticalSection();
-	va_list ap; //crea puntero de los argumentos
-	va_start(ap, s8Cant);//maneja la memoria de los argumentos empezando desde el ultimo conocido ingresado
+	TCB_TypeDef * psNewTCB;
 
-	if(s8Cant<1)
-	    return OS_enERROR;
-
-	for(s8Pos=0; s8Pos<s8Cant-1; s8Pos++)
+    u8Status = OS__u16StartCriticalSection();
+	psNewTCB= (TCB_TypeDef*)malloc(sizeof(TCB_TypeDef));
+	if(psNewTCB!=0)
 	{
-	    OS_sTCBs[s8Pos].next = &OS_sTCBs[s8Pos+1]; // 0 points to 1
-        OS_sTCBs[s8Pos].nextblockedTask = OS_enUnblocked;
-        OS_sTCBs[s8Pos].blockedPriority = OS_enUnblocked;
-        //OS_sTCBs[s8Pos].nextSleepTask = OS_enAwake;
-        OS_sTCBs[s8Pos].sleep = OS_enAwake;
+	    psNewTCB->stack= (int16_t*)malloc(u16StackSize*sizeof(int16_t));
+	    psNewTCB->stack=(int16_t*)(((int16_t)psNewTCB->stack)&~(1)); //aligment a 2 bytes
+	    if( psNewTCB->stack==0)
+	    {
+            free( psNewTCB );
+            psNewTCB = 0;
+            return 0;
+	    }
 	}
-	OS_sTCBs[s8Cant-1].next= &OS_sTCBs[0];
-    OS_sTCBs[s8Cant-1].nextblockedTask= OS_enUnblocked;
-    OS_sTCBs[s8Cant-1].blockedPriority = OS_enUnblocked;
-    //OS_sTCBs[s8Cant-1].nextSleepTask = OS_enAwake;
-    OS_sTCBs[s8Cant-1].sleep = OS_enAwake;
 
-    for(s8Pos=0; s8Pos<s8Cant; s8Pos++)
-    {
-        pvTask=(void (*)(void))va_arg(ap,void*);
-        OS_vSetInitialStack(s8Pos);
-        OS_ps16Stacks[s8Pos][STACKSIZE-1] =((int16_t)pvTask); // PC
-    }
+	while((*pcName!=0) && (s8Pos<(TASK_NAME_LENGHT-1)))
+	{
+	    psNewTCB->name[s8Pos]=pcName[s8Pos];
+	    s8Pos++;
+	    pcName++;
+	}
+	psNewTCB->name[s8Pos]=0;
 
-    va_end(ap); //reinicia el puntero
+	psNewTCB->nextblockedTask = OS_enUnblocked;
+	psNewTCB->state= OS_enRunning;
+	psNewTCB->sleep = OS_enAwake;
 
-    OS_s8MainTaskCount+= s8Cant;
-	OS_psRunPt = &OS_sTCBs[0];        // thread 0 will run first
+	psNewTCB->endOfStack=psNewTCB->stack+(u16StackSize-1);
+	psNewTCB->endOfStack=(int16_t*)(((int16_t)psNewTCB->endOfStack)&~(1)); //aligment a 2 bytes
+
+
+    OS_vSetInitialStack(psNewTCB,pvTask);
+
+
+
+    OS_s8MainTaskCount++;
+     if(OS_psRunPt==0)
+     {
+         OS_psRunPt = psNewTCB;
+         OS_psRunPt->next=psNewTCB;
+         OS_psRunPt->first=psNewTCB;
+         OS_psRunPt->previous=0;
+
+     }
+     else
+     {
+         psNewTCB->next=OS_psRunPt->first;
+         psNewTCB->first=OS_psRunPt->first;
+         psNewTCB->previous=OS_psRunPt;
+         OS_psRunPt->next=psNewTCB;
+         OS_psRunPt=psNewTCB;
+     }
 	OS__vEndCriticalSection(u8Status);
-	return OS_enOK; // successful
+	return psNewTCB; // successful
 }
 
 void OS_vScheduler(void)
 {	
     TCB_TypeDef *psActualPt =OS_psRunPt;
     TCB_TypeDef *psBestPt=OS_psRunPt->next;
-    uint32_t u32BlockedState=0;
 
     do
     {
         psActualPt = psActualPt->next; // Round Robin scheduler
-        u32BlockedState=(uint32_t)psActualPt->blockedPriority;
-        if((u32BlockedState==OS_enUnblocked) && (psActualPt->sleep== OS_enAwake))
+        if(psActualPt->state==OS_enRunning)
         {
                 psBestPt=psActualPt;
                 break;
@@ -182,7 +159,7 @@ void OS__vWaitSemaphore(OS_Semaphore_TypeDef *psSemaphore)
 
         psSemaphore->lastBlockedTask=OS_psRunPt;
         psSemaphore->lastBlockedTask->nextblockedTask=0;
-        OS_psRunPt->blockedPriority=psSemaphore->value;
+        OS_psRunPt->state|=OS_enBlocked;
         OS__vEndCriticalSection(u16Status);
         OS__vSuspendMainThead();
 	}
@@ -198,12 +175,12 @@ void OS__vSignalSemaphore(OS_Semaphore_TypeDef *psSemaphore)
     if(psActualPt!=0)
     {
 
-        psActualPt->blockedPriority++;
+
+        psActualPt->state&=~OS_enBlocked;
         psSemaphore->firstBlockedTask=psActualPt->nextblockedTask;
         psActualPt=psActualPt->nextblockedTask;
         while(psActualPt!=0)
         {
-            psActualPt->blockedPriority++;
             psSemaphore->lastBlockedTask=psActualPt;
             psActualPt=psActualPt->nextblockedTask;
         };
@@ -343,7 +320,6 @@ OS_nFifo OS__enReadMailBoxFIFO_MAIN(OS_MailBoxFIFO_TypeDef* psMailBoxFIFO,uint32
     {
         psMailBoxFIFO->get =psMailBoxFIFO->buffer;
     }
-
     OS__vSignalSemaphore(&psMailBoxFIFO->semaphoreMUTEX);
     return OS_enFifoOK;
 }
@@ -373,12 +349,8 @@ void OS__vLaunch(void){
     Watchdog__vEnableInterrupt(Watchdog_enInterruptWDT);
     TimerB__vClearInterrupt(TimerB_enInterruptCC0);
     TimerB__vEnableInterrupt(TimerB_enInterruptCC0);
-
     TimerB__vInit(TimerB_enModeUp_TBCL0,TimerB_enClockDiv1,8000-1);
     Watchdog__vInit(Watchdog_enModeInterval,Watchdog_enClockSMCLK,Watchdog_enDiv8192);
-
-
-
 	OS_vStartOS();                   // start on the first task
 }
 
@@ -402,6 +374,7 @@ void OS__vSleepMainThead(uint16_t u16Sleep)
 {
     uint16_t u16Status;
     u16Status = OS__u16StartCriticalSection();
+    OS_psRunPt->state|=OS_enSleep;
     OS_psRunPt->sleep=u16Sleep;
     OS__vEndCriticalSection(u16Status);
     OS__vSuspendMainThead();
@@ -436,14 +409,19 @@ void OS_vStartOS(void)
 #pragma vector=TIMERB0_VECTOR
 __interrupt void TIMERB0_IRQ(void)
 {
+
+    TCB_TypeDef* OS_psActual =OS_psRunPt;
     int8_t s8Iter =0;
-    for(s8Iter=0; s8Iter<OS_s8MainTaskCount; s8Iter++)
-    {
-        if(OS_sTCBs[s8Iter].sleep>0)
+    do{
+        OS_psActual->sleep--;
+        if(OS_psActual->sleep<=0)
         {
-            OS_sTCBs[s8Iter].sleep--;
+            OS_psActual->state&=~OS_enSleep;
+            OS_psActual->sleep=0;
+
         }
-    }
+        OS_psActual=OS_psActual->next;
+    }while(OS_psActual!=OS_psRunPt);
 }
 
 #pragma vector=WDT_VECTOR

@@ -20,8 +20,10 @@ OS_Semaphore_TypeDef MAIN_sSemaphoreSPI={0,0,0};
 OS_MailBox_TypeDef MAIN_sMailBoxBUTTON1={0,0,0};
 OS_MailBox_TypeDef MAIN_sMailBoxBUTTON2={0,0,0};
 
+TCB_TypeDef* Task1_TCB,*Task2_TCB,*Task3_TCB,*Task4_TCB,*Task5_TCB,*Task6_TCB,*Task7_TCB;
+
 void main(void)
-{
+ {
     uint8_t
     u8Column=0, u8Row=0;
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
@@ -42,11 +44,17 @@ void main(void)
     OS__vSendMailBox_EVENT(&MAIN_sMailBoxBUTTON2,0);
     OS__vInitSemaphore(&MAIN_sSemaphoreSPI,SEMAPHORE_enInitMUTEX);
     //OS__enAddPeriodicThreads(2,&Task5,50,&Task6,80);
-    OS__enAddMainThreads(7,&Task1,&Task2,&Task3,&Task4,&Task5,&Task6,&Task7);
+    Task1_TCB=OS__psAddMainThreads(&Task1,"Disp Boton 1", 120);
+    Task2_TCB=OS__psAddMainThreads(&Task2,"Disp Boton 2", 120);
+    Task3_TCB=OS__psAddMainThreads(&Task3,"Reset Count", 120);
+    Task4_TCB=OS__psAddMainThreads(&Task4,"Temp", 120);
+    Task5_TCB=OS__psAddMainThreads(&Task5,"Press Boton1", 40);
+    Task6_TCB=OS__psAddMainThreads(&Task6,"Press Boton2", 40);
+    Task7_TCB=OS__psAddMainThreads(&Task7,"Idle", 20);
     NOKIA5110__vSetCursor(0,0);
     NOKIA5110__vClear();
     u8Column=0, u8Row=0;
-    NOKIA5110__u16Print("InDev RTOS\n\rBoton 1:\n\rBoton 2:\n\r\nTemp:\r\nRTOS",&u8Column,&u8Row);
+    NOKIA5110__u16Print("InDev RTOS\n\rBoton 1:\n\rBoton 2:\n\r\nTemp:\r\nMAX6675",&u8Column,&u8Row);
 
     OS__vLaunch();
 }
@@ -171,7 +179,7 @@ void Task4 (void)
              if(u16Data&4)
              {
                  OS__vWaitSemaphore(&MAIN_sSemaphoreSPI);
-                 NOKIA5110__u8SendString("Z     ",&u8Column,&u8Row);
+                 NOKIA5110__u8SendString(" Z     ",&u8Column,&u8Row);
                  OS__vSignalSemaphore(&MAIN_sSemaphoreSPI);
 
              }
@@ -212,7 +220,7 @@ void Task5 (void)
 
         }
         u8Previous=u8Actual;
-        OS__vSleepMainThead(80);
+        OS__vSleepMainThead(60);
     }
 }
 void Task6 (void)
