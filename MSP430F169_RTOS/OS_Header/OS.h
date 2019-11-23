@@ -29,7 +29,7 @@ typedef enum
 }OS_nStates;
 
 #define TASK_NAME_LENGHT (24u)
-struct TCB{ //Thread control block
+typedef struct TCB{ //Thread control block
 /*
 
     uint8_t priority;   // static priority of the task, 0 is the lowest
@@ -52,10 +52,25 @@ struct TCB{ //Thread control block
     uint16_t sleep;
 
     char name[TASK_NAME_LENGHT];      //name of the task
-};
-typedef struct TCB TCB_TypeDef;
+}TCB_TypeDef;
 
-typedef int8_t OS_u8Semaphore;
+
+typedef struct OS_Node
+{
+    void           *first;
+    struct OS_Node *next;
+    struct OS_Node *previous;
+    int16_t         value;
+}OS_Node_TypeDef;
+
+typedef struct
+{
+    OS_Node_TypeDef* head;
+    OS_Node_TypeDef* tail;
+
+    int16_t size;
+
+}OS_List_TypeDef;
 
 #define OS_FIFOSIZE (30u)
 
@@ -166,5 +181,9 @@ void OS__vSuspendMainThead(void);
 void OS__vInitSleep(void);
 void OS__vSleepMainThead(uint16_t u16Sleep);
 
+
+uint16_t OS__u16GetStackUsedThread(void);
+uint16_t OS__u16GetStackSizeThread(void);
+uint16_t OS__u16GetPorcentageStackThread(void);
 
 #endif /* OS_H_ */

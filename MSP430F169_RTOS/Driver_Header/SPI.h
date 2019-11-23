@@ -12,6 +12,7 @@
 #include <msp430f169.h>
 #include <stdint.h>
 #include <intrinsics.h>
+#include <OS.h>
 
 #define SPI_FIFOSIZE (64u)
 
@@ -82,9 +83,9 @@ void SPI__vDeInitPin(SPI_nPin enPin);
 void SPI__vEnableInterrupt(void);
 void SPI__vDisableInterrupt(void);
 
-void SPI__vSendReceiveDataMaster(uint8_t* pu8DataOut, uint8_t* pu8DataIn, int16_t s16DataNumber );
-void SPI__vSendDataMaster(uint8_t* pu8DataOut,int16_t s16DataNumber );
-void SPI__vReceiveDataMaster(uint8_t* pu8DataIn,int16_t s16DataNumber );
+void SPI__vSendReceiveDataMaster(uint8_t* pu8DataOut, uint8_t* pu8DataIn, int16_t s16DataNumber,volatile uint8_t* pu8Port, uint8_t u8Pin  );
+void SPI__vSendDataMaster(uint8_t* pu8DataOut,int16_t s16DataNumber,volatile uint8_t* pu8Port, uint8_t u8Pin  );
+void SPI__vReceiveDataMaster(uint8_t* pu8DataIn,int16_t s16DataNumber ,volatile uint8_t* pu8Port, uint8_t u8Pin );
 
 
 

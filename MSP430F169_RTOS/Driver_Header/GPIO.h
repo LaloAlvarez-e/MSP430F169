@@ -15,6 +15,7 @@
 #include <msp430f169.h>
 #include <intrinsics.h>
 #include <stdint.h>
+#include <OS.h>
 
 #define LEDRED_PIN	(BIT0)
 #define LEDRED_DIR	(P6DIR)
@@ -31,20 +32,26 @@
 #define LEDBLUE_OUT	(P6OUT)
 #define LEDBLUE_SEL (P6SEL)
 
-#define PBUTTON1_READPIN	(BIT3)
-#define PBUTTON1_READPORT	(P6IN)
-#define PBUTTON1_DIR		(P6DIR)
-#define PBUTTON1_SEL        (P6SEL)
+#define PBUTTON1_READPIN	(BIT2)
+#define PBUTTON1_READPORT	(P1IN)
+#define PBUTTON1_DIR		(P1DIR)
+#define PBUTTON1_SEL        (P1SEL)
+#define PBUTTON1_INT        (P1IE)
+#define PBUTTON1_IFG        (P1IFG)
+#define PBUTTON1_EDGE        (P1IES)
 
-#define PBUTTON2_READPIN	(BIT4)
-#define PBUTTON2_READPORT	(P6IN)
-#define PBUTTON2_DIR		(P6DIR)
-#define PBUTTON2_SEL		(P6SEL)
+#define PBUTTON2_READPIN	(BIT1)
+#define PBUTTON2_READPORT	(P1IN)
+#define PBUTTON2_DIR		(P1DIR)
+#define PBUTTON2_SEL		(P1SEL)
+#define PBUTTON2_INT        (P1IE)
+#define PBUTTON2_IFG        (P1IFG)
+#define PBUTTON2_EDGE        (P1IES)
 
-#define PBUTTON3_READPIN	(BIT5)
-#define PBUTTON3_READPORT	(P6IN)
-#define PBUTTON3_DIR		(P6DIR)
-#define PBUTTON3_SEL		(P6SEL)
+#define PBUTTON3_READPIN	(BIT0)
+#define PBUTTON3_READPORT	(P1IN)
+#define PBUTTON3_DIR		(P1DIR)
+#define PBUTTON3_SEL		(P1SEL)
 
 typedef enum
 {
@@ -72,6 +79,5 @@ typedef enum
 #define PBUTTON3_READSTATE  (PBUTTON3_READPORT & PBUTTON3_READPIN)
 
 void GPIO__vInitPort(void);
-
 
 #endif /* GPIO_H_ */

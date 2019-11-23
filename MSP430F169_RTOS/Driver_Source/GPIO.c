@@ -12,10 +12,17 @@ void GPIO__vInitPort(void)
 {
 	PBUTTON1_DIR   &=~PBUTTON1_READPIN;   /*PD.2 (Push Button1) as Input*/
 	PBUTTON1_SEL   &=~ PBUTTON1_READPIN;   /*PD.2 (Push Button1) with Pull-Up*/
+	PBUTTON1_IFG   &=~ PBUTTON1_READPIN;
+	PBUTTON1_IFG   &=~ PBUTTON1_READPIN;
+	PBUTTON1_EDGE  |=  PBUTTON1_READPIN;
+	PBUTTON1_INT   |=  PBUTTON1_READPIN;
 	
 	PBUTTON2_DIR   &=~PBUTTON2_READPIN;   /*PB.2 (Push Button2) as Input*/
 	PBUTTON2_SEL   &=~ PBUTTON2_READPIN;   /*PB.2 (Push Button2) with Pull-Up*/
-	
+    PBUTTON2_IFG   &=~ PBUTTON2_READPIN;
+    PBUTTON2_EDGE  |=  PBUTTON2_READPIN;
+    PBUTTON2_INT   |=  PBUTTON2_READPIN;
+
 	PBUTTON3_DIR   &=~PBUTTON3_READPIN;   /*PB.1 (Push Button2) as Input*/
 	PBUTTON3_SEL   &=~ PBUTTON3_READPIN;  /*PB.1 (Push Button2) with Pull-Up*/
 	
@@ -32,3 +39,6 @@ void GPIO__vInitPort(void)
     LEDBLUE_SEL&=~LEDBLUE_PIN;      /*PC.4 (Led BLUE) Output Low*/
 	
 }
+
+
+

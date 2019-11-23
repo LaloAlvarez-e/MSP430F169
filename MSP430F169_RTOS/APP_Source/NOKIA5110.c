@@ -144,37 +144,28 @@ void NOKIA5110__vInit(void)
 
 void NOKIA5110__vSendCommand(uint8_t u8Data)
 {
-	volatile uint8_t u8DataTemp=u8Data;
 	NOKIA5110_DC_COMMAND();
 
-    P3OUT&=~BIT0;
-	SPI__vSendDataMaster(( uint8_t*)&u8DataTemp,1);
-    P3OUT|=BIT0;
+	SPI__vSendDataMaster(( uint8_t*)&u8Data,1,&P3OUT,BIT0);
 }
 
 void NOKIA5110__vSendData(uint8_t u8Data)
 {
-	volatile uint8_t u8DataTemp=u8Data;
+	uint8_t u8DataTemp=u8Data;
 	NOKIA5110_DC_DATA();
-    P3OUT&=~BIT0;
-	SPI__vSendDataMaster(( uint8_t*)&u8DataTemp,1);
-    P3OUT|=BIT0;
+	SPI__vSendDataMaster(( uint8_t*)&u8DataTemp,1,&P3OUT,BIT0);
 }
 
 void NOKIA5110__vSendMultipleData(uint8_t* u8Data, uint16_t u16Cant)
 {
 	NOKIA5110_DC_DATA();
-    P3OUT&=~BIT0;
-	SPI__vSendDataMaster(u8Data,u16Cant);
-    P3OUT|=BIT0;
+	SPI__vSendDataMaster(u8Data,u16Cant,&P3OUT,BIT0);
 }
 
 void NOKIA5110__vSendMultipleCommand(uint8_t* u8Command, uint16_t u16Cant)
 {
 	NOKIA5110_DC_COMMAND();
-    P3OUT&=~BIT0;
-	SPI__vSendDataMaster(u8Command,u16Cant);
-    P3OUT|=BIT0;
+	SPI__vSendDataMaster(u8Command,u16Cant,&P3OUT,BIT0);
 }
 void NOKIA5110__vSendChar(uint8_t u8Ascii)
 {

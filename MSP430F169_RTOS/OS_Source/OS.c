@@ -361,6 +361,27 @@ void OS__vSuspendMainThead(void)
     Watchdog__vClearCount();
     Watchdog__vSetInterrupt(Watchdog_enInterruptWDT);
 }
+
+
+uint16_t OS__u16GetStackUsedThread(void)
+{
+    return (uint16_t)OS_psRunPt->endOfStack-(uint16_t)OS_psRunPt->topOfStack;
+}
+
+uint16_t OS__u16GetStackSizeThread(void)
+{
+    return (uint16_t)OS_psRunPt->endOfStack-(uint16_t)OS_psRunPt->stack;
+}
+
+uint16_t OS__u16GetPorcentageStackThread(void)
+{
+    float fPorcentage=0.0;
+
+    fPorcentage=(float)OS__u16GetStackUsedThread()*100.0;
+    fPorcentage/=(float)OS__u16GetStackSizeThread();
+    return fPorcentage;
+
+}
 /*
 OS_Sleep_TypeDef OS_sSleep;
 void OS__vInitSleep(void)
@@ -411,7 +432,6 @@ __interrupt void TIMERB0_IRQ(void)
 {
 
     TCB_TypeDef* OS_psActual =OS_psRunPt;
-    int8_t s8Iter =0;
     do{
         OS_psActual->sleep--;
         if(OS_psActual->sleep<=0)

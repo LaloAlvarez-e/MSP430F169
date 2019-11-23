@@ -36,6 +36,7 @@ void SPI__vDeInit(void)
     IE1&=~(UTXIE0|URXIE0);
 }
 
+OS_Semaphore_TypeDef MAIN_sSemaphoreSPI={0,0,0};
 void SPI__vInit(SPI_nMode enMode,SPI_nDataOrder enDataOrder,SPI_nClockPolarity enPolarity, SPI_nClockPhase enPhase, SPI_nClock enClockSource )
 {
 
@@ -107,7 +108,7 @@ void SPI__vInit(SPI_nMode enMode,SPI_nDataOrder enDataOrder,SPI_nClockPolarity e
 	}
 
 
-
+	 OS__vInitSemaphore(&MAIN_sSemaphoreSPI,SEMAPHORE_enInitMUTEX);
     ME1|=USPIE0;
     U0CTL&=~SWRST;
 }
@@ -161,10 +162,13 @@ void SPI__vDeInitPin(SPI_nPin enPin)
 	}
 }
 
-void SPI__vSendReceiveDataMaster(uint8_t* pu8DataOut, uint8_t* pu8DataIn, int16_t s16DataNumber )
+void SPI__vSendReceiveDataMaster(uint8_t* pu8DataOut, uint8_t* pu8DataIn, int16_t s16DataNumber, volatile uint8_t* pu8Port, uint8_t u8Pin )
 {
+    OS__vWaitSemaphore(&MAIN_sSemaphoreSPI);
 	IFG1&=~(UTXIFG0|URXIFG0);
 	*pu8DataIn=U0RXBUF;
+
+	*pu8Port&=~u8Pin;
 
 	while((uint16_t)s16DataNumber>0)
 	{
@@ -177,14 +181,20 @@ void SPI__vSendReceiveDataMaster(uint8_t* pu8DataOut, uint8_t* pu8DataIn, int16_
 		s16DataNumber--;
 	}
 
+    *pu8Port|=u8Pin;
+    OS__vSignalSemaphore(&MAIN_sSemaphoreSPI);
+
 }
 
-void SPI__vSendDataMaster(uint8_t* pu8DataOut,int16_t s16DataNumber )
+void SPI__vSendDataMaster(uint8_t* pu8DataOut,int16_t s16DataNumber,volatile uint8_t* pu8Port, uint8_t u8Pin  )
 {
+
 	uint8_t u8Dummy=0;
+    OS__vWaitSemaphore(&MAIN_sSemaphoreSPI);
     IFG1&=~(UTXIFG0|URXIFG0);
     u8Dummy=U0RXBUF;
 
+    *pu8Port&=~u8Pin;
 	while((uint16_t)s16DataNumber>0)
 	{
 	    U0TXBUF=*pu8DataOut;
@@ -194,16 +204,20 @@ void SPI__vSendDataMaster(uint8_t* pu8DataOut,int16_t s16DataNumber )
 		pu8DataOut++;
 		s16DataNumber--;
 	}
+    *pu8Port|=u8Pin;
+    OS__vSignalSemaphore(&MAIN_sSemaphoreSPI);
 
 }
 
 
-void SPI__vReceiveDataMaster(uint8_t* pu8DataIn,int16_t s16DataNumber )
+void SPI__vReceiveDataMaster(uint8_t* pu8DataIn,int16_t s16DataNumber,volatile uint8_t* pu8Port, uint8_t u8Pin  )
 {
     uint8_t u8Dummy=0;
+    OS__vWaitSemaphore(&MAIN_sSemaphoreSPI);
     IFG1&=~(UTXIFG0|URXIFG0);
     u8Dummy=U0RXBUF;
 
+    *pu8Port&=~u8Pin;
     while((uint16_t)s16DataNumber>0)
     {
         U0TXBUF=0;
@@ -213,5 +227,7 @@ void SPI__vReceiveDataMaster(uint8_t* pu8DataIn,int16_t s16DataNumber )
         pu8DataIn++;
         s16DataNumber--;
     }
+    *pu8Port|=u8Pin;
+    OS__vSignalSemaphore(&MAIN_sSemaphoreSPI);
 
 }
