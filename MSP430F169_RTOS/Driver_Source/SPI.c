@@ -7,20 +7,12 @@
 
 #include "SPI.h"
 
-SPI_FIFO_TypeDef SPI_sTxFifo;
-SPI_FIFO_TypeDef SPI_sRxFifo;
+OS_MailBoxFIFO_TypeDef SPI_sTxFifo;
+OS_MailBoxFIFO_TypeDef SPI_sRxFifo;
 
 
-SPI_FIFO_TypeDef* SPI_sTxFifoActive;
-SPI_FIFO_TypeDef* SPI_sRxFifoActive;
-
-void SPI__vInitFifo(SPI_FIFO_TypeDef* sFifo)
-{
-    sFifo->counter=0;
-    sFifo->init=0;
-    sFifo->get=sFifo->buffer;
-    sFifo->put=sFifo->buffer;
-}
+OS_MailBoxFIFO_TypeDef* SPI_sTxFifoActive;
+OS_MailBoxFIFO_TypeDef* SPI_sRxFifoActive;
 
 
 
@@ -106,8 +98,6 @@ void SPI__vInit(SPI_nMode enMode,SPI_nDataOrder enDataOrder,SPI_nClockPolarity e
 		default:
 			break;
 	}
-
-
 	 OS__vInitSemaphore(&MAIN_sSemaphoreSPI,SEMAPHORE_enInitMUTEX);
     ME1|=USPIE0;
     U0CTL&=~SWRST;

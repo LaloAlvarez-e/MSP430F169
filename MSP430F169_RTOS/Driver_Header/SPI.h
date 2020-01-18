@@ -14,7 +14,7 @@
 #include <intrinsics.h>
 #include <OS.h>
 
-#define SPI_FIFOSIZE (64u)
+#define SPI_FIFOSIZE (256u)
 
 typedef struct
 {
@@ -72,7 +72,7 @@ typedef enum
 }SPI_nPin;
 
 
-void SPI__vInitFifo(SPI_FIFO_TypeDef* sFifo);
+void SPI__vInitFifo(OS_MailBoxFIFO_TypeDef* sFifo);
 
 void SPI__vInit(SPI_nMode enMode,SPI_nDataOrder enDataOrder,SPI_nClockPolarity enPolarity, SPI_nClockPhase enPhase, SPI_nClock enClockSource );
 void SPI__vDeInit(void);
@@ -87,6 +87,10 @@ void SPI__vSendReceiveDataMaster(uint8_t* pu8DataOut, uint8_t* pu8DataIn, int16_
 void SPI__vSendDataMaster(uint8_t* pu8DataOut,int16_t s16DataNumber,volatile uint8_t* pu8Port, uint8_t u8Pin  );
 void SPI__vReceiveDataMaster(uint8_t* pu8DataIn,int16_t s16DataNumber ,volatile uint8_t* pu8Port, uint8_t u8Pin );
 
+
+
+__interrupt void SPIRX_ISR(void);
+__interrupt void SPITX_ISR(void);
 
 
 #endif /* SPI_H_ */
