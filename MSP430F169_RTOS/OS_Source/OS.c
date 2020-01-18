@@ -4,7 +4,7 @@
  * Created: 12/10/2019 09:06:50 a. m.
  *  Author: Lalo
  */ 
-#include "os.h"
+#include "OS.h"
 
 void OS_vStartOS(void);
 void OS_vScheduler(void);

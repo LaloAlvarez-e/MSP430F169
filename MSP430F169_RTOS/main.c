@@ -1,7 +1,7 @@
 #include <msp430f169.h>
 #include <intrinsics.h>
 #include <stdint.h>
-#include <os.h>
+#include <OS.h>
 #include <CLOCK.h>
 #include <GPIO.h>
 #include <Watchdog.h>

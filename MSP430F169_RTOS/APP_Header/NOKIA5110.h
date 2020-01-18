@@ -10,7 +10,7 @@
 
 #include <msp430f169.h>
 #include <intrinsics.h>
-#include <os.h>
+#include <OS.h>
 #include <stdarg.h>
 #include <stdint.h>
 #include <SPI.h>
