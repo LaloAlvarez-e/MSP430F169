@@ -41,17 +41,34 @@
 *.su
 *.idb
 *.pdb
+**/targetConfigs*
+**/Debug*
+**/Release*
+**/.settings/
+**/.settings/**
+**/.launches/**
+**/.launches/
+.cproject
+.project
+.ccsproject
+
+#Doxygen Generator
+**/html
+**/latex
 
 # Kernel Module Compile Results
 *.mod*
-*.cmd
 .tmp_versions/
 modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
 /.metadata/
-.jxbrowser-data
-.metadata
-.tempFiles
-RemoteSystemsTempFiles
+.metadata/
+dvt/
+RemoteSystemsTempFiles/
+.jxbrowser-data/
+.jxbrowser-data/**
+**/.jxbrowser-data
+**/.jxbrowser-data/**
+.gitignore~
