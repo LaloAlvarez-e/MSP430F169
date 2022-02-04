@@ -11,6 +11,8 @@ GEN_CMDS__FLAG :=
 
 ORDERED_OBJS += \
 "./main.obj" \
+"./GPIO/Source/GPIO_InterruptSource.obj" \
+"./GPIO/Source/GPIO_InterruptVector.obj" \
 "../lnk_msp430f169.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
@@ -23,7 +25,9 @@ RMDIR := RMDIR /S/Q
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir_vars.mk
+-include GPIO/Source/subdir_vars.mk
 -include subdir_rules.mk
+-include GPIO/Source/subdir_rules.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -154,8 +158,8 @@ GPIO_Interrupt.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" 
-	-$(RM) "main.d" 
+	-$(RM) "main.obj" "GPIO\Source\GPIO_InterruptSource.obj" "GPIO\Source\GPIO_InterruptVector.obj" 
+	-$(RM) "main.d" "GPIO\Source\GPIO_InterruptSource.d" "GPIO\Source\GPIO_InterruptVector.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

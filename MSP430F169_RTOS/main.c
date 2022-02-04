@@ -1,4 +1,4 @@
-#include <msp430f169.h>
+#include <msp430.h>
 #include <intrinsics.h>
 #include <stdint.h>
 #include <OS.h>
