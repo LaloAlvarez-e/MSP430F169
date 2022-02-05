@@ -1,4 +1,6 @@
+#include "MCU/MCU.h"
 #include "GPIO/GPIO.h"
+
 #include <msp430.h> 
 #include <stdint.h>
 
@@ -20,7 +22,7 @@ uint16_t u16Count = 0U;
  */
 void main(void)
 {
-	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
+	WDTCTL = WDTPW | WDTHOLD;	/*  stop watchdog timer*/
 	GPIO__vSetInterruptSource(4UL, &MAIN_u16SwitchP1_4);
 	GPIO__vSetInterruptSource(5UL, &MAIN_u16SwitchP1_5);
 	GPIO__vSetInterruptSource(6UL, &MAIN_u16SwitchP1_6);
@@ -195,7 +197,10 @@ void MAIN_vInitInput(void)
 void MAIN_vInitOutput(void)
 {
     /*P1.0 - P1.3 como Salidas*/
-    P1DIR |= BIT0 | BIT1 | BIT2 | BIT3;
+    MCU__vWriteRegister_8bits(0x22UL,
+                              (BIT0 | BIT1 | BIT2 | BIT3),
+                              (BIT0 | BIT1 | BIT2 | BIT3),
+                              0U);
     /*P1.0 - P1.3 configurar com I/O*/
     P1SEL &= ~(BIT0 | BIT1 | BIT2 | BIT3);
 
