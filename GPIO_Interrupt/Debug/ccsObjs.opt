@@ -1,1 +1,0 @@
-"./main.obj" "./GPIO/Source/GPIO_InterruptSource.obj" "./GPIO/Source/GPIO_InterruptVector.obj" "../lnk_msp430f169.cmd" -llibc.a 
