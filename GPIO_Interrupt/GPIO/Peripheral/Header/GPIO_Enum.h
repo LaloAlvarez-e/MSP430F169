@@ -29,13 +29,13 @@
 
 typedef enum
 {
-    GPIO_enPORT3 = 0U,
-    GPIO_enPORT4 = 1U,
-    GPIO_enPORT1 = 2U,
-    GPIO_enPORT2 = 4U,
-    GPIO_enPORT5 = 6U,
-    GPIO_enPORT6 = 7U,
-    GPIO_enPORT_MAX = 8U,
+    GPIO_enPORT1 = 0U,
+    GPIO_enPORT2 = 1U,
+    GPIO_enPORT3 = 2U,
+    GPIO_enPORT4 = 3U,
+    GPIO_enPORT5 = 4U,
+    GPIO_enPORT6 = 5U,
+    GPIO_enPORT_MAX = 6U,
 }GPIO_nPORT;
 
 typedef enum

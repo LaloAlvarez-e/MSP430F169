@@ -31,5 +31,10 @@
 #include "GPIO/Peripheral/RegisterPeripheral/Header/GPIO_RegisterPeripheral_PORT4.h"
 #include "GPIO/Peripheral/RegisterPeripheral/Header/GPIO_RegisterPeripheral_PORT5.h"
 #include "GPIO/Peripheral/RegisterPeripheral/Header/GPIO_RegisterPeripheral_PORT6.h"
+#include "GPIO/Peripheral/Header/GPIO_Enum.h"
+
+#define GPIO ((GPIO_t*) GPIO_BASE)
+
+uintptr_t GPIO__uptrBlockBaseAddress(GPIO_nPORT enPortArg);
 
 #endif /* GPIO_PERIPHERAL_REGISTERPERIPHERAL_GPIO_REGISTERPERIPHERAL_H_ */

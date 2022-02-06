@@ -23,8 +23,9 @@
  */
 #include "GPIO/Header/GPIO_InterruptVector.h"
 #include "GPIO/Header/GPIO_InterruptSource.h"
-#include <msp430.h>
+#include "GPIO/Peripheral/GPIO_Peripheral.h"
 #include <stdint.h>
+#include <msp430.h>
 
 #pragma vector = PORT1_VECTOR
 __interrupt void PORT1_IrqHandler(void)

@@ -25,6 +25,7 @@
 #ifndef GPIO_PERIPHERAL_GPIO_PERIPHERAL_H_
 #define GPIO_PERIPHERAL_GPIO_PERIPHERAL_H_
 
+#include "GPIO/Peripheral/RegisterDefines/GPIO_RegisterDefines.h"
 #include "GPIO/Peripheral/RegisterPeripheral/GPIO_RegisterPeripheral.h"
 
 #endif /* GPIO_PERIPHERAL_GPIO_PERIPHERAL_H_ */
