@@ -43,17 +43,17 @@ void main(void)
 uint16_t MAIN_u16SwitchP1_4(void)
 {
     uint16_t u16Status = 0U;
-    uint8_t u8Edge = P1IES;
+    uint8_t u8Edge = PORT1_IES_R;
     if(0UL != (u8Edge & BIT4)) /*High-To-Low*/
     {
-        P1IES &= ~BIT4;
-        P1OUT &= ~BIT3;
+        PORT1_IES_R &= ~BIT4;
+        PORT1_OUT_R &= ~BIT3;
         u16Status = 0U; /*Active Mode*/
     }
     else /*Low-To-High*/
     {
-        P1IES |= BIT4;
-        P1OUT |= BIT3;
+        PORT1_IES_R |= BIT4;
+        PORT1_OUT_R |= BIT3;
         u16Status = LPM4_bits;
         GPIO__vSetInterruptSource(4UL, &MAIN_u16SwitchP1_4_0);
     }
@@ -63,17 +63,17 @@ uint16_t MAIN_u16SwitchP1_4(void)
 uint16_t MAIN_u16SwitchP1_4_0(void)
 {
     uint16_t u16Status = 0U;
-    uint8_t u8Edge = P1IES;
+    uint8_t u8Edge = PORT1_IES_R;
     if(0UL != (u8Edge & BIT4)) /*High-To-Low*/
     {
-        P1IES &= ~BIT4;
-        P1OUT &= ~BIT2;
+        PORT1_IES_R &= ~BIT4;
+        PORT1_OUT_R &= ~BIT2;
         u16Status = 0U; /*Active Mode*/
     }
     else /*Low-To-High*/
     {
-        P1IES |= BIT4;
-        P1OUT |= BIT2;
+        PORT1_IES_R |= BIT4;
+        PORT1_OUT_R |= BIT2;
         u16Status = LPM4_bits;
         GPIO__vSetInterruptSource(4UL, &MAIN_u16SwitchP1_4_1);
     }
@@ -83,17 +83,17 @@ uint16_t MAIN_u16SwitchP1_4_0(void)
 uint16_t MAIN_u16SwitchP1_4_1(void)
 {
     uint16_t u16Status = 0U;
-    uint8_t u8Edge = P1IES;
+    uint8_t u8Edge = PORT1_IES_R;
     if(0UL != (u8Edge & BIT4)) /*High-To-Low*/
     {
-        P1IES &= ~BIT4;
-        P1OUT &= ~BIT1;
+        PORT1_IES_R &= ~BIT4;
+        PORT1_OUT_R &= ~BIT1;
         u16Status = 0U; /*Active Mode*/
     }
     else /*Low-To-High*/
     {
-        P1IES |= BIT4;
-        P1OUT |= BIT1;
+        PORT1_IES_R |= BIT4;
+        PORT1_OUT_R |= BIT1;
         u16Status = LPM4_bits;
         GPIO__vSetInterruptSource(4UL, &MAIN_u16SwitchP1_4_2);
     }
@@ -103,17 +103,17 @@ uint16_t MAIN_u16SwitchP1_4_1(void)
 uint16_t MAIN_u16SwitchP1_4_2(void)
 {
     uint16_t u16Status = 0U;
-    uint8_t u8Edge = P1IES;
+    uint8_t u8Edge = PORT1_IES_R;
     if(0UL != (u8Edge & BIT4)) /*High-To-Low*/
     {
-        P1IES &= ~BIT4;
-        P1OUT &= ~BIT0;
+        PORT1_IES_R &= ~BIT4;
+        PORT1_OUT_R &= ~BIT0;
         u16Status = 0U; /*Active Mode*/
     }
     else /*Low-To-High*/
     {
-        P1IES |= BIT4;
-        P1OUT |= BIT0;
+        PORT1_IES_R |= BIT4;
+        PORT1_OUT_R |= BIT0;
         u16Status = LPM4_bits;
         GPIO__vSetInterruptSource(4UL, &MAIN_u16SwitchP1_4);
     }
@@ -122,17 +122,17 @@ uint16_t MAIN_u16SwitchP1_4_2(void)
 uint16_t MAIN_u16SwitchP1_5(void)
 {
     uint16_t u16Status = 0U;
-    uint8_t u8Edge = P1IES;
+    uint8_t u8Edge = PORT1_IES_R;
     if(0UL != (u8Edge & BIT5)) /*High-To-Low*/
     {
-        P1IES &= ~BIT5;
-        P1OUT &= ~BIT2;
+        PORT1_IES_R &= ~BIT5;
+        PORT1_OUT_R &= ~BIT2;
         u16Status = 0U; /*Active Mode*/
     }
     else /*Low-To-High*/
     {
-        P1IES |= BIT5;
-        P1OUT |= BIT2;
+        PORT1_IES_R |= BIT5;
+        PORT1_OUT_R |= BIT2;
         u16Status = LPM4_bits;
     }
     return (u16Status);
@@ -141,17 +141,17 @@ uint16_t MAIN_u16SwitchP1_5(void)
 uint16_t MAIN_u16SwitchP1_6(void)
 {
     uint16_t u16Status = 0U;
-    uint8_t u8Edge = P1IES;
+    uint8_t u8Edge = PORT1_IES_R;
     if(0UL != (u8Edge & BIT6)) /*High-To-Low*/
     {
-        P1IES &= ~BIT6;
-        P1OUT &= ~BIT1;
+        PORT1_IES_R &= ~BIT6;
+        PORT1_OUT_R &= ~BIT1;
         u16Status = 0U; /*Active Mode*/
     }
     else /*Low-To-High*/
     {
-        P1IES |= BIT6;
-        P1OUT |= BIT1;
+        PORT1_IES_R |= BIT6;
+        PORT1_OUT_R |= BIT1;
         u16Status = LPM4_bits;
     }
     return (u16Status);
@@ -160,17 +160,17 @@ uint16_t MAIN_u16SwitchP1_6(void)
 uint16_t MAIN_u16SwitchP1_7(void)
 {
     uint16_t u16Status = 0U;
-    uint8_t u8Edge = P1IES;
+    uint8_t u8Edge = PORT1_IES_R;
     if(0UL != (u8Edge & BIT7)) /*High-To-Low*/
     {
-        P1IES &= ~BIT7;
-        P1OUT &= ~BIT0;
+        PORT1_IES_R &= ~BIT7;
+        PORT1_OUT_R &= ~BIT0;
         u16Status = 0U; /*Active Mode*/
     }
     else /*Low-To-High*/
     {
-        P1IES |= BIT7;
-        P1OUT |= BIT0;
+        PORT1_IES_R |= BIT7;
+        PORT1_OUT_R |= BIT0;
         u16Status = LPM4_bits;
     }
     return (u16Status);
@@ -179,18 +179,18 @@ uint16_t MAIN_u16SwitchP1_7(void)
 void MAIN_vInitInput(void)
 {
     /*P1.4 - P1.7 como entradas*/
-    P1DIR &= ~(BIT4 | BIT5 | BIT6 | BIT7);
+    PORT1_DIR_R &= ~(BIT4 | BIT5 | BIT6 | BIT7);
     /*P1.4 - P1.7 configurar com I/O*/
-    P1SEL &= ~(BIT4 | BIT5 | BIT6 | BIT7);
+    PORT1_SEL_R &= ~(BIT4 | BIT5 | BIT6 | BIT7);
 
     /*P1.4 - P1.7 Edge select High-To-Low*/
-    P1IES |= BIT4 | BIT5 | BIT6 | BIT7;
+    PORT1_IES_R |= BIT4 | BIT5 | BIT6 | BIT7;
 
     /*P1.4 - P1.7 Clear Interrupt Flags*/
-    P1IFG &= ~(BIT4 | BIT5 | BIT6 | BIT7);
+    PORT1_IFG_R &= ~(BIT4 | BIT5 | BIT6 | BIT7);
 
     /*P1.4 - P1.7 Enable interrupt*/
-    P1IE |= BIT4 | BIT5 | BIT6 | BIT7;
+    PORT1_IE_R |= BIT4 | BIT5 | BIT6 | BIT7;
 
 }
 
@@ -202,8 +202,9 @@ void MAIN_vInitOutput(void)
                               (BIT0 | BIT1 | BIT2 | BIT3),
                               0U);
     /*P1.0 - P1.3 configurar com I/O*/
-    P1SEL &= ~(BIT0 | BIT1 | BIT2 | BIT3);
+    PORT1->SEL &= ~(BIT0 | BIT1 | BIT2 | BIT3);
 
     /*P1.0 - P1.3 logica invertida*/
-    P1OUT |= BIT0 | BIT1 | BIT2 | BIT3;
+    PORT1_OUT_R |= BIT1 | BIT2 | BIT3;
+    PORT1->OUT_bits.P0 = 1U;
 }

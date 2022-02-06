@@ -23,7 +23,7 @@
  */
 #include "MCU/Header/MCU_WriteRegister.h"
 
-void MCU__vWriteRegister_8bits(uint32_t u32RegisterAddress,
+void MCU__vWriteRegister_8bits(uintptr_t uptrRegisterAddress,
                                uint8_t u8RegisterValue,
                                uint8_t u8RegisterMask,
                                uint8_t u8RegisterShift)
@@ -36,7 +36,7 @@ void MCU__vWriteRegister_8bits(uint32_t u32RegisterAddress,
     u16StatusRegister = _get_interrupt_state();
     _DINT();
     u8Reg = u8RegisterValue;
-    pu8RegisterAddress = (volatile uint8_t*) u32RegisterAddress;
+    pu8RegisterAddress = (volatile uint8_t*) uptrRegisterAddress;
     if(MCU_MASK_8 != u8RegisterMask)
     {
         u8Reg = *pu8RegisterAddress;
@@ -53,7 +53,7 @@ void MCU__vWriteRegister_8bits(uint32_t u32RegisterAddress,
     _set_interrupt_state(u16StatusRegister);
 }
 
-void MCU__vWriteRegister_16bits(uint32_t u32RegisterAddress,
+void MCU__vWriteRegister_16bits(uintptr_t uptrRegisterAddress,
                                uint16_t u16RegisterValue,
                                uint16_t u16RegisterMask,
                                uint8_t u8RegisterShift)
@@ -66,7 +66,7 @@ void MCU__vWriteRegister_16bits(uint32_t u32RegisterAddress,
     u16StatusRegister = _get_interrupt_state();
     _DINT();
     u16Reg = u16RegisterValue;
-    pu16RegisterAddress = (volatile uint16_t*) u32RegisterAddress;
+    pu16RegisterAddress = (volatile uint16_t*) uptrRegisterAddress;
     if(MCU_MASK_16 != u16RegisterMask)
     {
         u16Reg = *pu16RegisterAddress;

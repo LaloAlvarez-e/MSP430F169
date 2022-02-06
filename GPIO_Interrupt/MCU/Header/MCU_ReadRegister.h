@@ -27,11 +27,11 @@
 
 #include "MCU/Header/MCU_Common.h"
 
-uint8_t MCU__u8ReadRegister(uint32_t u32RegisterAddress,
+uint8_t MCU__u8ReadRegister(uintptr_t uptrRegisterAddress,
                             uint8_t u8RegisterMask,
                             uint8_t u8RegisterShift);
 
-uint16_t MCU__u16ReadRegister(uint32_t u32RegisterAddress,
+uint16_t MCU__u16ReadRegister(uintptr_t uptrRegisterAddress,
                             uint16_t u16RegisterMask,
                             uint8_t u8RegisterShift);
 

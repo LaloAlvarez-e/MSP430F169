@@ -23,12 +23,12 @@
  */
 #include "MCU/Header/MCU_ReadRegister.h"
 
-uint8_t MCU__u8ReadRegister(uint32_t u32RegisterAddress,
+uint8_t MCU__u8ReadRegister(uintptr_t uptrRegisterAddress,
                             uint8_t u8RegisterMask,
                             uint8_t u8RegisterShift)
 {
     uint8_t u8RegisterValue = 0U;
-    volatile uint8_t* pu8RegisterAddress = (volatile uint8_t*) u32RegisterAddress;
+    volatile uint8_t* pu8RegisterAddress = (volatile uint8_t*) uptrRegisterAddress;
 
     u8RegisterValue = *pu8RegisterAddress;
     if(MCU_MASK_8 != u8RegisterMask)
@@ -39,12 +39,12 @@ uint8_t MCU__u8ReadRegister(uint32_t u32RegisterAddress,
     return (u8RegisterValue);
 }
 
-uint16_t MCU__u16ReadRegister(uint32_t u32RegisterAddress,
+uint16_t MCU__u16ReadRegister(uintptr_t uptrRegisterAddress,
                             uint16_t u16RegisterMask,
                             uint8_t u8RegisterShift)
 {
     uint16_t u16RegisterValue = 0U;
-    volatile uint16_t* pu16RegisterAddress = (volatile uint16_t*) u32RegisterAddress;
+    volatile uint16_t* pu16RegisterAddress = (volatile uint16_t*) uptrRegisterAddress;
 
     u16RegisterValue = *pu16RegisterAddress;
     if(MCU_MASK_16 != u16RegisterMask)
