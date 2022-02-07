@@ -53,6 +53,7 @@ typedef enum
 
 typedef enum
 {
+    GPIO_enPIN_NONE = 0x0U,
     GPIO_enPIN0 = 0x1U,
     GPIO_enPIN1 = 0x2U,
     GPIO_enPIN2 = 0x4U,
@@ -81,5 +82,17 @@ typedef enum
     GPIO_enLEVEL_LOW = 0U,
     GPIO_enLEVEL_HIGH = 1U,
 }GPIO_nLEVEL;
+
+typedef enum
+{
+    GPIO_enINT_ENABLE_DIS = 0U,
+    GPIO_enINT_ENABLE_ENA = 1U,
+}GPIO_nINT_ENABLE;
+
+typedef enum
+{
+    GPIO_enINT_STATUS_NOOCCUR = 0U,
+    GPIO_enINT_STATUS_OCCUR = 1U,
+}GPIO_nINT_STATUS;
 
 #endif /* GPIO_PERIPHERAL_HEADER_GPIO_ENUM_H_ */

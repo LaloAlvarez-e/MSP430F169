@@ -179,54 +179,82 @@ uint16_t MAIN_u16SwitchP1_7(void)
 void MAIN_vInitInput(void)
 {
     /*P1.4 - P1.7 como entradas*/
-    PORT1_DIR_R &= ~(PORT_DIR_R_PIN4_MASK |
-                    PORT_DIR_R_PIN5_MASK |
-                    PORT_DIR_R_PIN6_MASK |
-                    PORT_DIR_R_PIN7_MASK);
+    GPIO__vWriteRegister(GPIO_enPORT1,
+                         PORT_DIR_OFFSET,
+                         0U,
+                         (PORT_DIR_R_PIN4_MASK |
+                         PORT_DIR_R_PIN5_MASK |
+                         PORT_DIR_R_PIN6_MASK |
+                         PORT_DIR_R_PIN7_MASK),
+                         0U);
     /*P1.4 - P1.7 configurar com I/O*/
-    PORT1_SEL_R &= ~(PORT_SEL_R_PIN4_MASK |
-                    PORT_SEL_R_PIN5_MASK |
-                    PORT_SEL_R_PIN6_MASK |
-                    PORT_SEL_R_PIN7_MASK);
+    GPIO__vWriteRegister(GPIO_enPORT1,
+                         PORT_EXT_SEL_OFFSET,
+                         0U,
+                         (PORT_DIR_R_PIN4_MASK |
+                         PORT_DIR_R_PIN5_MASK |
+                         PORT_DIR_R_PIN6_MASK |
+                         PORT_DIR_R_PIN7_MASK),
+                         0U);
 
     /*P1.4 - P1.7 Edge select High-To-Low*/
-    PORT1_IES_R |= PORT_IES_R_PIN4_MASK |
-                    PORT_IES_R_PIN5_MASK |
-                    PORT_IES_R_PIN6_MASK |
-                    PORT_IES_R_PIN7_MASK;
+    GPIO__vWriteRegister(GPIO_enPORT1,
+                         PORT_IES_OFFSET,
+                         (PORT_DIR_R_PIN4_MASK |
+                         PORT_DIR_R_PIN5_MASK |
+                         PORT_DIR_R_PIN6_MASK |
+                         PORT_DIR_R_PIN7_MASK),
+                         (PORT_DIR_R_PIN4_MASK |
+                         PORT_DIR_R_PIN5_MASK |
+                         PORT_DIR_R_PIN6_MASK |
+                         PORT_DIR_R_PIN7_MASK),
+                         0U);
 
     /*P1.4 - P1.7 Clear Interrupt Flags*/
-    PORT1_IFG_R &= ~(PORT_IFG_R_PIN4_MASK |
-                    PORT_IFG_R_PIN5_MASK |
-                    PORT_IFG_R_PIN6_MASK |
-                    PORT_IFG_R_PIN7_MASK);
+    GPIO__vClearInterruptSource(GPIO_enPORT1,
+          (GPIO_nPIN)(GPIO_enPIN4 | GPIO_enPIN5 | GPIO_enPIN6 | GPIO_enPIN7));
+    /*
+    GPIO__vClearInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER4);
+    GPIO__vClearInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER5);
+    GPIO__vClearInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER6);
+    GPIO__vClearInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER7);
+    */
 
     /*P1.4 - P1.7 Enable interrupt*/
-    PORT1_IE_R |= PORT_IE_R_PIN5_MASK |
-                    PORT_IE_R_PIN6_MASK |
-                    PORT_IE_R_PIN7_MASK;
-    GPIO->P1.IE_bits.P4 = PORT_IE_PIN4_ENA;
-
+    GPIO__vEnaInterruptSource(GPIO_enPORT1,
+          (GPIO_nPIN)(GPIO_enPIN4 | GPIO_enPIN5 | GPIO_enPIN6 | GPIO_enPIN7));
+    /*
+    GPIO__vEnaInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER4);
+    GPIO__vEnaInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER5);
+    GPIO__vEnaInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER6);
+    GPIO__vEnaInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER7);
+    */
 }
 
 void MAIN_vInitOutput(void)
 {
     /*P1.0 - P1.3 como Salidas*/
-    MCU__vWriteRegister_8bits((PORT1_BASE + PORT_DIR_OFFSET),
-                  (PORT_DIR_R_PIN0_MASK | PORT_DIR_R_PIN1_MASK |
-                  PORT_DIR_R_PIN2_MASK | PORT_DIR_R_PIN3_MASK),
-                  (PORT_DIR_R_PIN0_MASK | PORT_DIR_R_PIN1_MASK |
-                  PORT_DIR_R_PIN2_MASK | PORT_DIR_R_PIN3_MASK),
-                  0U);
+    GPIO__vWriteRegister(GPIO_enPORT1,
+                         PORT_DIR_OFFSET,
+                         (PORT_DIR_R_PIN0_MASK | PORT_DIR_R_PIN1_MASK |
+                         PORT_DIR_R_PIN2_MASK | PORT_DIR_R_PIN3_MASK),
+                         (PORT_DIR_R_PIN0_MASK | PORT_DIR_R_PIN1_MASK |
+                         PORT_DIR_R_PIN2_MASK | PORT_DIR_R_PIN3_MASK),
+                         0U);
     /*P1.0 - P1.3 configurar com I/O*/
-    PORT1->SEL &= ~(PORT_SEL_R_PIN1_MASK |
-                PORT_SEL_R_PIN2_MASK |
-                PORT_SEL_R_PIN3_MASK);
-    PORT1_SEL->P0 = PORT_SEL_PIN0_IO;
+    GPIO__vWriteRegister(GPIO_enPORT1,
+                         PORT_EXT_SEL_OFFSET,
+                         0U,
+                         (PORT_DIR_R_PIN0_MASK | PORT_DIR_R_PIN1_MASK |
+                         PORT_DIR_R_PIN2_MASK | PORT_DIR_R_PIN3_MASK),
+                         0U);
 
     /*P1.0 - P1.3 logica invertida*/
-    PORT1_OUT_R |= PORT_OUT_R_PIN1_MASK |
-                    PORT_OUT_R_PIN2_MASK |
-                    PORT_OUT_R_PIN3_MASK;
-    PORT1->OUT_bits.P0 = PORT_OUT_PIN0_HIGH;
+    GPIO__vWriteRegister(GPIO_enPORT1,
+                         PORT_OUT_OFFSET,
+                         (PORT_DIR_R_PIN0_MASK | PORT_DIR_R_PIN1_MASK |
+                         PORT_DIR_R_PIN2_MASK | PORT_DIR_R_PIN3_MASK),
+                         (PORT_DIR_R_PIN0_MASK | PORT_DIR_R_PIN1_MASK |
+                         PORT_DIR_R_PIN2_MASK | PORT_DIR_R_PIN3_MASK),
+                         0U);
 }

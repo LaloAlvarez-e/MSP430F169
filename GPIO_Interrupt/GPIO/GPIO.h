@@ -25,6 +25,7 @@
 #ifndef GPIO_GPIO_H_
 #define GPIO_GPIO_H_
 
+#include "GPIO/Driver/GPIO_Driver.h"
 #include "GPIO/Peripheral/GPIO_Peripheral.h"
 #include "GPIO/Header/GPIO_InterruptSource.h"
 #include "GPIO/Header/GPIO_InterruptVector.h"
