@@ -25,6 +25,8 @@
 #ifndef GPIO_DRIVER_INTRINSICS_INTERRUPT_GPIO_INTERRUPT_H_
 #define GPIO_DRIVER_INTRINSICS_INTERRUPT_GPIO_INTERRUPT_H_
 
+#include "GPIO/Driver/Intrinsics/Interrupt/InterruptRegister/GPIO_InterruptRegister.h"
+#include "GPIO/Driver/Intrinsics/Interrupt/InterruptRoutine/GPIO_InterruptRoutine.h"
 #include "GPIO/Driver/Intrinsics/Interrupt/Header/GPIO_InterruptSource_Clear.h"
 #include "GPIO/Driver/Intrinsics/Interrupt/Header/GPIO_InterruptSource_Enable.h"
 #include "GPIO/Driver/Intrinsics/Interrupt/Header/GPIO_InterruptSource_Status.h"

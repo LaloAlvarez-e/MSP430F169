@@ -4,16 +4,30 @@
 #include <msp430.h> 
 #include <stdint.h>
 
+#define SWITCH1_PORT (GPIO_enPORT1)
+#define SWITCH2_PORT (GPIO_enPORT1)
+#define SWITCH3_PORT (GPIO_enPORT1)
+#define SWITCH4_PORT (GPIO_enPORT1)
+
+#define SWITCH1_PIN (GPIO_enPIN_NUMBER4)
+#define SWITCH2_PIN (GPIO_enPIN_NUMBER5)
+#define SWITCH3_PIN (GPIO_enPIN_NUMBER6)
+#define SWITCH4_PIN (GPIO_enPIN_NUMBER7)
+
+#define LED1_PORT (GPIO_enPORT1)
+#define LED2_PORT (GPIO_enPORT1)
+#define LED3_PORT (GPIO_enPORT1)
+#define LED4_PORT (GPIO_enPORT1)
+
+#define LED1_PIN (GPIO_enPIN_NUMBER0)
+#define LED2_PIN (GPIO_enPIN_NUMBER1)
+#define LED3_PIN (GPIO_enPIN_NUMBER2)
+#define LED4_PIN (GPIO_enPIN_NUMBER3)
+
 void MAIN_vInitInput(void);
 void MAIN_vInitOutput(void);
 
-uint16_t MAIN_u16SwitchP1_4(void);
-uint16_t MAIN_u16SwitchP1_4_0(void);
-uint16_t MAIN_u16SwitchP1_4_1(void);
-uint16_t MAIN_u16SwitchP1_4_2(void);
-uint16_t MAIN_u16SwitchP1_5(void);
-uint16_t MAIN_u16SwitchP1_6(void);
-uint16_t MAIN_u16SwitchP1_7(void);
+uint16_t MAIN_u16Switch(PORT_EXT_t* pstPort, GPIO_nPIN_NUMBER enPinNumber);
 
 uint16_t u16Count = 0U;
 
@@ -23,10 +37,10 @@ uint16_t u16Count = 0U;
 void main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;	/*  stop watchdog timer*/
-	GPIO__vSetInterruptSource(4UL, &MAIN_u16SwitchP1_4);
-	GPIO__vSetInterruptSource(5UL, &MAIN_u16SwitchP1_5);
-	GPIO__vSetInterruptSource(6UL, &MAIN_u16SwitchP1_6);
-	GPIO__vSetInterruptSource(7UL, &MAIN_u16SwitchP1_7);
+    GPIO__vRegisterIRQSourceHandler(SWITCH1_PORT, SWITCH1_PIN, &MAIN_u16Switch);
+    GPIO__vRegisterIRQSourceHandler(SWITCH2_PORT, SWITCH2_PIN, &MAIN_u16Switch);
+    GPIO__vRegisterIRQSourceHandler(SWITCH3_PORT, SWITCH3_PIN, &MAIN_u16Switch);
+    GPIO__vRegisterIRQSourceHandler(SWITCH4_PORT, SWITCH4_PIN, &MAIN_u16Switch);
 	MAIN_vInitInput();
 	MAIN_vInitOutput();
 	_EINT();
@@ -40,137 +54,23 @@ void main(void)
 	}
 }
 
-uint16_t MAIN_u16SwitchP1_4(void)
+uint16_t MAIN_u16Switch(PORT_EXT_t* pstPort, GPIO_nPIN_NUMBER enPinNumber)
 {
+    uint8_t u8Mask = 0U;
     uint16_t u16Status = 0U;
-    uint8_t u8Edge = PORT1_IES_R;
-    if(0UL != (u8Edge & PORT_IES_R_PIN4_MASK)) /*High-To-Low*/
+    uint8_t u8Edge = pstPort->IES;
+    u8Mask = 1U;
+    u8Mask <<= (uint8_t) enPinNumber;
+    if(0UL != (u8Edge & u8Mask)) /*High-To-Low*/
     {
-        PORT1_IES_R &= ~PORT_IES_R_PIN4_MASK;
+        pstPort->IES &= ~u8Mask;
         PORT1_OUT_R &= ~PORT_OUT_R_PIN3_MASK;
         u16Status = 0U; /*Active Mode*/
     }
     else /*Low-To-High*/
     {
-        PORT1_IES_R |= PORT_IES_R_PIN4_MASK;
+        pstPort->IES |= u8Mask;
         PORT1_OUT_R |= PORT_OUT_R_PIN3_MASK;
-        u16Status = LPM4_bits;
-        GPIO__vSetInterruptSource(4UL, &MAIN_u16SwitchP1_4_0);
-    }
-    return (u16Status);
-}
-
-uint16_t MAIN_u16SwitchP1_4_0(void)
-{
-    uint16_t u16Status = 0U;
-    uint8_t u8Edge = PORT1_IES_R;
-    if(0UL != (u8Edge & PORT_IES_R_PIN4_MASK)) /*High-To-Low*/
-    {
-        PORT1_IES_R &= ~PORT_IES_R_PIN4_MASK;
-        PORT1_OUT_R &= ~PORT_OUT_R_PIN2_MASK;
-        u16Status = 0U; /*Active Mode*/
-    }
-    else /*Low-To-High*/
-    {
-        PORT1_IES_R |= PORT_IES_R_PIN4_MASK;
-        PORT1_OUT_R |= PORT_OUT_R_PIN2_MASK;
-        u16Status = LPM4_bits;
-        GPIO__vSetInterruptSource(4UL, &MAIN_u16SwitchP1_4_1);
-    }
-    return (u16Status);
-}
-
-uint16_t MAIN_u16SwitchP1_4_1(void)
-{
-    uint16_t u16Status = 0U;
-    uint8_t u8Edge = PORT1_IES_R;
-    if(0UL != (u8Edge & PORT_IES_R_PIN4_MASK)) /*High-To-Low*/
-    {
-        PORT1_IES_R &= ~PORT_IES_R_PIN4_MASK;
-        PORT1_OUT_R &= ~PORT_OUT_R_PIN1_MASK;
-        u16Status = 0U; /*Active Mode*/
-    }
-    else /*Low-To-High*/
-    {
-        PORT1_IES_R |= PORT_IES_R_PIN4_MASK;
-        PORT1_OUT_R |= PORT_OUT_R_PIN1_MASK;
-        u16Status = LPM4_bits;
-        GPIO__vSetInterruptSource(4UL, &MAIN_u16SwitchP1_4_2);
-    }
-    return (u16Status);
-}
-
-uint16_t MAIN_u16SwitchP1_4_2(void)
-{
-    uint16_t u16Status = 0U;
-    uint8_t u8Edge = PORT1_IES_R;
-    if(0UL != (u8Edge & PORT_IES_R_PIN4_MASK)) /*High-To-Low*/
-    {
-        PORT1_IES_R &= ~PORT_IES_R_PIN4_MASK;
-        PORT1_OUT_R &= ~PORT_OUT_R_PIN0_MASK;
-        u16Status = 0U; /*Active Mode*/
-    }
-    else /*Low-To-High*/
-    {
-        PORT1_IES_R |= PORT_IES_R_PIN4_MASK;
-        PORT1_OUT_R |= PORT_OUT_R_PIN0_MASK;
-        u16Status = LPM4_bits;
-        GPIO__vSetInterruptSource(4UL, &MAIN_u16SwitchP1_4);
-    }
-    return (u16Status);
-}
-uint16_t MAIN_u16SwitchP1_5(void)
-{
-    uint16_t u16Status = 0U;
-    uint8_t u8Edge = PORT1_IES_R;
-    if(0UL != (u8Edge & PORT_IES_R_PIN5_MASK)) /*High-To-Low*/
-    {
-        PORT1_IES_R &= ~PORT_IES_R_PIN5_MASK;
-        PORT1_OUT_R &= ~PORT_OUT_R_PIN2_MASK;
-        u16Status = 0U; /*Active Mode*/
-    }
-    else /*Low-To-High*/
-    {
-        PORT1_IES_R |= PORT_IES_R_PIN5_MASK;
-        PORT1_OUT_R |= PORT_OUT_R_PIN2_MASK;
-        u16Status = LPM4_bits;
-    }
-    return (u16Status);
-}
-
-uint16_t MAIN_u16SwitchP1_6(void)
-{
-    uint16_t u16Status = 0U;
-    uint8_t u8Edge = PORT1_IES_R;
-    if(0UL != (u8Edge & PORT_IES_R_PIN6_MASK)) /*High-To-Low*/
-    {
-        PORT1_IES_R &= ~PORT_IES_R_PIN6_MASK;
-        PORT1_OUT_R &= ~PORT_OUT_R_PIN1_MASK;
-        u16Status = 0U; /*Active Mode*/
-    }
-    else /*Low-To-High*/
-    {
-        PORT1_IES_R |= PORT_IES_R_PIN6_MASK;
-        PORT1_OUT_R |= PORT_OUT_R_PIN1_MASK;
-        u16Status = LPM4_bits;
-    }
-    return (u16Status);
-}
-
-uint16_t MAIN_u16SwitchP1_7(void)
-{
-    uint16_t u16Status = 0U;
-    uint8_t u8Edge = PORT1_IES_R;
-    if(0UL != (u8Edge & PORT_IES_R_PIN7_MASK)) /*High-To-Low*/
-    {
-        PORT1_IES_R &= ~PORT_IES_R_PIN7_MASK;
-        PORT1_OUT_R &= ~PORT_OUT_R_PIN0_MASK;
-        u16Status = 0U; /*Active Mode*/
-    }
-    else /*Low-To-High*/
-    {
-        PORT1_IES_R |= PORT_IES_R_PIN7_MASK;
-        PORT1_OUT_R |= PORT_OUT_R_PIN0_MASK;
         u16Status = LPM4_bits;
     }
     return (u16Status);
@@ -179,82 +79,54 @@ uint16_t MAIN_u16SwitchP1_7(void)
 void MAIN_vInitInput(void)
 {
     /*P1.4 - P1.7 como entradas*/
-    GPIO__vWriteRegister(GPIO_enPORT1,
-                         PORT_DIR_OFFSET,
-                         0U,
-                         (PORT_DIR_R_PIN4_MASK |
-                         PORT_DIR_R_PIN5_MASK |
-                         PORT_DIR_R_PIN6_MASK |
-                         PORT_DIR_R_PIN7_MASK),
-                         0U);
+    GPIO__vWriteRegister(SWITCH1_PORT, PORT_DIR_OFFSET, 0U, 1U, SWITCH1_PIN);
+    GPIO__vWriteRegister(SWITCH2_PORT, PORT_DIR_OFFSET, 0U, 1U, SWITCH2_PIN);
+    GPIO__vWriteRegister(SWITCH3_PORT, PORT_DIR_OFFSET, 0U, 1U, SWITCH3_PIN);
+    GPIO__vWriteRegister(SWITCH4_PORT, PORT_DIR_OFFSET, 0U, 1U, SWITCH4_PIN);
+
     /*P1.4 - P1.7 configurar com I/O*/
-    GPIO__vWriteRegister(GPIO_enPORT1,
-                         PORT_EXT_SEL_OFFSET,
-                         0U,
-                         (PORT_DIR_R_PIN4_MASK |
-                         PORT_DIR_R_PIN5_MASK |
-                         PORT_DIR_R_PIN6_MASK |
-                         PORT_DIR_R_PIN7_MASK),
-                         0U);
+    GPIO__vWriteRegister(SWITCH1_PORT, PORT_EXT_SEL_OFFSET, 0U, 1U, SWITCH1_PIN);
+    GPIO__vWriteRegister(SWITCH2_PORT, PORT_EXT_SEL_OFFSET, 0U, 1U, SWITCH2_PIN);
+    GPIO__vWriteRegister(SWITCH3_PORT, PORT_EXT_SEL_OFFSET, 0U, 1U, SWITCH3_PIN);
+    GPIO__vWriteRegister(SWITCH4_PORT, PORT_EXT_SEL_OFFSET, 0U, 1U, SWITCH4_PIN);
 
     /*P1.4 - P1.7 Edge select High-To-Low*/
-    GPIO__vWriteRegister(GPIO_enPORT1,
-                         PORT_IES_OFFSET,
-                         (PORT_DIR_R_PIN4_MASK |
-                         PORT_DIR_R_PIN5_MASK |
-                         PORT_DIR_R_PIN6_MASK |
-                         PORT_DIR_R_PIN7_MASK),
-                         (PORT_DIR_R_PIN4_MASK |
-                         PORT_DIR_R_PIN5_MASK |
-                         PORT_DIR_R_PIN6_MASK |
-                         PORT_DIR_R_PIN7_MASK),
-                         0U);
+    GPIO__vWriteRegister(SWITCH1_PORT, PORT_IES_OFFSET, 1U, 1U, SWITCH1_PIN);
+    GPIO__vWriteRegister(SWITCH2_PORT, PORT_IES_OFFSET, 1U, 1U, SWITCH2_PIN);
+    GPIO__vWriteRegister(SWITCH3_PORT, PORT_IES_OFFSET, 1U, 1U, SWITCH3_PIN);
+    GPIO__vWriteRegister(SWITCH4_PORT, PORT_IES_OFFSET, 1U, 1U, SWITCH4_PIN);
 
     /*P1.4 - P1.7 Clear Interrupt Flags*/
-    GPIO__vClearInterruptSource(GPIO_enPORT1,
-          (GPIO_nPIN)(GPIO_enPIN4 | GPIO_enPIN5 | GPIO_enPIN6 | GPIO_enPIN7));
-    /*
-    GPIO__vClearInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER4);
-    GPIO__vClearInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER5);
-    GPIO__vClearInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER6);
-    GPIO__vClearInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER7);
-    */
+    GPIO__vClearInterruptSourceByNumber(SWITCH1_PORT, SWITCH1_PIN);
+    GPIO__vClearInterruptSourceByNumber(SWITCH2_PORT, SWITCH2_PIN);
+    GPIO__vClearInterruptSourceByNumber(SWITCH3_PORT, SWITCH3_PIN);
+    GPIO__vClearInterruptSourceByNumber(SWITCH4_PORT, SWITCH4_PIN);
 
     /*P1.4 - P1.7 Enable interrupt*/
-    GPIO__vEnaInterruptSource(GPIO_enPORT1,
-          (GPIO_nPIN)(GPIO_enPIN4 | GPIO_enPIN5 | GPIO_enPIN6 | GPIO_enPIN7));
-    /*
-    GPIO__vEnaInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER4);
-    GPIO__vEnaInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER5);
-    GPIO__vEnaInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER6);
-    GPIO__vEnaInterruptSourceByNumber(GPIO_enPORT1, GPIO_enPIN_NUMBER7);
-    */
+    GPIO__vEnaInterruptSourceByNumber(SWITCH1_PORT, SWITCH1_PIN);
+    GPIO__vEnaInterruptSourceByNumber(SWITCH2_PORT, SWITCH2_PIN);
+    GPIO__vEnaInterruptSourceByNumber(SWITCH3_PORT, SWITCH3_PIN);
+    GPIO__vEnaInterruptSourceByNumber(SWITCH4_PORT, SWITCH4_PIN);
 }
 
 void MAIN_vInitOutput(void)
 {
     /*P1.0 - P1.3 como Salidas*/
-    GPIO__vWriteRegister(GPIO_enPORT1,
-                         PORT_DIR_OFFSET,
-                         (PORT_DIR_R_PIN0_MASK | PORT_DIR_R_PIN1_MASK |
-                         PORT_DIR_R_PIN2_MASK | PORT_DIR_R_PIN3_MASK),
-                         (PORT_DIR_R_PIN0_MASK | PORT_DIR_R_PIN1_MASK |
-                         PORT_DIR_R_PIN2_MASK | PORT_DIR_R_PIN3_MASK),
-                         0U);
+    GPIO__vWriteRegister(LED1_PORT, PORT_DIR_OFFSET, 1U, 1U, LED1_PIN);
+    GPIO__vWriteRegister(LED2_PORT, PORT_DIR_OFFSET, 1U, 1U, LED2_PIN);
+    GPIO__vWriteRegister(LED3_PORT, PORT_DIR_OFFSET, 1U, 1U, LED3_PIN);
+    GPIO__vWriteRegister(LED4_PORT, PORT_DIR_OFFSET, 1U, 1U, LED4_PIN);
+
     /*P1.0 - P1.3 configurar com I/O*/
-    GPIO__vWriteRegister(GPIO_enPORT1,
-                         PORT_EXT_SEL_OFFSET,
-                         0U,
-                         (PORT_DIR_R_PIN0_MASK | PORT_DIR_R_PIN1_MASK |
-                         PORT_DIR_R_PIN2_MASK | PORT_DIR_R_PIN3_MASK),
-                         0U);
+    GPIO__vWriteRegister(LED1_PORT, PORT_EXT_SEL_OFFSET, 0U, 1U, LED1_PIN);
+    GPIO__vWriteRegister(LED2_PORT, PORT_EXT_SEL_OFFSET, 0U, 1U, LED2_PIN);
+    GPIO__vWriteRegister(LED3_PORT, PORT_EXT_SEL_OFFSET, 0U, 1U, LED3_PIN);
+    GPIO__vWriteRegister(LED4_PORT, PORT_EXT_SEL_OFFSET, 0U, 1U, LED4_PIN);
 
     /*P1.0 - P1.3 logica invertida*/
-    GPIO__vWriteRegister(GPIO_enPORT1,
-                         PORT_OUT_OFFSET,
-                         (PORT_DIR_R_PIN0_MASK | PORT_DIR_R_PIN1_MASK |
-                         PORT_DIR_R_PIN2_MASK | PORT_DIR_R_PIN3_MASK),
-                         (PORT_DIR_R_PIN0_MASK | PORT_DIR_R_PIN1_MASK |
-                         PORT_DIR_R_PIN2_MASK | PORT_DIR_R_PIN3_MASK),
-                         0U);
+    GPIO__vWriteRegister(LED1_PORT, PORT_OUT_OFFSET, 1U, 1U, LED1_PIN);
+    GPIO__vWriteRegister(LED2_PORT, PORT_OUT_OFFSET, 1U, 1U, LED2_PIN);
+    GPIO__vWriteRegister(LED3_PORT, PORT_OUT_OFFSET, 1U, 1U, LED3_PIN);
+    GPIO__vWriteRegister(LED4_PORT, PORT_OUT_OFFSET, 1U, 1U, LED4_PIN);
+
 }
