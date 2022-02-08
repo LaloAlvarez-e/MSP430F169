@@ -25,12 +25,13 @@
 #ifndef GPIO_DRIVER_INTRINSICS_INTERRUPT_INTERRUPTROUTINE_HEADER_GPIO_INTERRUPTROUTINE_SOURCE_H_
 #define GPIO_DRIVER_INTRINSICS_INTERRUPT_INTERRUPTROUTINE_HEADER_GPIO_INTERRUPTROUTINE_SOURCE_H_
 
+#include "MCU/Header/MCU_Common.h"
 #include "GPIO/Peripheral/Header/GPIO_Enum.h"
 #include "GPIO/Peripheral/GPIO_Peripheral.h"
 
-uint16_t (*GPIO__pu16fGetIRQSourceHandler(GPIO_nPORT enPortArg, GPIO_nPIN_NUMBER enPin))
-(PORT_EXT_t* pstPortArg, GPIO_nPIN_NUMBER enPinNumberArg);
+
+MCU__pu16fIRQSourceHandler_t GPIO__pu16fGetIRQSourceHandler(GPIO_nPORT enPortArg, GPIO_nPIN_NUMBER enPin);
 void GPIO__vSetIRQSourceHandler(GPIO_nPORT enPortArg, GPIO_nPIN_NUMBER enPin,
-            uint16_t (*IRQSourceHandler)(PORT_EXT_t* pstPortArg, GPIO_nPIN_NUMBER enPinNumberArg));
+                                MCU__pu16fIRQSourceHandler_t pu16fIRQSourceHandler);
 
 #endif /* GPIO_DRIVER_INTRINSICS_INTERRUPT_INTERRUPTROUTINE_HEADER_GPIO_INTERRUPTROUTINE_SOURCE_H_ */

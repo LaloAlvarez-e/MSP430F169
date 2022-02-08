@@ -23,12 +23,11 @@
  */
 #include "GPIO/Driver/Intrinsics/Interrupt/InterruptRoutine/Header/GPIO_InterruptRoutine_Source.h"
 
-static uint16_t GPIO_u16IRQSourceHandler_Dummy(PORT_EXT_t* pstPort,
-                                               GPIO_nPIN_NUMBER enPinNumber);
+static uint16_t GPIO_u16IRQSourceHandler_Dummy(uintptr_t uptrModule,
+                                               uint8_t u8IntSource);
 
-static uint16_t (*GPIO_pu16fIRQSourceHandler[(uint8_t) GPIO_enPORT2 + 1U]
-                                     [(uint8_t) GPIO_enPIN_NUMBER_MAX])
-                                             (PORT_EXT_t* pstPort, GPIO_nPIN_NUMBER enPinNumber) =
+static uint16_t (*GPIO_pu16fIRQSourceHandler[(uint8_t) GPIO_enPORT2 + 1U] [(uint8_t) GPIO_enPIN_NUMBER_MAX])
+                                     (uintptr_t uptrModule, uint8_t u8IntSource) =
 {
     {
         &GPIO_u16IRQSourceHandler_Dummy,
@@ -52,20 +51,18 @@ static uint16_t (*GPIO_pu16fIRQSourceHandler[(uint8_t) GPIO_enPORT2 + 1U]
     },
 };
 
-static uint16_t GPIO_u16IRQSourceHandler_Dummy(PORT_EXT_t* pstPort,
-                                               GPIO_nPIN_NUMBER enPinNumber)
+static uint16_t GPIO_u16IRQSourceHandler_Dummy(uintptr_t uptrModule,
+                                               uint8_t u8IntSource)
 {
     while(1U)
     {
     }
     return (0U);
 }
-
-uint16_t (*GPIO__pu16fGetIRQSourceHandler(GPIO_nPORT enPortArg, GPIO_nPIN_NUMBER enPin))
-(PORT_EXT_t* pstPortArg, GPIO_nPIN_NUMBER enPinNumberArg)
+MCU__pu16fIRQSourceHandler_t GPIO__pu16fGetIRQSourceHandler(GPIO_nPORT enPortArg, GPIO_nPIN_NUMBER enPin)
 {
-    uint16_t (*IRQSourceHandler)(PORT_EXT_t* pstPortArg, GPIO_nPIN_NUMBER enPinNumberArg) =
-            (uint16_t (*)(PORT_EXT_t* pstPortArg, GPIO_nPIN_NUMBER enPinNumberArg)) 0U;
+    uint16_t (*IRQSourceHandler)(uintptr_t uptrModule, uint8_t u8IntSource) =
+            (uint16_t (*)(uintptr_t uptrModule, uint8_t u8IntSource)) 0U;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
         IRQSourceHandler = GPIO_pu16fIRQSourceHandler[(uint8_t) enPortArg][(uint8_t) enPin];
@@ -74,10 +71,10 @@ uint16_t (*GPIO__pu16fGetIRQSourceHandler(GPIO_nPORT enPortArg, GPIO_nPIN_NUMBER
 }
 
 void GPIO__vSetIRQSourceHandler(GPIO_nPORT enPortArg, GPIO_nPIN_NUMBER enPin,
-                                uint16_t (*IRQSourceHandler)(PORT_EXT_t* pstPortArg, GPIO_nPIN_NUMBER enPinNumberArg))
+                                MCU__pu16fIRQSourceHandler_t pu16fIRQSourceHandler)
 {
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
-        GPIO_pu16fIRQSourceHandler[(uint8_t) enPortArg][(uint8_t) enPin] = IRQSourceHandler;
+    GPIO_pu16fIRQSourceHandler[(uint8_t) enPortArg][(uint8_t) enPin] = pu16fIRQSourceHandler;
     }
 }

@@ -31,4 +31,6 @@
 #define MCU_MASK_8 (0xFFU)
 #define MCU_MASK_16 (0xFFFFU)
 
+typedef uint16_t (*MCU__pu16fIRQSourceHandler_t)(uintptr_t uptrModule, uint8_t u8IntSource);
+
 #endif /* MCU_HEADER_MCU_COMMON_H_ */

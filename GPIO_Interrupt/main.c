@@ -27,7 +27,7 @@
 void MAIN_vInitInput(void);
 void MAIN_vInitOutput(void);
 
-uint16_t MAIN_u16Switch(PORT_EXT_t* pstPort, GPIO_nPIN_NUMBER enPinNumber);
+uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint8_t u8PinNumber);
 
 uint16_t u16Count = 0U;
 
@@ -54,23 +54,28 @@ void main(void)
 	}
 }
 
-uint16_t MAIN_u16Switch(PORT_EXT_t* pstPort, GPIO_nPIN_NUMBER enPinNumber)
+uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint8_t u8PinNumber)
 {
-    uint8_t u8Mask = 0U;
+    PORT_EXT_t* pstPort = (PORT_EXT_t*) uptrPort;
+    GPIO_nPIN_NUMBER enPinNumber = (GPIO_nPIN_NUMBER) u8PinNumber;
+    uint8_t u8Mask = 1U;
+    uint8_t u8ShiftLed = 7U;
+    uint8_t u8MaskLed = 1U;
     uint16_t u16Status = 0U;
     uint8_t u8Edge = pstPort->IES;
-    u8Mask = 1U;
     u8Mask <<= (uint8_t) enPinNumber;
+    u8ShiftLed -= u8PinNumber;
+    u8MaskLed <<= u8ShiftLed;
     if(0UL != (u8Edge & u8Mask)) /*High-To-Low*/
     {
         pstPort->IES &= ~u8Mask;
-        PORT1_OUT_R &= ~PORT_OUT_R_PIN3_MASK;
+        PORT1->OUT &= ~u8MaskLed;
         u16Status = 0U; /*Active Mode*/
     }
     else /*Low-To-High*/
     {
         pstPort->IES |= u8Mask;
-        PORT1_OUT_R |= PORT_OUT_R_PIN3_MASK;
+        PORT1->OUT |= u8MaskLed;
         u16Status = LPM4_bits;
     }
     return (u16Status);

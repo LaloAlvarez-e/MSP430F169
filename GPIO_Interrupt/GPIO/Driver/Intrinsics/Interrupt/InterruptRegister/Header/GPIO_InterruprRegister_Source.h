@@ -25,11 +25,12 @@
 #ifndef GPIO_DRIVER_INTRINSICS_INTERRUPT_INTERRUPTREGISTER_HEADER_GPIO_INTERRUPRREGISTER_SOURCE_H_
 #define GPIO_DRIVER_INTRINSICS_INTERRUPT_INTERRUPTREGISTER_HEADER_GPIO_INTERRUPRREGISTER_SOURCE_H_
 
+#include "MCU/Header/MCU_Common.h"
 #include "GPIO/Peripheral/Header/GPIO_Enum.h"
 #include "GPIO/Peripheral/GPIO_Peripheral.h"
 
 void GPIO__vRegisterIRQSourceHandler(GPIO_nPORT enPortArg,
          GPIO_nPIN_NUMBER enPinNumber,
-         uint16_t (*pu16fIRQSourceHandler)(PORT_EXT_t* pstPortArg, GPIO_nPIN_NUMBER enPinNumberArg));
+         MCU__pu16fIRQSourceHandler_t pu16fIRQSourceHandler);
 
 #endif /* GPIO_DRIVER_INTRINSICS_INTERRUPT_INTERRUPTREGISTER_HEADER_GPIO_INTERRUPRREGISTER_SOURCE_H_ */
