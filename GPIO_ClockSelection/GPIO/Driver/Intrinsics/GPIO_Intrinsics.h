@@ -1,6 +1,6 @@
 /**
  *
- * @file GPIO_Driver.h
+ * @file GPIO_Intrinsics.h
  * @copyright
  * @verbatim InDeviceMex 2021 @endverbatim
  *
@@ -22,14 +22,10 @@
  * 7 feb. 2022     InDeviceMex    1.0         initial Version@endverbatim
  */
 
-#ifndef GPIO_DRIVER_GPIO_DRIVER_H_
-#define GPIO_DRIVER_GPIO_DRIVER_H_
+#ifndef GPIO_DRIVER_INTRINSICS_GPIO_INTRINSICS_H_
+#define GPIO_DRIVER_INTRINSICS_GPIO_INTRINSICS_H_
 
-#include "GPIO/Driver/Intrinsics/GPIO_Intrinsics.h"
-#include "GPIO/Driver/Header/GPIO_Direction.h"
-#include "GPIO/Driver/Header/GPIO_Input.h"
-#include "GPIO/Driver/Header/GPIO_InterruptEdge.h"
-#include "GPIO/Driver/Header/GPIO_Output.h"
-#include "GPIO/Driver/Header/GPIO_Selection.h"
+#include "GPIO/Driver/Intrinsics/Interrupt/GPIO_Interrupt.h"
+#include "GPIO/Driver/Intrinsics/Primitives/GPIO_Primitives.h"
 
-#endif /* GPIO_DRIVER_GPIO_DRIVER_H_ */
+#endif /* GPIO_DRIVER_INTRINSICS_GPIO_INTRINSICS_H_ */

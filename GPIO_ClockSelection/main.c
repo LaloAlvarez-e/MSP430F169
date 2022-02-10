@@ -36,7 +36,22 @@ uint16_t u16Count = 0U;
  */
 void main(void)
 {
+    uint16_t u16Iter = 0U;
 	WDTCTL = WDTPW | WDTHOLD;	/*  stop watchdog timer*/
+
+	/**Configure DCO to max frequency ~5MHz*/
+	DCOCTL |= DCO0 | DCO1 | DCO2;
+	BCSCTL1 |= RSEL0 | RSEL1 | RSEL2;
+
+
+	BCSCTL1 &= ~XT2OFF; /*XT2 ON*/
+	do
+	{
+	    IFG1 &= ~OFIFG; /*Clear OFIFG*/
+	    for(u16Iter = 0U; u16Iter < 40000U; u16Iter++); /*At least 50us*/
+	}while(0U != (OFIFG & IFG1));
+	BCSCTL2 |= SELM1; /*MCLK = XT2*/
+
     GPIO__vRegisterIRQSourceHandler(SWITCH1_PORT, SWITCH1_PIN, &MAIN_u16Switch);
     GPIO__vRegisterIRQSourceHandler(SWITCH2_PORT, SWITCH2_PIN, &MAIN_u16Switch);
     GPIO__vRegisterIRQSourceHandler(SWITCH3_PORT, SWITCH3_PIN, &MAIN_u16Switch);
@@ -45,8 +60,20 @@ void main(void)
 	MAIN_vInitOutput();
 	_EINT();
 	/*_enable_interrupt();*/
-	LPM4;
+	/*LPM4;*/
 	_NOP();
+
+	/** ACLK*/
+	GPIO__vSetDirectionByNumber(GPIO_enPORT5, GPIO_enPIN_NUMBER6, GPIO_enDIR_OUTPUT);
+	GPIO__vSetSelectionByNumber(GPIO_enPORT5, GPIO_enPIN_NUMBER6, GPIO_enSEL_PERIPHERAL);
+	/** MCLK*/
+    GPIO__vSetDirectionByNumber(GPIO_enPORT5, GPIO_enPIN_NUMBER4, GPIO_enDIR_OUTPUT);
+    GPIO__vSetSelectionByNumber(GPIO_enPORT5, GPIO_enPIN_NUMBER4, GPIO_enSEL_PERIPHERAL);
+    /** SMCLK*/
+    GPIO__vSetDirectionByNumber(GPIO_enPORT5, GPIO_enPIN_NUMBER5, GPIO_enDIR_OUTPUT);
+    GPIO__vSetSelectionByNumber(GPIO_enPORT5, GPIO_enPIN_NUMBER5, GPIO_enSEL_PERIPHERAL);
+
+
 
 	while(1U)
 	{
