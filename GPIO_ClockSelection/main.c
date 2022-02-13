@@ -1,5 +1,6 @@
 #include "MCU/MCU.h"
 #include "GPIO/GPIO.h"
+#include "CLOCK/CLOCK.h"
 
 #include <msp430.h> 
 #include <stdint.h>
@@ -30,7 +31,6 @@ void MAIN_vInitOutput(void);
 uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint8_t u8PinNumber);
 
 uint16_t u16Count = 0U;
-
 /**
  * main.c
  */
@@ -40,17 +40,17 @@ void main(void)
 	WDTCTL = WDTPW | WDTHOLD;	/*  stop watchdog timer*/
 
 	/**Configure DCO to max frequency ~5MHz*/
-	DCOCTL |= DCO0 | DCO1 | DCO2;
-	BCSCTL1 |= RSEL0 | RSEL1 | RSEL2;
 
+    CLOCK_DCOCTL->DCO = CLOCK_DCOCTL_DCO_7;
+    CLOCK->BCSCTL1_bits.RSEL = CLOCK_BCSCTL1_RSEL_7;
 
-	BCSCTL1 &= ~XT2OFF; /*XT2 ON*/
+    CLOCK->BCSCTL1 &= ~ CLOCK_BCSCTL1_R_XT2OFF_MASK;
 	do
 	{
-	    IFG1 &= ~OFIFG; /*Clear OFIFG*/
-	    for(u16Iter = 0U; u16Iter < 40000U; u16Iter++); /*At least 50us*/
-	}while(0U != (OFIFG & IFG1));
-	BCSCTL2 |= SELM1; /*MCLK = XT2*/
+	    CLOCK_IFG1_R &= ~ CLOCK_IFG1_R_OFIFG_MASK;
+	    for(u16Iter = 0U; u16Iter < 400U; u16Iter++); /*At least 50us*/
+	}while(0U != (CLOCK_IFG1_R_OFIFG_MASK & CLOCK_IFG1_R));
+	CLOCK_BCSCTL2->SELM = CLOCK_BCSCTL2_SELM_XT2;
 
     GPIO__vRegisterIRQSourceHandler(SWITCH1_PORT, SWITCH1_PIN, &MAIN_u16Switch);
     GPIO__vRegisterIRQSourceHandler(SWITCH2_PORT, SWITCH2_PIN, &MAIN_u16Switch);
@@ -80,6 +80,7 @@ void main(void)
 	    u16Count++;
 	}
 }
+
 
 uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint8_t u8PinNumber)
 {
