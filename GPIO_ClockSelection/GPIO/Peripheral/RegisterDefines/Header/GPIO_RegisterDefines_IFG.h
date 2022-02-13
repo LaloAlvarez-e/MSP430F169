@@ -25,7 +25,7 @@
 #ifndef GPIO_PERIPHERAL_REGISTERDEFINES_HEADER_GPIO_REGISTERDEFINES_IFG_H_
 #define GPIO_PERIPHERAL_REGISTERDEFINES_HEADER_GPIO_REGISTERDEFINES_IFG_H_
 
-#include <stdint.h>
+#include "MCU/Header/MCU_Common.h"
 
 /******************************************************************************************
  ************************************ 5 IFG *********************************************

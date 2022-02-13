@@ -27,6 +27,18 @@
 
 typedef enum
 {
+    CLOCK_enINT_ENABLE_DIS = 0U,
+    CLOCK_enINT_ENABLE_ENA = 1U,
+}CLOCK_nINT_ENABLE;
+
+typedef enum
+{
+    CLOCK_enINT_STATUS_NOOCCUR = 0U,
+    CLOCK_enINT_STATUS_OCCUR = 1U,
+}CLOCK_nINT_STATUS;
+
+typedef enum
+{
     CLOCK_enSIGNAL_ACLK = 0U,
     CLOCK_enSIGNAL_SMCLK = 1U,
     CLOCK_enSIGNAL_MCLK = 2U,

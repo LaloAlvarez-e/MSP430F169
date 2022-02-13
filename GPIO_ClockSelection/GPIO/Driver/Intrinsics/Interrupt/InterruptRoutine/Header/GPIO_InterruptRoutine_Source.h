@@ -27,7 +27,6 @@
 
 #include "MCU/Header/MCU_Common.h"
 #include "GPIO/Peripheral/Header/GPIO_Enum.h"
-#include "GPIO/Peripheral/GPIO_Peripheral.h"
 
 
 MCU__pu16fIRQSourceHandler_t GPIO__pu16fGetIRQSourceHandler(GPIO_nPORT enPortArg, GPIO_nPIN_NUMBER enPin);

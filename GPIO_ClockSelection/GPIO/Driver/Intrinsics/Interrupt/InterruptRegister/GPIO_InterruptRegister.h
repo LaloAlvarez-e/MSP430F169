@@ -25,6 +25,6 @@
 #ifndef GPIO_DRIVER_INTRINSICS_INTERRUPT_INTERRUPTREGISTER_GPIO_INTERRUPTREGISTER_H_
 #define GPIO_DRIVER_INTRINSICS_INTERRUPT_INTERRUPTREGISTER_GPIO_INTERRUPTREGISTER_H_
 
-#include "GPIO/Driver/Intrinsics/Interrupt/InterruptRegister/Header/GPIO_InterruprRegister_Source.h"
+#include "GPIO/Driver/Intrinsics/Interrupt/InterruptRegister/Header/GPIO_InterruptRegister_Source.h"
 
 #endif /* GPIO_DRIVER_INTRINSICS_INTERRUPT_INTERRUPTREGISTER_GPIO_INTERRUPTREGISTER_H_ */

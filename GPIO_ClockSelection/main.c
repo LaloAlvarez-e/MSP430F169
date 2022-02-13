@@ -2,9 +2,6 @@
 #include "GPIO/GPIO.h"
 #include "CLOCK/CLOCK.h"
 
-#include <msp430.h> 
-#include <stdint.h>
-
 #define SWITCH1_PORT (GPIO_enPORT1)
 #define SWITCH2_PORT (GPIO_enPORT1)
 #define SWITCH3_PORT (GPIO_enPORT1)

@@ -25,7 +25,7 @@
 #ifndef GPIO_PERIPHERAL_REGISTERDEFINES_HEADER_GPIO_REGISTERDEFINES_IES_H_
 #define GPIO_PERIPHERAL_REGISTERDEFINES_HEADER_GPIO_REGISTERDEFINES_IES_H_
 
-#include <stdint.h>
+#include "MCU/Header/MCU_Common.h"
 
 /******************************************************************************************
  ************************************ 7 IES *********************************************

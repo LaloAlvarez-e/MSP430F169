@@ -25,7 +25,7 @@
 #ifndef CLOCK_PERIPHERAL_REGISTERDEFINES_HEADER_CLOCK_REGISTERDEFINES_BCSCTL1_H_
 #define CLOCK_PERIPHERAL_REGISTERDEFINES_HEADER_CLOCK_REGISTERDEFINES_BCSCTL1_H_
 
-#include <stdint.h>
+#include "MCU/Header/MCU_Common.h"
 
 /******************************************************************************************
  ************************************ 4 BCSCTL1 *********************************************

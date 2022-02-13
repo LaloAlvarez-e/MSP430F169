@@ -1,6 +1,6 @@
 /**
  *
- * @file GPIO_InterruprRegister_Source.c
+ * @file GPIO_InterruptRegister_Source.c
  * @copyright
  * @verbatim InDeviceMex 2021 @endverbatim
  *
@@ -22,7 +22,7 @@
  * 7 feb. 2022     InDeviceMex    1.0         initial Version@endverbatim
  */
 
-#include "GPIO/Driver/Intrinsics/Interrupt/InterruptRegister/Header/GPIO_InterruprRegister_Source.h"
+#include "GPIO/Driver/Intrinsics/Interrupt/InterruptRegister/Header/GPIO_InterruptRegister_Source.h"
 #include "GPIO/Driver/Intrinsics/Interrupt/InterruptRoutine/Header/GPIO_InterruptRoutine_Source.h"
 
 void GPIO__vRegisterIRQSourceHandler(GPIO_nPORT enPortArg,

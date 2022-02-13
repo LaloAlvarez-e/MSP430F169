@@ -27,7 +27,7 @@
 
 #include "GPIO/Peripheral/Header/GPIO_RegisterAddress.h"
 #include "GPIO/Peripheral/Header/GPIO_StructPeripheral.h"
-#include <stdint.h>
+#include "MCU/Header/MCU_Common.h"
 
 #define PORT1 ((PORT_EXT_t*) PORT1_BASE)
 

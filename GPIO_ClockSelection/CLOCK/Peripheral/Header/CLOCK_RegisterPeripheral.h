@@ -27,7 +27,7 @@
 
 #include "CLOCK/Peripheral/Header/CLOCK_RegisterAddress.h"
 #include "CLOCK/Peripheral/Header/CLOCK_StructPeripheral.h"
-#include <stdint.h>
+#include "MCU/Header/MCU_Common.h"
 
 #define CLOCK ((CLOCK_t*) CLOCK_BASE)
 

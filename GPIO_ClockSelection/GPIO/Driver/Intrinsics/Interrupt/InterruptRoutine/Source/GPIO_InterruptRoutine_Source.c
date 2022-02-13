@@ -26,8 +26,8 @@
 static uint16_t GPIO_u16IRQSourceHandler_Dummy(uintptr_t uptrModule,
                                                uint8_t u8IntSource);
 
-static uint16_t (*GPIO_pu16fIRQSourceHandler[(uint8_t) GPIO_enPORT2 + 1U] [(uint8_t) GPIO_enPIN_NUMBER_MAX])
-                                     (uintptr_t uptrModule, uint8_t u8IntSource) =
+static MCU__pu16fIRQSourceHandler_t GPIO_pu16fIRQSourceHandler[(uint8_t) GPIO_enPORT2 + 1U]
+                                                              [(uint8_t) GPIO_enPIN_NUMBER_MAX]=
 {
     {
         &GPIO_u16IRQSourceHandler_Dummy,
@@ -61,8 +61,7 @@ static uint16_t GPIO_u16IRQSourceHandler_Dummy(uintptr_t uptrModule,
 }
 MCU__pu16fIRQSourceHandler_t GPIO__pu16fGetIRQSourceHandler(GPIO_nPORT enPortArg, GPIO_nPIN_NUMBER enPin)
 {
-    uint16_t (*IRQSourceHandler)(uintptr_t uptrModule, uint8_t u8IntSource) =
-            (uint16_t (*)(uintptr_t uptrModule, uint8_t u8IntSource)) 0U;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandler = (MCU__pu16fIRQSourceHandler_t) 0U;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
         IRQSourceHandler = GPIO_pu16fIRQSourceHandler[(uint8_t) enPortArg][(uint8_t) enPin];

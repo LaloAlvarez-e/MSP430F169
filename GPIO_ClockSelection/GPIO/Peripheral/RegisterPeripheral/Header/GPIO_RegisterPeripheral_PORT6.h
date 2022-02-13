@@ -27,7 +27,7 @@
 
 #include "GPIO/Peripheral/Header/GPIO_RegisterAddress.h"
 #include "GPIO/Peripheral/Header/GPIO_StructPeripheral.h"
-#include <stdint.h>
+#include "MCU/Header/MCU_Common.h"
 
 #define PORT6 ((PORT_t*) PORT6_BASE)
 

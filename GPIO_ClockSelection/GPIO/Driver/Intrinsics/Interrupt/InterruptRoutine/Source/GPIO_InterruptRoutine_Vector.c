@@ -25,6 +25,7 @@
 #include "GPIO/Driver/Intrinsics/Interrupt/InterruptRoutine/Header/GPIO_InterruptRoutine_Source.h"
 
 #include "GPIO/Driver/Intrinsics/Primitives/GPIO_Primitives.h"
+#include "GPIO/Peripheral/GPIO_Peripheral.h"
 #include <msp430.h>
 
 #pragma vector = PORT1_VECTOR

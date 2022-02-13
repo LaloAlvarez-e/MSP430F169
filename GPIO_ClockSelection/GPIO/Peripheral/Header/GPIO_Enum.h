@@ -25,7 +25,7 @@
 #ifndef GPIO_PERIPHERAL_HEADER_GPIO_ENUM_H_
 #define GPIO_PERIPHERAL_HEADER_GPIO_ENUM_H_
 
-#include <stdint.h>
+#include "MCU/Header/MCU_Common.h"
 
 typedef enum
 {

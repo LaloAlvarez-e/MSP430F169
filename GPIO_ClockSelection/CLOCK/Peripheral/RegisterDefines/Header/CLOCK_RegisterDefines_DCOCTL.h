@@ -25,7 +25,7 @@
 #ifndef CLOCK_PERIPHERAL_REGISTERDEFINES_HEADER_CLOCK_REGISTERDEFINES_DCOCTL_H_
 #define CLOCK_PERIPHERAL_REGISTERDEFINES_HEADER_CLOCK_REGISTERDEFINES_DCOCTL_H_
 
-#include <stdint.h>
+#include "MCU/Header/MCU_Common.h"
 
 /******************************************************************************************
  ************************************ 3 DCOCTL *********************************************
