@@ -25,6 +25,7 @@
 #ifndef CLOCK_DRIVER_INTRINSICS_CLOCK_INTRINSICS_H_
 #define CLOCK_DRIVER_INTRINSICS_CLOCK_INTRINSICS_H_
 
+#include "CLOCK/Driver/Intrinsics/Interrupt/CLOCK_Interrupt.h"
 #include "CLOCK/Driver/Intrinsics/Primitives/CLOCK_Primitives.h"
 
 #endif /* CLOCK_DRIVER_INTRINSICS_CLOCK_INTRINSICS_H_ */

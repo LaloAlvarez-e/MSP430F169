@@ -25,6 +25,13 @@
 #ifndef CLOCK_PERIPHERAL_HEADER_CLOCK_ENUM_H_
 #define CLOCK_PERIPHERAL_HEADER_CLOCK_ENUM_H_
 
+
+typedef enum
+{
+    CLOCK_enSTATUS_OK = 0U,
+    CLOCK_enSTATUS_ERROR = 1U,
+}CLOCK_nSTATUS;
+
 typedef enum
 {
     CLOCK_enINT_ENABLE_DIS = 0U,

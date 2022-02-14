@@ -38,16 +38,18 @@ void main(void)
 
 	/**Configure DCO to max frequency ~5MHz*/
 
-    CLOCK_DCOCTL->DCO = CLOCK_DCOCTL_DCO_7;
-    CLOCK->BCSCTL1_bits.RSEL = CLOCK_BCSCTL1_RSEL_7;
+	CLOCK_BCSCTL2->DCOR = 1;
+    CLOCK_DCOCTL->DCO = CLOCK_DCOCTL_DCO_6;
+    CLOCK->BCSCTL1_bits.RSEL = CLOCK_BCSCTL1_RSEL_6;
 
-    CLOCK->BCSCTL1 &= ~ CLOCK_BCSCTL1_R_XT2OFF_MASK;
+
+    CLOCK__vSetXT2Enable(CLOCK_enENABLE_ENA);
 	do
 	{
 	    CLOCK_IFG1_R &= ~ CLOCK_IFG1_R_OFIFG_MASK;
 	    for(u16Iter = 0U; u16Iter < 400U; u16Iter++); /*At least 50us*/
 	}while(0U != (CLOCK_IFG1_R_OFIFG_MASK & CLOCK_IFG1_R));
-	CLOCK_BCSCTL2->SELM = CLOCK_BCSCTL2_SELM_XT2;
+	CLOCK__enSetMCLKSource(CLOCK_enSOURCE_XT2);
 
     GPIO__vRegisterIRQSourceHandler(SWITCH1_PORT, SWITCH1_PIN, &MAIN_u16Switch);
     GPIO__vRegisterIRQSourceHandler(SWITCH2_PORT, SWITCH2_PIN, &MAIN_u16Switch);
@@ -59,6 +61,10 @@ void main(void)
 	/*_enable_interrupt();*/
 	/*LPM4;*/
 	_NOP();
+
+    /** Rosc*/
+    GPIO__vSetDirectionByNumber(GPIO_enPORT2, GPIO_enPIN_NUMBER5, GPIO_enDIR_INPUT);
+    GPIO__vSetSelectionByNumber(GPIO_enPORT2, GPIO_enPIN_NUMBER5, GPIO_enSEL_PERIPHERAL);
 
 	/** ACLK*/
 	GPIO__vSetDirectionByNumber(GPIO_enPORT5, GPIO_enPIN_NUMBER6, GPIO_enDIR_OUTPUT);
@@ -95,13 +101,30 @@ uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint8_t u8PinNumber)
     {
         pstPort->IES &= ~u8Mask;
         PORT1->OUT &= ~u8MaskLed;
+        if(u8PinNumber == (uint8_t) SWITCH1_PIN)
+        {
+            CLOCK__vSetMCLKDividerByNumber(1U);
+        }
+        if(u8PinNumber == (uint8_t) SWITCH2_PIN)
+        {
+            CLOCK__vSetMCLKDividerByNumber(2U);
+        }
+        if(u8PinNumber == (uint8_t) SWITCH3_PIN)
+        {
+            CLOCK__vSetMCLKDividerByNumber(4U);
+        }
+        if(u8PinNumber == (uint8_t) SWITCH4_PIN)
+        {
+            CLOCK__vSetMCLKDividerByNumber(8U);
+        }
+
         u16Status = 0U; /*Active Mode*/
     }
     else /*Low-To-High*/
     {
         pstPort->IES |= u8Mask;
         PORT1->OUT |= u8MaskLed;
-        u16Status = LPM4_bits;
+        /*u16Status = LPM4_bits;*/
     }
     return (u16Status);
 }

@@ -25,6 +25,8 @@
 #ifndef CLOCK_DRIVER_INTRINSICS_INTERRUPT_CLOCK_INTERRUPT_H_
 #define CLOCK_DRIVER_INTRINSICS_INTERRUPT_CLOCK_INTERRUPT_H_
 
+#include "CLOCK/Driver/Intrinsics/Interrupt/InterruptRegister/CLOCK_InterruptRegister.h"
+#include "CLOCK/Driver/Intrinsics/Interrupt/InterruptRoutine/CLOCK_InterruptRoutine.h"
 #include "CLOCK/Driver/Intrinsics/Interrupt/Header/CLOCK_InterruptSource_Clear.h"
 #include "CLOCK/Driver/Intrinsics/Interrupt/Header/CLOCK_InterruptSource_Enable.h"
 #include "CLOCK/Driver/Intrinsics/Interrupt/Header/CLOCK_InterruptSource_Status.h"

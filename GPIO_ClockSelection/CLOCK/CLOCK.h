@@ -26,5 +26,6 @@
 #define CLOCK_CLOCK_H_
 
 #include "CLOCK/Peripheral/CLOCK_Peripheral.h"
+#include "CLOCK/Driver/CLOCK_Driver.h"
 
 #endif /* CLOCK_CLOCK_H_ */

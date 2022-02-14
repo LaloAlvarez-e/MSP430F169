@@ -26,6 +26,10 @@
 #define CLOCK_DRIVER_CLOCK_DRIVER_H_
 
 
+#include "CLOCK/Driver/Intrinsics/CLOCK_Intrinsics.h"
+#include "CLOCK/Driver/Header/CLOCK_Divisor.h"
+#include "CLOCK/Driver/Header/CLOCK_Enable.h"
+#include "CLOCK/Driver/Header/CLOCK_Selector.h"
 
 
 
