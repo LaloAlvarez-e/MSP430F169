@@ -1,5 +1,7 @@
 #include "DriverLib/DriverLib.h"
 
+#include "Modules/Segments/Segments.h"
+
 #define SWITCH1_PORT (GPIO_enPORT1)
 #define SWITCH2_PORT (GPIO_enPORT1)
 #define SWITCH3_PORT (GPIO_enPORT1)
@@ -26,13 +28,10 @@ void MAIN_vInitOutput(void);
 uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint8_t u8PinNumber);
 
 uint16_t u16Count = 0U;
-uint32_t u32FreqDCO = 0UL;
-uint32_t u32FreqMCLK = 0UL;
-uint32_t u32FreqSMCLK = 0UL;
-uint32_t u32FreqACLK = 0UL;
 /**
  * main.c
  */
+
 void main(void)
 {
     uint16_t u16Iter = 0U;
@@ -42,10 +41,8 @@ void main(void)
     GPIO__vSetDirectionByNumber(GPIO_enPORT2, GPIO_enPIN_NUMBER5, GPIO_enDIR_INPUT);
     GPIO__vSetSelectionByNumber(GPIO_enPORT2, GPIO_enPIN_NUMBER5, GPIO_enSEL_PERIPHERAL);
 
-    u32FreqDCO = CLOCK__u32GetDCOFrequency();
 	/**Configure DCO to max frequency ~5MHz*/
 	CLOCK__vSetDCOFrequency(8000000UL, CLOCK_enRESISTOR_EXTERNAL);
-	u32FreqDCO = CLOCK__u32GetDCOFrequency();
 
     CLOCK__vSetLFXT1FrequencyMode(CLOCK_enFREQMODE_LOW);
     CLOCK__vSetXT2Enable(CLOCK_enENABLE_ENA);
@@ -54,8 +51,11 @@ void main(void)
 	    CLOCK_IFG1_R &= ~ CLOCK_IFG1_R_OFIFG_MASK;
 	    for(u16Iter = 0U; u16Iter < 400U; u16Iter++); /*At least 50us*/
 	}while(0U != (CLOCK_IFG1_R_OFIFG_MASK & CLOCK_IFG1_R));
-	CLOCK__enSetMCLKSource(CLOCK_enSOURCE_LFXT1);
-    CLOCK__enSetSMCLKSource(CLOCK_enSOURCE_DCO);
+
+
+    CLOCK__enSetACLKSource(CLOCK_enSOURCE_LFXT1);
+	CLOCK__enSetMCLKSource(CLOCK_enSOURCE_DCO);
+    CLOCK__enSetSMCLKSource(CLOCK_enSOURCE_XT2);
 
     GPIO__vRegisterIRQSourceHandler(SWITCH1_PORT, SWITCH1_PIN, &MAIN_u16Switch);
     GPIO__vRegisterIRQSourceHandler(SWITCH2_PORT, SWITCH2_PIN, &MAIN_u16Switch);
@@ -64,24 +64,13 @@ void main(void)
 	MAIN_vInitInput();
 	MAIN_vInitOutput();
 
-	u32FreqMCLK = CLOCK__u32GetMCLKFrequency();
-	u32FreqSMCLK = CLOCK__u32GetSMCLKFrequency();
-	u32FreqACLK = CLOCK__u32GetACLKFrequency();
+	SEGMENTS__vInit();
+    SEGMENTS__vPrint(0U, SEGMENTS_enDIGIT1, SEGMENTS_enCOMMON_ANODE);
 
 	_EINT();
 	/*_enable_interrupt();*/
 	/*LPM4;*/
 	_NOP();
-
-	/** ACLK*/
-	GPIO__vSetDirectionByNumber(GPIO_enPORT5, GPIO_enPIN_NUMBER6, GPIO_enDIR_OUTPUT);
-	GPIO__vSetSelectionByNumber(GPIO_enPORT5, GPIO_enPIN_NUMBER6, GPIO_enSEL_PERIPHERAL);
-	/** MCLK*/
-    GPIO__vSetDirectionByNumber(GPIO_enPORT5, GPIO_enPIN_NUMBER4, GPIO_enDIR_OUTPUT);
-    GPIO__vSetSelectionByNumber(GPIO_enPORT5, GPIO_enPIN_NUMBER4, GPIO_enSEL_PERIPHERAL);
-    /** SMCLK*/
-    GPIO__vSetDirectionByNumber(GPIO_enPORT5, GPIO_enPIN_NUMBER5, GPIO_enDIR_OUTPUT);
-    GPIO__vSetSelectionByNumber(GPIO_enPORT5, GPIO_enPIN_NUMBER5, GPIO_enSEL_PERIPHERAL);
 
 
 
@@ -94,6 +83,8 @@ void main(void)
 
 uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint8_t u8PinNumber)
 {
+    static uint8_t u8Counter = 0U;
+    static uint8_t u8Digit = 0U;
     PORT_EXT_t* pstPort = (PORT_EXT_t*) uptrPort;
     GPIO_nPIN_NUMBER enPinNumber = (GPIO_nPIN_NUMBER) u8PinNumber;
     uint8_t u8Mask = 1U;
@@ -110,20 +101,21 @@ uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint8_t u8PinNumber)
         PORT1->OUT &= ~u8MaskLed;
         if(u8PinNumber == (uint8_t) SWITCH1_PIN)
         {
-            CLOCK__vSetMCLKDividerByNumber(1U);
+            u8Counter++;
+            if(9U < u8Counter)
+            {
+                u8Counter = 0U;
+            }
         }
         if(u8PinNumber == (uint8_t) SWITCH2_PIN)
         {
-            CLOCK__vSetMCLKDividerByNumber(2U);
+            u8Digit++;
+            if(SEGMENTS_enDIGIT_MAX <= u8Digit)
+            {
+                u8Digit = 0U;
+            }
         }
-        if(u8PinNumber == (uint8_t) SWITCH3_PIN)
-        {
-            CLOCK__vSetMCLKDividerByNumber(4U);
-        }
-        if(u8PinNumber == (uint8_t) SWITCH4_PIN)
-        {
-            CLOCK__vSetMCLKDividerByNumber(8U);
-        }
+        SEGMENTS__vPrint(u8Counter, u8Digit, SEGMENTS_enCOMMON_ANODE);
 
         u16Status = 0U; /*Active Mode*/
     }
