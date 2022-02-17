@@ -36,8 +36,8 @@ LPM
 
 ### Documentos de interes
 
-MSP430F169 : https://es.aliexpress.com/item/2006355219.html
-TI webpage: https://www.ti.com/product/MSP430F169
-Datasheet: https://www.ti.com/lit/ds/symlink/msp430f169.pdf
-User Family: https://www.ti.com/lit/ug/slau049f/slau049f.pdf
-Errata: https://www.ti.com/lit/er/slaz150i/slaz150i.pdf
+- MSP430F169 : https://es.aliexpress.com/item/2006355219.html
+- TI webpage: https://www.ti.com/product/MSP430F169
+- Datasheet: https://www.ti.com/lit/ds/symlink/msp430f169.pdf
+- User Family: https://www.ti.com/lit/ug/slau049f/slau049f.pdf
+- Errata: https://www.ti.com/lit/er/slaz150i/slaz150i.pdf
