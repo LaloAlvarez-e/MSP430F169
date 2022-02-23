@@ -24,8 +24,6 @@
 #include "Modules/Segments/Header/Segments_Print.h"
 #include "Modules/Segments/Header/Segments_Global.h"
 
-#define SEGMENTS_CODIFICATION_NUMBER (10U)
-
 /*
   A
   _
@@ -34,30 +32,156 @@ F|G|B
 E|_|C
   D
 OGFEDCBA Anode common
-0: 1100 0000
-1: 1111 1001
-2: 1010 0100
-3: 1011 0000
-4: 1001 1001
-5: 1001 0010
-6: 1000 0010
-7: 1111 1000
-8: 1000 0000
-9: 1001 1000
 */
+
+#define SEGMENT_SEGA_BIT (0U)
+#define SEGMENT_SEGB_BIT (1U)
+#define SEGMENT_SEGC_BIT (2U)
+#define SEGMENT_SEGD_BIT (3U)
+#define SEGMENT_SEGE_BIT (4U)
+#define SEGMENT_SEGF_BIT (5U)
+#define SEGMENT_SEGG_BIT (6U)
+#define SEGMENT_DOT_BIT  (7U)
+
+#define SEGMENT_COD(dot,g,f,e,d,c,b,a) (dot << SEGMENT_DOT_BIT)  | (g << SEGMENT_SEGG_BIT) | \
+                                       (f << SEGMENT_SEGF_BIT) | (e << SEGMENT_SEGE_BIT) | \
+                                       (d << SEGMENT_SEGD_BIT) | (c << SEGMENT_SEGC_BIT) | \
+                                       (b << SEGMENT_SEGB_BIT) | (a << SEGMENT_SEGA_BIT) \
+
+
+#define SEGMENTS_CODIFICATION_NUMBER   (128U)
+
 
 static uint8_t SEGMENTS_u8Codification[SEGMENTS_CODIFICATION_NUMBER] =
 {
-   0xC0,
-   0xF9,
-   0xA4,
-   0xB0,
-   0x99,
-   0x92,
-   0x82,
-   0xF8,
-   0x80,
-   0x98,
+    SEGMENT_COD(1U, 1U, 0U, 0U, 0U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 1U, 1U, 1U, 1U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 0U, 0U, 1U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 0U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 1U, 1U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 0U, 1U, 0U, 0U, 1U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 0U, 0U, 1U, 0U) ,
+    SEGMENT_COD(1U, 1U, 1U, 1U, 1U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 0U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 1U, 1U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 1U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 0U, 0U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 0U, 0U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 0U, 0U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 0U, 1U, 1U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 1U, 1U, 1U, 0U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 1U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(0U, 1U, 1U, 1U, 1U, 1U, 0U, 1U) ,
+    SEGMENT_COD(1U, 1U, 0U, 1U, 1U, 1U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 1U, 1U, 1U, 1U, 1U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 1U, 1U, 1U, 1U, 1U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(0U, 1U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(0U, 1U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 0U, 1U, 1U, 0U, 1U) ,
+    SEGMENT_COD(1U, 1U, 0U, 0U, 0U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 1U, 1U, 1U, 1U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 0U, 0U, 1U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 0U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 1U, 1U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 0U, 1U, 0U, 0U, 1U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 0U, 0U, 1U, 0U) ,
+    SEGMENT_COD(1U, 1U, 1U, 1U, 1U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 0U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 1U, 1U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 0U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(0U, 1U, 0U, 1U, 1U, 1U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 1U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 0U, 0U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 0U, 0U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 0U, 0U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 0U, 1U, 1U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 1U, 1U, 1U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 1U, 0U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 1U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 1U, 0U, 0U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 1U, 1U, 1U, 0U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 1U, 0U, 0U, 0U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 0U, 0U, 0U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 1U, 1U, 0U, 0U) ,
+    SEGMENT_COD(0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 1U, 1U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 0U, 1U, 0U, 0U, 1U, 0U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 1U, 0U, 0U, 0U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 1U, 0U, 0U, 0U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 1U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 0U, 0U, 1U, 0U, 0U) ,
+    SEGMENT_COD(1U, 1U, 0U, 0U, 0U, 1U, 1U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 1U, 1U, 0U, 1U, 1U) ,
+    SEGMENT_COD(1U, 1U, 1U, 1U, 0U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 1U, 0U, 1U, 1U, 1U, 0U, 0U) ,
+    SEGMENT_COD(1U, 1U, 1U, 1U, 0U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 1U, 0U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 1U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 0U, 0U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 0U, 0U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 0U, 0U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 0U, 1U, 1U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 1U, 1U, 1U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 1U, 0U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 1U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 1U, 0U, 0U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 1U, 1U, 1U, 0U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 1U, 0U, 0U, 0U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 0U, 0U, 0U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 1U, 1U, 0U, 0U) ,
+    SEGMENT_COD(0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 1U, 1U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 0U, 1U, 0U, 0U, 1U, 0U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 1U, 0U, 0U, 0U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 1U, 0U, 0U, 0U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 0U, 0U, 1U, 0U, 0U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 0U, 1U, 0U, 0U, 1U, 0U, 0U) ,
+    SEGMENT_COD(1U, 1U, 0U, 0U, 0U, 1U, 1U, 0U) ,
+    SEGMENT_COD(1U, 0U, 0U, 1U, 1U, 0U, 1U, 1U) ,
+    SEGMENT_COD(1U, 1U, 1U, 1U, 0U, 0U, 0U, 0U) ,
+    SEGMENT_COD(1U, 0U, 1U, 1U, 1U, 1U, 1U, 1U) ,
+    SEGMENT_COD(1U, 1U, 1U, 1U, 1U, 1U, 1U, 1U) ,
 };
 
 
@@ -79,6 +203,13 @@ void SEGMENTS__vPrint(uint8_t u8Number, SEGMENTS_nDIGIT enDigit, SEGMENTS_nCOMMO
         u8Codification = ~u8Codification;
     }
 
+    for(u8Count = 0U; u8Count < (uint8_t) SEGMENTS_enDIGIT_MAX; u8Count++)
+    {
+        enPort = SEGMENTS__enGetDigitPort((SEGMENTS_nDIGIT) u8Count);
+        enPin = SEGMENTS__enGetDigitPin((SEGMENTS_nDIGIT) u8Count);
+        GPIO__vSetOutputByNumber(enPort, enPin, (GPIO_nLEVEL) u8Level);
+    }
+
     for(u8Count = 0U; u8Count < (uint8_t) SEGMENTS_enSEG_MAX; u8Count++)
     {
         u8Bit0 = u8Codification & 1U;
@@ -86,14 +217,6 @@ void SEGMENTS__vPrint(uint8_t u8Number, SEGMENTS_nDIGIT enDigit, SEGMENTS_nCOMMO
         enPin = SEGMENTS__enGetSegPin((SEGMENTS_nSEG) u8Count);
         GPIO__vSetOutputByNumber(enPort, enPin, (GPIO_nLEVEL) u8Bit0);
         u8Codification >>= 1U;
-    }
-
-
-    for(u8Count = 0U; u8Count < (uint8_t) SEGMENTS_enDIGIT_MAX; u8Count++)
-    {
-        enPort = SEGMENTS__enGetDigitPort((SEGMENTS_nDIGIT) u8Count);
-        enPin = SEGMENTS__enGetDigitPin((SEGMENTS_nDIGIT) u8Count);
-        GPIO__vSetOutputByNumber(enPort, enPin, (GPIO_nLEVEL) u8Level);
     }
 
     enPort = SEGMENTS__enGetDigitPort(enDigit);

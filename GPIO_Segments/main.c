@@ -27,7 +27,8 @@ void MAIN_vInitOutput(void);
 
 uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint8_t u8PinNumber);
 
-uint16_t u16Count = 0U;
+static uint8_t u8Counter = 0U;
+static uint8_t u8Mode = 0U;
 /**
  * main.c
  */
@@ -35,6 +36,11 @@ uint16_t u16Count = 0U;
 void main(void)
 {
     uint16_t u16Iter = 0U;
+    uint8_t u8Value = 0U;
+    uint8_t u8Digit = 0U;
+    uint8_t u8ValueMod = 0U;
+    uint8_t* pu8Char ="RED ";
+    uint8_t* pu8CharTemp = pu8Char;
 	WDTCTL = WDTPW | WDTHOLD;	/*  stop watchdog timer*/
 
     /** Rosc*/
@@ -49,7 +55,7 @@ void main(void)
 	do
 	{
 	    CLOCK_IFG1_R &= ~ CLOCK_IFG1_R_OFIFG_MASK;
-	    for(u16Iter = 0U; u16Iter < 400U; u16Iter++); /*At least 50us*/
+	    for(u16Iter = 0U; u16Iter < 4000U; u16Iter++); /*At least 50us*/
 	}while(0U != (CLOCK_IFG1_R_OFIFG_MASK & CLOCK_IFG1_R));
 
 
@@ -65,7 +71,6 @@ void main(void)
 	MAIN_vInitOutput();
 
 	SEGMENTS__vInit();
-    SEGMENTS__vPrint(0U, SEGMENTS_enDIGIT1, SEGMENTS_enCOMMON_ANODE);
 
 	_EINT();
 	/*_enable_interrupt();*/
@@ -76,15 +81,30 @@ void main(void)
 
 	while(1U)
 	{
-	    u16Count++;
+        pu8CharTemp = pu8Char;
+        u8Value = u8Counter;
+        for(u8Digit = 0U ; u8Digit < (uint8_t) SEGMENTS_enDIGIT_MAX; u8Digit++)
+        {
+            if(0U == u8Mode)
+            {
+                u8ValueMod = u8Value;
+                u8ValueMod %= 10U;
+                u8Value/= 10U;
+                SEGMENTS__vPrint(u8ValueMod, u8Digit, SEGMENTS_enCOMMON_ANODE);
+            }
+            else
+            {
+                SEGMENTS__vPrint(*pu8CharTemp, SEGMENTS_enDIGIT_MAX - u8Digit - 1U, SEGMENTS_enCOMMON_ANODE);
+                pu8CharTemp++;
+            }
+            for(u16Iter = 0U; u16Iter < 7000U; u16Iter++); /*At least 50us*/
+        }
 	}
 }
 
 
 uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint8_t u8PinNumber)
 {
-    static uint8_t u8Counter = 0U;
-    static uint8_t u8Digit = 0U;
     PORT_EXT_t* pstPort = (PORT_EXT_t*) uptrPort;
     GPIO_nPIN_NUMBER enPinNumber = (GPIO_nPIN_NUMBER) u8PinNumber;
     uint8_t u8Mask = 1U;
@@ -102,21 +122,15 @@ uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint8_t u8PinNumber)
         if(u8PinNumber == (uint8_t) SWITCH1_PIN)
         {
             u8Counter++;
-            if(9U < u8Counter)
-            {
-                u8Counter = 0U;
-            }
         }
         if(u8PinNumber == (uint8_t) SWITCH2_PIN)
         {
-            u8Digit++;
-            if(SEGMENTS_enDIGIT_MAX <= u8Digit)
-            {
-                u8Digit = 0U;
-            }
+            u8Counter = 0U;
         }
-        SEGMENTS__vPrint(u8Counter, u8Digit, SEGMENTS_enCOMMON_ANODE);
-
+        if(u8PinNumber == (uint8_t) SWITCH3_PIN)
+        {
+            u8Mode ^= 1U;
+        }
         u16Status = 0U; /*Active Mode*/
     }
     else /*Low-To-High*/
