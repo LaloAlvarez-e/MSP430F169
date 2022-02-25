@@ -23,9 +23,9 @@ void main(void)
     CLOCK__vSetXT2Enable(CLOCK_enENABLE_ENA);
 	do
 	{
-	    CLOCK_IFG1_R &= ~ CLOCK_IFG1_R_OFIFG_MASK;
+	    CLOCK_IFG1_R &= ~ CLOCK_IFG1_R_IFG_MASK;
 	    for(u16Iter = 0U; u16Iter < 4000U; u16Iter++); /*At least 50us*/
-	}while(0U != (CLOCK_IFG1_R_OFIFG_MASK & CLOCK_IFG1_R));
+	}while(0U != (CLOCK_IFG1_R_IFG_MASK & CLOCK_IFG1_R));
 
     CLOCK__enSetACLKSource(CLOCK_enSOURCE_LFXT1); /*32768 Hz*/
 	CLOCK__enSetMCLKSource(CLOCK_enSOURCE_DCO); /*~8 MHz*/
@@ -35,28 +35,9 @@ void main(void)
     GPIO__vSetSelectionByNumber(LED4_PORT, LED4_PIN, GPIO_enSEL_IO);
     GPIO__vSetOutputByNumber(LED4_PORT, LED4_PIN, GPIO_enLEVEL_HIGH);
 
-    WDTCTL = WDTPW | WDTNMIES | WDTHOLD;   /*  stop watchdog timer*/
-    WDTCTL = WDTPW | WDTNMIES | WDTNMI | WDTHOLD;   /*  stop watchdog timer*/
-    CLOCK_IFG1_R &= ~(0x10);
-    CLOCK_IE1_R |= (0x10);
-
 	while(1U)
 	{
 	}
-}
-
-
-#pragma vector = NMI_VECTOR
-__interrupt void NMI_vIRQHandler(void)
-{
-    static uint8_t u8Value = 1UL;
-    if(CLOCK_IFG1_R & 0x10)
-    {
-        CLOCK_IFG1_R &= ~ (0x10);
-        CLOCK_IE1_R |= (0x10);
-        u8Value ^= 1UL;
-        GPIO__vSetOutputByNumber(LED4_PORT, LED4_PIN, (GPIO_nLEVEL) u8Value);
-    }
 }
 
 

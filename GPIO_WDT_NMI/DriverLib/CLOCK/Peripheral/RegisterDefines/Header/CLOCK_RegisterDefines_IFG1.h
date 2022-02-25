@@ -31,15 +31,15 @@
  ************************************ 2 IFG1 *********************************************
  ******************************************************************************************/
 /*-----------*/
-#define CLOCK_IFG1_R_OFIFG_BIT ((uint8_t) 1U)
+#define CLOCK_IFG1_R_IFG_BIT ((uint8_t) 1U)
 
-#define CLOCK_IFG1_OFIFG_MASK ((uint8_t) 0x01U)
-#define CLOCK_IFG1_OFIFG_NOOCCUR ((uint8_t) 0x00U)
-#define CLOCK_IFG1_OFIFG_OCCUR ((uint8_t) 0x01U)
+#define CLOCK_IFG1_IFG_MASK ((uint8_t) 0x01U)
+#define CLOCK_IFG1_IFG_NOOCCUR ((uint8_t) 0x00U)
+#define CLOCK_IFG1_IFG_OCCUR ((uint8_t) 0x01U)
 
-#define CLOCK_IFG1_R_OFIFG_MASK (CLOCK_IFG1_OFIFG_MASK<< CLOCK_IFG1_R_OFIFG_BIT)
-#define CLOCK_IFG1_R_OFIFG_NOOCCUR (CLOCK_IFG1_OFIFG_NOOCCUR << CLOCK_IFG1_R_OFIFG_BIT)
-#define CLOCK_IFG1_R_OFIFG_OCCUR (CLOCK_IFG1_OFIFG_OCCUR << CLOCK_IFG1_R_OFIFG_BIT)
+#define CLOCK_IFG1_R_IFG_MASK (CLOCK_IFG1_IFG_MASK<< CLOCK_IFG1_R_IFG_BIT)
+#define CLOCK_IFG1_R_IFG_NOOCCUR (CLOCK_IFG1_IFG_NOOCCUR << CLOCK_IFG1_R_IFG_BIT)
+#define CLOCK_IFG1_R_IFG_OCCUR (CLOCK_IFG1_IFG_OCCUR << CLOCK_IFG1_R_IFG_BIT)
 /*-----------*/
 
 #endif /* CLOCK_PERIPHERAL_REGISTERDEFINES_HEADER_CLOCK_REGISTERDEFINES_IFG1_H_ */

@@ -29,8 +29,8 @@
 void CLOCK__vClearInterruptSource(void)
 {
     CLOCK__vWriteRegister(CLOCK_IFG1_OFFSET,
-                         CLOCK_IFG1_OFIFG_NOOCCUR,
-                         CLOCK_IFG1_OFIFG_MASK,
-                         CLOCK_IFG1_R_OFIFG_BIT);
+                         CLOCK_IFG1_IFG_NOOCCUR,
+                         CLOCK_IFG1_IFG_MASK,
+                         CLOCK_IFG1_R_IFG_BIT);
 }
 
