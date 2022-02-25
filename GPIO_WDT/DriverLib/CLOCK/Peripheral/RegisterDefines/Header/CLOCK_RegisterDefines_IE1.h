@@ -31,15 +31,15 @@
  ************************************ 1 IE1 *********************************************
  ******************************************************************************************/
 /*-----------*/
-#define CLOCK_IE1_R_OFIE_BIT ((uint8_t) 1U)
+#define CLOCK_IE1_R_IE_BIT ((uint8_t) 1U)
 
-#define CLOCK_IE1_OFIE_MASK ((uint8_t) 0x01U)
-#define CLOCK_IE1_OFIE_DIS ((uint8_t) 0x00U)
-#define CLOCK_IE1_OFIE_ENA ((uint8_t) 0x01U)
+#define CLOCK_IE1_IE_MASK ((uint8_t) 0x01U)
+#define CLOCK_IE1_IE_DIS ((uint8_t) 0x00U)
+#define CLOCK_IE1_IE_ENA ((uint8_t) 0x01U)
 
-#define CLOCK_IE1_R_OFIE_MASK (CLOCK_IE1_OFIE_MASK<< CLOCK_IE1_R_OFIE_BIT)
-#define CLOCK_IE1_R_OFIE_DIS (CLOCK_IE1_OFIE_DIS << CLOCK_IE1_R_OFIE_BIT)
-#define CLOCK_IE1_R_OFIE_ENA (CLOCK_IE1_OFIE_ENA << CLOCK_IE1_R_OFIE_BIT)
+#define CLOCK_IE1_R_IE_MASK (CLOCK_IE1_IE_MASK<< CLOCK_IE1_R_IE_BIT)
+#define CLOCK_IE1_R_IE_DIS (CLOCK_IE1_IE_DIS << CLOCK_IE1_R_IE_BIT)
+#define CLOCK_IE1_R_IE_ENA (CLOCK_IE1_IE_ENA << CLOCK_IE1_R_IE_BIT)
 /*-----------*/
 
 

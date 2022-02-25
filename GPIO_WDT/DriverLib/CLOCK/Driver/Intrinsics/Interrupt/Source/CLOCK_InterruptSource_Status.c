@@ -30,16 +30,16 @@ void CLOCK__vSetStatusInterruptSource(CLOCK_nINT_STATUS enStatus)
 {
     CLOCK__vWriteRegister(CLOCK_IFG1_OFFSET,
                          (uint8_t) enStatus,
-                         CLOCK_IFG1_OFIFG_MASK,
-                         CLOCK_IFG1_R_OFIFG_BIT);
+                         CLOCK_IFG1_IFG_MASK,
+                         CLOCK_IFG1_R_IFG_BIT);
 }
 
 CLOCK_nINT_STATUS CLOCK__enGetStatusInterruptSource(void)
 {
     CLOCK_nINT_STATUS enStatus = CLOCK_enINT_STATUS_NOOCCUR;
     enStatus = (CLOCK_nINT_STATUS) CLOCK__u8ReadRegister(CLOCK_IFG1_OFFSET,
-                                                         CLOCK_IFG1_OFIFG_MASK,
-                                                         CLOCK_IFG1_R_OFIFG_BIT);
+                                                         CLOCK_IFG1_IFG_MASK,
+                                                         CLOCK_IFG1_R_IFG_BIT);
     return (enStatus);
 }
 

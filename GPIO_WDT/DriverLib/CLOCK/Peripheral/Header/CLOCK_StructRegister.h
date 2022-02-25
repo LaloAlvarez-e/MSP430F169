@@ -52,14 +52,14 @@ typedef volatile struct
 typedef volatile struct
 {
     const unsigned char reserved1 : 1;
-    volatile unsigned char OFIE : 1;
+    volatile unsigned char IE : 1;
     const unsigned char reserved2 : 6;
 }CLOCK_IE1_t;
 
 typedef volatile struct
 {
     const unsigned char reserved1 : 1;
-    volatile unsigned char OFIFG : 1;
+    volatile unsigned char IFG : 1;
     const unsigned char reserved2 : 6;
 }CLOCK_IFG1_t;
 
