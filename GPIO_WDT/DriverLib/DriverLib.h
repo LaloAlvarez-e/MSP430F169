@@ -28,6 +28,7 @@
 #include "DriverLib/MCU/MCU.h"
 #include "DriverLib/CLOCK/CLOCK.h"
 #include "DriverLib/GPIO/GPIO.h"
+#include "DriverLib/WDT/WDT.h"
 
 
 

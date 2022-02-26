@@ -1,5 +1,7 @@
 #include "DriverLib/DriverLib.h"
 
+uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source);
+
 #define LED4_PORT (GPIO_enPORT1)
 #define LED4_PIN (GPIO_enPIN_NUMBER3)
 /**
@@ -10,7 +12,15 @@ uint8_t u8Activate = 0U;
 void main(void)
 {
     uint16_t u16Iter = 0U;
-	WDTCTL = WDTPW | WDTHOLD;	/*  stop watchdog timer*/
+    WDT_CONFIG_t stWDTConfig =
+    {
+     WDT_enENABLE_RUN,
+     WDT_enINT_ENABLE_ENA,
+     WDT_enMODE_INTERVAL,
+     WDT_enCLOCK_ACLK,
+     WDT_enINTERVAL_32768,
+    };
+    WDT__vSetEnable(WDT_enENABLE_STOP); /*  stop watchdog timer*/
 
     /** Rosc*/
     GPIO__vSetDirectionByNumber(GPIO_enPORT2, GPIO_enPIN_NUMBER5, GPIO_enDIR_INPUT);
@@ -35,9 +45,21 @@ void main(void)
     GPIO__vSetSelectionByNumber(LED4_PORT, LED4_PIN, GPIO_enSEL_IO);
     GPIO__vSetOutputByNumber(LED4_PORT, LED4_PIN, GPIO_enLEVEL_HIGH);
 
+    WDT__vRegisterIRQSourceHandler(&MAIN_u16WDTInterval);
+    WDT__vSetConfig(&stWDTConfig);
+
+    _EINT();
 	while(1U)
 	{
 	}
+}
+
+uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source)
+{
+    static uint8_t u8Level = 1U;
+    u8Level ^= 1U;
+    GPIO__vSetOutputByNumber(LED4_PORT, LED4_PIN, (GPIO_nLEVEL) u8Level);
+    return (0U);
 }
 
 

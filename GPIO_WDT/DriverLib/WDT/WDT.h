@@ -25,8 +25,8 @@
 #ifndef DRIVERLIB_WDT_WDT_H_
 #define DRIVERLIB_WDT_WDT_H_
 
-
-
-
+#include "DriverLib/WDT/Peripheral/WDT_Peripheral.h"
+#include "DriverLib/WDT/Driver/WDT_Driver.h"
+#include "DriverLib/WDT/App/WDT_App.h"
 
 #endif /* DRIVERLIB_WDT_WDT_H_ */

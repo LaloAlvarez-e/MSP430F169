@@ -25,6 +25,8 @@
 #ifndef DRIVERLIB_WDT_PERIPHERAL_HEADER_WDT_ENUM_H_
 #define DRIVERLIB_WDT_PERIPHERAL_HEADER_WDT_ENUM_H_
 
+#include "DriverLib/MCU/Header/MCU_Common.h"
+
 typedef enum
 {
     WDT_enSTATUS_OK = 0U,
@@ -63,11 +65,21 @@ typedef enum
 
 typedef enum
 {
-    WDT_enPERIOD_32768 = 0U,
-    WDT_enPERIOD_8192 = 1U,
-    WDT_enPERIOD_512 = 2U,
-    WDT_enPERIOD_64 = 3U,
-}WDT_nPERIOD;
+    WDT_enINTERVAL_32768 = 0U,
+    WDT_enINTERVAL_8192 = 1U,
+    WDT_enINTERVAL_512 = 2U,
+    WDT_enINTERVAL_64 = 3U,
+}WDT_nINTERVAL;
+
+
+typedef struct
+{
+    WDT_nENABLE enEnable;
+    WDT_nINT_ENABLE enIntEnable;
+    WDT_nMODE enMode;
+    WDT_nCLOCK enClock;
+    WDT_nINTERVAL enInterval;
+}WDT_CONFIG_t;
 
 
 #endif /* DRIVERLIB_WDT_PERIPHERAL_HEADER_WDT_ENUM_H_ */

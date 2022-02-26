@@ -31,13 +31,11 @@
 #pragma vector = PORT1_VECTOR
 __interrupt void PORT1_IRQVectorHandler(void)
 {
-    uint16_t (*IRQSourceHandlerReg)
-        (uintptr_t uptrModule, uint8_t u8IntSource) = (uint16_t (*)
-                    (uintptr_t uptrModule, uint8_t u8IntSource)) 0UL;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
     uint16_t u16Status = LPM4_bits;
     uint8_t u8Flags = PORT1_IFG_R;
     uint8_t u8Enable = PORT1_IE_R;
-    uintptr_t optrBaseAddress = PORT1_BASE;
+    const uintptr_t optrBaseAddress = PORT1_BASE;
 
     u8Flags &= u8Enable;
     if(0U != (u8Flags & PORT_IFG_R_PIN0_MASK))
@@ -98,13 +96,11 @@ __interrupt void PORT1_IRQVectorHandler(void)
 #pragma vector = PORT2_VECTOR
 __interrupt void PORT2_IRQVectorHandler(void)
 {
-    uint16_t (*IRQSourceHandlerReg)
-        (uintptr_t uptrModule, uint8_t u8IntSource) = (uint16_t (*)
-                (uintptr_t uptrModule, uint8_t u8IntSource)) 0UL;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
     uint16_t u16Status = LPM4_bits;
     uint8_t u8Flags = PORT2_IFG_R;
     uint8_t u8Enable = PORT2_IE_R;
-    uintptr_t optrBaseAddress = PORT2_BASE;
+    const uintptr_t optrBaseAddress = PORT2_BASE;
 
     u8Flags &= u8Enable;
     if(0U != (u8Flags & PORT_IFG_R_PIN0_MASK))

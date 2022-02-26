@@ -25,8 +25,8 @@
 #ifndef DRIVERLIB_WDT_PERIPHERAL_REGISTERDEFINES_WDT_REGISTERDEFINES_H_
 #define DRIVERLIB_WDT_PERIPHERAL_REGISTERDEFINES_WDT_REGISTERDEFINES_H_
 
-#include "WDT/Peripheral/RegisterDefines/Header/WDT_RegisterDefines_CTL.h"
-#include "WDT/Peripheral/RegisterDefines/Header/WDT_RegisterDefines_IE1.h"
-#include "WDT/Peripheral/RegisterDefines/Header/WDT_RegisterDefines_IFG1.h"
+#include "DriverLib/WDT/Peripheral/RegisterDefines/Header/WDT_RegisterDefines_CTL.h"
+#include "DriverLib/WDT/Peripheral/RegisterDefines/Header/WDT_RegisterDefines_IE1.h"
+#include "DriverLib/WDT/Peripheral/RegisterDefines/Header/WDT_RegisterDefines_IFG1.h"
 
 #endif /* DRIVERLIB_WDT_PERIPHERAL_REGISTERDEFINES_WDT_REGISTERDEFINES_H_ */
