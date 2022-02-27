@@ -27,7 +27,7 @@
 
 uint32_t CLOCK__u32GetXT2Frequency(void)
 {
-    uint32_t u32XT2FreqReg = CLOCK_XT2_FREQ;
+    const uint32_t u32XT2FreqReg = CLOCK_XT2_FREQ;
     return (u32XT2FreqReg);
 }
 

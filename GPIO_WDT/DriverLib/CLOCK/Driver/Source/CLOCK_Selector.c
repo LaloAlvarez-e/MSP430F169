@@ -137,7 +137,7 @@ CLOCK_nSOURCE CLOCK__enGetSource(CLOCK_nSIGNAL enClockSignal)
 
 CLOCK_nSOURCE CLOCK__enGetACLKSource(void)
 {
-    CLOCK_nSOURCE enSourceReg = CLOCK_enSOURCE_LFXT1;
+    const CLOCK_nSOURCE enSourceReg = CLOCK_enSOURCE_LFXT1;
     return (enSourceReg);
 }
 

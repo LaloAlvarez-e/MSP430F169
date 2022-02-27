@@ -30,13 +30,13 @@
 
 uint32_t CLOCK__u32GetXT1Frequency(void)
 {
-    uint32_t u32XT1FreqReg = CLOCK_XT1_FREQ;
+    const uint32_t u32XT1FreqReg = CLOCK_XT1_FREQ;
     return (u32XT1FreqReg);
 }
 
 uint32_t CLOCK__u32GetLFFrequency(void)
 {
-    uint32_t u32LFFreqReg = CLOCK_LF_FREQ;
+    const uint32_t u32LFFreqReg = CLOCK_LF_FREQ;
     return (u32LFFreqReg);
 }
 
