@@ -31,9 +31,10 @@ def main():
                 value = filename.find(WordToReplace);
                 if value is not -1:
                     newFileName = filename.replace(str(WordToReplace),str(ReplaceWord))
-                    pathFile = os.path.join(path, newFileName)
-                    print(newFileName)
-                    print(pathFile)
+                    newPathFile = os.path.join(path, newFileName)
+                    pathFile = os.path.join(path, filename)
+                    os.rename(pathFile, newPathFile)
+                    print(newPathFile)
     else:
         errorCode = 2
         print ("Dir Path is invalid")
