@@ -27,12 +27,7 @@
 
 #include "DriverLib/MCU/Header/MCU_Common.h"
 
-uint8_t MCU__u8ReadRegister(uintptr_t uptrRegisterAddress,
-                            uint8_t u8RegisterMask,
-                            uint8_t u8RegisterShift);
-
-uint16_t MCU__u16ReadRegister(uintptr_t uptrRegisterAddress,
-                            uint16_t u16RegisterMask,
-                            uint8_t u8RegisterShift);
+uint8_t MCU__u8ReadRegister(MCU_Register8Bits_t* pstRegisterDataArg);
+uint16_t MCU__u16ReadRegister(MCU_Register16Bits_t* pstRegisterDataArg);
 
 #endif /* MCU_HEADER_MCU_READREGISTER_H_ */

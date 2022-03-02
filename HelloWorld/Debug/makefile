@@ -126,15 +126,15 @@ EXE_OUTPUTS__QUOTED += \
 "HelloWorld.out" \
 
 BIN_OUTPUTS += \
-HelloWorld.hex \
+HelloWorld.txt \
 
 BIN_OUTPUTS__QUOTED += \
-"HelloWorld.hex" \
+"HelloWorld.txt" \
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "HelloWorld.out"
+	@$(MAKE) --no-print-directory -Onone "HelloWorld.out" secondary-outputs
 
 # Tool invocations
 HelloWorld.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
@@ -144,10 +144,10 @@ HelloWorld.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
-HelloWorld.hex: $(EXE_OUTPUTS)
+HelloWorld.txt: $(EXE_OUTPUTS)
 	@echo 'Building secondary target: "$@"'
 	@echo 'Invoking: MSP430 Hex Utility'
-	"D:/ti/ccs1031/ccs/tools/compiler/ti-cgt-msp430_21.6.0.LTS/bin/hex430" --memwidth=8 --romwidth=8 --diag_wrap=off -o "HelloWorld.hex" $(EXE_OUTPUTS__QUOTED)
+	"D:/ti/ccs1031/ccs/tools/compiler/ti-cgt-msp430_21.6.0.LTS/bin/hex430" --memwidth=8 --romwidth=8 --diag_wrap=off --ti_txt -o "HelloWorld.txt" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building secondary target: "$@"'
 	@echo ' '
 
@@ -158,6 +158,8 @@ clean:
 	-$(RM) "main.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
+
+secondary-outputs: $(BIN_OUTPUTS)
 
 .PHONY: all clean dependents
 .SECONDARY:

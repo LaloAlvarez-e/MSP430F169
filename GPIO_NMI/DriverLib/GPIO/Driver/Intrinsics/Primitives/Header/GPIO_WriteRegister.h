@@ -27,10 +27,8 @@
 
 #include "DriverLib/GPIO/Peripheral/Header/GPIO_Enum.h"
 
+
 void GPIO__vWriteRegister(GPIO_nPORT enPortArg,
-                          uintptr_t uptrRegisterAddress,
-                          uint8_t u8RegisterValue,
-                          uint8_t u8RegisterMask,
-                          uint8_t u8RegisterShift);
+                          GPIO_Register_t* pstRegisterData);
 
 #endif /* GPIO_DRIVER_INTRINSICS_PRIMITIVES_HEADER_GPIO_WRITEREGISTER_H_ */

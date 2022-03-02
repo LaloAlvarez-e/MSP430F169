@@ -27,7 +27,7 @@ void main(void)
     GPIO__vSetSelectionByNumber(GPIO_enPORT2, GPIO_enPIN_NUMBER5, GPIO_enSEL_PERIPHERAL);
 
 	/**Configure DCO to max frequency ~8MHz*/
-	CLOCK__vSetDCOFrequency(8000000UL, CLOCK_enRESISTOR_EXTERNAL);
+	CLOCK__vSetDCOFrequency(5000000UL, CLOCK_enRESISTOR_INTERNAL);
 
     CLOCK__vSetLFXT1FrequencyMode(CLOCK_enFREQMODE_LOW);
     CLOCK__vSetXT2Enable(CLOCK_enENABLE_ENA);

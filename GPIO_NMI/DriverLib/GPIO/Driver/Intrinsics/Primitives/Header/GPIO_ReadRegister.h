@@ -28,8 +28,6 @@
 #include "DriverLib/GPIO/Peripheral/Header/GPIO_Enum.h"
 
 uint8_t GPIO__u8ReadRegister(GPIO_nPORT enPortArg,
-                             uintptr_t uptrRegisterAddress,
-                             uint8_t u8RegisterMask,
-                             uint8_t u8RegisterShift);
+                             GPIO_Register_t* pstRegisterData);
 
 #endif /* GPIO_DRIVER_INTRINSICS_PRIMITIVES_HEADER_GPIO_READREGISTER_H_ */

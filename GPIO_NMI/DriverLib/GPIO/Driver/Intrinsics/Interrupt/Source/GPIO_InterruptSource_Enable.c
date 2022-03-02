@@ -30,6 +30,7 @@ void GPIO__vSetEnableInterruptSource(GPIO_nPORT enPortArg,
                                      GPIO_nPIN enPinMask,
                                      GPIO_nINT_ENABLE enState)
 {
+    GPIO_Register_t pstRegisterData = {0UL};
     uint8_t u8Value = 0U;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
@@ -37,11 +38,13 @@ void GPIO__vSetEnableInterruptSource(GPIO_nPORT enPortArg,
         {
             u8Value = (uint8_t) enPinMask;
         }
+        pstRegisterData.uptrAddress = PORT_IE_OFFSET;
+        pstRegisterData.u8Value = u8Value;
+        pstRegisterData.u8Mask = (uint8_t) enPinMask;
+        pstRegisterData.u8Shift = PORT_IE_R_PIN0_BIT;
+
         GPIO__vWriteRegister(enPortArg,
-                             PORT_IE_OFFSET,
-                             u8Value,
-                             (uint8_t) enPinMask,
-                             PORT_IE_R_PIN0_BIT);
+                             &pstRegisterData);
     }
 }
 

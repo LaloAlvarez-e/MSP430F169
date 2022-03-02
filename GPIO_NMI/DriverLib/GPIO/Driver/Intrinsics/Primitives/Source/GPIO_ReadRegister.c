@@ -27,19 +27,14 @@
 #include "DriverLib/MCU/MCU.h"
 
 uint8_t GPIO__u8ReadRegister(GPIO_nPORT enPortArg,
-                             uintptr_t uptrRegisterAddress,
-                             uint8_t u8RegisterMask,
-                             uint8_t u8RegisterShift)
+                             GPIO_Register_t* pstRegisterData)
 {
     uintptr_t ptrPortBase = 0U;
     uint8_t u8RegisterValue = 0U;
 
     ptrPortBase = GPIO__uptrBlockBaseAddress(enPortArg);
-    ptrPortBase += uptrRegisterAddress;
-
-    u8RegisterValue = MCU__u8ReadRegister(ptrPortBase,
-                                         u8RegisterMask,
-                                         u8RegisterShift);
+    pstRegisterData->uptrAddress += ptrPortBase;
+    u8RegisterValue = MCU__u8ReadRegister(pstRegisterData);
 
     return (u8RegisterValue);
 }

@@ -27,13 +27,7 @@
 
 #include "DriverLib/MCU/Header/MCU_Common.h"
 
-void MCU__vWriteRegister_8bits(uintptr_t uptrRegisterAddress,
-                               uint8_t u8RegisterValue,
-                               uint8_t u8RegisterMask,
-                               uint8_t u8RegisterShift);
-void MCU__vWriteRegister_16bits(uintptr_t uptrRegisterAddress,
-                               uint16_t u16RegisterValue,
-                               uint16_t u16RegisterMask,
-                               uint8_t u8RegisterShift);
+void MCU__vWriteRegister_8bits(MCU_Register8Bits_t* pstRegisterDataArg);
+void MCU__vWriteRegister_16bits(MCU_Register16Bits_t* pstRegisterDataArg);
 
 #endif /* MCU_HEADER_MCU_WRITEREGISTER_H_ */

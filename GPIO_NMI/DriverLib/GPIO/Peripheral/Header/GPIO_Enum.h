@@ -101,4 +101,6 @@ typedef enum
     GPIO_enINT_EDGE_FALLING = 1U,
 }GPIO_nINT_EDGE;
 
+typedef MCU_Register8Bits_t GPIO_Register_t;
+
 #endif /* GPIO_PERIPHERAL_HEADER_GPIO_ENUM_H_ */
