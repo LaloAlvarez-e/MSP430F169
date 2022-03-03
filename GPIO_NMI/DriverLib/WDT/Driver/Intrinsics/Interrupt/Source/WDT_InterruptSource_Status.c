@@ -28,20 +28,23 @@
 
 void WDT__vSetStatusInterruptSource(WDT_nINT_STATUS enStatus)
 {
-    WDT__vWriteRegister_8bits(WDT_IFG1_OFFSET,
-                         (uint8_t) enStatus,
-                         WDT_IFG1_IFG_MASK,
-                         WDT_IFG1_R_IFG_BIT);
+    WDT_Register8Bits_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = WDT_IFG1_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) enStatus;
+    pstRegisterData.u8Mask = WDT_IFG1_IFG_MASK;
+    pstRegisterData.u8Shift = WDT_IFG1_R_IFG_BIT;
+
+    WDT__vWriteRegister_8bits(&pstRegisterData);
 }
 
 WDT_nINT_STATUS WDT__enGetStatusInterruptSource(void)
 {
-    WDT_nINT_STATUS enStatus = WDT_enINT_STATUS_NOOCCUR;
-    enStatus = (WDT_nINT_STATUS) WDT__u8ReadRegister(WDT_IFG1_OFFSET,
-                                                         WDT_IFG1_IFG_MASK,
-                                                         WDT_IFG1_R_IFG_BIT);
-    return (enStatus);
+    WDT_Register8Bits_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = WDT_IFG1_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) WDT_enINT_STATUS_NOOCCUR;
+    pstRegisterData.u8Mask = WDT_IFG1_IFG_MASK;
+    pstRegisterData.u8Shift = WDT_IFG1_R_IFG_BIT;
+
+    (void) WDT__u8ReadRegister(&pstRegisterData);
+    return ((WDT_nINT_STATUS) pstRegisterData.u8Value);
 }
-
-
-

@@ -29,22 +29,28 @@
 
 void WDT__vSetEnable(WDT_nENABLE enEnableArg)
 {
+    WDT_Register16Bits_t pstRegisterData = {0UL};
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enEnableArg;
     u16Value <<= WDT_CTL_R_HOLD_BIT;
     u16Value |= WDT_CTL_R_PW_WRITE;
-    WDT__vWriteRegister_16bits(WDT_CTL_OFFSET, u16Value,
-                               WDT_CTL_R_PW_MASK | WDT_CTL_R_HOLD_MASK,
-                               0UL);
+    pstRegisterData.uptrAddress = WDT_CTL_OFFSET;
+    pstRegisterData.u16Value = u16Value;
+    pstRegisterData.u16Mask = WDT_CTL_R_PW_MASK | WDT_CTL_R_HOLD_MASK;
+    pstRegisterData.u8Shift = 0UL;
+
+    WDT__vWriteRegister_16bits(&pstRegisterData);
 }
 
 WDT_nENABLE WDT__enGetEnable(void)
 {
-    WDT_nENABLE enEnableReg = WDT_enENABLE_RUN;
-    enEnableReg = (WDT_nENABLE) WDT__u16ReadRegister(WDT_CTL_OFFSET,
-                                       WDT_CTL_HOLD_MASK,
-                                       WDT_CTL_R_HOLD_BIT);
+    WDT_Register16Bits_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = WDT_CTL_OFFSET;
+    pstRegisterData.u16Value = (uint16_t) WDT_enENABLE_RUN;
+    pstRegisterData.u16Mask = WDT_CTL_HOLD_MASK;
+    pstRegisterData.u8Shift = WDT_CTL_R_HOLD_BIT;
+    (void) WDT__u16ReadRegister(&pstRegisterData);
 
-    return (enEnableReg);
+    return ((WDT_nENABLE) pstRegisterData.u16Value);
 }
 

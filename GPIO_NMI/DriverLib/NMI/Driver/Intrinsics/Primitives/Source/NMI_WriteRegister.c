@@ -26,29 +26,19 @@
 #include "DriverLib/NMI/Peripheral/NMI_Peripheral.h"
 #include "DriverLib/MCU/MCU.h"
 
-void NMI__vWriteRegister_8bits(uintptr_t uptrRegisterAddress,
-                          uint8_t u8RegisterValue,
-                          uint8_t u8RegisterMask,
-                          uint8_t u8RegisterShift)
+void NMI__vWriteRegister_8bits(NMI_Register8Bits_t* pstRegisterData)
 {
-    uintptr_t ptrAddressBase = NMI_BASE;
-    ptrAddressBase += uptrRegisterAddress;
-    MCU__vWriteRegister_8bits(ptrAddressBase,
-                              u8RegisterValue,
-                              u8RegisterMask,
-                              u8RegisterShift);
+    const uintptr_t ptrAddressBase = NMI_BASE;
+
+    pstRegisterData->uptrAddress += ptrAddressBase;
+    MCU__vWriteRegister_8bits(pstRegisterData);
 }
 
 
-void NMI__vWriteRegister_16bits(uintptr_t uptrRegisterAddress,
-                          uint16_t u16RegisterValue,
-                          uint16_t u16RegisterMask,
-                          uint8_t u8RegisterShift)
+void NMI__vWriteRegister_16bits(NMI_Register16Bits_t* pstRegisterData)
 {
-    uintptr_t ptrAddressBase = NMI_BASE;
-    ptrAddressBase += uptrRegisterAddress;
-    MCU__vWriteRegister_16bits(ptrAddressBase,
-                               u16RegisterValue,
-                               u16RegisterMask,
-                               u8RegisterShift);
+    const uintptr_t ptrAddressBase = NMI_BASE;
+
+    pstRegisterData->uptrAddress += ptrAddressBase;
+    MCU__vWriteRegister_16bits(pstRegisterData);
 }

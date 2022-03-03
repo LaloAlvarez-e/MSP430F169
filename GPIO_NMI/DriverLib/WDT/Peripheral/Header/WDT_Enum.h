@@ -81,5 +81,7 @@ typedef struct
     WDT_nINTERVAL enInterval;
 }WDT_CONFIG_t;
 
+typedef MCU_Register8Bits_t WDT_Register8Bits_t;
+typedef MCU_Register16Bits_t WDT_Register16Bits_t;
 
 #endif /* DRIVERLIB_WDT_PERIPHERAL_HEADER_WDT_ENUM_H_ */

@@ -28,10 +28,13 @@
 
 void CLOCK__vSetEnableInterruptSource(CLOCK_nINT_ENABLE enState)
 {
-    CLOCK__vWriteRegister(CLOCK_IE1_OFFSET,
-                         (uint8_t) enState,
-                         CLOCK_IE1_IE_MASK,
-                         CLOCK_IE1_R_IE_BIT);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_IE1_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) enState;
+    pstRegisterData.u8Mask = CLOCK_IE1_IE_MASK;
+    pstRegisterData.u8Shift = CLOCK_IE1_R_IE_BIT;
+
+    CLOCK__vWriteRegister(&pstRegisterData);
 }
 
 void CLOCK__vEnaInterruptSource(void)
@@ -46,11 +49,15 @@ void CLOCK__vDisInterruptSource(void)
 
 CLOCK_nINT_ENABLE CLOCK__enGetEnableInterruptSource(void)
 {
-    CLOCK_nINT_ENABLE enEnable = CLOCK_enINT_ENABLE_DIS;
-    enEnable = (CLOCK_nINT_ENABLE) CLOCK__u8ReadRegister(CLOCK_IE1_OFFSET,
-                                                CLOCK_IE1_IE_MASK,
-                                                CLOCK_IE1_R_IE_BIT);
-    return (enEnable);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_IE1_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) CLOCK_enINT_ENABLE_DIS;
+    pstRegisterData.u8Mask = CLOCK_IE1_IE_MASK;
+    pstRegisterData.u8Shift = CLOCK_IE1_R_IE_BIT;
+
+    (void) CLOCK__u8ReadRegister(&pstRegisterData);
+
+    return ((CLOCK_nINT_ENABLE) pstRegisterData.u8Value);
 }
 
 

@@ -25,16 +25,9 @@
 #ifndef DRIVERLIB_NMI_DRIVER_INTRINSICS_PRIMITIVES_HEADER_NMI_WRITEREGISTER_H_
 #define DRIVERLIB_NMI_DRIVER_INTRINSICS_PRIMITIVES_HEADER_NMI_WRITEREGISTER_H_
 
-#include "DriverLib/MCU/Header/MCU_Common.h"
+#include "DriverLib/NMI/Peripheral/Header/NMI_Enum.h"
 
-void NMI__vWriteRegister_8bits(uintptr_t uptrRegisterAddress,
-                          uint8_t u8RegisterValue,
-                          uint8_t u8RegisterMask,
-                          uint8_t u8RegisterShift);
-
-void NMI__vWriteRegister_16bits(uintptr_t uptrRegisterAddress,
-                          uint16_t u16RegisterValue,
-                          uint16_t u16RegisterMask,
-                          uint8_t u8RegisterShift);
+void NMI__vWriteRegister_8bits(NMI_Register8Bits_t* pstRegisterData);
+void NMI__vWriteRegister_16bits(NMI_Register16Bits_t* pstRegisterData);
 
 #endif /* DRIVERLIB_NMI_DRIVER_INTRINSICS_PRIMITIVES_HEADER_NMI_WRITEREGISTER_H_ */

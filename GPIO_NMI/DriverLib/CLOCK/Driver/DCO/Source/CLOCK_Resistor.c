@@ -29,20 +29,23 @@
 
 void CLOCK__vSetDCOResistorSelect(CLOCK_nRESISTOR enResistorSelect)
 {
-    CLOCK__vWriteRegister(CLOCK_BCSCTL2_OFFSET,
-                         (uint8_t) enResistorSelect,
-                         CLOCK_BCSCTL2_DCOR_MASK,
-                         CLOCK_BCSCTL2_R_DCOR_BIT);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) enResistorSelect;
+    pstRegisterData.u8Mask = CLOCK_BCSCTL2_DCOR_MASK;
+    pstRegisterData.u8Shift = CLOCK_BCSCTL2_R_DCOR_BIT;
+    CLOCK__vWriteRegister(&pstRegisterData);
 }
 
 CLOCK_nRESISTOR CLOCK__enGetDCOResistorSelect(void)
 {
-    CLOCK_nRESISTOR enResistorSelectReg = CLOCK_enRESISTOR_INTERNAL;
-
-    enResistorSelectReg = (CLOCK_nRESISTOR) CLOCK__u8ReadRegister(CLOCK_BCSCTL2_OFFSET,
-                                                                 CLOCK_BCSCTL2_DCOR_MASK,
-                                                                 CLOCK_BCSCTL2_R_DCOR_BIT);
-    return (enResistorSelectReg);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) CLOCK_enRESISTOR_INTERNAL;
+    pstRegisterData.u8Mask = CLOCK_BCSCTL2_DCOR_MASK;
+    pstRegisterData.u8Shift = CLOCK_BCSCTL2_R_DCOR_BIT;
+    (void) CLOCK__u8ReadRegister(&pstRegisterData);
+    return ((CLOCK_nRESISTOR) pstRegisterData.u8Value);
 }
 
 

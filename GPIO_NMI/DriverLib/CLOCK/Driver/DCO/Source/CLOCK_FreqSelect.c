@@ -28,18 +28,22 @@
 
 void CLOCK__vSetDCOFreqSelect(uint8_t u8FreqSelection)
 {
-    CLOCK__vWriteRegister(CLOCK_DCOCTL_OFFSET,
-                          u8FreqSelection,
-                         CLOCK_DCOCTL_DCO_MASK,
-                         CLOCK_DCOCTL_R_DCO_BIT);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_DCOCTL_OFFSET;
+    pstRegisterData.u8Value = u8FreqSelection;
+    pstRegisterData.u8Mask = CLOCK_DCOCTL_DCO_MASK;
+    pstRegisterData.u8Shift = CLOCK_DCOCTL_R_DCO_BIT;
+    CLOCK__vWriteRegister( &pstRegisterData);
 }
 
 uint8_t CLOCK__u8GetDCOFreqSelect(void)
 {
-    uint8_t u8FreqSelectionReg = 0U;
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_DCOCTL_OFFSET;
+    pstRegisterData.u8Value = 0U;
+    pstRegisterData.u8Mask = CLOCK_DCOCTL_DCO_MASK;
+    pstRegisterData.u8Shift = CLOCK_DCOCTL_R_DCO_BIT;
 
-    u8FreqSelectionReg = CLOCK__u8ReadRegister(CLOCK_DCOCTL_OFFSET,
-                                             CLOCK_DCOCTL_DCO_MASK,
-                                             CLOCK_DCOCTL_R_DCO_BIT);
-    return (u8FreqSelectionReg);
+    (void) CLOCK__u8ReadRegister(&pstRegisterData);
+    return (pstRegisterData.u8Value);
 }

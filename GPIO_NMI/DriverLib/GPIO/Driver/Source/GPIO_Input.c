@@ -29,23 +29,25 @@
 GPIO_nPIN GPIO__enGetInput(GPIO_nPORT enPortArg,
                                GPIO_nPIN enPinMask)
 {
-    GPIO_nPIN enInputReg = GPIO_enPIN_NONE;
-    enInputReg = (GPIO_nPIN) GPIO__u8ReadRegister(enPortArg,
-                                                PORT_IN_OFFSET,
-                                                (uint8_t) enPinMask,
-                                                PORT_IN_R_PIN0_BIT);
-    return (enInputReg);
+    GPIO_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = PORT_IN_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) GPIO_enPIN_NONE;
+    pstRegisterData.u8Mask = (uint8_t) enPinMask;
+    pstRegisterData.u8Shift = PORT_IN_R_PIN0_BIT;
+    (void) GPIO__u8ReadRegister(enPortArg, &pstRegisterData);
+    return ((GPIO_nPIN) pstRegisterData.u8Value);
 }
 
 GPIO_nLEVEL GPIO__enGetInputByNumber(GPIO_nPORT enPortArg,
                                        GPIO_nPIN_NUMBER enPinNumber)
 {
-    GPIO_nLEVEL enInputReg = GPIO_enLEVEL_LOW;
-    enInputReg = (GPIO_nLEVEL) GPIO__u8ReadRegister(enPortArg,
-                                                PORT_IN_OFFSET,
-                                                PORT_IN_PIN0_MASK,
-                                                (uint8_t) enPinNumber);
-    return (enInputReg);
+    GPIO_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = PORT_IN_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) GPIO_enLEVEL_LOW;
+    pstRegisterData.u8Mask = PORT_IN_PIN0_MASK;
+    pstRegisterData.u8Shift = (uint8_t) enPinNumber;
+    (void) GPIO__u8ReadRegister(enPortArg, &pstRegisterData);
+    return ((GPIO_nLEVEL) pstRegisterData.u8Value);
 }
 
 

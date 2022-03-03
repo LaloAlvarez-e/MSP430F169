@@ -29,23 +29,29 @@
 
 void WDT__vSetClock(WDT_nCLOCK enClockArg)
 {
+    WDT_Register16Bits_t pstRegisterData = {0UL};
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enClockArg;
     u16Value <<= WDT_CTL_R_SSEL_BIT;
     u16Value |= WDT_CTL_R_PW_WRITE;
-    WDT__vWriteRegister_16bits(WDT_CTL_OFFSET, u16Value,
-                               WDT_CTL_R_PW_MASK | WDT_CTL_R_SSEL_MASK,
-                               0UL);
+    pstRegisterData.uptrAddress = WDT_CTL_OFFSET;
+    pstRegisterData.u16Value = u16Value;
+    pstRegisterData.u16Mask = WDT_CTL_R_PW_MASK | WDT_CTL_R_SSEL_MASK;
+    pstRegisterData.u8Shift = 0UL;
+
+    WDT__vWriteRegister_16bits(&pstRegisterData);
 }
 
 WDT_nCLOCK WDT__enGetClock(void)
 {
-    WDT_nCLOCK enClockReg = WDT_enCLOCK_SMCLK;
-    enClockReg = (WDT_nCLOCK) WDT__u16ReadRegister(WDT_CTL_OFFSET,
-                                       WDT_CTL_SSEL_MASK,
-                                       WDT_CTL_R_SSEL_BIT);
+    WDT_Register16Bits_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = WDT_CTL_OFFSET;
+    pstRegisterData.u16Value = (uint16_t) WDT_enCLOCK_SMCLK;
+    pstRegisterData.u16Mask = WDT_CTL_SSEL_MASK;
+    pstRegisterData.u8Shift = WDT_CTL_R_SSEL_BIT;
+    (void) WDT__u16ReadRegister(&pstRegisterData);
 
-    return (enClockReg);
+    return ((WDT_nCLOCK) pstRegisterData.u16Value);
 }
 
 

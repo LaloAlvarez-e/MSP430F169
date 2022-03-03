@@ -29,23 +29,29 @@
 
 void NMI__vSetMode(NMI_nMODE enModeArg)
 {
+    NMI_Register16Bits_t pstRegisterData = {0UL};
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enModeArg;
     u16Value <<= NMI_CTL_R_NMI_BIT;
     u16Value |= NMI_CTL_R_PW_WRITE;
-    NMI__vWriteRegister_16bits(NMI_CTL_OFFSET, u16Value,
-                               NMI_CTL_R_PW_MASK | NMI_CTL_R_NMI_MASK,
-                               0UL);
+    pstRegisterData.uptrAddress = NMI_CTL_OFFSET;
+    pstRegisterData.u16Value = u16Value;
+    pstRegisterData.u16Mask = NMI_CTL_R_PW_MASK | NMI_CTL_R_NMI_MASK;
+    pstRegisterData.u8Shift = 0UL;
+
+    NMI__vWriteRegister_16bits(&pstRegisterData);
 }
 
 NMI_nMODE NMI__enGetMode(void)
 {
-    NMI_nMODE enModeReg = NMI_enMODE_NMI;
-    enModeReg = (NMI_nMODE) NMI__u16ReadRegister(NMI_CTL_OFFSET,
-                                       NMI_CTL_NMI_MASK,
-                                       NMI_CTL_R_NMI_BIT);
+    NMI_Register16Bits_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = NMI_CTL_OFFSET;
+    pstRegisterData.u16Value = (uint16_t) NMI_enMODE_NMI;
+    pstRegisterData.u16Mask = NMI_CTL_NMI_MASK;
+    pstRegisterData.u8Shift = NMI_CTL_R_NMI_BIT;
+    (void) NMI__u16ReadRegister(&pstRegisterData);
 
-    return (enModeReg);
+    return ((NMI_nMODE) pstRegisterData.u16Value);
 }
 
 

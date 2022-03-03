@@ -46,26 +46,32 @@ void CLOCK__vSetDivider(CLOCK_nSIGNAL enClockSignal, CLOCK_nDIV enDivider)
 
 void CLOCK__vSetACLKDivider(CLOCK_nDIV enDivider)
 {
-    CLOCK__vWriteRegister(CLOCK_BCSCTL1_OFFSET,
-                         (uint8_t) enDivider,
-                         CLOCK_BCSCTL1_DIVA_MASK,
-                         CLOCK_BCSCTL1_R_DIVA_BIT);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_BCSCTL1_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) enDivider;
+    pstRegisterData.u8Mask = CLOCK_BCSCTL1_DIVA_MASK;
+    pstRegisterData.u8Shift = CLOCK_BCSCTL1_R_DIVA_BIT;
+    CLOCK__vWriteRegister(&pstRegisterData);
 }
 
 void CLOCK__vSetMCLKDivider(CLOCK_nDIV enDivider)
 {
-    CLOCK__vWriteRegister(CLOCK_BCSCTL2_OFFSET,
-                         (uint8_t) enDivider,
-                         CLOCK_BCSCTL2_DIVM_MASK,
-                         CLOCK_BCSCTL2_R_DIVM_BIT);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) enDivider;
+    pstRegisterData.u8Mask = CLOCK_BCSCTL2_DIVM_MASK;
+    pstRegisterData.u8Shift = CLOCK_BCSCTL2_R_DIVM_BIT;
+    CLOCK__vWriteRegister(&pstRegisterData);
 }
 
 void CLOCK__vSetSMCLKDivider(CLOCK_nDIV enDivider)
 {
-    CLOCK__vWriteRegister(CLOCK_BCSCTL2_OFFSET,
-                         (uint8_t) enDivider,
-                         CLOCK_BCSCTL2_DIVS_MASK,
-                         CLOCK_BCSCTL2_R_DIVS_BIT);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) enDivider;
+    pstRegisterData.u8Mask = CLOCK_BCSCTL2_DIVS_MASK;
+    pstRegisterData.u8Shift = CLOCK_BCSCTL2_R_DIVS_BIT;
+    CLOCK__vWriteRegister(&pstRegisterData);
 }
 
 void CLOCK__vSetDividerByNumber(CLOCK_nSIGNAL enClockSignal, uint8_t u8Divider)
@@ -127,29 +133,35 @@ CLOCK_nDIV CLOCK__enGetDivider(CLOCK_nSIGNAL enClockSignal)
 
 CLOCK_nDIV CLOCK__enGetACLKDivider(void)
 {
-    CLOCK_nDIV enDividerReg = CLOCK_nDIV_1;
-    enDividerReg = (CLOCK_nDIV) CLOCK__u8ReadRegister(CLOCK_BCSCTL1_OFFSET,
-                         CLOCK_BCSCTL1_DIVA_MASK,
-                         CLOCK_BCSCTL1_R_DIVA_BIT);
-    return (enDividerReg);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_BCSCTL1_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) CLOCK_nDIV_1;
+    pstRegisterData.u8Mask = CLOCK_BCSCTL1_DIVA_MASK;
+    pstRegisterData.u8Shift = CLOCK_BCSCTL1_R_DIVA_BIT;
+    (void) CLOCK__u8ReadRegister(&pstRegisterData);
+    return ((CLOCK_nDIV) pstRegisterData.u8Value);
 }
 
 CLOCK_nDIV CLOCK__enGetSMCLKDivider(void)
 {
-    CLOCK_nDIV enDividerReg = CLOCK_nDIV_1;
-    enDividerReg = (CLOCK_nDIV) CLOCK__u8ReadRegister(CLOCK_BCSCTL2_OFFSET,
-                         CLOCK_BCSCTL2_DIVS_MASK,
-                         CLOCK_BCSCTL2_R_DIVS_BIT);
-    return (enDividerReg);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) CLOCK_nDIV_1;
+    pstRegisterData.u8Mask = CLOCK_BCSCTL2_DIVS_MASK;
+    pstRegisterData.u8Shift = CLOCK_BCSCTL2_R_DIVS_BIT;
+    (void) CLOCK__u8ReadRegister(&pstRegisterData);
+    return ((CLOCK_nDIV) pstRegisterData.u8Value);
 }
 
 CLOCK_nDIV CLOCK__enGetMCLKDivider(void)
 {
-    CLOCK_nDIV enDividerReg = CLOCK_nDIV_1;
-    enDividerReg = (CLOCK_nDIV) CLOCK__u8ReadRegister(CLOCK_BCSCTL2_OFFSET,
-                         CLOCK_BCSCTL2_DIVM_MASK,
-                         CLOCK_BCSCTL2_R_DIVM_BIT);
-    return (enDividerReg);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) CLOCK_nDIV_1;
+    pstRegisterData.u8Mask = CLOCK_BCSCTL2_DIVM_MASK;
+    pstRegisterData.u8Shift = CLOCK_BCSCTL2_R_DIVM_BIT;
+    (void) CLOCK__u8ReadRegister(&pstRegisterData);
+    return ((CLOCK_nDIV) pstRegisterData.u8Value);
 }
 
 uint8_t CLOCK__u8GetDivider(CLOCK_nSIGNAL enClockSignal)

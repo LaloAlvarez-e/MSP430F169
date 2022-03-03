@@ -28,20 +28,23 @@
 
 void NMI__vSetStatusInterruptSource(NMI_nINT_STATUS enStatus)
 {
-    NMI__vWriteRegister_8bits(NMI_IFG1_OFFSET,
-                         (uint8_t) enStatus,
-                         NMI_IFG1_IFG_MASK,
-                         NMI_IFG1_R_IFG_BIT);
+    NMI_Register8Bits_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = NMI_IFG1_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) enStatus;
+    pstRegisterData.u8Mask = NMI_IFG1_IFG_MASK;
+    pstRegisterData.u8Shift = NMI_IFG1_R_IFG_BIT;
+
+    NMI__vWriteRegister_8bits(&pstRegisterData);
 }
 
 NMI_nINT_STATUS NMI__enGetStatusInterruptSource(void)
 {
-    NMI_nINT_STATUS enStatus = NMI_enINT_STATUS_NOOCCUR;
-    enStatus = (NMI_nINT_STATUS) NMI__u8ReadRegister(NMI_IFG1_OFFSET,
-                                                         NMI_IFG1_IFG_MASK,
-                                                         NMI_IFG1_R_IFG_BIT);
-    return (enStatus);
+    NMI_Register8Bits_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = NMI_IFG1_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) NMI_enINT_STATUS_NOOCCUR;
+    pstRegisterData.u8Mask = NMI_IFG1_IFG_MASK;
+    pstRegisterData.u8Shift = NMI_IFG1_R_IFG_BIT;
+
+    (void) NMI__u8ReadRegister(&pstRegisterData);
+    return ((NMI_nINT_STATUS) pstRegisterData.u8Value);
 }
-
-
-

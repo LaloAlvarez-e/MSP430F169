@@ -26,29 +26,19 @@
 #include "DriverLib/WDT/Peripheral/WDT_Peripheral.h"
 #include "DriverLib/MCU/MCU.h"
 
-void WDT__vWriteRegister_8bits(uintptr_t uptrRegisterAddress,
-                          uint8_t u8RegisterValue,
-                          uint8_t u8RegisterMask,
-                          uint8_t u8RegisterShift)
+void WDT__vWriteRegister_8bits(WDT_Register8Bits_t* pstRegisterData)
 {
-    uintptr_t ptrAddressBase = WDT_BASE;
-    ptrAddressBase += uptrRegisterAddress;
-    MCU__vWriteRegister_8bits(ptrAddressBase,
-                              u8RegisterValue,
-                              u8RegisterMask,
-                              u8RegisterShift);
+    const uintptr_t ptrAddressBase = WDT_BASE;
+
+    pstRegisterData->uptrAddress += ptrAddressBase;
+    MCU__vWriteRegister_8bits(pstRegisterData);
 }
 
 
-void WDT__vWriteRegister_16bits(uintptr_t uptrRegisterAddress,
-                          uint16_t u16RegisterValue,
-                          uint16_t u16RegisterMask,
-                          uint8_t u8RegisterShift)
+void WDT__vWriteRegister_16bits(WDT_Register16Bits_t* pstRegisterData)
 {
-    uintptr_t ptrAddressBase = WDT_BASE;
-    ptrAddressBase += uptrRegisterAddress;
-    MCU__vWriteRegister_16bits(ptrAddressBase,
-                               u16RegisterValue,
-                               u16RegisterMask,
-                               u8RegisterShift);
+    const uintptr_t ptrAddressBase = WDT_BASE;
+
+    pstRegisterData->uptrAddress += ptrAddressBase;
+    MCU__vWriteRegister_16bits(pstRegisterData);
 }

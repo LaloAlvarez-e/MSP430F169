@@ -26,31 +26,23 @@
 #include "DriverLib/NMI/Peripheral/NMI_Peripheral.h"
 #include "DriverLib/MCU/MCU.h"
 
-uint8_t NMI__u8ReadRegister(uintptr_t uptrRegisterAddress,
-                             uint8_t u8RegisterMask,
-                             uint8_t u8RegisterShift)
+uint8_t NMI__u8ReadRegister(NMI_Register8Bits_t* pstRegisterData)
 {
-    uintptr_t ptrAddressBase = NMI_BASE;
+    const uintptr_t ptrAddressBase = NMI_BASE;
     uint8_t u8RegisterValue = 0U;
 
-    ptrAddressBase += uptrRegisterAddress;
-    u8RegisterValue = MCU__u8ReadRegister(ptrAddressBase,
-                                         u8RegisterMask,
-                                         u8RegisterShift);
+    pstRegisterData->uptrAddress += ptrAddressBase;
+    u8RegisterValue = MCU__u8ReadRegister(pstRegisterData);
     return (u8RegisterValue);
 }
 
-uint16_t NMI__u16ReadRegister(uintptr_t uptrRegisterAddress,
-                             uint16_t u16RegisterMask,
-                             uint8_t u8RegisterShift)
+uint16_t NMI__u16ReadRegister(NMI_Register16Bits_t* pstRegisterData)
 {
-    uintptr_t ptrAddressBase = NMI_BASE;
-    uint16_t u16RegisterValue = 0U;
+    const uintptr_t ptrAddressBase = NMI_BASE;
+    uint8_t u16RegisterValue = 0U;
 
-    ptrAddressBase += uptrRegisterAddress;
-    u16RegisterValue = MCU__u16ReadRegister(ptrAddressBase,
-                                         u16RegisterMask,
-                                         u8RegisterShift);
+    pstRegisterData->uptrAddress += ptrAddressBase;
+    u16RegisterValue = MCU__u16ReadRegister(pstRegisterData);
     return (u16RegisterValue);
 }
 

@@ -31,7 +31,6 @@ void MCU__vWriteRegister_8bits(MCU_Register8Bits_t* pstRegisterDataArg)
     uint8_t u8RegisterShift = 0U;
     uint8_t u8Reg = 0U;
     uint16_t u16StatusRegister = 0U;
-    uint16_t u16StatusRegister = 0U;
     uintptr_t uptrRegisterAddress = 0U;
 
     if(0UL != (uintptr_t) pstRegisterDataArg)

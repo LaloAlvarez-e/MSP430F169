@@ -26,17 +26,12 @@
 #include "DriverLib/CLOCK/Peripheral/CLOCK_Peripheral.h"
 #include "DriverLib/MCU/MCU.h"
 
-void CLOCK__vWriteRegister(uintptr_t uptrRegisterAddress,
-                          uint8_t u8RegisterValue,
-                          uint8_t u8RegisterMask,
-                          uint8_t u8RegisterShift)
+void CLOCK__vWriteRegister(CLOCK_Register_t* pstRegisterData)
 {
-    uintptr_t ptrAddressBase = CLOCK_BASE;
-    ptrAddressBase += uptrRegisterAddress;
-    MCU__vWriteRegister_8bits(ptrAddressBase,
-                              u8RegisterValue,
-                              u8RegisterMask,
-                              u8RegisterShift);
+    const uintptr_t ptrAddressBase = CLOCK_BASE;
+
+    pstRegisterData->uptrAddress += ptrAddressBase;
+    MCU__vWriteRegister_8bits(pstRegisterData);
 }
 
 

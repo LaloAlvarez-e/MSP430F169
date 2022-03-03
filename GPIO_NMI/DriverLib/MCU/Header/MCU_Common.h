@@ -48,4 +48,5 @@ typedef struct
     uint16_t u16Mask;
     uint8_t u8Shift;
 }MCU_Register16Bits_t;
+
 #endif /* MCU_HEADER_MCU_COMMON_H_ */

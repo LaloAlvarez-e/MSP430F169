@@ -74,10 +74,12 @@ void CLOCK__vSetDCOEnable(CLOCK_nENABLE enEnable)
 
 void CLOCK__vSetXT2Enable(CLOCK_nENABLE enEnable)
 {
-    CLOCK__vWriteRegister(CLOCK_BCSCTL1_OFFSET,
-                          (uint8_t) enEnable,
-                          CLOCK_BCSCTL1_XT2OFF_MASK,
-                          CLOCK_BCSCTL1_R_XT2OFF_BIT);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_BCSCTL1_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) enEnable;
+    pstRegisterData.u8Mask = CLOCK_BCSCTL1_XT2OFF_MASK;
+    pstRegisterData.u8Shift = CLOCK_BCSCTL1_R_XT2OFF_BIT;
+    CLOCK__vWriteRegister(&pstRegisterData);
 }
 
 CLOCK_nENABLE CLOCK__enGetEnable(CLOCK_nSOURCE enClockSource)
@@ -130,10 +132,11 @@ CLOCK_nENABLE CLOCK__enGetDCOEnable(void)
 
 CLOCK_nENABLE CLOCK__enGetXT2Enable(void)
 {
-    CLOCK_nENABLE enEnableReg = CLOCK_enENABLE_ENA;
-
-    enEnableReg = (CLOCK_nENABLE) CLOCK__u8ReadRegister(CLOCK_BCSCTL1_OFFSET,
-                                                        CLOCK_BCSCTL1_XT2OFF_MASK,
-                                                        CLOCK_BCSCTL1_R_XT2OFF_BIT);
-    return (enEnableReg);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_BCSCTL1_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) CLOCK_enENABLE_ENA;
+    pstRegisterData.u8Mask = CLOCK_BCSCTL1_XT2OFF_MASK;
+    pstRegisterData.u8Shift = CLOCK_BCSCTL1_R_XT2OFF_BIT;
+    (void) CLOCK__u8ReadRegister(&pstRegisterData);
+    return ((CLOCK_nENABLE) pstRegisterData.u8Value);
 }

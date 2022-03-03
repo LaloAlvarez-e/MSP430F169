@@ -25,6 +25,7 @@
 #ifndef CLOCK_PERIPHERAL_HEADER_CLOCK_ENUM_H_
 #define CLOCK_PERIPHERAL_HEADER_CLOCK_ENUM_H_
 
+#include "DriverLib/MCU/Header/MCU_Common.h"
 
 typedef enum
 {
@@ -83,5 +84,7 @@ typedef enum
     CLOCK_enRESISTOR_INTERNAL = 0U,
     CLOCK_enRESISTOR_EXTERNAL = 1U,
 }CLOCK_nRESISTOR;
+
+typedef MCU_Register8Bits_t CLOCK_Register_t;
 
 #endif /* CLOCK_PERIPHERAL_HEADER_CLOCK_ENUM_H_ */

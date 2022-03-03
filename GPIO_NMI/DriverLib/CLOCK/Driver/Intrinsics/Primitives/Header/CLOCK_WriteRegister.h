@@ -25,11 +25,8 @@
 #ifndef CLOCK_DRIVER_INTRINSICS_PRIMITIVES_HEADER_CLOCK_WRITEREGISTER_H_
 #define CLOCK_DRIVER_INTRINSICS_PRIMITIVES_HEADER_CLOCK_WRITEREGISTER_H_
 
-#include "DriverLib/MCU/Header/MCU_Common.h"
+#include "DriverLib/CLOCK/Peripheral/Header/CLOCK_Enum.h"
 
-void CLOCK__vWriteRegister(uintptr_t uptrRegisterAddress,
-                          uint8_t u8RegisterValue,
-                          uint8_t u8RegisterMask,
-                          uint8_t u8RegisterShift);
+void CLOCK__vWriteRegister(CLOCK_Register_t* pstRegisterData);
 
 #endif /* CLOCK_DRIVER_INTRINSICS_PRIMITIVES_HEADER_CLOCK_WRITEREGISTER_H_ */

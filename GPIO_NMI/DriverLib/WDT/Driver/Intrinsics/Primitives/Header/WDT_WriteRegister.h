@@ -25,16 +25,9 @@
 #ifndef DRIVERLIB_WDT_DRIVER_INTRINSICS_PRIMITIVES_HEADER_WDT_WRITEREGISTER_H_
 #define DRIVERLIB_WDT_DRIVER_INTRINSICS_PRIMITIVES_HEADER_WDT_WRITEREGISTER_H_
 
-#include "DriverLib/MCU/Header/MCU_Common.h"
+#include "DriverLib/WDT/Peripheral/Header/WDT_Enum.h"
 
-void WDT__vWriteRegister_8bits(uintptr_t uptrRegisterAddress,
-                          uint8_t u8RegisterValue,
-                          uint8_t u8RegisterMask,
-                          uint8_t u8RegisterShift);
-
-void WDT__vWriteRegister_16bits(uintptr_t uptrRegisterAddress,
-                          uint16_t u16RegisterValue,
-                          uint16_t u16RegisterMask,
-                          uint8_t u8RegisterShift);
+void WDT__vWriteRegister_8bits(WDT_Register8Bits_t* pstRegisterData);
+void WDT__vWriteRegister_16bits(WDT_Register16Bits_t* pstRegisterData);
 
 #endif /* DRIVERLIB_WDT_DRIVER_INTRINSICS_PRIMITIVES_HEADER_WDT_WRITEREGISTER_H_ */

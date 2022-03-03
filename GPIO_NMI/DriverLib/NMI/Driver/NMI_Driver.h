@@ -28,5 +28,6 @@
 #include "DriverLib/NMI/Driver/Intrinsics/NMI_Intrinsics.h"
 #include "DriverLib/NMI/Driver/Header/NMI_InterruptEdge.h"
 #include "DriverLib/NMI/Driver/Header/NMI_Mode.h"
+#include "DriverLib/NMI/Driver/Header/NMI_Reset.h"
 
 #endif /* DRIVERLIB_NMI_DRIVER_NMI_DRIVER_H_ */

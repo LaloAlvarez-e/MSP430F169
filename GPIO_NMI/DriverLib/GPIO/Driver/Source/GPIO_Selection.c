@@ -30,16 +30,18 @@ void GPIO__vSetSelection(GPIO_nPORT enPortArg,
                          GPIO_nPIN enPinMask,
                          GPIO_nSEL enSelection)
 {
+    GPIO_Register_t pstRegisterData = {0UL};
     uint8_t u8Value = 0U;
     if(GPIO_enSEL_IO != enSelection)
     {
         u8Value = (uint8_t) enPinMask;
     }
+    pstRegisterData.uptrAddress = PORT_SEL_OFFSET;
+    pstRegisterData.u8Value = u8Value;
+    pstRegisterData.u8Mask = (uint8_t) enPinMask;
+    pstRegisterData.u8Shift = PORT_SEL_R_PIN0_BIT;
     GPIO__vWriteRegister(enPortArg,
-                         PORT_SEL_OFFSET,
-                         u8Value,
-                         (uint8_t) enPinMask,
-                         PORT_SEL_R_PIN0_BIT);
+                         &pstRegisterData);
 }
 
 
@@ -47,33 +49,37 @@ void GPIO__vSetSelectionByNumber(GPIO_nPORT enPortArg,
                              GPIO_nPIN_NUMBER enPinNumber,
                              GPIO_nSEL enSelection)
 {
+    GPIO_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = PORT_SEL_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) enSelection;
+    pstRegisterData.u8Mask = PORT_SEL_PIN0_MASK;
+    pstRegisterData.u8Shift = (uint8_t) enPinNumber;
     GPIO__vWriteRegister(enPortArg,
-                         PORT_SEL_OFFSET,
-                         (uint8_t) enSelection,
-                         PORT_SEL_PIN0_MASK,
-                         (uint8_t) enPinNumber);
+                         &pstRegisterData);
 }
 
 GPIO_nPIN GPIO__enGetSelection(GPIO_nPORT enPortArg,
                                GPIO_nPIN enPinMask)
 {
-    GPIO_nPIN enSelectionReg = GPIO_enPIN_NONE;
-    enSelectionReg = (GPIO_nPIN) GPIO__u8ReadRegister(enPortArg,
-                                                PORT_SEL_OFFSET,
-                                                (uint8_t) enPinMask,
-                                                PORT_SEL_R_PIN0_BIT);
-    return (enSelectionReg);
+    GPIO_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = PORT_SEL_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) GPIO_enPIN_NONE;
+    pstRegisterData.u8Mask = (uint8_t) enPinMask;
+    pstRegisterData.u8Shift = PORT_SEL_R_PIN0_BIT;
+    (void) GPIO__u8ReadRegister(enPortArg,&pstRegisterData);
+    return ((GPIO_nPIN) pstRegisterData.u8Value);
 }
 
 GPIO_nSEL GPIO__enGetSelectionByNumber(GPIO_nPORT enPortArg,
                                        GPIO_nPIN_NUMBER enPinNumber)
 {
-    GPIO_nSEL enSelectionReg = GPIO_enSEL_IO;
-    enSelectionReg = (GPIO_nSEL) GPIO__u8ReadRegister(enPortArg,
-                                                PORT_SEL_OFFSET,
-                                                PORT_SEL_PIN0_MASK,
-                                                (uint8_t) enPinNumber);
-    return (enSelectionReg);
+    GPIO_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = PORT_SEL_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) GPIO_enSEL_IO;
+    pstRegisterData.u8Mask = PORT_SEL_PIN0_MASK;
+    pstRegisterData.u8Shift = (uint8_t) enPinNumber;
+    (void) GPIO__u8ReadRegister(enPortArg, &pstRegisterData);
+    return ((GPIO_nSEL) pstRegisterData.u8Value);
 }
 
 

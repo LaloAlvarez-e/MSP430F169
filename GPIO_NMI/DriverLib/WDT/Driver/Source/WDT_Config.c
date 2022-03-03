@@ -30,6 +30,7 @@
 
 void WDT__vSetConfig(WDT_CONFIG_t* pstConfig)
 {
+    WDT_Register16Bits_t pstRegisterData = {0UL};
     uint16_t u16EnableReg = 0U;
     WDT_nINT_ENABLE enIntEnable = WDT_enINT_ENABLE_DIS;
     uint16_t u16Mode = 0U;
@@ -56,10 +57,15 @@ void WDT__vSetConfig(WDT_CONFIG_t* pstConfig)
         u16Reg |= u16Clock;
         u16Reg |= u16Interval;
 
+        pstRegisterData.uptrAddress = WDT_CTL_OFFSET;
+        pstRegisterData.u16Value = u16Reg;
+        pstRegisterData.u16Mask = 0xFFFFUL;
+        pstRegisterData.u8Shift = 0U;
+
+
         enIntEnable = pstConfig->enIntEnable;
 
-        WDT__vWriteRegister_16bits(WDT_CTL_OFFSET,
-                                   u16Reg, 0xFFFFUL, 0U);
+        WDT__vWriteRegister_16bits(&pstRegisterData);
         WDT__vClearInterruptSource();
         WDT__vSetEnableInterruptSource(enIntEnable);
     }

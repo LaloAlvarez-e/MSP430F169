@@ -63,54 +63,53 @@ CLOCK_nSTATUS CLOCK__enSetACLKSource(CLOCK_nSOURCE enSourceClock)
 CLOCK_nSTATUS CLOCK__enSetMCLKSource(CLOCK_nSOURCE enSourceClock)
 {
     CLOCK_nSTATUS enStatusReg = CLOCK_enSTATUS_OK;
+
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
+    pstRegisterData.u8Value = CLOCK_BCSCTL2_SELM_DCO;
+    pstRegisterData.u8Mask = CLOCK_BCSCTL2_SELM_MASK;
+    pstRegisterData.u8Shift = CLOCK_BCSCTL2_R_SELM_BIT;
+
     switch(enSourceClock)
     {
     case CLOCK_enSOURCE_LFXT1:
-        CLOCK__vWriteRegister(CLOCK_BCSCTL2_OFFSET,
-                              CLOCK_BCSCTL2_SELM_LFXT1,
-                             CLOCK_BCSCTL2_SELM_MASK,
-                             CLOCK_BCSCTL2_R_SELM_BIT);
+        pstRegisterData.u8Value = CLOCK_BCSCTL2_SELM_LFXT1;
         break;
     case CLOCK_enSOURCE_XT2:
-        CLOCK__vWriteRegister(CLOCK_BCSCTL2_OFFSET,
-                              CLOCK_BCSCTL2_SELM_XT2,
-                             CLOCK_BCSCTL2_SELM_MASK,
-                             CLOCK_BCSCTL2_R_SELM_BIT);
+        pstRegisterData.u8Value = CLOCK_BCSCTL2_SELM_XT2;
         break;
     case CLOCK_enSOURCE_DCO:
-        CLOCK__vWriteRegister(CLOCK_BCSCTL2_OFFSET,
-                              CLOCK_BCSCTL2_SELM_DCO,
-                             CLOCK_BCSCTL2_SELM_MASK,
-                             CLOCK_BCSCTL2_R_SELM_BIT);
         break;
     default:
         enStatusReg = CLOCK_enSTATUS_ERROR;
         break;
     }
+    CLOCK__vWriteRegister(&pstRegisterData);
     return (enStatusReg);
 }
 
 CLOCK_nSTATUS CLOCK__enSetSMCLKSource(CLOCK_nSOURCE enSourceClock)
 {
     CLOCK_nSTATUS enStatusReg = CLOCK_enSTATUS_OK;
+
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
+    pstRegisterData.u8Value = CLOCK_BCSCTL2_SELS_DCO;
+    pstRegisterData.u8Mask = CLOCK_BCSCTL2_SELS_MASK;
+    pstRegisterData.u8Shift = CLOCK_BCSCTL2_R_SELS_BIT;
+
     switch(enSourceClock)
     {
     case CLOCK_enSOURCE_XT2:
-        CLOCK__vWriteRegister(CLOCK_BCSCTL2_OFFSET,
-                              CLOCK_BCSCTL2_SELS_XT2,
-                             CLOCK_BCSCTL2_SELS_MASK,
-                             CLOCK_BCSCTL2_R_SELS_BIT);
+        pstRegisterData.u8Value = CLOCK_BCSCTL2_SELS_XT2;
         break;
     case CLOCK_enSOURCE_DCO:
-        CLOCK__vWriteRegister(CLOCK_BCSCTL2_OFFSET,
-                              CLOCK_BCSCTL2_SELS_DCO,
-                             CLOCK_BCSCTL2_SELS_MASK,
-                             CLOCK_BCSCTL2_R_SELS_BIT);
         break;
     default:
         enStatusReg = CLOCK_enSTATUS_ERROR;
         break;
     }
+    CLOCK__vWriteRegister(&pstRegisterData);
     return (enStatusReg);
 }
 
@@ -144,12 +143,16 @@ CLOCK_nSOURCE CLOCK__enGetACLKSource(void)
 CLOCK_nSOURCE CLOCK__enGetSMCLKSource(void)
 {
     CLOCK_nSOURCE enSourceReg = CLOCK_enSOURCE_DCO;
-    uint8_t u8RegValue = 0U;
+    CLOCK_Register_t pstRegisterData = {0UL};
 
-    u8RegValue = CLOCK__u8ReadRegister(CLOCK_BCSCTL2_OFFSET,
-                                       CLOCK_BCSCTL2_SELS_MASK,
-                                       CLOCK_BCSCTL2_R_SELS_BIT);
-    switch(u8RegValue)
+    pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
+    pstRegisterData.u8Value = CLOCK_BCSCTL2_SELS_DCO;
+    pstRegisterData.u8Mask = CLOCK_BCSCTL2_SELS_MASK;
+    pstRegisterData.u8Shift = CLOCK_BCSCTL2_R_SELS_BIT;
+
+    (void) CLOCK__u8ReadRegister(&pstRegisterData);
+
+    switch(pstRegisterData.u8Value)
     {
     case CLOCK_BCSCTL2_SELS_DCO:
         enSourceReg = CLOCK_enSOURCE_DCO;
@@ -169,12 +172,16 @@ CLOCK_nSOURCE CLOCK__enGetSMCLKSource(void)
 CLOCK_nSOURCE CLOCK__enGetMCLKSource(void)
 {
     CLOCK_nSOURCE enSourceReg = CLOCK_enSOURCE_DCO;
-    uint8_t u8RegValue = 0U;
+    CLOCK_Register_t pstRegisterData = {0UL};
 
-    u8RegValue = CLOCK__u8ReadRegister(CLOCK_BCSCTL2_OFFSET,
-                                       CLOCK_BCSCTL2_SELM_MASK,
-                                       CLOCK_BCSCTL2_R_SELM_BIT);
-    switch(u8RegValue)
+    pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
+    pstRegisterData.u8Value = CLOCK_BCSCTL2_SELM_DCO;
+    pstRegisterData.u8Mask = CLOCK_BCSCTL2_SELM_MASK;
+    pstRegisterData.u8Shift = CLOCK_BCSCTL2_R_SELM_BIT;
+
+    (void) CLOCK__u8ReadRegister(&pstRegisterData);
+
+    switch(pstRegisterData.u8Value)
     {
     case CLOCK_BCSCTL2_SELM_DCO:
         enSourceReg = CLOCK_enSOURCE_DCO;

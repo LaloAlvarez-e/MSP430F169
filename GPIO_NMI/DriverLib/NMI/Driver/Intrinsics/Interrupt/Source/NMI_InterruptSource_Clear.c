@@ -28,8 +28,11 @@
 
 void NMI__vClearInterruptSource(void)
 {
-    NMI__vWriteRegister_8bits(NMI_IFG1_OFFSET,
-                         NMI_IFG1_IFG_NOOCCUR,
-                         NMI_IFG1_IFG_MASK,
-                         NMI_IFG1_R_IFG_BIT);
+    NMI_Register8Bits_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = NMI_IFG1_OFFSET;
+    pstRegisterData.u8Value = NMI_IFG1_IFG_NOOCCUR;
+    pstRegisterData.u8Mask = NMI_IFG1_IFG_MASK;
+    pstRegisterData.u8Shift = NMI_IFG1_R_IFG_BIT;
+
+    NMI__vWriteRegister_8bits(&pstRegisterData);
 }

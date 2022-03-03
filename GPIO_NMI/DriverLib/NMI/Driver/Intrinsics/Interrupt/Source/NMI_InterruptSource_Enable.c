@@ -28,10 +28,13 @@
 
 void NMI__vSetEnableInterruptSource(NMI_nINT_ENABLE enState)
 {
-    NMI__vWriteRegister_8bits(NMI_IE1_OFFSET,
-                         (uint8_t) enState,
-                         NMI_IE1_IE_MASK,
-                         NMI_IE1_R_IE_BIT);
+    NMI_Register8Bits_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = NMI_IE1_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) enState;
+    pstRegisterData.u8Mask = NMI_IE1_IE_MASK;
+    pstRegisterData.u8Shift = NMI_IE1_R_IE_BIT;
+
+    NMI__vWriteRegister_8bits(&pstRegisterData);
 }
 
 void NMI__vEnaInterruptSource(void)
@@ -46,10 +49,13 @@ void NMI__vDisInterruptSource(void)
 
 NMI_nINT_ENABLE NMI__enGetEnableInterruptSource(void)
 {
-    NMI_nINT_ENABLE enEnable = NMI_enINT_ENABLE_DIS;
-    enEnable = (NMI_nINT_ENABLE) NMI__u8ReadRegister(NMI_IE1_OFFSET,
-                                                NMI_IE1_IE_MASK,
-                                                NMI_IE1_R_IE_BIT);
-    return (enEnable);
+    NMI_Register8Bits_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = NMI_IE1_OFFSET;
+    pstRegisterData.u8Value = (uint8_t) NMI_enINT_ENABLE_DIS;
+    pstRegisterData.u8Mask = NMI_IE1_IE_MASK;
+    pstRegisterData.u8Shift = NMI_IE1_R_IE_BIT;
+
+    (void) NMI__u8ReadRegister(&pstRegisterData);
+    return ((NMI_nINT_ENABLE) pstRegisterData.u8Value);
 }
 

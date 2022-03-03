@@ -57,4 +57,7 @@ typedef enum
     NMI_enMODE_NMI = 1U,
 }NMI_nMODE;
 
+typedef MCU_Register8Bits_t NMI_Register8Bits_t;
+typedef MCU_Register16Bits_t NMI_Register16Bits_t;
+
 #endif /* DRIVERLIB_NMI_PERIPHERAL_HEADER_NMI_ENUM_H_ */

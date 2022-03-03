@@ -25,14 +25,9 @@
 #ifndef DRIVERLIB_WDT_DRIVER_INTRINSICS_PRIMITIVES_HEADER_WDT_READREGISTER_H_
 #define DRIVERLIB_WDT_DRIVER_INTRINSICS_PRIMITIVES_HEADER_WDT_READREGISTER_H_
 
-#include "DriverLib/MCU/Header/MCU_Common.h"
+#include "DriverLib/WDT/Peripheral/Header/WDT_Enum.h"
 
-uint8_t WDT__u8ReadRegister(uintptr_t uptrRegisterAddress,
-                             uint8_t u8RegisterMask,
-                             uint8_t u8RegisterShift);
-
-uint16_t WDT__u16ReadRegister(uintptr_t uptrRegisterAddress,
-                             uint16_t u16RegisterMask,
-                             uint8_t u8RegisterShift);
+uint8_t WDT__u8ReadRegister(WDT_Register8Bits_t* pstRegisterData);
+uint16_t WDT__u16ReadRegister(WDT_Register16Bits_t* pstRegisterData);
 
 #endif /* DRIVERLIB_WDT_DRIVER_INTRINSICS_PRIMITIVES_HEADER_WDT_READREGISTER_H_ */

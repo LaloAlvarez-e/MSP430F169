@@ -28,20 +28,23 @@
 
 void CLOCK__vSetModulationSelection(uint8_t u8ModulationSelection)
 {
-    CLOCK__vWriteRegister(CLOCK_DCOCTL_OFFSET,
-                          u8ModulationSelection,
-                         CLOCK_DCOCTL_MOD_MASK,
-                         CLOCK_DCOCTL_R_MOD_BIT);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_DCOCTL_OFFSET;
+    pstRegisterData.u8Value = u8ModulationSelection;
+    pstRegisterData.u8Mask = CLOCK_DCOCTL_MOD_MASK;
+    pstRegisterData.u8Shift = CLOCK_DCOCTL_R_MOD_BIT;
+    CLOCK__vWriteRegister(&pstRegisterData);
 }
 
 uint8_t CLOCK__u8GetModulationSelection(void)
 {
-    uint8_t u8ModulationSelectionReg = 0U;
-
-    u8ModulationSelectionReg = CLOCK__u8ReadRegister(CLOCK_DCOCTL_OFFSET,
-                                             CLOCK_DCOCTL_MOD_MASK,
-                                             CLOCK_DCOCTL_R_MOD_BIT);
-    return (u8ModulationSelectionReg);
+    CLOCK_Register_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = CLOCK_DCOCTL_OFFSET;
+    pstRegisterData.u8Value = 0U;
+    pstRegisterData.u8Mask = CLOCK_DCOCTL_MOD_MASK;
+    pstRegisterData.u8Shift = CLOCK_DCOCTL_R_MOD_BIT;
+    (void) CLOCK__u8ReadRegister(&pstRegisterData);
+    return (pstRegisterData.u8Value);
 }
 
 

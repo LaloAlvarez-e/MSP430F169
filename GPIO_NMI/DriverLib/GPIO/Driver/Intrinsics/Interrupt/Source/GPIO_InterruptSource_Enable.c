@@ -64,13 +64,15 @@ void GPIO__vSetEnableInterruptSourceByNumber(GPIO_nPORT enPortArg,
                                              GPIO_nPIN_NUMBER enPinNumber,
                                              GPIO_nINT_ENABLE enState)
 {
+    GPIO_Register_t pstRegisterData = {0UL};
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
+        pstRegisterData.uptrAddress = PORT_IE_OFFSET;
+        pstRegisterData.u8Value = (uint8_t) enState;
+        pstRegisterData.u8Mask = PORT_IE_PIN0_MASK;
+        pstRegisterData.u8Shift = (uint8_t) enPinNumber;
         GPIO__vWriteRegister(enPortArg,
-                             PORT_IE_OFFSET,
-                             (uint8_t) enState,
-                             PORT_IE_PIN0_MASK,
-                             (uint8_t) enPinNumber);
+                             &pstRegisterData);
     }
 }
 
@@ -90,13 +92,15 @@ void GPIO__vDisInterruptSourceByNumber(GPIO_nPORT enPortArg,
 GPIO_nPIN GPIO__enGetEnableInterruptSource(GPIO_nPORT enPortArg,
                                            GPIO_nPIN enPinMask)
 {
+    GPIO_Register_t pstRegisterData = {0UL};
     GPIO_nPIN enEnable = GPIO_enPIN_NONE;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
+        pstRegisterData.uptrAddress = PORT_IE_OFFSET;
+        pstRegisterData.u8Mask = (uint8_t) enPinMask;
+        pstRegisterData.u8Shift = PORT_IE_R_PIN0_BIT;
         enEnable = (GPIO_nPIN) GPIO__u8ReadRegister(enPortArg,
-                                                    PORT_IE_OFFSET,
-                                                    (uint8_t) enPinMask,
-                                                    PORT_IE_R_PIN0_BIT);
+                                                    &pstRegisterData);
     }
     return (enEnable);
 }
@@ -104,13 +108,15 @@ GPIO_nPIN GPIO__enGetEnableInterruptSource(GPIO_nPORT enPortArg,
 GPIO_nINT_ENABLE GPIO__enGetEnableInterruptSourceByNumber(GPIO_nPORT enPortArg,
                                            GPIO_nPIN_NUMBER enPinNumber)
 {
+    GPIO_Register_t pstRegisterData = {0UL};
     GPIO_nINT_ENABLE enEnable = GPIO_enINT_ENABLE_DIS;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
+        pstRegisterData.uptrAddress = PORT_IE_OFFSET;
+        pstRegisterData.u8Mask = PORT_IE_PIN0_MASK;
+        pstRegisterData.u8Shift = PORT_IE_R_PIN0_BIT;
         enEnable = (GPIO_nINT_ENABLE) GPIO__u8ReadRegister(enPortArg,
-                                                    PORT_IE_OFFSET,
-                                                    PORT_IE_PIN0_MASK,
-                                                    (uint8_t) enPinNumber);
+                                                    &pstRegisterData);
     }
     return (enEnable);
 }
