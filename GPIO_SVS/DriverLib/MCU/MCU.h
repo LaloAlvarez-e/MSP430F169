@@ -26,6 +26,7 @@
 #define MCU_MCU_H_
 
 #include "DriverLib/MCU/Header/MCU_Common.h"
+#include "DriverLib/MCU/Header/MCU_ArrayCompare.h"
 #include "DriverLib/MCU/Header/MCU_ReadRegister.h"
 #include "DriverLib/MCU/Header/MCU_WriteRegister.h"
 

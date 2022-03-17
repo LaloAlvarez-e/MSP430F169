@@ -27,7 +27,7 @@
 
 #include "DriverLib/SVS/Peripheral/Header/SVS_Enum.h"
 
-void SVS__vSetResetCause(SVS_nSTATE enResetStateArg);
-SVS_nSTATE SVS__enGetResetCause(void);
+void SVS__vSetEnableResetCause(SVS_nSTATE enResetStateArg);
+SVS_nSTATE SVS__enGetEnableResetCause(void);
 
 #endif /* DRIVERLIB_SVS_DRIVER_HEADER_SVS_RESET_H_ */

@@ -31,6 +31,12 @@
 #define MCU_MASK_8 (0xFFU)
 #define MCU_MASK_16 (0xFFFFU)
 
+typedef enum
+{
+    MCU_enSTATUS_OK = 0U,
+    MCU_enSTATUS_ERROR = 1U,
+}MCU_nSTATUS;
+
 typedef uint16_t (*MCU__pu16fIRQSourceHandler_t)(uintptr_t uptrModule, uint8_t u8IntSource);
 
 typedef struct

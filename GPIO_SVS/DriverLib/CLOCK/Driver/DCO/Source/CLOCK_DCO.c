@@ -22,6 +22,7 @@
  * 15 feb. 2022     InDeviceMex    1.0         initial Version@endverbatim
  */
 #include "DriverLib/CLOCK/Driver/DCO/CLOCK_DCO.h"
+#include "DriverLib/MCU/MCU.h"
 
 #define CLOCK_MAXINDEX (8U * 8U)
 
@@ -98,14 +99,9 @@ static const uint32_t CLOCK_u32FrequencyLUT_External[CLOCK_MAXINDEX] =
 void CLOCK__vSetDCOFrequency(uint32_t u32FrequencyHz, CLOCK_nRESISTOR enResistorSelect)
 {
     uint8_t u8CurrentIndex = 0UL;
-    uint8_t u8Counter = 0U;
     uint8_t u8Codification = 0U;
-    uint32_t u8FreqTemp = 0U;
-    uint32_t u32DiferentialMin = 0UL;
-    uint32_t u32DiferentialMax = 0UL;
     const uint32_t* pu32LUTPointerFreq = (uint32_t*) 0U;
     const uint8_t* pu8LUTPointerCod = (uint8_t*) 0U;
-    CLOCK_nSTATUS enStatus = CLOCK_enSTATUS_ERROR;
 
     if(CLOCK_enRESISTOR_INTERNAL == enResistorSelect)
     {
@@ -117,29 +113,9 @@ void CLOCK__vSetDCOFrequency(uint32_t u32FrequencyHz, CLOCK_nRESISTOR enResistor
         pu32LUTPointerFreq = CLOCK_u32FrequencyLUT_External;
         pu8LUTPointerCod = CLOCK_u8CodificationLUT_External;
     }
-    while((CLOCK_MAXINDEX != u8Counter) && (CLOCK_enSTATUS_ERROR == enStatus))
-    {
-        u8FreqTemp = *pu32LUTPointerFreq;
-        if(u32FrequencyHz <  u8FreqTemp)
-        {
-            u8CurrentIndex = u8Counter;
-            if((0U != u8Counter))
-            {
-                u32DiferentialMax = u8FreqTemp;
-                u32DiferentialMax -= u32FrequencyHz;
-                u32DiferentialMin = u32FrequencyHz;
-                u32DiferentialMin -= *(pu32LUTPointerFreq - 1U);
-                if(u32DiferentialMax > u32DiferentialMin)
-                {
-                    u8CurrentIndex -= 1UL;
-                }
-            }
-            enStatus = CLOCK_enSTATUS_OK;
-        }
-        pu32LUTPointerFreq++;
-        u8Counter++;
-    }
-    if(CLOCK_enSTATUS_ERROR == enStatus)
+    u8CurrentIndex = MCU__u16GetNearArrayIndex_32Bits(pu32LUTPointerFreq, u32FrequencyHz, CLOCK_MAXINDEX);
+
+    if(CLOCK_MAXINDEX <= u8CurrentIndex)
     {
         u8CurrentIndex = CLOCK_MAXINDEX;
         u8CurrentIndex -= 1U;

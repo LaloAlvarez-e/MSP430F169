@@ -30,5 +30,6 @@
 #include "DriverLib/SVS/Driver/Header/SVS_Output.h"
 #include "DriverLib/SVS/Driver/Header/SVS_Power.h"
 #include "DriverLib/SVS/Driver/Header/SVS_Reset.h"
+#include "DriverLib/SVS/Driver/Header/SVS_Threshold.h"
 
 #endif /* DRIVERLIB_SVS_DRIVER_SVS_DRIVER_H_ */

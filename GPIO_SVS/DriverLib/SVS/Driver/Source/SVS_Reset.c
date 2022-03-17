@@ -27,7 +27,7 @@
 #include "DriverLib/SVS/Peripheral/SVS_Peripheral.h"
 
 
-void SVS__vSetResetCause(SVS_nSTATE enResetStateArg)
+void SVS__vSetEnableResetCause(SVS_nSTATE enResetStateArg)
 {
     SVS_Register_t pstRegisterData = {0UL};
     pstRegisterData.uptrAddress = SVS_CTL_OFFSET;
@@ -38,7 +38,7 @@ void SVS__vSetResetCause(SVS_nSTATE enResetStateArg)
     SVS__vWriteRegister(&pstRegisterData);
 }
 
-SVS_nSTATE SVS__enGetResetCause(void)
+SVS_nSTATE SVS__enGetEnableResetCause(void)
 {
     SVS_Register_t pstRegisterData = {0UL};
     pstRegisterData.uptrAddress = SVS_CTL_OFFSET;
@@ -47,7 +47,7 @@ SVS_nSTATE SVS__enGetResetCause(void)
     pstRegisterData.u8Shift = SVS_CTL_R_PORON_BIT;
     (void) SVS__u8ReadRegister(&pstRegisterData);
 
-    return ((SVS_nFLAG) pstRegisterData.u8Value);
+    return ((SVS_nSTATE) pstRegisterData.u8Value);
 }
 
 
