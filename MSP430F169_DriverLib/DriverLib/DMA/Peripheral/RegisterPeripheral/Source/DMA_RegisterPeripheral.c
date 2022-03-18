@@ -1,6 +1,6 @@
 /**
  *
- * @file GPIO_RegisterPeripheral.c
+ * @file DMA_RegisterPeripheral.c
  * @copyright
  * @verbatim InDeviceMex 2021 @endverbatim
  *
@@ -21,20 +21,27 @@
  * Date           Author     Version     Description
  * 6 feb. 2022     InDeviceMex    1.0         initial Version@endverbatim
  */
-#include "DriverLib/GPIO/Peripheral/RegisterPeripheral/GPIO_RegisterPeripheral.h"
-#include "DriverLib/GPIO/Peripheral/Header/GPIO_Enum.h"
+#include "DriverLib/DMA/Peripheral/RegisterPeripheral/DMA_RegisterPeripheral.h"
+#include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-uintptr_t GPIO__uptrBlockBaseAddress(GPIO_nPORT enPortArg)
+uintptr_t DMA_CH__uptrBlockBaseAddress(DMA_nCH enChannelArg)
 {
-    const uintptr_t GPIO_BLOCK_BASE[(uint8_t) GPIO_enPORT_MAX] =
+    const uintptr_t DMA_BLOCK_BASE[(uint8_t) DMA_enCH_MAX] =
     {
-         PORT1_BASE, PORT2_BASE, PORT3_BASE, PORT4_BASE,
-         PORT5_BASE, PORT6_BASE
+         DMA_CH0_BASE, DMA_CH1_BASE, DMA_CH2_BASE
     };
     uintptr_t uptrReg = 0UL;
-    uptrReg = GPIO_BLOCK_BASE[(uint8_t) enPortArg];
+    uptrReg = DMA_BLOCK_BASE[(uint8_t) enChannelArg];
     return(uptrReg);
 }
+
+uintptr_t DMA__uptrBlockBaseAddress(void)
+{
+    uintptr_t uptrReg = 0U;
+    uptrReg = DMA_BASE;
+    return(uptrReg);
+}
+
 
 
 
