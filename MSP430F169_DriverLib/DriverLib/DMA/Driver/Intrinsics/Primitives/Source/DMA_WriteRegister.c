@@ -26,11 +26,18 @@
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 #include "DriverLib/MCU/MCU.h"
 
-void DMA__vWriteRegister(DMA_nPORT enPortArg,
-                          DMA_Register_t* pstRegisterData)
+void DMA__vWriteRegister(DMA_Register_t* pstRegisterData)
+{
+    uintptr_t ptrBase = DMA_BASE;
+    pstRegisterData->uptrAddress += ptrBase;
+    MCU__vWriteRegister_16bits(pstRegisterData);
+}
+
+void DMA_CH__vWriteRegister(DMA_nCH enChannelArg,
+                            DMA_Register_t* pstRegisterData)
 {
     uintptr_t ptrPortBase = 0U;
-    ptrPortBase = DMA__uptrBlockBaseAddress(enPortArg);
+    ptrPortBase = DMA_CH__uptrBlockBaseAddress(enChannelArg);
     pstRegisterData->uptrAddress += ptrPortBase;
-    MCU__vWriteRegister_8bits(pstRegisterData);
+    MCU__vWriteRegister_16bits(pstRegisterData);
 }

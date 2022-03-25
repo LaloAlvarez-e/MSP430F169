@@ -27,25 +27,11 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-void DMA__vSetEnableInterruptSource(DMA_nPORT enPortArg,
-                                     DMA_nPIN enPinMask,
-                                     DMA_nINT_ENABLE enState);
-void DMA__vEnaInterruptSource(DMA_nPORT enPortArg,
-                               DMA_nPIN enPinMask);
-void DMA__vDisInterruptSource(DMA_nPORT enPortArg,
-                               DMA_nPIN enPinMask);
 
-void DMA__vSetEnableInterruptSourceByNumber(DMA_nPORT enPortArg,
-                                             DMA_nPIN_NUMBER enPinNumber,
-                                             DMA_nINT_ENABLE enState);
-void DMA__vEnaInterruptSourceByNumber(DMA_nPORT enPortArg,
-                                       DMA_nPIN_NUMBER enPinNumber);
-void DMA__vDisInterruptSourceByNumber(DMA_nPORT enPortArg,
-                                       DMA_nPIN_NUMBER enPinNumber);
-
-DMA_nPIN DMA__enGetEnableInterruptSource(DMA_nPORT enPortArg,
-                                           DMA_nPIN enPinMask);
-DMA_nINT_ENABLE DMA__enGetEnableInterruptSourceByNumber(DMA_nPORT enPortArg,
-                                           DMA_nPIN_NUMBER enPinNumber);
+void DMA__vSetEnableInterruptSource(DMA_nCH enChannelArg,
+                                    DMA_nCH_INT_ENABLE enState);
+void DMA__vEnaInterruptSource(DMA_nCH enChannelArg);
+void DMA__vDisInterruptSource(DMA_nCH enChannelArg);
+DMA_nCH_INT_ENABLE DMA__enGetEnableInterruptSource(DMA_nCH enChannelArg);
 
 #endif /* DMA_DRIVER_INTRINSICS_INTERRUPT_HEADER_DMA_INTERRUPTSOURCE_ENABLE_H_ */

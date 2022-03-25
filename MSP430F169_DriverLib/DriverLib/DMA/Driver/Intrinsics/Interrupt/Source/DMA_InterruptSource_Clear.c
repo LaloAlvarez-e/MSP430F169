@@ -26,33 +26,13 @@
 #include "DriverLib/DMA/Driver/Intrinsics/Primitives/DMA_Primitives.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-
-void DMA__vClearInterruptSource(DMA_nPORT enPortArg,
-                                 DMA_nPIN enPinMask)
+void DMA__vClearInterruptSource(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData = {0UL};
-    if((DMA_enPORT1 == enPortArg) || (DMA_enPORT2 == enPortArg))
-    {
-        pstRegisterData.uptrAddress = PORT_IFG_OFFSET;
-        pstRegisterData.u8Value = PORT_IFG_PIN0_NOOCCUR;
-        pstRegisterData.u8Mask = (uint8_t) enPinMask;
-        pstRegisterData.u8Shift = PORT_IFG_R_PIN0_BIT;
-        DMA__vWriteRegister(enPortArg,
-                             &pstRegisterData);
-    }
-}
-
-void DMA__vClearInterruptSourceByNumber(DMA_nPORT enPortArg,
-                                 DMA_nPIN_NUMBER enPinNumber)
-{
-    DMA_Register_t pstRegisterData = {0UL};
-    if((DMA_enPORT1 == enPortArg) || (DMA_enPORT2 == enPortArg))
-    {
-        pstRegisterData.uptrAddress = PORT_IFG_OFFSET;
-        pstRegisterData.u8Value = PORT_IFG_PIN0_NOOCCUR;
-        pstRegisterData.u8Mask = PORT_IFG_PIN0_MASK;
-        pstRegisterData.u8Shift = (uint8_t) enPinNumber;
-        DMA__vWriteRegister(enPortArg,
-                             &pstRegisterData);
-    }
+    pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
+    pstRegisterData.u16Value = DMA_CH_CTL_IFG_NOOCCUR;
+    pstRegisterData.u16Mask = DMA_CH_CTL_IFG_MASK;
+    pstRegisterData.u8Shift = DMA_CH_CTL_R_IFG_BIT;
+    DMA_CH__vWriteRegister(enChannelArg,
+                           &pstRegisterData);
 }

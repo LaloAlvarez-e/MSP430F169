@@ -31,9 +31,9 @@
  ************************************ 4 CH_SA *********************************************
  ******************************************************************************************/
 /*-----------*/
-#define DMA_CH_SA_R_SA_BIT ((uint8_t) 0U)
+#define DMA_CH_SA_R_SA_BIT ((uint16_t) 0U)
 
-#define DMA_CH_SA_SA_MASK ((uint8_t) 0xFFFFU)
+#define DMA_CH_SA_SA_MASK ((uint16_t) 0xFFFFU)
 
 #define DMA_CH_SA_R_SA_MASK (DMA_CH_SA_SA_MASK << DMA_CH_SA_R_SA_BIT)
 /*-----------*/

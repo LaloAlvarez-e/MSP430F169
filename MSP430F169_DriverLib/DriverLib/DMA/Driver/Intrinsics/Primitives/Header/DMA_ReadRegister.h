@@ -27,7 +27,8 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-uint8_t DMA__u8ReadRegister(DMA_nPORT enPortArg,
-                             DMA_Register_t* pstRegisterData);
+uint16_t DMA__u16ReadRegister(DMA_Register_t* pstRegisterData);
+uint16_t DMA_CH__u16ReadRegister(DMA_nCH enChannelArg,
+                                 DMA_Register_t* pstRegisterData);
 
 #endif /* DMA_DRIVER_INTRINSICS_PRIMITIVES_HEADER_DMA_READREGISTER_H_ */

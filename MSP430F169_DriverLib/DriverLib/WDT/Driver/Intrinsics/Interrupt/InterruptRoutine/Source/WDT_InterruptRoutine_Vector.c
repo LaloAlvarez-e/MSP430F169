@@ -28,7 +28,6 @@
 #include "DriverLib/WDT/Peripheral/WDT_Peripheral.h"
 #include <msp430.h>
 
-#pragma vector = WDT_VECTOR
 __interrupt void WDT_IRQVectorHandler(void)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;

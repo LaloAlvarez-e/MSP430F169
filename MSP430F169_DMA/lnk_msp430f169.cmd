@@ -60,21 +60,7 @@ MEMORY
     INFOA                   : origin = 0x1080, length = 0x0080
     INFOB                   : origin = 0x1000, length = 0x0080
     FLASH                   : origin = 0x1100, length = 0xEEE0
-    INT00                   : origin = 0xFFE0, length = 0x0002
-    INT01                   : origin = 0xFFE2, length = 0x0002
-    INT02                   : origin = 0xFFE4, length = 0x0002
-    INT03                   : origin = 0xFFE6, length = 0x0002
-    INT04                   : origin = 0xFFE8, length = 0x0002
-    INT05                   : origin = 0xFFEA, length = 0x0002
-    INT06                   : origin = 0xFFEC, length = 0x0002
-    INT07                   : origin = 0xFFEE, length = 0x0002
-    INT08                   : origin = 0xFFF0, length = 0x0002
-    INT09                   : origin = 0xFFF2, length = 0x0002
-    INT10                   : origin = 0xFFF4, length = 0x0002
-    INT11                   : origin = 0xFFF6, length = 0x0002
-    INT12                   : origin = 0xFFF8, length = 0x0002
-    INT13                   : origin = 0xFFFA, length = 0x0002
-    INT14                   : origin = 0xFFFC, length = 0x0002
+    INTVECT                 : origin = 0xFFE0, length = 0x001E
     RESET                   : origin = 0xFFFE, length = 0x0002
 }
 
@@ -84,6 +70,7 @@ MEMORY
 
 SECTIONS
 {
+    .intvecs	: {} > INTVECT
     .bss        : {} > RAM                  /* Global & static vars              */
     .data       : {} > RAM                  /* Global & static vars              */
     .TI.noinit  : {} > RAM                  /* For #pragma noinit                */
@@ -114,21 +101,6 @@ SECTIONS
     .infoB     : {} > INFOB
 
     /* MSP430 Interrupt vectors          */
-    DACDMA       : { * ( .int00 ) } > INT00 type = VECT_INIT
-    PORT2        : { * ( .int01 ) } > INT01 type = VECT_INIT
-    USART1TX     : { * ( .int02 ) } > INT02 type = VECT_INIT
-    USART1RX     : { * ( .int03 ) } > INT03 type = VECT_INIT
-    PORT1        : { * ( .int04 ) } > INT04 type = VECT_INIT
-    TIMERA1      : { * ( .int05 ) } > INT05 type = VECT_INIT
-    TIMERA0      : { * ( .int06 ) } > INT06 type = VECT_INIT
-    ADC12        : { * ( .int07 ) } > INT07 type = VECT_INIT
-    USART0TX     : { * ( .int08 ) } > INT08 type = VECT_INIT
-    USART0RX     : { * ( .int09 ) } > INT09 type = VECT_INIT
-    WDT          : { * ( .int10 ) } > INT10 type = VECT_INIT
-    COMPARATORA   : { * ( .int11 ) } > INT11 type = VECT_INIT
-    TIMERB1      : { * ( .int12 ) } > INT12 type = VECT_INIT
-    TIMERB0      : { * ( .int13 ) } > INT13 type = VECT_INIT
-    NMI          : { * ( .int14 ) } > INT14 type = VECT_INIT
     .reset       : {}               > RESET  /* MSP430 Reset vector         */
 }
 

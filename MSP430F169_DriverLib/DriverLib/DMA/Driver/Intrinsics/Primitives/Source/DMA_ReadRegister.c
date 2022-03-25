@@ -26,17 +26,29 @@
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 #include "DriverLib/MCU/MCU.h"
 
-uint8_t DMA__u8ReadRegister(DMA_nPORT enPortArg,
-                             DMA_Register_t* pstRegisterData)
+uint16_t DMA__u16ReadRegister(DMA_Register_t* pstRegisterData)
 {
-    uintptr_t ptrPortBase = 0U;
-    uint8_t u8RegisterValue = 0U;
+    const uintptr_t ptrBase = DMA_BASE;
+    uint16_t u16RegisterValue = 0U;
 
-    ptrPortBase = DMA__uptrBlockBaseAddress(enPortArg);
-    pstRegisterData->uptrAddress += ptrPortBase;
-    u8RegisterValue = MCU__u8ReadRegister(pstRegisterData);
+    pstRegisterData->uptrAddress += ptrBase;
+    u16RegisterValue = MCU__u16ReadRegister(pstRegisterData);
 
-    return (u8RegisterValue);
+    return (u16RegisterValue);
 }
+
+uint16_t DMA_CH__u16ReadRegister(DMA_nCH enChannelArg,
+                                 DMA_Register_t* pstRegisterData)
+{
+    uintptr_t ptrChannelBase = 0U;
+    uint16_t u16RegisterValue = 0U;
+
+    ptrChannelBase = DMA_CH__uptrBlockBaseAddress(enChannelArg);
+    pstRegisterData->uptrAddress += ptrChannelBase;
+    u16RegisterValue = MCU__u16ReadRegister(pstRegisterData);
+
+    return (u16RegisterValue);
+}
+
 
 

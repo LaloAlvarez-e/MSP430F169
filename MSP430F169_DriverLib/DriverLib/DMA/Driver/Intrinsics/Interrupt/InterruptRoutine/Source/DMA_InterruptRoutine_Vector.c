@@ -28,128 +28,55 @@
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 #include <msp430.h>
 
-#pragma vector = PORT1_VECTOR
-__interrupt void PORT1_IRQVectorHandler(void)
+__interrupt void DACDMA_IRQVectorHandler(void)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
     uint16_t u16Status = LPM4_bits;
-    uint8_t u8Flags = PORT1_IFG_R;
-    uint8_t u8Enable = PORT1_IE_R;
-    const uintptr_t optrBaseAddress = PORT1_BASE;
+    uint16_t u16ControlDMA_CH0 = DMA_CH0_CTL_R;
+    uint16_t u16ControlDMA_CH1 = DMA_CH1_CTL_R;
+    uint16_t u16ControlDMA_CH2 = DMA_CH2_CTL_R;
+    uint16_t u16Trigger = 0U;
+    uint16_t u16Flag = 0U;
+    uint16_t u16Enable = 0U;
 
-    u8Flags &= u8Enable;
-    if(0U != (u8Flags & PORT_IFG_R_PIN0_MASK))
+    u16Flag = u16ControlDMA_CH0 & DMA_CH_CTL_R_IFG_MASK;
+    u16Enable = u16ControlDMA_CH0 & DMA_CH_CTL_R_IE_MASK;
+    u16Enable |= u16Flag;
+    if((DMA_CH_CTL_R_IFG_MASK | DMA_CH_CTL_R_IE_MASK) == u16Enable)
     {
-        PORT1_IFG_R &= ~PORT_IFG_R_PIN0_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT1, DMA_enPIN_NUMBER0);
+        DMA_CH0_CTL_R &= ~DMA_CH_CTL_R_IFG_MASK;
+        u16Trigger = DMA_CTL0_R;
+        u16Trigger >>= DMA_CTL0_R_CH0TSEL_BIT;
+        u16Trigger &= DMA_CTL0_CHTSEL_MASK;
+        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enCH0, (DMA_nCH_TRIGGER) u16Trigger);
 
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER0);
+        u16Status &= IRQSourceHandlerReg(DMA_CH0_BASE, (uint8_t) u16Trigger);
     }
-    if(0U != (u8Flags & PORT_IFG_R_PIN1_MASK))
+    u16Flag = u16ControlDMA_CH1 & DMA_CH_CTL_R_IFG_MASK;
+    u16Enable = u16ControlDMA_CH1 & DMA_CH_CTL_R_IE_MASK;
+    u16Enable |= u16Flag;
+    if((DMA_CH_CTL_R_IFG_MASK | DMA_CH_CTL_R_IE_MASK) == u16Enable)
     {
-        PORT1_IFG_R &= ~PORT_IFG_R_PIN1_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT1, DMA_enPIN_NUMBER1);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER1);
-    }
-    if(0U != (u8Flags & PORT_IFG_R_PIN2_MASK))
-    {
-        PORT1_IFG_R &= ~PORT_IFG_R_PIN2_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT1, DMA_enPIN_NUMBER2);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER2);
-    }
-    if(0U != (u8Flags & PORT_IFG_R_PIN3_MASK))
-    {
-        PORT1_IFG_R &= ~PORT_IFG_R_PIN3_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT1, DMA_enPIN_NUMBER3);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER3);
-    }
-    if(0U != (u8Flags & PORT_IFG_R_PIN4_MASK))
-    {
-        PORT1_IFG_R &= ~PORT_IFG_R_PIN4_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT1, DMA_enPIN_NUMBER4);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER4);
-    }
-    if(0U != (u8Flags & PORT_IFG_R_PIN5_MASK))
-    {
-        PORT1_IFG_R &= ~PORT_IFG_R_PIN5_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT1, DMA_enPIN_NUMBER5);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER5);
-    }
-    if(0U != (u8Flags & PORT_IFG_R_PIN6_MASK))
-    {
-        PORT1_IFG_R &= ~PORT_IFG_R_PIN6_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT1, DMA_enPIN_NUMBER6);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER6);
-    }
-    if(0U != (u8Flags & PORT_IFG_R_PIN7_MASK))
-    {
-        PORT1_IFG_R &= ~PORT_IFG_R_PIN7_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT1, DMA_enPIN_NUMBER7);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER7);
-    }
-    __low_power_mode_off_on_exit();
-    __bis_SR_register_on_exit(u16Status);
-    _NOP();
-}
+        DMA_CH1_CTL_R &= ~DMA_CH_CTL_R_IFG_MASK;
+        u16Trigger = DMA_CTL0_R;
+        u16Trigger >>= DMA_CTL0_R_CH1TSEL_BIT;
+        u16Trigger &= DMA_CTL0_CHTSEL_MASK;
+        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enCH1, (DMA_nCH_TRIGGER) u16Trigger);
 
+        u16Status &= IRQSourceHandlerReg(DMA_CH1_BASE, (uint8_t) u16Trigger);
+    }
+    u16Flag = u16ControlDMA_CH2 & DMA_CH_CTL_R_IFG_MASK;
+    u16Enable = u16ControlDMA_CH2 & DMA_CH_CTL_R_IE_MASK;
+    u16Enable |= u16Flag;
+    if((DMA_CH_CTL_R_IFG_MASK | DMA_CH_CTL_R_IE_MASK) == u16Enable)
+    {
+        DMA_CH2_CTL_R &= ~DMA_CH_CTL_R_IFG_MASK;
+        u16Trigger = DMA_CTL0_R;
+        u16Trigger >>= DMA_CTL0_R_CH2TSEL_BIT;
+        u16Trigger &= DMA_CTL0_CHTSEL_MASK;
+        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enCH2, (DMA_nCH_TRIGGER) u16Trigger);
 
-#pragma vector = PORT2_VECTOR
-__interrupt void PORT2_IRQVectorHandler(void)
-{
-    MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
-    uint16_t u16Status = LPM4_bits;
-    uint8_t u8Flags = PORT2_IFG_R;
-    uint8_t u8Enable = PORT2_IE_R;
-    const uintptr_t optrBaseAddress = PORT2_BASE;
-
-    u8Flags &= u8Enable;
-    if(0U != (u8Flags & PORT_IFG_R_PIN0_MASK))
-    {
-        PORT2_IFG_R &= ~PORT_IFG_R_PIN0_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT2, DMA_enPIN_NUMBER0);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER0);
-    }
-    if(0U != (u8Flags & PORT_IFG_R_PIN1_MASK))
-    {
-        PORT2_IFG_R &= ~PORT_IFG_R_PIN1_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT2, DMA_enPIN_NUMBER1);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER1);
-    }
-    if(0U != (u8Flags & PORT_IFG_R_PIN2_MASK))
-    {
-        PORT2_IFG_R &= ~PORT_IFG_R_PIN2_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT2, DMA_enPIN_NUMBER2);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER2);
-    }
-    if(0U != (u8Flags & PORT_IFG_R_PIN3_MASK))
-    {
-        PORT2_IFG_R &= ~PORT_IFG_R_PIN3_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT2, DMA_enPIN_NUMBER3);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER3);
-    }
-    if(0U != (u8Flags & PORT_IFG_R_PIN4_MASK))
-    {
-        PORT2_IFG_R &= ~PORT_IFG_R_PIN4_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT2, DMA_enPIN_NUMBER4);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER4);
-    }
-    if(0U != (u8Flags & PORT_IFG_R_PIN5_MASK))
-    {
-        PORT2_IFG_R &= ~PORT_IFG_R_PIN5_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT2, DMA_enPIN_NUMBER5);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER5);
-    }
-    if(0U != (u8Flags & PORT_IFG_R_PIN6_MASK))
-    {
-        PORT2_IFG_R &= ~PORT_IFG_R_PIN6_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT2, DMA_enPIN_NUMBER6);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER6);
-    }
-    if(0U != (u8Flags & PORT_IFG_R_PIN7_MASK))
-    {
-        PORT2_IFG_R &= ~PORT_IFG_R_PIN7_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enPORT2, DMA_enPIN_NUMBER7);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) DMA_enPIN_NUMBER7);
+        u16Status &= IRQSourceHandlerReg(DMA_CH2_BASE, (uint8_t) u16Trigger);
     }
     __low_power_mode_off_on_exit();
     __bis_SR_register_on_exit(u16Status);

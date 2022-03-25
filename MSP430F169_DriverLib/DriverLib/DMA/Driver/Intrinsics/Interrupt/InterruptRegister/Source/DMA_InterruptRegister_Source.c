@@ -25,15 +25,11 @@
 #include "DriverLib/DMA/Driver/Intrinsics/Interrupt/InterruptRegister/Header/DMA_InterruptRegister_Source.h"
 #include "DriverLib/DMA/Driver/Intrinsics/Interrupt/InterruptRoutine/Header/DMA_InterruptRoutine_Source.h"
 
-void DMA__vRegisterIRQSourceHandler(DMA_nPORT enPortArg,
-         DMA_nPIN_NUMBER enPinNumber,
+void DMA__vRegisterIRQSourceHandler(DMA_nCH enChannelArg, DMA_nCH_TRIGGER enTrigger,
          MCU__pu16fIRQSourceHandler_t pu16fIRQSourceHandler)
 {
     if(0U != (uintptr_t) pu16fIRQSourceHandler)
     {
-        if((DMA_enPORT1 == enPortArg) || (DMA_enPORT2 == enPortArg))
-        {
-            DMA__vSetIRQSourceHandler(enPortArg, enPinNumber, pu16fIRQSourceHandler);
-        }
+        DMA__vSetIRQSourceHandler(enChannelArg, enTrigger, pu16fIRQSourceHandler);
     }
 }

@@ -27,6 +27,7 @@
 
 #include "DriverLib/MCU/MCU.h"
 #include "DriverLib/CLOCK/CLOCK.h"
+#include "DriverLib/DMA/DMA.h"
 #include "DriverLib/GPIO/GPIO.h"
 #include "DriverLib/NMI/NMI.h"
 #include "DriverLib/SVS/SVS.h"

@@ -31,7 +31,7 @@
 #define DMA_CH1_BASE (0x1E8U)
 #define DMA_CH2_BASE (0x1F0U)
 
-#define DMA_CH0_OFSSET (0xBEU)
+#define DMA_CH0_OFFSET (0xBEU)
 #define DMA_CH1_OFFSET (0xC6U)
 #define DMA_CH2_OFFSET (0xCEU)
 

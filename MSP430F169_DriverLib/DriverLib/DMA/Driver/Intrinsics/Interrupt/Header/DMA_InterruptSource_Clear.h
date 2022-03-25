@@ -27,11 +27,6 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-void DMA__vClearInterruptSource(DMA_nPORT enPortArg,
-                                 DMA_nPIN enPinMask);
-void DMA__vClearInterruptSourceByNumber(DMA_nPORT enPortArg,
-                                 DMA_nPIN_NUMBER enPinNumber);
-
-
+void DMA__vClearInterruptSource(DMA_nCH enChannelArg);
 
 #endif /* DMA_DRIVER_INTRINSICS_INTERRUPT_HEADER_DMA_INTERRUPTSOURCE_CLEAR_H_ */

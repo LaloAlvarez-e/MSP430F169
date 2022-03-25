@@ -26,10 +26,6 @@
 #define DMA_DRIVER_DMA_DRIVER_H_
 
 #include "DriverLib/DMA/Driver/Intrinsics/DMA_Intrinsics.h"
-#include "DriverLib/DMA/Driver/Header/DMA_Direction.h"
-#include "DriverLib/DMA/Driver/Header/DMA_Input.h"
-#include "DriverLib/DMA/Driver/Header/DMA_InterruptEdge.h"
-#include "DriverLib/DMA/Driver/Header/DMA_Output.h"
-#include "DriverLib/DMA/Driver/Header/DMA_Selection.h"
+#include "DriverLib/DMA/Driver/Header/DMA_TransferSize.h"
 
 #endif /* DMA_DRIVER_DMA_DRIVER_H_ */

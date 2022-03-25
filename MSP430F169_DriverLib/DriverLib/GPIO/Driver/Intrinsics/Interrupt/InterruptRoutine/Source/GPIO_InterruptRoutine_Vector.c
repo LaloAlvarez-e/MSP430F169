@@ -28,7 +28,6 @@
 #include "DriverLib/GPIO/Peripheral/GPIO_Peripheral.h"
 #include <msp430.h>
 
-#pragma vector = PORT1_VECTOR
 __interrupt void PORT1_IRQVectorHandler(void)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
@@ -92,8 +91,6 @@ __interrupt void PORT1_IRQVectorHandler(void)
     _NOP();
 }
 
-
-#pragma vector = PORT2_VECTOR
 __interrupt void PORT2_IRQVectorHandler(void)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;

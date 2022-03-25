@@ -30,7 +30,6 @@
 #include "DriverLib/NMI/Peripheral/NMI_Peripheral.h"
 #include <msp430.h>
 
-#pragma vector = NMI_VECTOR
 __interrupt void NMI_IRQVectorHandler(void)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;

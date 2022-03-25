@@ -31,9 +31,9 @@
  ************************************ 6 CH_SZ *********************************************
  ******************************************************************************************/
 /*-----------*/
-#define DMA_CH_SZ_R_SZ_BIT ((uint8_t) 0U)
+#define DMA_CH_SZ_R_SZ_BIT ((uint16_t) 0U)
 
-#define DMA_CH_SZ_SZ_MASK ((uint8_t) 0xFFFFU)
+#define DMA_CH_SZ_SZ_MASK ((uint16_t) 0xFFFFU)
 
 #define DMA_CH_SZ_R_SZ_MASK (DMA_CH_SZ_SZ_MASK << DMA_CH_SZ_R_SZ_BIT)
 /*-----------*/

@@ -27,7 +27,6 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-__interrupt void PORT1_IRQVectorHandler(void);
-__interrupt void PORT2_IRQVectorHandler(void);
+__interrupt void DACDMA_IRQVectorHandler(void);
 
 #endif /* DMA_DRIVER_INTRINSICS_INTERRUPT_INTERRUPTROUTINE_HEADER_DMA_INTERRUPTROUTINE_VECTOR_H_ */

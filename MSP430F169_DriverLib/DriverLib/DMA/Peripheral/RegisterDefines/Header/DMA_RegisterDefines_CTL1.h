@@ -31,11 +31,11 @@
  ************************************ 2 CTL1 *********************************************
  ******************************************************************************************/
 /*-----------*/
-#define DMA_CTL1_R_ENNMI_BIT ((uint8_t) 0U)
+#define DMA_CTL1_R_ENNMI_BIT ((uint16_t) 0U)
 
-#define DMA_CTL1_ENNMI_MASK ((uint8_t) 0x01U)
-#define DMA_CTL1_ENNMI_DIS ((uint8_t) 0x00U)
-#define DMA_CTL1_ENNMI_ENA ((uint8_t) 0x01U)
+#define DMA_CTL1_ENNMI_MASK ((uint16_t) 0x01U)
+#define DMA_CTL1_ENNMI_DIS ((uint16_t) 0x00U)
+#define DMA_CTL1_ENNMI_ENA ((uint16_t) 0x01U)
 
 #define DMA_CTL1_R_ENNMI_MASK (DMA_CTL1_ENNMI_MASK << DMA_CTL1_R_ENNMI_BIT)
 #define DMA_CTL1_R_ENNMI_DIS (DMA_CTL1_ENNMI_DIS << DMA_CTL1_R_ENNMI_BIT)
@@ -43,11 +43,11 @@
 /*-----------*/
 
 /*-----------*/
-#define DMA_CTL1_R_ROUNDROBIN_BIT ((uint8_t) 1U)
+#define DMA_CTL1_R_ROUNDROBIN_BIT ((uint16_t) 1U)
 
-#define DMA_CTL1_ROUNDROBIN_MASK ((uint8_t) 0x01U)
-#define DMA_CTL1_ROUNDROBIN_STATIC ((uint8_t) 0x00U)
-#define DMA_CTL1_ROUNDROBIN_ENA ((uint8_t) 0x01U)
+#define DMA_CTL1_ROUNDROBIN_MASK ((uint16_t) 0x01U)
+#define DMA_CTL1_ROUNDROBIN_STATIC ((uint16_t) 0x00U)
+#define DMA_CTL1_ROUNDROBIN_ENA ((uint16_t) 0x01U)
 
 #define DMA_CTL1_R_ROUNDROBIN_MASK (DMA_CTL1_ROUNDROBIN_MASK << DMA_CTL1_R_ROUNDROBIN_BIT)
 #define DMA_CTL1_R_ROUNDROBIN_STATIC (DMA_CTL1_ROUNDROBIN_STATIC << DMA_CTL1_R_ROUNDROBIN_BIT)
@@ -55,11 +55,11 @@
 /*-----------*/
 
 /*-----------*/
-#define DMA_CTL1_R_DMAONFETCH_BIT ((uint8_t) 2U)
+#define DMA_CTL1_R_DMAONFETCH_BIT ((uint16_t) 2U)
 
-#define DMA_CTL1_DMAONFETCH_MASK ((uint8_t) 0x01U)
-#define DMA_CTL1_DMAONFETCH_IMMENDIATE ((uint8_t) 0x00U)
-#define DMA_CTL1_DMAONFETCH_NEXT ((uint8_t) 0x01U)
+#define DMA_CTL1_DMAONFETCH_MASK ((uint16_t) 0x01U)
+#define DMA_CTL1_DMAONFETCH_IMMENDIATE ((uint16_t) 0x00U)
+#define DMA_CTL1_DMAONFETCH_NEXT ((uint16_t) 0x01U)
 
 #define DMA_CTL1_R_DMAONFETCH_MASK (DMA_CTL1_DMAONFETCH_MASK << DMA_CTL1_R_DMAONFETCH_BIT)
 #define DMA_CTL1_R_DMAONFETCH_IMMENDIATE (DMA_CTL1_DMAONFETCH_IMMENDIATE << DMA_CTL1_R_DMAONFETCH_BIT)

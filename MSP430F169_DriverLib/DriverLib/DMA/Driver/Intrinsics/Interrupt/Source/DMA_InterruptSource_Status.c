@@ -26,72 +26,30 @@
 #include "DriverLib/DMA/Driver/Intrinsics/Primitives/DMA_Primitives.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-void DMA__vSetStatusInterruptSource(DMA_nPORT enPortArg,
-                                     DMA_nPIN enPinMask,
-                                     DMA_nINT_STATUS enStatus)
+void DMA__vSetStatusInterruptSource(DMA_nCH enChannelArg,
+                                    DMA_nCH_INT_STATUS enStatus)
 {
     DMA_Register_t pstRegisterData = {0UL};
-    uint8_t u8Value = 0U;
-    if((DMA_enPORT1 == enPortArg) || (DMA_enPORT2 == enPortArg))
-    {
-        if(DMA_enINT_STATUS_NOOCCUR != enStatus)
-        {
-            u8Value = (uint8_t) enPinMask;
-        }
-        pstRegisterData.uptrAddress = PORT_IFG_OFFSET;
-        pstRegisterData.u8Value = u8Value;
-        pstRegisterData.u8Mask = (uint8_t) enPinMask;
-        pstRegisterData.u8Shift = PORT_IFG_R_PIN0_BIT;
-        DMA__vWriteRegister(enPortArg,
-                             &pstRegisterData);
-    }
+
+    pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
+    pstRegisterData.u16Value = (uint16_t) enStatus;
+    pstRegisterData.u16Mask = DMA_CH_CTL_IFG_MASK;
+    pstRegisterData.u8Shift = DMA_CH_CTL_R_IFG_BIT;
+    DMA_CH__vWriteRegister(enChannelArg,
+                         &pstRegisterData);
 }
 
-void DMA__vSetStatusInterruptSourceByNumber(DMA_nPORT enPortArg,
-                                             DMA_nPIN_NUMBER enPinNumber,
-                                             DMA_nINT_STATUS enStatus)
+DMA_nCH_INT_STATUS DMA__enGetStatusInterruptSource(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData = {0UL};
-    if((DMA_enPORT1 == enPortArg) || (DMA_enPORT2 == enPortArg))
-    {
-        pstRegisterData.uptrAddress = PORT_IFG_OFFSET;
-        pstRegisterData.u8Value = (uint8_t) enStatus;
-        pstRegisterData.u8Mask = PORT_IFG_PIN0_MASK;
-        pstRegisterData.u8Shift = (uint8_t) enPinNumber;
-        DMA__vWriteRegister(enPortArg,
-                             &pstRegisterData);
-    }
-}
+    DMA_nCH_INT_STATUS enStatus = DMA_enCH_INT_STATUS_NOOCCUR;
 
-DMA_nPIN DMA__enGetStatusInterruptSource(DMA_nPORT enPortArg,
-                                           DMA_nPIN enPinMask)
-{
-    DMA_Register_t pstRegisterData = {0UL};
-    DMA_nPIN enStatus = DMA_enPIN_NONE;
-    if((DMA_enPORT1 == enPortArg) || (DMA_enPORT2 == enPortArg))
-    {
-        pstRegisterData.uptrAddress = PORT_IFG_OFFSET;
-        pstRegisterData.u8Mask = (uint8_t) enPinMask;
-        pstRegisterData.u8Shift = PORT_IFG_R_PIN0_BIT;
-        enStatus = (DMA_nPIN) DMA__u8ReadRegister(enPortArg,
-                                                    &pstRegisterData);
-    }
-    return (enStatus);
-}
+    pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
+    pstRegisterData.u16Mask = DMA_CH_CTL_IFG_MASK;
+    pstRegisterData.u8Shift = DMA_CH_CTL_R_IFG_BIT;
 
-DMA_nINT_STATUS DMA__enGetStatusInterruptSourceByNumber(DMA_nPORT enPortArg,
-                                           DMA_nPIN_NUMBER enPinNumber)
-{
-    DMA_Register_t pstRegisterData = {0UL};
-    DMA_nINT_STATUS enStatus = DMA_enINT_STATUS_NOOCCUR;
-    if((DMA_enPORT1 == enPortArg) || (DMA_enPORT2 == enPortArg))
-    {
-        pstRegisterData.uptrAddress = PORT_IFG_OFFSET;
-        pstRegisterData.u8Mask = PORT_IFG_PIN0_MASK;
-        pstRegisterData.u8Shift = (uint8_t) enPinNumber;
-        enStatus = (DMA_nINT_STATUS) DMA__u8ReadRegister(enPortArg,
-                                                    &pstRegisterData);
-    }
+    enStatus = (DMA_nCH_INT_STATUS) DMA_CH__u16ReadRegister(enChannelArg,
+                                                &pstRegisterData);
     return (enStatus);
 }
 

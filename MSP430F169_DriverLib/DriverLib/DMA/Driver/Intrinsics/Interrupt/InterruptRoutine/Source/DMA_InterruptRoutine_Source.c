@@ -26,8 +26,8 @@
 static uint16_t DMA_u16IRQSourceHandler_Dummy(uintptr_t uptrModule,
                                                uint8_t u8IntSource);
 
-static MCU__pu16fIRQSourceHandler_t DMA_pu16fIRQSourceHandler[(uint8_t) DMA_enPORT2 + 1U]
-                                                              [(uint8_t) DMA_enPIN_NUMBER_MAX]=
+static MCU__pu16fIRQSourceHandler_t DMA_pu16fIRQSourceHandler[(uint8_t) DMA_enCH_MAX]
+                                                              [(uint8_t) DMA_enCH_TRIGGER_MAX]=
 {
     {
         &DMA_u16IRQSourceHandler_Dummy,
@@ -38,8 +38,42 @@ static MCU__pu16fIRQSourceHandler_t DMA_pu16fIRQSourceHandler[(uint8_t) DMA_enPO
         &DMA_u16IRQSourceHandler_Dummy,
         &DMA_u16IRQSourceHandler_Dummy,
         &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
     },
     {
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+    },
+    {
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
+        &DMA_u16IRQSourceHandler_Dummy,
         &DMA_u16IRQSourceHandler_Dummy,
         &DMA_u16IRQSourceHandler_Dummy,
         &DMA_u16IRQSourceHandler_Dummy,
@@ -59,21 +93,16 @@ static uint16_t DMA_u16IRQSourceHandler_Dummy(uintptr_t uptrModule,
     }
     return (0U);
 }
-MCU__pu16fIRQSourceHandler_t DMA__pu16fGetIRQSourceHandler(DMA_nPORT enPortArg, DMA_nPIN_NUMBER enPin)
+
+MCU__pu16fIRQSourceHandler_t DMA__pu16fGetIRQSourceHandler(DMA_nCH enChannelArg, DMA_nCH_TRIGGER enTrigger)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandler = (MCU__pu16fIRQSourceHandler_t) 0U;
-    if((DMA_enPORT1 == enPortArg) || (DMA_enPORT2 == enPortArg))
-    {
-        IRQSourceHandler = DMA_pu16fIRQSourceHandler[(uint8_t) enPortArg][(uint8_t) enPin];
-    }
+    IRQSourceHandler = DMA_pu16fIRQSourceHandler[(uint8_t) enChannelArg][(uint8_t) enTrigger];
     return (IRQSourceHandler);
 }
 
-void DMA__vSetIRQSourceHandler(DMA_nPORT enPortArg, DMA_nPIN_NUMBER enPin,
-                                MCU__pu16fIRQSourceHandler_t pu16fIRQSourceHandler)
+void DMA__vSetIRQSourceHandler(DMA_nCH enChannelArg, DMA_nCH_TRIGGER enTrigger,
+                               MCU__pu16fIRQSourceHandler_t pu16fIRQSourceHandler)
 {
-    if((DMA_enPORT1 == enPortArg) || (DMA_enPORT2 == enPortArg))
-    {
-    DMA_pu16fIRQSourceHandler[(uint8_t) enPortArg][(uint8_t) enPin] = pu16fIRQSourceHandler;
-    }
+    DMA_pu16fIRQSourceHandler[(uint8_t) enChannelArg][(uint8_t) enTrigger] = pu16fIRQSourceHandler;
 }

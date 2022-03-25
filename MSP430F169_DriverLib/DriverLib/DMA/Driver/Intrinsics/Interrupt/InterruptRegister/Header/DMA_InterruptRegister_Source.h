@@ -28,8 +28,7 @@
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 #include "DriverLib/MCU/Header/MCU_Common.h"
 
-void DMA__vRegisterIRQSourceHandler(DMA_nPORT enPortArg,
-         DMA_nPIN_NUMBER enPinNumber,
+void DMA__vRegisterIRQSourceHandler(DMA_nCH enChannelArg, DMA_nCH_TRIGGER enTrigger,
          MCU__pu16fIRQSourceHandler_t pu16fIRQSourceHandler);
 
 #endif /* DMA_DRIVER_INTRINSICS_INTERRUPT_INTERRUPTREGISTER_HEADER_DMA_INTERRUPTREGISTER_SOURCE_H_ */
