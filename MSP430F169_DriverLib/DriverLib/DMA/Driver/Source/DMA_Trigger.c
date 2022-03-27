@@ -48,7 +48,7 @@ DMA_nCH_TRIGGER DMA__enGetTrigger(DMA_nCH enChannelArg)
     u16ShiftTemp *= (uint16_t) enChannelArg;
     pstRegisterData.u8Shift = u16ShiftTemp;
     (void) DMA__u16ReadRegister(&pstRegisterData);
-    return (pstRegisterData.u16Value);
+    return ((DMA_nCH_TRIGGER) pstRegisterData.u16Value);
 }
 
 

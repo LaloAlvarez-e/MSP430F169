@@ -41,9 +41,9 @@ typedef enum
 
 typedef enum
 {
-    DMA_enNMI_DIS = 0U,
-    DMA_enNMI_ENA = 1U,
-}DMA_nNMI;
+    DMA_enENABLE_DIS = 0U,
+    DMA_enENABLE_ENA = 1U,
+}DMA_nENABLE;
 
 typedef enum
 {
@@ -141,5 +141,12 @@ typedef enum
 }DMA_nCH_INT_STATUS;
 
 typedef MCU_Register16Bits_t DMA_Register_t;
+
+typedef struct
+{
+    DMA_nENABLE enNmiStop;
+    DMA_nPRIORITY enPriority;
+    DMA_nFETCH enFetchMode;
+}DMA_Config_t;
 
 #endif /* DMA_PERIPHERAL_HEADER_DMA_ENUM_H_ */
