@@ -21,12 +21,12 @@
  * Date           Author     Version     Description
  * 27 mar. 2022     InDeviceMex    1.0         initial Version@endverbatim
  */
-#include <DriverLib/DMA/Driver/Header/DMA_Config.h>
+#include <DriverLib/DMA/Driver/Global/Header/DMA_Config.h>
 
 
-#include <DriverLib/DMA/Driver/Header/DMA_NMI.h>
-#include <DriverLib/DMA/Driver/Header/DMA_Fetch.h>
-#include <DriverLib/DMA/Driver/Header/DMA_Priority.h>
+#include <DriverLib/DMA/Driver/Global/Header/DMA_NMI.h>
+#include <DriverLib/DMA/Driver/Global/Header/DMA_Fetch.h>
+#include <DriverLib/DMA/Driver/Global/Header/DMA_Priority.h>
 
 #include "DriverLib/DMA/Driver/Intrinsics/DMA_Intrinsics.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
@@ -39,7 +39,7 @@ void DMA__vSetConfig(DMA_Config_t* pstConfigArg)
     {
         stConfigReg.DMAONFETCH = (uint16_t) pstConfigArg->enFetchMode;
         stConfigReg.ENNMI = (uint16_t) pstConfigArg->enNmiStop;
-        stConfigReg.ROUNDROBIN = (uint16_t) pstConfigArg->enPriority;
+        stConfigReg.ROUNDROBIN = (uint16_t) pstConfigArg->enPriorityMode;
 
         pstRegisterData.uptrAddress = DMA_CTL1_OFFSET;
         pstRegisterData.u16Value = (*(uint16_t*) &stConfigReg);
@@ -56,7 +56,7 @@ void DMA__vGetConfig(DMA_Config_t* pstConfigArg)
     {
         pstConfigArg->enFetchMode = DMA__enGetFetchMode();
         pstConfigArg->enNmiStop = DMA__enGetNMITranferStop();
-        pstConfigArg->enPriority = DMA__enGetPriorityMode();
+        pstConfigArg->enPriorityMode = DMA__enGetPriorityMode();
     }
 }
 

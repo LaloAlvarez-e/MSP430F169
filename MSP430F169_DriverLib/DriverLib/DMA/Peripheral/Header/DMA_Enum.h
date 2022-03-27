@@ -145,7 +145,7 @@ typedef MCU_Register16Bits_t DMA_Register_t;
 typedef struct
 {
     DMA_nENABLE enNmiStop;
-    DMA_nPRIORITY enPriority;
+    DMA_nPRIORITY enPriorityMode;
     DMA_nFETCH enFetchMode;
 }DMA_Config_t;
 

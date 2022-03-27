@@ -21,7 +21,7 @@
  * Date           Author     Version     Description
  * 25 mar. 2022     InDeviceMex    1.0         initial Version@endverbatim
  */
-#include <DriverLib/DMA/Driver/Header/DMA_Trigger.h>
+#include <DriverLib/DMA/Driver/Channel/Header/DMA_Trigger.h>
 #include "DriverLib/DMA/Driver/Intrinsics/DMA_Intrinsics.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
