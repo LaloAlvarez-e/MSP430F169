@@ -98,17 +98,17 @@ typedef enum
 
 typedef enum
 {
-    DMA_enCH_WORDSIZE_WORD = 0U,
-    DMA_enCH_WORDSIZE_BYTE = 1U,
-    DMA_enCH_WORDSIZE_MAX = 2U,
-}DMA_nCH_WORDSIZE;
+    DMA_enCH_DATASIZE_WORD = 0U,
+    DMA_enCH_DATASIZE_BYTE = 1U,
+    DMA_enCH_DATASIZE_MAX = 2U,
+}DMA_nCH_DATASIZE;
 
 typedef enum
 {
-    DMA_enCH_TRIGGERMODE_EDGE = 0U,
-    DMA_enCH_TRIGGERMODE_LEVEL = 1U,
-    DMA_enCH_TRIGGERMODE_MAX = 2U,
-}DMA_nCH_TRIGGERMODE;
+    DMA_enCH_SENSE_EDGE = 0U,
+    DMA_enCH_SENSE_LEVEL = 1U,
+    DMA_enCH_SENSE_MAX = 2U,
+}DMA_nCH_SENSE;
 
 typedef enum
 {
@@ -124,7 +124,7 @@ typedef enum
 
 typedef enum
 {
-    DMA_enCH_ABORT_NA = 0U,
+    DMA_enCH_ABORT_CLEAR = 0U,
     DMA_enCH_ABORT_ABORTED = 1U,
 }DMA_nCH_ABORT;
 
@@ -148,5 +148,30 @@ typedef struct
     DMA_nPRIORITY enPriorityMode;
     DMA_nFETCH enFetchMode;
 }DMA_Config_t;
+
+typedef struct
+{
+    DMA_nCH_MODE enTransferMode;
+    DMA_nCH_INCMODE enSourceIncMode;
+    DMA_nCH_INCMODE enDestIncMode;
+    DMA_nCH_DATASIZE enSourceDataSize;
+    DMA_nCH_DATASIZE enDestDataSize;
+    DMA_nCH_SENSE enSense;
+    DMA_nCH_ENABLE enEnable;
+    DMA_nCH_ABORT enAbort;
+}DMA_CH_Config_t;
+
+typedef struct
+{
+    DMA_nCH_MODE enTransferMode;
+    DMA_nCH_INCMODE enSourceIncMode;
+    DMA_nCH_INCMODE enDestIncMode;
+    DMA_nCH_DATASIZE enSourceDataSize;
+    DMA_nCH_DATASIZE enDestDataSize;
+    DMA_nCH_SENSE enSense;
+    DMA_nCH_ENABLE enEnable;
+    DMA_nCH_ABORT enAbort;
+    DMA_nCH_INT_ENABLE enInterruptEnable;
+}DMA_CH_ConfigExt_t;
 
 #endif /* DMA_PERIPHERAL_HEADER_DMA_ENUM_H_ */

@@ -25,8 +25,23 @@
 #ifndef DRIVERLIB_DMA_DRIVER_CHANNEL_CONFIG_DMA_CONFIG_H_
 #define DRIVERLIB_DMA_DRIVER_CHANNEL_CONFIG_DMA_CONFIG_H_
 
+#include <DriverLib/DMA/Driver/Channel/Config/Header/DMA_Abort.h>
+#include <DriverLib/DMA/Driver/Channel/Config/Header/DMA_DataSize.h>
+#include <DriverLib/DMA/Driver/Channel/Config/Header/DMA_Enable.h>
+#include <DriverLib/DMA/Driver/Channel/Config/Header/DMA_IncrementMode.h>
+#include <DriverLib/DMA/Driver/Channel/Config/Header/DMA_Request.h>
+#include <DriverLib/DMA/Driver/Channel/Config/Header/DMA_Sense.h>
+#include <DriverLib/DMA/Driver/Channel/Config/Header/DMA_TransferMode.h>
+
+void DMA__vSetChannelConfig(DMA_nCH enChannelArg,
+                            DMA_CH_Config_t* pstConfigArg);
+void DMA__vSetChannelExtendedConfig(DMA_nCH enChannelArg,
+                                    DMA_CH_ConfigExt_t* pstConfigArg);
 
 
-
+void DMA__vGetChannelConfig(DMA_nCH enChannelArg,
+                            DMA_CH_Config_t* pstConfigArg);
+void DMA__vGetChannelExtendedConfig(DMA_nCH enChannelArg,
+                            DMA_CH_ConfigExt_t* pstConfigArg);
 
 #endif /* DRIVERLIB_DMA_DRIVER_CHANNEL_CONFIG_DMA_CONFIG_H_ */
