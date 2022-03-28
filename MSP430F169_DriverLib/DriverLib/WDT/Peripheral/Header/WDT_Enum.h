@@ -79,7 +79,7 @@ typedef struct
     WDT_nMODE enMode;
     WDT_nCLOCK enClock;
     WDT_nINTERVAL enInterval;
-}WDT_CONFIG_t;
+}WDT_Config_t;
 
 typedef MCU_Register8Bits_t WDT_Register8Bits_t;
 typedef MCU_Register16Bits_t WDT_Register16Bits_t;

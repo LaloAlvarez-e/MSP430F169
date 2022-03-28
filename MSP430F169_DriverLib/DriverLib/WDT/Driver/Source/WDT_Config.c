@@ -28,7 +28,7 @@
 #include "DriverLib/MCU/MCU.h"
 
 
-void WDT__vSetConfig(WDT_CONFIG_t* pstConfig)
+void WDT__vSetConfig(WDT_Config_t* pstConfig)
 {
     WDT_Register16Bits_t pstRegisterData = {0UL};
     uint16_t u16EnableReg = 0U;

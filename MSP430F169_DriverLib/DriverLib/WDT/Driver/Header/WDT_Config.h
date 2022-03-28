@@ -27,6 +27,6 @@
 
 #include "DriverLib/WDT/Peripheral/Header/WDT_Enum.h"
 
-void WDT__vSetConfig(WDT_CONFIG_t* pstConfig);
+void WDT__vSetConfig(WDT_Config_t* pstConfig);
 
 #endif /* DRIVERLIB_WDT_DRIVER_HEADER_WDT_CONFIG_H_ */
