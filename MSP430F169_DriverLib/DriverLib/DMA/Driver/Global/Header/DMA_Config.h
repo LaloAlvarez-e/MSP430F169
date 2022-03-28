@@ -25,8 +25,9 @@
 #ifndef DRIVERLIB_DMA_DRIVER_HEADER_DMA_CONFIG_H_
 #define DRIVERLIB_DMA_DRIVER_HEADER_DMA_CONFIG_H_
 
+#include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-
-
+void DMA__vSetConfig(DMA_Config_t* pstConfigArg);
+void DMA__vGetConfig(DMA_Config_t* pstConfigArg);
 
 #endif /* DRIVERLIB_DMA_DRIVER_HEADER_DMA_CONFIG_H_ */
