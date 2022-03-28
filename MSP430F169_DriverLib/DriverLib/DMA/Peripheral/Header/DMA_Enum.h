@@ -151,6 +151,10 @@ typedef struct
 
 typedef struct
 {
+    uint16_t u16TranferSize;
+    uint16_t u16SourceAddress;
+    uint16_t u16DestAddress;
+    DMA_nCH_TRIGGER enTrigger;
     DMA_nCH_MODE enTransferMode;
     DMA_nCH_INCMODE enSourceIncMode;
     DMA_nCH_INCMODE enDestIncMode;
@@ -163,6 +167,10 @@ typedef struct
 
 typedef struct
 {
+    uint16_t u16TranferSize;
+    uint16_t u16SourceAddress;
+    uint16_t u16DestAddress;
+    DMA_nCH_TRIGGER enTrigger;
     DMA_nCH_MODE enTransferMode;
     DMA_nCH_INCMODE enSourceIncMode;
     DMA_nCH_INCMODE enDestIncMode;
@@ -172,6 +180,7 @@ typedef struct
     DMA_nCH_ENABLE enEnable;
     DMA_nCH_ABORT enAbort;
     DMA_nCH_INT_ENABLE enInterruptEnable;
+    DMA_nCH_INT_STATUS enInterruptStatus;
 }DMA_CH_ConfigExt_t;
 
 #endif /* DMA_PERIPHERAL_HEADER_DMA_ENUM_H_ */
