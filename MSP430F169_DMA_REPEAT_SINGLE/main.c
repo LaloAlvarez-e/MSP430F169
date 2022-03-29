@@ -2,6 +2,7 @@
 
 
 uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source);
+uint16_t MAIN_u16DMASoftware(uintptr_t ptrBlock, uint8_t u8Source);
 
 #define LED1_PORT (GPIO_enPORT1)
 #define LED1_PIN (GPIO_enPIN_NUMBER0)
@@ -11,6 +12,10 @@ uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source);
 #define LED4_PIN (GPIO_enPIN_NUMBER3)
 #define TEST_PORT (GPIO_enPORT3)
 #define TEST_PIN (GPIO_enPIN_NUMBER4)
+
+
+uint8_t pu8BufferOut[100U] = {0U};
+
 /**
  * main.c
  */
@@ -19,14 +24,40 @@ uint8_t u8Activate = 0U;
 void main(void)
 {
     uint16_t u16Iter = 0U;
-    WDT_CONFIG_t stWDTConfig =
+    WDT_Config_t stWDTConfig =
     {
-     WDT_enENABLE_RUN,
-     WDT_enINT_ENABLE_ENA,
-     WDT_enMODE_INTERVAL,
-     WDT_enCLOCK_ACLK,
-     WDT_enINTERVAL_32768,
+        WDT_enENABLE_RUN,
+        WDT_enINT_ENABLE_ENA,
+        WDT_enMODE_INTERVAL,
+        WDT_enCLOCK_ACLK,
+        WDT_enINTERVAL_32768,
     };
+
+    DMA_Config_t stDMAConfig =
+    {
+        DMA_enENABLE_DIS,
+        DMA_enPRIORITY_STATIC,
+        DMA_enFETCH_NEXT,
+    };
+
+    DMA_CH_ConfigExt_t stDMAChannelConfig =
+    {
+        4U,
+        0x1100U,
+        (uint16_t) &pu8BufferOut[0U],
+        DMA_enCH_TRIGGER_SW,
+        DMA_enCH_MODE_REPEAT_SINGLE,
+        DMA_enCH_INCMODE_INCREMENT,
+        DMA_enCH_INCMODE_INCREMENT,
+        DMA_enCH_DATASIZE_BYTE,
+        DMA_enCH_DATASIZE_BYTE,
+        DMA_enCH_SENSE_EDGE,
+        DMA_enCH_ENABLE_ENA,
+        DMA_enCH_ABORT_CLEAR,
+        DMA_enCH_INT_ENABLE_ENA,
+        DMA_enCH_INT_STATUS_NOOCCUR,
+    };
+
     SVS->CTL_bits.VLD = 0U;
     WDT__vSetEnable(WDT_enENABLE_STOP); /*  stop watchdog timer*/
 
@@ -50,12 +81,14 @@ void main(void)
 	CLOCK__enSetMCLKSource(CLOCK_enSOURCE_DCO); /*~8 MHz*/
     CLOCK__enSetSMCLKSource(CLOCK_enSOURCE_XT2); /*8 MHz*/
 
-    GPIO__vSetDirectionByNumber(LED4_PORT, LED4_PIN, GPIO_enDIR_OUTPUT);
-    GPIO__vSetSelectionByNumber(LED4_PORT, LED4_PIN, GPIO_enSEL_IO);
-    GPIO__vSetOutputByNumber(LED4_PORT, LED4_PIN, GPIO_enLEVEL_HIGH);
-
     WDT__vRegisterIRQSourceHandler(&MAIN_u16WDTInterval);
     WDT__vSetConfig(&stWDTConfig);
+
+
+    DMA__vRegisterIRQSourceHandler(DMA_enCH0, DMA_enCH_TRIGGER_SW, &MAIN_u16DMASoftware);
+
+    DMA__vSetConfig(&stDMAConfig);
+    DMA__vSetChannelExtendedConfig(DMA_enCH0, &stDMAChannelConfig);
 
     _EINT();
 	while(1U)
@@ -68,7 +101,13 @@ uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source)
     static uint8_t u8Level = 1U;
     u8Level ^= 1U;
     GPIO__vSetOutputByNumber(TEST_PORT, TEST_PIN, (GPIO_nLEVEL) u8Level);
+    DMA__vRequestSWTransfer(DMA_enCH0);
     return (0U);
 }
 
+
+uint16_t MAIN_u16DMASoftware(uintptr_t ptrBlock, uint8_t u8Source)
+{
+    return (0U);
+}
 
