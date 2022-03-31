@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>GPIO_Interrupt</name>
+	<name>MSP430F169_GPIO_Interrupt</name>
 	<comment></comment>
 	<projects>
 	</projects>

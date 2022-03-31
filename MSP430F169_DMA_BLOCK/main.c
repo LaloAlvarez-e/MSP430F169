@@ -21,6 +21,30 @@ uint8_t pu8BufferOut[500U] = {0U};
  */
 uint8_t u8Activate = 0U;
 
+
+uint32_t u32Operand1 = 0UL;
+uint32_t u32Operand2 = 0UL;
+int32_t s32Operand1 = 0UL;
+int32_t s32Operand2 = 0UL;
+uint16_t u16Operand1_HI = 0U;
+uint16_t u16Operand1_LO = 0U;
+uint16_t u16Operand2_HI = 0U;
+uint16_t u16Operand2_LO = 0U;
+
+uint32_t u32ValueTemp = 0UL;
+uint32_t u32ValueTemp1 = 0UL;
+uint64_t u64ValueTemp1 = 0UL;
+
+uint32_t u32ValueTemp_ = 0UL;
+uint64_t u64ValueTemp_ = 0UL;
+uint32_t u32ValueTemp1_ = 0UL;
+uint64_t u64ValueTemp1_ = 0UL;
+
+uint16_t u16Sign[4U] = {0U};
+
+int64_t s64Value_ = 0LL;
+int64_t s64Value1_ = 0LL;
+
 void main(void)
 {
     uint16_t u16Iter = 0U;
@@ -93,6 +117,78 @@ void main(void)
     _EINT();
 	while(1U)
 	{
+	    u32Operand1 = 0x8FFFFFFFULL;
+        u32Operand2 = 0x8FFFFFFFULL ;
+        s32Operand1 = 0x8FFFFFFFLL;
+        s32Operand2 = 0x8FFFFFFFLL ;
+        u16Operand1_HI = (u32Operand1 >> 16U) & 0xFFFFUL;
+        u16Operand1_LO = u32Operand1 & 0xFFFFUL;
+        u16Operand2_HI = (u32Operand2 >> 16U) & 0xFFFFUL;
+        u16Operand2_LO = u32Operand2 & 0xFFFFUL;
+
+
+
+	    MPY = u16Operand1_LO;
+	    OP2 = u16Operand2_LO;
+	    _NOP();
+	    u32ValueTemp = RESHI;
+	    u32ValueTemp <<= 16U;
+	    u32ValueTemp |= RESLO;
+        u16Sign[0U] = SUMEXT;
+
+	    OP2 = u16Operand2_HI;
+        _NOP();
+
+	    u32ValueTemp1 = RESHI;
+	    u32ValueTemp1 <<= 16U;
+	    u32ValueTemp1 |= RESLO;
+        u16Sign[1U] = SUMEXT;
+
+	    u64ValueTemp1 = u32ValueTemp1;
+	    u64ValueTemp1 <<= 16U;
+
+	    u64ValueTemp1 += u32ValueTemp;
+
+
+
+
+
+
+
+
+
+        MPY = u16Operand1_HI;
+        OP2 = u16Operand2_LO;
+        _NOP();
+
+        u32ValueTemp_ = RESHI;
+        u32ValueTemp_ <<= 16U;
+        u32ValueTemp_ |= RESLO;
+        u16Sign[2U] = SUMEXT;
+
+        u64ValueTemp_ = u32ValueTemp_;
+        u64ValueTemp_ <<= 16UL;
+
+        MPY = u16Operand1_HI;
+        OP2 =  u16Operand2_HI;
+        _NOP();
+
+        u32ValueTemp1_ = RESHI;
+        u32ValueTemp1_ <<= 16U;
+        u32ValueTemp1_ |= RESLO;
+        u16Sign[3U] = SUMEXT;
+        u32ValueTemp1_ -= SUMEXT;
+
+        u64ValueTemp1_ = u32ValueTemp1_;
+        u64ValueTemp1_ <<= 32U;
+
+        u64ValueTemp1_ += u64ValueTemp_;
+
+
+        u64ValueTemp1_ += u64ValueTemp1;
+
+        s64Value_ = (int64_t) s32Operand1 * (int64_t) s32Operand2;
+
 	}
 }
 
