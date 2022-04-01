@@ -27,6 +27,16 @@
 
 #include "DriverLib/FLASH/Peripheral/Header/FLASH_Enum.h"
 
+#pragma CODE_SECTION(FLASH__vSetEnableInterruptSource_RAM, ".TI.ramfunc")
+#pragma CODE_SECTION(FLASH__vEnaInterruptSource_RAM, ".TI.ramfunc")
+#pragma CODE_SECTION(FLASH__vDisInterruptSource_RAM, ".TI.ramfunc")
+#pragma CODE_SECTION(FLASH__enGetEnableInterruptSource_RAM, ".TI.ramfunc")
+
+void FLASH__vSetEnableInterruptSource_RAM(FLASH_nINT_ENABLE enState);
+void FLASH__vEnaInterruptSource_RAM(void);
+void FLASH__vDisInterruptSource_RAM(void);
+FLASH_nINT_ENABLE FLASH__enGetEnableInterruptSource_RAM(void);
+
 void FLASH__vSetEnableInterruptSource(FLASH_nINT_ENABLE enState);
 void FLASH__vEnaInterruptSource(void);
 void FLASH__vDisInterruptSource(void);

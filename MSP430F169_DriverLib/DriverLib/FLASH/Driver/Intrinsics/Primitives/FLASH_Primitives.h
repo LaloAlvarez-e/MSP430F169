@@ -25,6 +25,9 @@
 #ifndef DRIVERLIB_FLASH_DRIVER_INTRINSICS_PRIMITIVES_FLASH_PRIMITIVES_H_
 #define DRIVERLIB_FLASH_DRIVER_INTRINSICS_PRIMITIVES_FLASH_PRIMITIVES_H_
 
+#include "DriverLib/FLASH/Driver/Intrinsics/Primitives/Header/FLASH_Address.h"
+#include "DriverLib/FLASH/Driver/Intrinsics/Primitives/Header/FLASH_Number.h"
+#include "DriverLib/FLASH/Driver/Intrinsics/Primitives/Header/FLASH_Size.h"
 #include "DriverLib/FLASH/Driver/Intrinsics/Primitives/Header/FLASH_ReadRegister.h"
 #include "DriverLib/FLASH/Driver/Intrinsics/Primitives/Header/FLASH_WriteRegister.h"
 

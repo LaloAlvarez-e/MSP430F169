@@ -25,8 +25,9 @@
 #ifndef DRIVERLIB_FLASH_PERIPHERAL_REGISTERDEFINES_FLASH_REGISTERDEFINES_H_
 #define DRIVERLIB_FLASH_PERIPHERAL_REGISTERDEFINES_FLASH_REGISTERDEFINES_H_
 
-#include "DriverLib/FLASH/Peripheral/RegisterDefines/Header/FLASH_RegisterDefines_CTL.h"
+#include "DriverLib/FLASH/Peripheral/RegisterDefines/Header/FLASH_RegisterDefines_CTL1.h"
+#include "DriverLib/FLASH/Peripheral/RegisterDefines/Header/FLASH_RegisterDefines_CTL2.h"
+#include "DriverLib/FLASH/Peripheral/RegisterDefines/Header/FLASH_RegisterDefines_CTL3.h"
 #include "DriverLib/FLASH/Peripheral/RegisterDefines/Header/FLASH_RegisterDefines_IE1.h"
-#include "DriverLib/FLASH/Peripheral/RegisterDefines/Header/FLASH_RegisterDefines_IFG1.h"
 
 #endif /* DRIVERLIB_FLASH_PERIPHERAL_REGISTERDEFINES_FLASH_REGISTERDEFINES_H_ */

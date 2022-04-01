@@ -27,6 +27,12 @@
 
 #include "DriverLib/FLASH/Peripheral/Header/FLASH_Enum.h"
 
+#pragma CODE_SECTION(FLASH__vSetStatusInterruptSource_RAM, ".TI.ramfunc")
+#pragma CODE_SECTION(FLASH__enGetStatusInterruptSource_RAM, ".TI.ramfunc")
+
+void FLASH__vSetStatusInterruptSource_RAM(FLASH_nINT_STATUS enStatus);
+FLASH_nINT_STATUS FLASH__enGetStatusInterruptSource_RAM(void);
+
 void FLASH__vSetStatusInterruptSource(FLASH_nINT_STATUS enStatus);
 FLASH_nINT_STATUS FLASH__enGetStatusInterruptSource(void);
 

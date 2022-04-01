@@ -26,11 +26,14 @@
 #define DRIVERLIB_FLASH_DRIVER_FLASH_DRIVER_H_
 
 #include "DriverLib/FLASH/Driver/Intrinsics/FLASH_Intrinsics.h"
-#include "DriverLib/FLASH/Driver/Header/FLASH_Clear.h"
+#include "DriverLib/FLASH/Driver/Header/FLASH_Busy.h"
 #include "DriverLib/FLASH/Driver/Header/FLASH_Clock.h"
-#include "DriverLib/FLASH/Driver/Header/FLASH_Config.h"
-#include "DriverLib/FLASH/Driver/Header/FLASH_Enable.h"
-#include "DriverLib/FLASH/Driver/Header/FLASH_Interval.h"
-#include "DriverLib/FLASH/Driver/Header/FLASH_Mode.h"
+#include "DriverLib/FLASH/Driver/Header/FLASH_Divider.h"
+#include "DriverLib/FLASH/Driver/Header/FLASH_Erase.h"
+#include "DriverLib/FLASH/Driver/Header/FLASH_KeyViolation.h"
+#include "DriverLib/FLASH/Driver/Header/FLASH_Lock.h"
+#include "DriverLib/FLASH/Driver/Header/FLASH_Ready.h"
+#include "DriverLib/FLASH/Driver/Header/FLASH_Stop.h"
+#include "DriverLib/FLASH/Driver/Header/FLASH_Write.h"
 
 #endif /* DRIVERLIB_FLASH_DRIVER_FLASH_DRIVER_H_ */

@@ -47,7 +47,7 @@ typedef enum
 
 typedef enum
 {
-    FLASH_enERASE_NOERASE = 0U,
+    FLASH_enERASE_OFF = 0U,
     FLASH_enERASE_SEGMENT = 1U,
     FLASH_enERASE_MAIN = 2U,
     FLASH_enERASE_MAIN_INFO = 3U,
@@ -55,6 +55,7 @@ typedef enum
 
 typedef enum
 {
+    FLASH_enWRITE_OFF = 0x0U,
     FLASH_enWRITE_SINGLE = 0x1U,
     FLASH_enWRITE_BLOCK = 0x3U,
 }FLASH_nWRITE;
@@ -74,9 +75,9 @@ typedef enum
 
 typedef enum
 {
-    FLASH_enWAIT_NOREADY = 0U,
-    FLASH_enWAIT_READY = 1U,
-}FLASH_nWAIT;
+    FLASH_enREADY_NOREADY = 0U,
+    FLASH_enREADY_READY = 1U,
+}FLASH_nREADY;
 
 typedef enum
 {

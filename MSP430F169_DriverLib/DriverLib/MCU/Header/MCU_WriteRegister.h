@@ -27,6 +27,12 @@
 
 #include "DriverLib/MCU/Header/MCU_Common.h"
 
+#pragma CODE_SECTION(MCU__vWriteRegister_8bits_RAM, ".TI.ramfunc")
+#pragma CODE_SECTION(MCU__vWriteRegister_16bits_RAM, ".TI.ramfunc")
+
+void MCU__vWriteRegister_8bits_RAM(MCU_Register8Bits_t* pstRegisterDataArg);
+void MCU__vWriteRegister_16bits_RAM(MCU_Register16Bits_t* pstRegisterDataArg);
+
 void MCU__vWriteRegister_8bits(MCU_Register8Bits_t* pstRegisterDataArg);
 void MCU__vWriteRegister_16bits(MCU_Register16Bits_t* pstRegisterDataArg);
 

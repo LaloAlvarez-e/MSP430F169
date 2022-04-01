@@ -27,6 +27,12 @@
 
 #include "DriverLib/FLASH/Peripheral/Header/FLASH_Enum.h"
 
+#pragma CODE_SECTION(FLASH__u8ReadRegister_RAM, ".TI.ramfunc")
+#pragma CODE_SECTION(FLASH__u16ReadRegister_RAM, ".TI.ramfunc")
+
+uint8_t FLASH__u8ReadRegister_RAM(FLASH_Register8Bits_t* pstRegisterData);
+uint16_t FLASH__u16ReadRegister_RAM(FLASH_Register16Bits_t* pstRegisterData);
+
 uint8_t FLASH__u8ReadRegister(FLASH_Register8Bits_t* pstRegisterData);
 uint16_t FLASH__u16ReadRegister(FLASH_Register16Bits_t* pstRegisterData);
 

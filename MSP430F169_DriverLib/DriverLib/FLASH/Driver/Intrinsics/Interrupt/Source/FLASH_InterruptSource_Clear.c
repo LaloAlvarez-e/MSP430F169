@@ -28,11 +28,22 @@
 
 void FLASH__vClearInterruptSource(void)
 {
-    FLASH_Register8Bits_t pstRegisterData = {0UL};
-    pstRegisterData.uptrAddress = FLASH_IFG1_OFFSET;
-    pstRegisterData.u8Value = FLASH_IFG1_IFG_NOOCCUR;
-    pstRegisterData.u8Mask = FLASH_IFG1_IFG_MASK;
-    pstRegisterData.u8Shift = FLASH_IFG1_R_IFG_BIT;
+    MCU_Register16Bits_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
+    pstRegisterData.u16Value = FLASH_CTL3_R_KEY_WRITE | FLASH_CTL3_R_ACCVIFG_NOOCCUR;
+    pstRegisterData.u16Mask = FLASH_CTL3_R_KEY_MASK | FLASH_CTL3_R_ACCVIFG_MASK;
+    pstRegisterData.u8Shift = 0U;
 
-    FLASH__vWriteRegister_8bits(&pstRegisterData);
+    FLASH__vWriteRegister_16bits(&pstRegisterData);
+}
+
+void FLASH__vClearInterruptSource_RAM(void)
+{
+    MCU_Register16Bits_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
+    pstRegisterData.u16Value = FLASH_CTL3_ACCVIFG_NOOCCUR;
+    pstRegisterData.u16Mask = FLASH_CTL3_R_KEY_MASK | FLASH_CTL3_R_ACCVIFG_MASK;
+    pstRegisterData.u8Shift = 0U;
+
+    FLASH__vWriteRegister_16bits_RAM(&pstRegisterData);
 }

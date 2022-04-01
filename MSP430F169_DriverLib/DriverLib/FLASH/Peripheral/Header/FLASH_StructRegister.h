@@ -32,7 +32,6 @@ typedef volatile struct
     const unsigned short reserved2 : 3;
     volatile unsigned short WRT : 1;
     volatile unsigned short BLKWRT : 1;
-    const unsigned short reserved3 : 1;
     volatile unsigned short KEY : 8;
 }FLASH_CTL1_t;
 
@@ -59,7 +58,7 @@ typedef volatile struct
 {
     const unsigned char reserved1 : 5;
     volatile unsigned char ACCVIE : 1;
-    const unsigned char reserved1 : 2;
+    const unsigned char reserved2 : 2;
 }FLASH_IE1_t;
 
 #endif /* DRIVERLIB_FLASH_PERIPHERAL_HEADER_FLASH_STRUCTREGISTER_H_ */
