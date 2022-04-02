@@ -1,6 +1,6 @@
 /**
  *
- * @file FLASH_Ready.h
+ * @file FLASH_Init.h
  * @copyright
  * @verbatim InDeviceMex 2021 @endverbatim
  *
@@ -22,14 +22,15 @@
  * 1 abr. 2022     InDeviceMex    1.0         initial Version@endverbatim
  */
 
-#ifndef DRIVERLIB_FLASH_DRIVER_HEADER_FLASH_READY_H_
-#define DRIVERLIB_FLASH_DRIVER_HEADER_FLASH_READY_H_
+#ifndef DRIVERLIB_FLASH_APP_HEADER_FLASH_INIT_H_
+#define DRIVERLIB_FLASH_APP_HEADER_FLASH_INIT_H_
 
 #include "DriverLib/FLASH/Peripheral/Header/FLASH_Enum.h"
 
-#pragma CODE_SECTION(FLASH__enGetReadyState_RAM, ".TI.ramfunc")
+#pragma CODE_SECTION(FLASH__u32Frequency_RAM, ".TI.ramfunc")
 
-FLASH_nREADY FLASH__enGetReadyState_RAM(void);
-FLASH_nREADY FLASH__enGetReadyState(void);
+uint32_t FLASH__u32Init(FLASH_nCLOCK enClockSourceArg);
+uint32_t FLASH__u32Frequency(void);
+uint32_t FLASH__u32Frequency_RAM(void);
 
-#endif /* DRIVERLIB_FLASH_DRIVER_HEADER_FLASH_READY_H_ */
+#endif /* DRIVERLIB_FLASH_APP_HEADER_FLASH_INIT_H_ */

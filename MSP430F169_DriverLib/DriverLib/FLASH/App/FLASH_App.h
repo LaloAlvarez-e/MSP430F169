@@ -25,7 +25,7 @@
 #ifndef DRIVERLIB_FLASH_APP_FLASH_APP_H_
 #define DRIVERLIB_FLASH_APP_FLASH_APP_H_
 
-#include "DriverLib/FLASH/App/Header/FLASH_Freq.h"
-#include "DriverLib/FLASH/App/Header/FLASH_Period.h"
+#include "DriverLib/FLASH/App/Header/FLASH_Init.h"
+#include "DriverLib/FLASH/App/Header/FLASH_Erase.h"
 
 #endif /* DRIVERLIB_FLASH_APP_FLASH_APP_H_ */

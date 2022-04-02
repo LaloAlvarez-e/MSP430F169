@@ -26,38 +26,38 @@
 #include "DriverLib/FLASH/Peripheral/FLASH_Peripheral.h"
 #include "DriverLib/MCU/MCU.h"
 
-uint16_t FLASH__u16GetMainStartAddress_RAM(void)
+uintptr_t FLASH__uptrGetMainStartAddress_RAM(void)
 {
     return (FLASH_MAIN_START_ADDRESS);
 }
 
-uint16_t FLASH__u16GetInfoStartAddress_RAM(void)
+uintptr_t FLASH__uptrGetInfoStartAddress_RAM(void)
 {
     return (FLASH_INFO_START_ADDRESS);
 }
-uint16_t FLASH__u16GetMainEndAddress_RAM(void)
+uintptr_t FLASH__uptrGetMainEndAddress_RAM(void)
 {
     return (FLASH_MAIN_END_ADDRESS);
 }
-uint16_t FLASH__u16GetInfoEndAddress_RAM(void)
+uintptr_t FLASH__uptrGetInfoEndAddress_RAM(void)
 {
     return (FLASH_INFO_END_ADDRESS);
 }
 
-uint16_t FLASH__u16GetMainStartAddress(void)
+uintptr_t FLASH__uptrGetMainStartAddress(void)
 {
     return (FLASH_MAIN_START_ADDRESS);
 }
 
-uint16_t FLASH__u16GetInfoStartAddress(void)
+uintptr_t FLASH__uptrGetInfoStartAddress(void)
 {
     return (FLASH_INFO_START_ADDRESS);
 }
-uint16_t FLASH__u16GetMainEndAddress(void)
+uintptr_t FLASH__uptrGetMainEndAddress(void)
 {
     return (FLASH_MAIN_END_ADDRESS);
 }
-uint16_t FLASH__u16GetInfoEndAddress(void)
+uintptr_t FLASH__uptrGetInfoEndAddress(void)
 {
     return (FLASH_INFO_END_ADDRESS);
 }

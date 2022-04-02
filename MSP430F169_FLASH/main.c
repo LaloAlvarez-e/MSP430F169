@@ -19,31 +19,7 @@ uint8_t pu8BufferOut[500U] = {0U};
 /**
  * main.c
  */
-uint8_t u8Activate = 0U;
-
-
-uint32_t u32Operand1 = 0UL;
-uint32_t u32Operand2 = 0UL;
-int32_t s32Operand1 = 0UL;
-int32_t s32Operand2 = 0UL;
-uint16_t u16Operand1_HI = 0U;
-uint16_t u16Operand1_LO = 0U;
-uint16_t u16Operand2_HI = 0U;
-uint16_t u16Operand2_LO = 0U;
-
-uint32_t u32ValueTemp = 0UL;
-uint32_t u32ValueTemp1 = 0UL;
-uint64_t u64ValueTemp1 = 0UL;
-
-uint32_t u32ValueTemp_ = 0UL;
-uint64_t u64ValueTemp_ = 0UL;
-uint32_t u32ValueTemp1_ = 0UL;
-uint64_t u64ValueTemp1_ = 0UL;
-
-uint16_t u16Sign[4U] = {0U};
-
-int64_t s64Value_ = 0LL;
-int64_t s64Value1_ = 0LL;
+uint32_t u32FlashFreq = 0U;
 
 void main(void)
 {
@@ -92,7 +68,7 @@ void main(void)
     GPIO__vSetDirectionByNumber(GPIO_enPORT2, GPIO_enPIN_NUMBER5, GPIO_enDIR_INPUT);
     GPIO__vSetSelectionByNumber(GPIO_enPORT2, GPIO_enPIN_NUMBER5, GPIO_enSEL_PERIPHERAL);
 
-
+    CLOCK__vSetDCOFrequency(500000UL, CLOCK_enRESISTOR_EXTERNAL);
     CLOCK__vSetLFXT1FrequencyMode(CLOCK_enFREQMODE_LOW);
     CLOCK__vSetXT2Enable(CLOCK_enENABLE_ENA);
 	do
@@ -114,10 +90,8 @@ void main(void)
     DMA__vSetConfig(&stDMAConfig);
     DMA__vSetChannelExtendedConfig(DMA_enCH0, &stDMAChannelConfig);
 
-    while(FLASH_enBUSY_BUSY == FLASH__enGetBusyState_RAM());
-    FLASH__vSetClockSource_RAM(FLASH_enCLOCK_SMCLK);
+    u32FlashFreq = FLASH__u32Init(FLASH_enCLOCK_MCLK);
 
-    FLASH->CTL3 = FLASH_CTL3_R_KEY_WRITE | FLASH_CTL3_R_EMEX_STOP;
     _EINT();
 	while(1U)
 	{

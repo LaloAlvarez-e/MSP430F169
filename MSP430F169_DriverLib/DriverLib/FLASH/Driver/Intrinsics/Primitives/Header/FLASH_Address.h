@@ -27,20 +27,20 @@
 
 #include "DriverLib/FLASH/Peripheral/Header/FLASH_Enum.h"
 
-#pragma CODE_SECTION(FLASH__u16GetMainStartAddress_RAM, ".TI.ramfunc")
-#pragma CODE_SECTION(FLASH__u16GetInfoStartAddress_RAM, ".TI.ramfunc")
-#pragma CODE_SECTION(FLASH__u16GetMainEndAddress_RAM, ".TI.ramfunc")
-#pragma CODE_SECTION(FLASH__u16GetInfoEndAddress_RAM, ".TI.ramfunc")
+#pragma CODE_SECTION(FLASH__uptrGetMainStartAddress_RAM, ".TI.ramfunc")
+#pragma CODE_SECTION(FLASH__uptrGetInfoStartAddress_RAM, ".TI.ramfunc")
+#pragma CODE_SECTION(FLASH__uptrGetMainEndAddress_RAM, ".TI.ramfunc")
+#pragma CODE_SECTION(FLASH__uptrGetInfoEndAddress_RAM, ".TI.ramfunc")
 
-uint16_t FLASH__u16GetMainStartAddress_RAM(void);
-uint16_t FLASH__u16GetInfoStartAddress_RAM(void);
-uint16_t FLASH__u16GetMainEndAddress_RAM(void);
-uint16_t FLASH__u16GetInfoEndAddress_RAM(void);
+uintptr_t FLASH__uptrGetMainStartAddress_RAM(void);
+uintptr_t FLASH__uptrGetInfoStartAddress_RAM(void);
+uintptr_t FLASH__uptrGetMainEndAddress_RAM(void);
+uintptr_t FLASH__uptrGetInfoEndAddress_RAM(void);
 
-uint16_t FLASH__u16GetMainStartAddress(void);
-uint16_t FLASH__u16GetInfoStartAddress(void);
-uint16_t FLASH__u16GetMainEndAddress(void);
-uint16_t FLASH__u16GetInfoEndAddress(void);
+uintptr_t FLASH__uptrGetMainStartAddress(void);
+uintptr_t FLASH__uptrGetInfoStartAddress(void);
+uintptr_t FLASH__uptrGetMainEndAddress(void);
+uintptr_t FLASH__uptrGetInfoEndAddress(void);
 
 
 

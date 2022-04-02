@@ -35,6 +35,12 @@ typedef enum
 
 typedef enum
 {
+    FLASH_enSECTION_MAIN = 0U,
+    FLASH_enSECTION_INFO = 1U,
+}FLASH_nSECTION;
+
+typedef enum
+{
     FLASH_enINT_ENABLE_DIS = 0U,
     FLASH_enINT_ENABLE_ENA = 1U,
 }FLASH_nINT_ENABLE;
@@ -90,6 +96,16 @@ typedef enum
     FLASH_enEMERGENCY_NA = 0U,
     FLASH_enEMERGENCY_STOP = 1U,
 }FLASH_nEMERGENCY;
+
+
+typedef struct
+{
+    uintptr_t (*uptrGetStartAddress)(void);
+    uintptr_t (*uptrGetEndAddress)(void);
+    uint16_t (*u16GetSegmentSize)(void);
+}FLASH_SegmentErase_t;
+
+
 
 typedef MCU_Register8Bits_t FLASH_Register8Bits_t;
 typedef MCU_Register16Bits_t FLASH_Register16Bits_t;
