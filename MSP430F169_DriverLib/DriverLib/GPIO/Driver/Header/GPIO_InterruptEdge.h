@@ -33,10 +33,16 @@ void GPIO__vSetInterruptEdge(GPIO_nPORT enPortArg,
 void GPIO__vSetInterruptEdgeByNumber(GPIO_nPORT enPortArg,
                              GPIO_nPIN_NUMBER enPinNumber,
                              GPIO_nINT_EDGE enInterruptEdge);
+void GPIO__vSetInterruptEdgeByMask(GPIO_nPORT enPortArg,
+                         GPIO_nPIN enPinMask,
+                         GPIO_nPIN enPinValue);
+void GPIO__vSetInterruptEdgeByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg,
+                                       GPIO_nINT_EDGE enInterruptEdge);
 
 GPIO_nPIN GPIO__enGetInterruptEdge(GPIO_nPORT enPortArg,
                                GPIO_nPIN enPinMask);
 GPIO_nINT_EDGE GPIO__enGetInterruptEdgeByNumber(GPIO_nPORT enPortArg,
                                        GPIO_nPIN_NUMBER enPinNumber);
+GPIO_nINT_EDGE GPIO__enGetInterruptEdgeByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg);
 
 #endif /* GPIO_DRIVER_HEADER_GPIO_INTERRUPTEDGE_H_ */

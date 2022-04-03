@@ -63,6 +63,43 @@ void GPIO__vSetStatusInterruptSourceByNumber(GPIO_nPORT enPortArg,
     }
 }
 
+void GPIO__vSetStatusInterruptSourceByMask(GPIO_nPORT enPortArg,
+                                     GPIO_nPIN enPinMask,
+                                     GPIO_nPIN enPinValue)
+{
+    GPIO_Register_t pstRegisterData = {0UL};
+    if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
+    {
+        pstRegisterData.uptrAddress = PORT_IFG_OFFSET;
+        pstRegisterData.u8Value = (uint8_t) enPinValue;
+        pstRegisterData.u8Mask = (uint8_t) enPinMask;
+        pstRegisterData.u8Shift = PORT_IFG_R_PIN0_BIT;
+        GPIO__vWriteRegister(enPortArg,
+                             &pstRegisterData);
+    }
+}
+
+void GPIO__vSetStatusInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg,
+                                               GPIO_nINT_STATUS enStatus)
+{
+    uint16_t u16PinNumberReg = 0U;
+    uint16_t u16PortReg = 0U;
+
+    u16PinNumberReg = (uint16_t) enFunctionArg;
+    u16PinNumberReg >>= GPIO_PIN_OFFSET;
+    u16PinNumberReg &= GPIO_PIN_MASK;
+
+    u16PortReg = (uint16_t) enFunctionArg;
+    u16PortReg >>= GPIO_PORT_OFFSET;
+    u16PortReg &= GPIO_PORT_MASK;
+
+    GPIO__vSetStatusInterruptSourceByNumber((GPIO_nPORT) u16PortReg,
+                                 (GPIO_nPIN_NUMBER) u16PinNumberReg,
+                                 enStatus);
+}
+
+
+
 GPIO_nPIN GPIO__enGetStatusInterruptSource(GPIO_nPORT enPortArg,
                                            GPIO_nPIN enPinMask)
 {
@@ -93,6 +130,26 @@ GPIO_nINT_STATUS GPIO__enGetStatusInterruptSourceByNumber(GPIO_nPORT enPortArg,
                                                     &pstRegisterData);
     }
     return (enStatus);
+}
+
+
+GPIO_nINT_STATUS GPIO__enGetStatusInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg)
+{
+    GPIO_nINT_STATUS enStatusInterruptSourceReg = GPIO_enINT_STATUS_NOOCCUR;
+    uint16_t u16PinNumberReg = 0U;
+    uint16_t u16PortReg = 0U;
+
+    u16PinNumberReg = (uint16_t) enFunctionArg;
+    u16PinNumberReg >>= GPIO_PIN_OFFSET;
+    u16PinNumberReg &= GPIO_PIN_MASK;
+
+    u16PortReg = (uint16_t) enFunctionArg;
+    u16PortReg >>= GPIO_PORT_OFFSET;
+    u16PortReg &= GPIO_PORT_MASK;
+
+    enStatusInterruptSourceReg = GPIO__enGetStatusInterruptSourceByNumber((GPIO_nPORT) u16PortReg,
+                                 (GPIO_nPIN_NUMBER) u16PinNumberReg);
+    return (enStatusInterruptSourceReg);
 }
 
 

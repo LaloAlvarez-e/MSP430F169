@@ -50,5 +50,24 @@ GPIO_nLEVEL GPIO__enGetInputByNumber(GPIO_nPORT enPortArg,
     return ((GPIO_nLEVEL) pstRegisterData.u8Value);
 }
 
+GPIO_nLEVEL GPIO__enGetInputByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg)
+{
+    GPIO_nLEVEL enInputReg = GPIO_enLEVEL_LOW;
+    uint16_t u16PinNumberReg = 0U;
+    uint16_t u16PortReg = 0U;
+
+    u16PinNumberReg = (uint16_t) enFunctionArg;
+    u16PinNumberReg >>= GPIO_PIN_OFFSET;
+    u16PinNumberReg &= GPIO_PIN_MASK;
+
+    u16PortReg = (uint16_t) enFunctionArg;
+    u16PortReg >>= GPIO_PORT_OFFSET;
+    u16PortReg &= GPIO_PORT_MASK;
+
+    enInputReg = GPIO__enGetInputByNumber((GPIO_nPORT) u16PortReg,
+                                 (GPIO_nPIN_NUMBER) u16PinNumberReg);
+    return (enInputReg);
+}
+
 
 

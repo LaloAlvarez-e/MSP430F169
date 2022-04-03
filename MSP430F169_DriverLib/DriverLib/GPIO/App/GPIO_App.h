@@ -1,6 +1,6 @@
 /**
  *
- * @file GPIO.h
+ * @file GPIO_App.h
  * @copyright
  * @verbatim InDeviceMex 2021 @endverbatim
  *
@@ -11,7 +11,7 @@
  * @verbatim 1.0 @endverbatim
  *
  * @date
- * @verbatim 4 feb. 2022 @endverbatim
+ * @verbatim 3 abr. 2022 @endverbatim
  *
  * @author
  * @verbatim InDeviceMex @endverbatim
@@ -19,14 +19,12 @@
  * @par Change History
  * @verbatim
  * Date           Author     Version     Description
- * 4 feb. 2022     InDeviceMex    1.0         initial Version@endverbatim
+ * 3 abr. 2022     InDeviceMex    1.0         initial Version@endverbatim
  */
 
-#ifndef GPIO_GPIO_H_
-#define GPIO_GPIO_H_
+#ifndef DRIVERLIB_GPIO_APP_GPIO_APP_H_
+#define DRIVERLIB_GPIO_APP_GPIO_APP_H_
 
-#include "DriverLib/GPIO/Peripheral/GPIO_Peripheral.h"
-#include "DriverLib/GPIO/Driver/GPIO_Driver.h"
-#include "DriverLib/GPIO/App/GPIO_App.h"
+#include "DriverLib/GPIO/App/Header/GPIO_Config.h"
 
-#endif /* GPIO_GPIO_H_ */
+#endif /* DRIVERLIB_GPIO_APP_GPIO_APP_H_ */

@@ -33,10 +33,16 @@ void GPIO__vSetStatusInterruptSource(GPIO_nPORT enPortArg,
 void GPIO__vSetStatusInterruptSourceByNumber(GPIO_nPORT enPortArg,
                                              GPIO_nPIN_NUMBER enPinNumber,
                                              GPIO_nINT_STATUS enStatus);
+void GPIO__vSetStatusInterruptSourceByMask(GPIO_nPORT enPortArg,
+                                     GPIO_nPIN enPinMask,
+                                     GPIO_nPIN enPinValue);
+void GPIO__vSetStatusInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg,
+                                               GPIO_nINT_STATUS enStatus);
 
 GPIO_nINT_STATUS GPIO__enGetStatusInterruptSourceByNumber(GPIO_nPORT enPortArg,
                                            GPIO_nPIN_NUMBER enPinNumber);
 GPIO_nPIN GPIO__enGetStatusInterruptSource(GPIO_nPORT enPortArg,
                                            GPIO_nPIN enPinMask);
+GPIO_nINT_STATUS GPIO__enGetStatusInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg);
 
 #endif /* GPIO_DRIVER_INTRINSICS_INTERRUPT_HEADER_GPIO_INTERRUPTSOURCE_STATUS_H_ */

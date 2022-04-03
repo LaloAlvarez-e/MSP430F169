@@ -43,9 +43,19 @@ void GPIO__vEnaInterruptSourceByNumber(GPIO_nPORT enPortArg,
 void GPIO__vDisInterruptSourceByNumber(GPIO_nPORT enPortArg,
                                        GPIO_nPIN_NUMBER enPinNumber);
 
+void GPIO__vSetEnableInterruptSourceByMask(GPIO_nPORT enPortArg,
+                                     GPIO_nPIN enPinMask,
+                                     GPIO_nPIN enPinValue);
+
+void GPIO__vSetEnableInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg,
+                                               GPIO_nINT_ENABLE enState);
+void GPIO__vEnaInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg);
+void GPIO__vDisInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg);
+
 GPIO_nPIN GPIO__enGetEnableInterruptSource(GPIO_nPORT enPortArg,
                                            GPIO_nPIN enPinMask);
 GPIO_nINT_ENABLE GPIO__enGetEnableInterruptSourceByNumber(GPIO_nPORT enPortArg,
                                            GPIO_nPIN_NUMBER enPinNumber);
+GPIO_nINT_ENABLE GPIO__enGetEnableInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg);
 
 #endif /* GPIO_DRIVER_INTRINSICS_INTERRUPT_HEADER_GPIO_INTERRUPTSOURCE_ENABLE_H_ */

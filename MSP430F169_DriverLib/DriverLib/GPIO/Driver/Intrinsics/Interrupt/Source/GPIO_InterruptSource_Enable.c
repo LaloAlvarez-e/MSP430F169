@@ -76,6 +76,43 @@ void GPIO__vSetEnableInterruptSourceByNumber(GPIO_nPORT enPortArg,
     }
 }
 
+void GPIO__vSetEnableInterruptSourceByMask(GPIO_nPORT enPortArg,
+                                     GPIO_nPIN enPinMask,
+                                     GPIO_nPIN enPinValue)
+{
+    GPIO_Register_t pstRegisterData = {0UL};
+    if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
+    {
+        pstRegisterData.uptrAddress = PORT_IE_OFFSET;
+        pstRegisterData.u8Value = (uint8_t) enPinValue;
+        pstRegisterData.u8Mask = (uint8_t) enPinMask;
+        pstRegisterData.u8Shift = PORT_IE_R_PIN0_BIT;
+
+        GPIO__vWriteRegister(enPortArg,
+                             &pstRegisterData);
+    }
+}
+
+void GPIO__vSetEnableInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg,
+                                               GPIO_nINT_ENABLE enState)
+{
+    uint16_t u16PinNumberReg = 0U;
+    uint16_t u16PortReg = 0U;
+
+    u16PinNumberReg = (uint16_t) enFunctionArg;
+    u16PinNumberReg >>= GPIO_PIN_OFFSET;
+    u16PinNumberReg &= GPIO_PIN_MASK;
+
+    u16PortReg = (uint16_t) enFunctionArg;
+    u16PortReg >>= GPIO_PORT_OFFSET;
+    u16PortReg &= GPIO_PORT_MASK;
+
+    GPIO__vSetEnableInterruptSourceByNumber((GPIO_nPORT) u16PortReg,
+                                 (GPIO_nPIN_NUMBER) u16PinNumberReg,
+                                 enState);
+}
+
+
 void GPIO__vEnaInterruptSourceByNumber(GPIO_nPORT enPortArg,
                                        GPIO_nPIN_NUMBER enPinNumber)
 {
@@ -87,6 +124,18 @@ void GPIO__vDisInterruptSourceByNumber(GPIO_nPORT enPortArg,
 {
     GPIO__vSetEnableInterruptSourceByNumber(enPortArg, enPinNumber, GPIO_enINT_ENABLE_DIS);
 }
+
+
+void GPIO__vEnaInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg)
+{
+    GPIO__vSetEnableInterruptSourceByFunction(enFunctionArg, GPIO_enINT_ENABLE_ENA);
+}
+
+void GPIO__vDisInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg)
+{
+    GPIO__vSetEnableInterruptSourceByFunction(enFunctionArg, GPIO_enINT_ENABLE_DIS);
+}
+
 
 
 GPIO_nPIN GPIO__enGetEnableInterruptSource(GPIO_nPORT enPortArg,
@@ -120,3 +169,24 @@ GPIO_nINT_ENABLE GPIO__enGetEnableInterruptSourceByNumber(GPIO_nPORT enPortArg,
     }
     return (enEnable);
 }
+
+GPIO_nINT_ENABLE GPIO__enGetEnableInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg)
+{
+    GPIO_nINT_ENABLE enEnableInterruptSourceReg = GPIO_enINT_ENABLE_DIS;
+    uint16_t u16PinNumberReg = 0U;
+    uint16_t u16PortReg = 0U;
+
+    u16PinNumberReg = (uint16_t) enFunctionArg;
+    u16PinNumberReg >>= GPIO_PIN_OFFSET;
+    u16PinNumberReg &= GPIO_PIN_MASK;
+
+    u16PortReg = (uint16_t) enFunctionArg;
+    u16PortReg >>= GPIO_PORT_OFFSET;
+    u16PortReg &= GPIO_PORT_MASK;
+
+    enEnableInterruptSourceReg = GPIO__enGetEnableInterruptSourceByNumber((GPIO_nPORT) u16PortReg,
+                                 (GPIO_nPIN_NUMBER) u16PinNumberReg);
+    return (enEnableInterruptSourceReg);
+}
+
+

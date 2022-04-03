@@ -33,10 +33,16 @@ void GPIO__vSetDirection(GPIO_nPORT enPortArg,
 void GPIO__vSetDirectionByNumber(GPIO_nPORT enPortArg,
                                  GPIO_nPIN_NUMBER enPinNumber,
                                  GPIO_nDIR enDirection);
+void GPIO__vSetDirectionByMask(GPIO_nPORT enPortArg,
+                         GPIO_nPIN enPinMask,
+                         GPIO_nPIN enPinValue);
+void GPIO__vSetDirectionByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg,
+                                   GPIO_nDIR enDirection);
 
 GPIO_nPIN GPIO__enGetDirection(GPIO_nPORT enPortArg,
                                GPIO_nPIN enPinMask);
 GPIO_nDIR GPIO__enGetDirectionByNumber(GPIO_nPORT enPortArg,
                                        GPIO_nPIN_NUMBER enPinNumber);
+GPIO_nDIR GPIO__enGetDirectionByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg);
 
 #endif /* GPIO_DRIVER_HEADER_GPIO_DIRECTION_H_ */

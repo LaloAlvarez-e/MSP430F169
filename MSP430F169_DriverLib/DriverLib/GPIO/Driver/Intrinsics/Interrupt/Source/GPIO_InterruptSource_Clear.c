@@ -56,3 +56,21 @@ void GPIO__vClearInterruptSourceByNumber(GPIO_nPORT enPortArg,
                              &pstRegisterData);
     }
 }
+
+
+void GPIO__vClearInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg)
+{
+    uint16_t u16PinNumberReg = 0U;
+    uint16_t u16PortReg = 0U;
+
+    u16PinNumberReg = (uint16_t) enFunctionArg;
+    u16PinNumberReg >>= GPIO_PIN_OFFSET;
+    u16PinNumberReg &= GPIO_PIN_MASK;
+
+    u16PortReg = (uint16_t) enFunctionArg;
+    u16PortReg >>= GPIO_PORT_OFFSET;
+    u16PortReg &= GPIO_PORT_MASK;
+
+    GPIO__vClearInterruptSourceByNumber((GPIO_nPORT) u16PortReg,
+                                 (GPIO_nPIN_NUMBER) u16PinNumberReg);
+}

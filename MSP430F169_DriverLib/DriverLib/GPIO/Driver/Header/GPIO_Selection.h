@@ -33,10 +33,16 @@ void GPIO__vSetSelection(GPIO_nPORT enPortArg,
 void GPIO__vSetSelectionByNumber(GPIO_nPORT enPortArg,
                              GPIO_nPIN_NUMBER enPinNumber,
                              GPIO_nSEL enSelection);
+void GPIO__vSetSelectionByMask(GPIO_nPORT enPortArg,
+                         GPIO_nPIN enPinMask,
+                         GPIO_nPIN enPinValue);
+void GPIO__vSetSelectionByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg,
+                                   GPIO_nSEL enSelection);
 
 GPIO_nPIN GPIO__enGetSelection(GPIO_nPORT enPortArg,
                                GPIO_nPIN enPinMask);
 GPIO_nSEL GPIO__enGetSelectionByNumber(GPIO_nPORT enPortArg,
                                        GPIO_nPIN_NUMBER enPinNumber);
+GPIO_nSEL GPIO__enGetSelectionByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg);
 
 #endif /* GPIO_DRIVER_HEADER_GPIO_SELECTION_H_ */

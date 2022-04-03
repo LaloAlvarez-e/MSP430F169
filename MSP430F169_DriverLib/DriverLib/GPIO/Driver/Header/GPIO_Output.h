@@ -33,10 +33,16 @@ void GPIO__vSetOutput(GPIO_nPORT enPortArg,
 void GPIO__vSetOutputByNumber(GPIO_nPORT enPortArg,
                              GPIO_nPIN_NUMBER enPinNumber,
                              GPIO_nLEVEL enOutput);
+void GPIO__vSetOutputByMask(GPIO_nPORT enPortArg,
+                         GPIO_nPIN enPinMask,
+                         GPIO_nPIN enPinValue);
+void GPIO__vSetOutputByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg,
+                                GPIO_nLEVEL enOutput);
 
 GPIO_nPIN GPIO__enGetOutput(GPIO_nPORT enPortArg,
                                GPIO_nPIN enPinMask);
 GPIO_nLEVEL GPIO__enGetOutputByNumber(GPIO_nPORT enPortArg,
                                        GPIO_nPIN_NUMBER enPinNumber);
+GPIO_nLEVEL GPIO__enGetOutputByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg);
 
 #endif /* GPIO_DRIVER_HEADER_GPIO_OUTPUT_H_ */

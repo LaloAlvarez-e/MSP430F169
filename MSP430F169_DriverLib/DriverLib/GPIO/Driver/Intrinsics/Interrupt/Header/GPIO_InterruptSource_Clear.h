@@ -31,7 +31,6 @@ void GPIO__vClearInterruptSource(GPIO_nPORT enPortArg,
                                  GPIO_nPIN enPinMask);
 void GPIO__vClearInterruptSourceByNumber(GPIO_nPORT enPortArg,
                                  GPIO_nPIN_NUMBER enPinNumber);
-
-
+void GPIO__vClearInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg);
 
 #endif /* GPIO_DRIVER_INTRINSICS_INTERRUPT_HEADER_GPIO_INTERRUPTSOURCE_CLEAR_H_ */
