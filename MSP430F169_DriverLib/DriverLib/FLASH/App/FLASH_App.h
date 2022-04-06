@@ -27,5 +27,7 @@
 
 #include "DriverLib/FLASH/App/Header/FLASH_Init.h"
 #include "DriverLib/FLASH/App/Header/FLASH_Erase.h"
+#include "DriverLib/FLASH/App/Write/FLASH_Write.h"
+
 
 #endif /* DRIVERLIB_FLASH_APP_FLASH_APP_H_ */

@@ -103,7 +103,8 @@ typedef struct
     uintptr_t (*uptrGetStartAddress)(void);
     uintptr_t (*uptrGetEndAddress)(void);
     uint16_t (*u16GetSegmentSize)(void);
-}FLASH_SegmentErase_t;
+    void (*vStartProcess)(uint8_t u8Value);
+}FLASH_Segment_t;
 
 
 

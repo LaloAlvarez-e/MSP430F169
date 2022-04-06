@@ -23,66 +23,34 @@
  */
 #include "DriverLib/FLASH/App/Header/FLASH_Erase.h"
 
+#include "DriverLib/FLASH/App/Intrinsics/Header/FLASH_InitProcess.h"
 #include "DriverLib/FLASH/App/Header/FLASH_Init.h"
 #include "DriverLib/FLASH/FLASH.h"
 #include "DriverLib/WDT/WDT.h"
 
-static FLASH_nSTATUS FLASH__enSegmentErase(FLASH_SegmentErase_t* pstSegmentCallback ,
+static FLASH_nSTATUS FLASH__enSegmentErase(FLASH_Segment_t* pstSegmentCallback ,
                                               uint16_t u16SegmentPosArg);
-static FLASH_nSTATUS FLASH__enEraseByAddress(FLASH_SegmentErase_t* pstSegmentCallback ,
+static FLASH_nSTATUS FLASH__enEraseByAddress(FLASH_Segment_t* pstSegmentCallback ,
                                              FLASH_nERASE enEraseModeArg,
                                              uintptr_t uptrAddressArg);
 
-static FLASH_nSTATUS FLASH__enEraseByAddress(FLASH_SegmentErase_t* pstSegmentCallback ,
+static FLASH_nSTATUS FLASH__enEraseByAddress(FLASH_Segment_t* pstSegmentCallback ,
                                              FLASH_nERASE enEraseModeArg,
                                              uintptr_t uptrAddressArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    FLASH_nBUSY enBusyStateReg = FLASH_enBUSY_NOBUSY;
-    WDT_nENABLE enWDTEnableReg = WDT_enENABLE_RUN;
-    WDT_nMODE enWDTModeReg = WDT_enMODE_WDT;
-    uint32_t u32FlashFreqReg = 0U;
-    uint16_t u16StatusRegister = 0U;
-    uintptr_t uptrFlashStartAddress = 0U;
-    uintptr_t uptrFlashEndAddress = 0U;
 
-    if(0UL != (uintptr_t) pstSegmentCallback)
-    {
-        u32FlashFreqReg = FLASH__u32Frequency();
-        if(0UL != u32FlashFreqReg)
-        {
-            uptrFlashStartAddress = pstSegmentCallback->uptrGetStartAddress();
-            uptrFlashEndAddress = pstSegmentCallback->uptrGetEndAddress();
-            if((uptrAddressArg >= uptrFlashStartAddress) && (uptrAddressArg <= uptrFlashEndAddress))
-            {
-                enStatusReg = FLASH_enSTATUS_OK;
-                enWDTEnableReg = WDT__enGetEnable();
-                u16StatusRegister = _get_interrupt_state();
-                enWDTModeReg = WDT__enGetMode();
-                if(WDT_enMODE_WDT == enWDTModeReg)
-                {
-                    WDT__vSetEnable(WDT_enENABLE_STOP);
-                }
-                _DINT();
-                do
-                {
-                    enBusyStateReg = FLASH__enGetBusyState();
-                }while(FLASH_enBUSY_NOBUSY != enBusyStateReg);
-                FLASH__vUnlock();
-                FLASH__vStartEraseProcess(enEraseModeArg);
-                *((uintptr_t*) uptrAddressArg) = 0U;
-                FLASH__vLock();
-                WDT__vSetEnable(enWDTEnableReg);
-                _set_interrupt_state(u16StatusRegister);
-            }
-        }
-    }
+    pstSegmentCallback->vStartProcess = &FLASH__vStartEraseProcess;
+    enStatusReg = FLASH__enInitProcess(pstSegmentCallback,
+                                       (uint8_t)enEraseModeArg,
+                                       0U,
+                                       uptrAddressArg);
     return (enStatusReg);
 }
 
 
 
-static FLASH_nSTATUS FLASH__enSegmentErase(FLASH_SegmentErase_t* pstSegmentCallback ,
+static FLASH_nSTATUS FLASH__enSegmentErase(FLASH_Segment_t* pstSegmentCallback ,
                                           uint16_t u16SegmentPosArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
@@ -109,7 +77,7 @@ FLASH_nSTATUS FLASH__enMassErase(void)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
     uintptr_t uptrStartAddressReg = 0U;
-    FLASH_SegmentErase_t stSegmentCallback = {0UL};
+    FLASH_Segment_t stSegmentCallback = {0UL};
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetMainStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetMainEndAddress;
     stSegmentCallback.u16GetSegmentSize = &FLASH__u16GetMainSegmentSize;
@@ -123,7 +91,7 @@ FLASH_nSTATUS FLASH__enFullErase(void)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
     uintptr_t uptrStartAddressReg = 0U;
-    FLASH_SegmentErase_t stSegmentCallback = {0UL};
+    FLASH_Segment_t stSegmentCallback = {0UL};
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetMainStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetMainEndAddress;
     stSegmentCallback.u16GetSegmentSize = &FLASH__u16GetMainSegmentSize;
@@ -138,7 +106,7 @@ FLASH_nSTATUS FLASH__enFullErase(void)
 FLASH_nSTATUS FLASH__enMainSegmentEraseByAddress(uintptr_t uptrAddressArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    FLASH_SegmentErase_t stSegmentCallback = {0UL};
+    FLASH_Segment_t stSegmentCallback = {0UL};
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetMainStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetMainEndAddress;
     stSegmentCallback.u16GetSegmentSize = &FLASH__u16GetMainSegmentSize;
@@ -150,7 +118,7 @@ FLASH_nSTATUS FLASH__enMainSegmentEraseByAddress(uintptr_t uptrAddressArg)
 FLASH_nSTATUS FLASH__enInfoSegmentEraseByAddress(uintptr_t uptrAddressArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    FLASH_SegmentErase_t stSegmentCallback = {0UL};
+    FLASH_Segment_t stSegmentCallback = {0UL};
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetInfoStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetInfoEndAddress;
     stSegmentCallback.u16GetSegmentSize = &FLASH__u16GetInfoSegmentSize;
@@ -181,7 +149,7 @@ FLASH_nSTATUS FLASH__enSegmentEraseByAddress(FLASH_nSECTION enSectionArg,
 FLASH_nSTATUS FLASH__enMainSegmentErase(uint16_t u16SegmentPosArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    FLASH_SegmentErase_t stSegmentCallback = {0UL};
+    FLASH_Segment_t stSegmentCallback = {0UL};
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetMainStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetMainEndAddress;
     stSegmentCallback.u16GetSegmentSize = &FLASH__u16GetMainSegmentSize;
@@ -192,7 +160,7 @@ FLASH_nSTATUS FLASH__enMainSegmentErase(uint16_t u16SegmentPosArg)
 FLASH_nSTATUS FLASH__enInfoSegmentErase(uint16_t u16SegmentPosArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    FLASH_SegmentErase_t stSegmentCallback = {0UL};
+    FLASH_Segment_t stSegmentCallback = {0UL};
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetInfoStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetInfoEndAddress;
     stSegmentCallback.u16GetSegmentSize = &FLASH__u16GetInfoSegmentSize;
