@@ -28,7 +28,7 @@
 void DMA__vSetSourceDataSize(DMA_nCH enChannelArg,
                           DMA_nCH_DATASIZE enSizeArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = (uint16_t) enSizeArg;
     pstRegisterData.u16Mask = DMA_CH_CTL_SRCBYTE_MASK;
@@ -39,7 +39,7 @@ void DMA__vSetSourceDataSize(DMA_nCH enChannelArg,
 
 DMA_nCH_DATASIZE DMA__enGetSourceDataSize(DMA_nCH enChannelArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = 0U;
     pstRegisterData.u16Mask = DMA_CH_CTL_SRCBYTE_MASK;
@@ -51,7 +51,7 @@ DMA_nCH_DATASIZE DMA__enGetSourceDataSize(DMA_nCH enChannelArg)
 void DMA__vSetDestDataSize(DMA_nCH enChannelArg,
                           DMA_nCH_DATASIZE enSizeArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = (uint16_t) enSizeArg;
     pstRegisterData.u16Mask = DMA_CH_CTL_DSTBYTE_MASK;
@@ -62,7 +62,7 @@ void DMA__vSetDestDataSize(DMA_nCH enChannelArg,
 
 DMA_nCH_DATASIZE DMA__enGetDestDataSize(DMA_nCH enChannelArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = 0U;
     pstRegisterData.u16Mask = DMA_CH_CTL_DSTBYTE_MASK;

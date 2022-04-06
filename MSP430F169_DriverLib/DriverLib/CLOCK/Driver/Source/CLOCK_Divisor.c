@@ -46,7 +46,7 @@ void CLOCK__vSetDivider(CLOCK_nSIGNAL enClockSignal, CLOCK_nDIV enDivider)
 
 void CLOCK__vSetACLKDivider(CLOCK_nDIV enDivider)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enDivider;
     pstRegisterData.u8Mask = CLOCK_BCSCTL1_DIVA_MASK;
@@ -56,7 +56,7 @@ void CLOCK__vSetACLKDivider(CLOCK_nDIV enDivider)
 
 void CLOCK__vSetMCLKDivider(CLOCK_nDIV enDivider)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enDivider;
     pstRegisterData.u8Mask = CLOCK_BCSCTL2_DIVM_MASK;
@@ -66,7 +66,7 @@ void CLOCK__vSetMCLKDivider(CLOCK_nDIV enDivider)
 
 void CLOCK__vSetSMCLKDivider(CLOCK_nDIV enDivider)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enDivider;
     pstRegisterData.u8Mask = CLOCK_BCSCTL2_DIVS_MASK;
@@ -133,7 +133,7 @@ CLOCK_nDIV CLOCK__enGetDivider(CLOCK_nSIGNAL enClockSignal)
 
 CLOCK_nDIV CLOCK__enGetACLKDivider(void)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) CLOCK_nDIV_1;
     pstRegisterData.u8Mask = CLOCK_BCSCTL1_DIVA_MASK;
@@ -144,7 +144,7 @@ CLOCK_nDIV CLOCK__enGetACLKDivider(void)
 
 CLOCK_nDIV CLOCK__enGetSMCLKDivider(void)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
     pstRegisterData.u8Value = (uint8_t) CLOCK_nDIV_1;
     pstRegisterData.u8Mask = CLOCK_BCSCTL2_DIVS_MASK;
@@ -155,7 +155,7 @@ CLOCK_nDIV CLOCK__enGetSMCLKDivider(void)
 
 CLOCK_nDIV CLOCK__enGetMCLKDivider(void)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
     pstRegisterData.u8Value = (uint8_t) CLOCK_nDIV_1;
     pstRegisterData.u8Mask = CLOCK_BCSCTL2_DIVM_MASK;

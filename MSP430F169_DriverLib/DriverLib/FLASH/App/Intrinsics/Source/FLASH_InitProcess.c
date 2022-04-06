@@ -28,9 +28,9 @@
 #include "DriverLib/WDT/WDT.h"
 
 FLASH_nSTATUS FLASH__enInitProcess(FLASH_Segment_t* pstSegmentCallback ,
-                                         uint8_t u8ModeArg,
-                                         uint16_t u16DataArg,
-                                         uintptr_t uptrAddressArg)
+                                     uint8_t u8ModeArg,
+                                     uint16_t u16DataArg,
+                                     uintptr_t uptrAddressArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
     FLASH_nBUSY enBusyStateReg = FLASH_enBUSY_NOBUSY;

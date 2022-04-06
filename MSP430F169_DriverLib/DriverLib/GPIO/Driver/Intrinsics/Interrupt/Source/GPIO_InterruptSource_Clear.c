@@ -30,7 +30,7 @@
 void GPIO__vClearInterruptSource(GPIO_nPORT enPortArg,
                                  GPIO_nPIN enPinMask)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
         pstRegisterData.uptrAddress = PORT_IFG_OFFSET;
@@ -45,7 +45,7 @@ void GPIO__vClearInterruptSource(GPIO_nPORT enPortArg,
 void GPIO__vClearInterruptSourceByNumber(GPIO_nPORT enPortArg,
                                  GPIO_nPIN_NUMBER enPinNumber)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
         pstRegisterData.uptrAddress = PORT_IFG_OFFSET;

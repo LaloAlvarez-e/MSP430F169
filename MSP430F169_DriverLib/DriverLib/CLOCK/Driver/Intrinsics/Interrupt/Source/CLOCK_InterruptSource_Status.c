@@ -28,7 +28,7 @@
 
 void CLOCK__vSetStatusInterruptSource(CLOCK_nINT_STATUS enStatus)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_IFG1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enStatus;
     pstRegisterData.u8Mask = CLOCK_IFG1_IFG_MASK;
@@ -39,7 +39,7 @@ void CLOCK__vSetStatusInterruptSource(CLOCK_nINT_STATUS enStatus)
 
 CLOCK_nINT_STATUS CLOCK__enGetStatusInterruptSource(void)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_IFG1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) CLOCK_enINT_STATUS_NOOCCUR;
     pstRegisterData.u8Mask = CLOCK_IFG1_IFG_MASK;

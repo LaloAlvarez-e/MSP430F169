@@ -64,7 +64,7 @@ CLOCK_nSTATUS CLOCK__enSetMCLKSource(CLOCK_nSOURCE enSourceClock)
 {
     CLOCK_nSTATUS enStatusReg = CLOCK_enSTATUS_OK;
 
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
     pstRegisterData.u8Value = CLOCK_BCSCTL2_SELM_DCO;
     pstRegisterData.u8Mask = CLOCK_BCSCTL2_SELM_MASK;
@@ -92,7 +92,7 @@ CLOCK_nSTATUS CLOCK__enSetSMCLKSource(CLOCK_nSOURCE enSourceClock)
 {
     CLOCK_nSTATUS enStatusReg = CLOCK_enSTATUS_OK;
 
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
     pstRegisterData.u8Value = CLOCK_BCSCTL2_SELS_DCO;
     pstRegisterData.u8Mask = CLOCK_BCSCTL2_SELS_MASK;
@@ -143,7 +143,7 @@ CLOCK_nSOURCE CLOCK__enGetACLKSource(void)
 CLOCK_nSOURCE CLOCK__enGetSMCLKSource(void)
 {
     CLOCK_nSOURCE enSourceReg = CLOCK_enSOURCE_DCO;
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
 
     pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
     pstRegisterData.u8Value = CLOCK_BCSCTL2_SELS_DCO;
@@ -172,7 +172,7 @@ CLOCK_nSOURCE CLOCK__enGetSMCLKSource(void)
 CLOCK_nSOURCE CLOCK__enGetMCLKSource(void)
 {
     CLOCK_nSOURCE enSourceReg = CLOCK_enSOURCE_DCO;
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
 
     pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
     pstRegisterData.u8Value = CLOCK_BCSCTL2_SELM_DCO;

@@ -29,7 +29,7 @@
 
 void SVS__vSetFlagStatus(SVS_nFLAG enFlagStatusArg)
 {
-    SVS_Register_t pstRegisterData = {0UL};
+    SVS_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = SVS_CTL_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enFlagStatusArg;
     pstRegisterData.u8Mask = SVS_CTL_FG_MASK;
@@ -45,7 +45,7 @@ void SVS__vClearFlagStatus(void)
 
 SVS_nFLAG SVS__enGetFlagStatus(void)
 {
-    SVS_Register_t pstRegisterData = {0UL};
+    SVS_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = SVS_CTL_OFFSET;
     pstRegisterData.u8Value = (uint8_t) SVS_enFLAG_CLEAR;
     pstRegisterData.u8Mask = SVS_CTL_FG_MASK;

@@ -28,7 +28,7 @@
 
 void CLOCK__vSetResistorSelect(uint8_t u8ResistorSelect)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL1_OFFSET;
     pstRegisterData.u8Value = u8ResistorSelect;
     pstRegisterData.u8Mask = CLOCK_BCSCTL1_RSEL_MASK;
@@ -38,7 +38,7 @@ void CLOCK__vSetResistorSelect(uint8_t u8ResistorSelect)
 
 uint8_t CLOCK__u8GetResistorSelect(void)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL1_OFFSET;
     pstRegisterData.u8Value = 0U;
     pstRegisterData.u8Mask = CLOCK_BCSCTL1_RSEL_MASK;

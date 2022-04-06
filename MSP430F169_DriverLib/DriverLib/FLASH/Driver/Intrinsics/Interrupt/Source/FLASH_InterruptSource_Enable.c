@@ -28,7 +28,7 @@
 
 void FLASH__vSetEnableInterruptSource(FLASH_nINT_ENABLE enState)
 {
-    FLASH_Register8Bits_t pstRegisterData = {0UL};
+    FLASH_Register8Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_IE1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enState;
     pstRegisterData.u8Mask = FLASH_IE1_ACCVIE_MASK;
@@ -49,7 +49,7 @@ void FLASH__vDisInterruptSource(void)
 
 FLASH_nINT_ENABLE FLASH__enGetEnableInterruptSource(void)
 {
-    FLASH_Register8Bits_t pstRegisterData = {0UL};
+    FLASH_Register8Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_IE1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) FLASH_enINT_ENABLE_DIS;
     pstRegisterData.u8Mask = FLASH_IE1_ACCVIE_MASK;
@@ -61,7 +61,7 @@ FLASH_nINT_ENABLE FLASH__enGetEnableInterruptSource(void)
 
 void FLASH__vSetEnableInterruptSource_RAM(FLASH_nINT_ENABLE enState)
 {
-    FLASH_Register8Bits_t pstRegisterData = {0UL};
+    FLASH_Register8Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_IE1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enState;
     pstRegisterData.u8Mask = FLASH_IE1_ACCVIE_MASK;
@@ -82,7 +82,7 @@ void FLASH__vDisInterruptSource_RAM(void)
 
 FLASH_nINT_ENABLE FLASH__enGetEnableInterruptSource_RAM(void)
 {
-    FLASH_Register8Bits_t pstRegisterData = {0UL};
+    FLASH_Register8Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_IE1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) FLASH_enINT_ENABLE_DIS;
     pstRegisterData.u8Mask = FLASH_IE1_ACCVIE_MASK;

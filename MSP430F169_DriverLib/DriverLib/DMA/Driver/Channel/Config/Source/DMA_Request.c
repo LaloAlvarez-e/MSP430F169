@@ -27,7 +27,7 @@
 
 void DMA__vRequestSWTransfer(DMA_nCH enChannelArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = DMA_CH_CTL_REQ_REQUEST;
     pstRegisterData.u16Mask = DMA_CH_CTL_REQ_MASK;

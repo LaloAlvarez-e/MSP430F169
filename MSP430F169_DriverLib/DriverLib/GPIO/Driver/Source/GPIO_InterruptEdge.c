@@ -30,7 +30,7 @@ void GPIO__vSetInterruptEdge(GPIO_nPORT enPortArg,
                          GPIO_nPIN enPinMask,
                          GPIO_nINT_EDGE enInterruptEdge)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     uint8_t u8Value = 0U;
     if(GPIO_enINT_EDGE_RISING != enInterruptEdge)
     {
@@ -49,7 +49,7 @@ void GPIO__vSetInterruptEdgeByNumber(GPIO_nPORT enPortArg,
                              GPIO_nPIN_NUMBER enPinNumber,
                              GPIO_nINT_EDGE enInterruptEdge)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = PORT_IES_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enInterruptEdge;
     pstRegisterData.u8Mask = PORT_IES_PIN0_MASK;
@@ -62,7 +62,7 @@ void GPIO__vSetInterruptEdgeByMask(GPIO_nPORT enPortArg,
                          GPIO_nPIN enPinMask,
                          GPIO_nPIN enPinValue)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = PORT_IES_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enPinValue;
     pstRegisterData.u8Mask = (uint8_t) enPinMask;
@@ -94,7 +94,7 @@ void GPIO__vSetInterruptEdgeByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg,
 GPIO_nPIN GPIO__enGetInterruptEdge(GPIO_nPORT enPortArg,
                                GPIO_nPIN enPinMask)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = PORT_IES_OFFSET;
     pstRegisterData.u8Value = (uint8_t) GPIO_enPIN_NONE;
     pstRegisterData.u8Mask = (uint8_t) enPinMask;
@@ -106,7 +106,7 @@ GPIO_nPIN GPIO__enGetInterruptEdge(GPIO_nPORT enPortArg,
 GPIO_nINT_EDGE GPIO__enGetInterruptEdgeByNumber(GPIO_nPORT enPortArg,
                                        GPIO_nPIN_NUMBER enPinNumber)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = PORT_IES_OFFSET;
     pstRegisterData.u8Value = (uint8_t) GPIO_enINT_EDGE_RISING;
     pstRegisterData.u8Mask = PORT_IES_PIN0_MASK;

@@ -30,7 +30,7 @@ void GPIO__vSetSelection(GPIO_nPORT enPortArg,
                          GPIO_nPIN enPinMask,
                          GPIO_nSEL enSelection)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     uint8_t u8Value = 0U;
     if(GPIO_enSEL_IO != enSelection)
     {
@@ -49,7 +49,7 @@ void GPIO__vSetSelectionByNumber(GPIO_nPORT enPortArg,
                              GPIO_nPIN_NUMBER enPinNumber,
                              GPIO_nSEL enSelection)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = PORT_SEL_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enSelection;
     pstRegisterData.u8Mask = PORT_SEL_PIN0_MASK;
@@ -62,7 +62,7 @@ void GPIO__vSetSelectionByMask(GPIO_nPORT enPortArg,
                          GPIO_nPIN enPinMask,
                          GPIO_nPIN enPinValue)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = PORT_SEL_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enPinValue;
     pstRegisterData.u8Mask = (uint8_t) enPinMask;
@@ -95,7 +95,7 @@ void GPIO__vSetSelectionByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg,
 GPIO_nPIN GPIO__enGetSelection(GPIO_nPORT enPortArg,
                                GPIO_nPIN enPinMask)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = PORT_SEL_OFFSET ;
     pstRegisterData.u8Value = (uint8_t) GPIO_enPIN_NONE;
     pstRegisterData.u8Mask = (uint8_t) enPinMask;
@@ -107,7 +107,7 @@ GPIO_nPIN GPIO__enGetSelection(GPIO_nPORT enPortArg,
 GPIO_nSEL GPIO__enGetSelectionByNumber(GPIO_nPORT enPortArg,
                                        GPIO_nPIN_NUMBER enPinNumber)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = PORT_SEL_OFFSET;
     pstRegisterData.u8Value = (uint8_t) GPIO_enSEL_IO;
     pstRegisterData.u8Mask = PORT_SEL_PIN0_MASK;

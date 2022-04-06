@@ -29,7 +29,7 @@
 
 void WDT__vSetEnable(WDT_nENABLE enEnableArg)
 {
-    WDT_Register16Bits_t pstRegisterData = {0UL};
+    WDT_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enEnableArg;
     u16Value <<= WDT_CTL_R_HOLD_BIT;
@@ -44,7 +44,7 @@ void WDT__vSetEnable(WDT_nENABLE enEnableArg)
 
 WDT_nENABLE WDT__enGetEnable(void)
 {
-    WDT_Register16Bits_t pstRegisterData = {0UL};
+    WDT_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = WDT_CTL_OFFSET;
     pstRegisterData.u16Value = (uint16_t) WDT_enENABLE_RUN;
     pstRegisterData.u16Mask = WDT_CTL_HOLD_MASK;
@@ -57,7 +57,7 @@ WDT_nENABLE WDT__enGetEnable(void)
 
 void WDT__vSetEnable_RAM(WDT_nENABLE enEnableArg)
 {
-    WDT_Register16Bits_t pstRegisterData = {0UL};
+    WDT_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enEnableArg;
     u16Value <<= WDT_CTL_R_HOLD_BIT;
@@ -72,7 +72,7 @@ void WDT__vSetEnable_RAM(WDT_nENABLE enEnableArg)
 
 WDT_nENABLE WDT__enGetEnable_RAM(void)
 {
-    WDT_Register16Bits_t pstRegisterData = {0UL};
+    WDT_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = WDT_CTL_OFFSET;
     pstRegisterData.u16Value = (uint16_t) WDT_enENABLE_RUN;
     pstRegisterData.u16Mask = WDT_CTL_HOLD_MASK;

@@ -28,7 +28,7 @@
 void DMA__vSetAbort(DMA_nCH enChannelArg,
                       DMA_nCH_ABORT enAbortArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = (uint16_t) enAbortArg;
     pstRegisterData.u16Mask = DMA_CH_CTL_ABORT_MASK;
@@ -44,7 +44,7 @@ void DMA__vClearAbort(DMA_nCH enChannelArg)
 
 DMA_nCH_ABORT DMA__enGetAbort(DMA_nCH enChannelArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = 0U;
     pstRegisterData.u16Mask = DMA_CH_CTL_ABORT_MASK;

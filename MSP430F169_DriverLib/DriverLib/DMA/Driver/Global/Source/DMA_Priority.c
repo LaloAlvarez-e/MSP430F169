@@ -27,7 +27,7 @@
 
 void DMA__vSetPriorityMode(DMA_nPRIORITY enPriorityArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CTL1_OFFSET;
     pstRegisterData.u16Value = (uint16_t) enPriorityArg;
     pstRegisterData.u16Mask = DMA_CTL1_ROUNDROBIN_MASK;
@@ -37,7 +37,7 @@ void DMA__vSetPriorityMode(DMA_nPRIORITY enPriorityArg)
 
 DMA_nPRIORITY DMA__enGetPriorityMode(void)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CTL1_OFFSET;
     pstRegisterData.u16Value = 0U;
     pstRegisterData.u16Mask = DMA_CTL1_ROUNDROBIN_MASK;

@@ -29,7 +29,7 @@
 
 void NMI__vCauseReset(void)
 {
-    NMI_Register16Bits_t pstRegisterData = {0UL};
+    NMI_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = NMI_CTL_OFFSET;
     pstRegisterData.u16Value = 0U;
     pstRegisterData.u16Mask = 0xFFFFU;

@@ -28,7 +28,7 @@
 
 void NMI__vSetEnableInterruptSource(NMI_nINT_ENABLE enState)
 {
-    NMI_Register8Bits_t pstRegisterData = {0UL};
+    NMI_Register8Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = NMI_IE1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enState;
     pstRegisterData.u8Mask = NMI_IE1_IE_MASK;
@@ -49,7 +49,7 @@ void NMI__vDisInterruptSource(void)
 
 NMI_nINT_ENABLE NMI__enGetEnableInterruptSource(void)
 {
-    NMI_Register8Bits_t pstRegisterData = {0UL};
+    NMI_Register8Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = NMI_IE1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) NMI_enINT_ENABLE_DIS;
     pstRegisterData.u8Mask = NMI_IE1_IE_MASK;

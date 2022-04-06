@@ -34,7 +34,7 @@
 void DMA__vSetConfig(DMA_Config_t* pstConfigArg)
 {
     DMA_CTL1_t stConfigReg = {0};
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     if(0UL != (uintptr_t) pstConfigArg)
     {
         stConfigReg.DMAONFETCH = (uint16_t) pstConfigArg->enFetchMode;

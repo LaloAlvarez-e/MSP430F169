@@ -28,7 +28,7 @@
 void DMA__vSetTransferSize(DMA_nCH enChannelArg,
                          uint16_t u16SizeArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_SZ_OFFSET;
     pstRegisterData.u16Value = (uint16_t) u16SizeArg;
     pstRegisterData.u16Mask = DMA_CH_SZ_SZ_MASK;
@@ -39,7 +39,7 @@ void DMA__vSetTransferSize(DMA_nCH enChannelArg,
 
 uint16_t DMA__u16GetTransferSize(DMA_nCH enChannelArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_SZ_OFFSET;
     pstRegisterData.u16Value = 0U;
     pstRegisterData.u16Mask = DMA_CH_SZ_SZ_MASK;

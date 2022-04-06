@@ -28,7 +28,7 @@
 
 SVS_nSTATE SVS__enGetPowerState(void)
 {
-    SVS_Register_t pstRegisterData = {0UL};
+    SVS_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = SVS_CTL_OFFSET;
     pstRegisterData.u8Value = (uint8_t) SVS_enSTATE_OFF;
     pstRegisterData.u8Mask = SVS_CTL_ON_MASK;

@@ -29,7 +29,7 @@
 
 void NMI__vSetMode(NMI_nMODE enModeArg)
 {
-    NMI_Register16Bits_t pstRegisterData = {0UL};
+    NMI_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enModeArg;
     u16Value <<= NMI_CTL_R_NMI_BIT;
@@ -44,7 +44,7 @@ void NMI__vSetMode(NMI_nMODE enModeArg)
 
 NMI_nMODE NMI__enGetMode(void)
 {
-    NMI_Register16Bits_t pstRegisterData = {0UL};
+    NMI_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = NMI_CTL_OFFSET;
     pstRegisterData.u16Value = (uint16_t) NMI_enMODE_NMI;
     pstRegisterData.u16Mask = NMI_CTL_NMI_MASK;

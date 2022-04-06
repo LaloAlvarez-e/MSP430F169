@@ -30,7 +30,7 @@
 
 void FLASH__vClearKeyViolation(void)
 {
-    MCU_Register16Bits_t pstRegisterData = {0UL};
+    MCU_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
     pstRegisterData.u16Value = FLASH_CTL3_R_KEY_WRITE | FLASH_CTL3_R_KEYV_NOOCCUR;
     pstRegisterData.u16Mask = FLASH_CTL3_R_KEY_MASK | FLASH_CTL3_R_KEYV_MASK;
@@ -41,7 +41,7 @@ void FLASH__vClearKeyViolation(void)
 
 void FLASH__vClearKeyViolation_RAM(void)
 {
-    MCU_Register16Bits_t pstRegisterData = {0UL};
+    MCU_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
     pstRegisterData.u16Value = FLASH_CTL3_KEYV_NOOCCUR;
     pstRegisterData.u16Mask = FLASH_CTL3_R_KEY_MASK | FLASH_CTL3_R_KEYV_MASK;

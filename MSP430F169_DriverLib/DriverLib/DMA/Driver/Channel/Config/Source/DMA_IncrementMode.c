@@ -28,7 +28,7 @@
 void DMA__vSetSourceIncrementMode(DMA_nCH enChannelArg,
                           DMA_nCH_INCMODE enIncModeArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = (uint16_t) enIncModeArg;
     pstRegisterData.u16Mask = DMA_CH_CTL_SRCINCR_MASK;
@@ -39,7 +39,7 @@ void DMA__vSetSourceIncrementMode(DMA_nCH enChannelArg,
 
 DMA_nCH_INCMODE DMA__enGetSourceIncrementMode(DMA_nCH enChannelArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = 0U;
     pstRegisterData.u16Mask = DMA_CH_CTL_SRCINCR_MASK;
@@ -51,7 +51,7 @@ DMA_nCH_INCMODE DMA__enGetSourceIncrementMode(DMA_nCH enChannelArg)
 void DMA__vSetDestIncrementMode(DMA_nCH enChannelArg,
                           DMA_nCH_INCMODE enIncModeArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = (uint16_t) enIncModeArg;
     pstRegisterData.u16Mask = DMA_CH_CTL_DSTINCR_MASK;
@@ -62,7 +62,7 @@ void DMA__vSetDestIncrementMode(DMA_nCH enChannelArg,
 
 DMA_nCH_INCMODE DMA__enGetDestIncrementMode(DMA_nCH enChannelArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = 0U;
     pstRegisterData.u16Mask = DMA_CH_CTL_DSTINCR_MASK;

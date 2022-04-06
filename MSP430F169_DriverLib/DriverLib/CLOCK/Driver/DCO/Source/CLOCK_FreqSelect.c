@@ -28,7 +28,7 @@
 
 void CLOCK__vSetDCOFreqSelect(uint8_t u8FreqSelection)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_DCOCTL_OFFSET;
     pstRegisterData.u8Value = u8FreqSelection;
     pstRegisterData.u8Mask = CLOCK_DCOCTL_DCO_MASK;
@@ -38,7 +38,7 @@ void CLOCK__vSetDCOFreqSelect(uint8_t u8FreqSelection)
 
 uint8_t CLOCK__u8GetDCOFreqSelect(void)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_DCOCTL_OFFSET;
     pstRegisterData.u8Value = 0U;
     pstRegisterData.u8Mask = CLOCK_DCOCTL_DCO_MASK;

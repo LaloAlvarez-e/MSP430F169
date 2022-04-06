@@ -30,7 +30,7 @@ void DMA__vSetChannelConfig(DMA_nCH enChannelArg,
                             DMA_CH_Config_t* pstConfigArg)
 {
     DMA_CH_CTL_t stConfigReg = {0};
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     if(0UL != (uintptr_t) pstConfigArg)
     {
         DMA__vSetEnable(enChannelArg, DMA_enCH_ENABLE_DIS);
@@ -69,7 +69,7 @@ void DMA__vSetChannelExtendedConfig(DMA_nCH enChannelArg,
                                     DMA_CH_ConfigExt_t* pstConfigArg)
 {
     DMA_CH_CTL_t stConfigReg = {0};
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     if(0UL != (uintptr_t) pstConfigArg)
     {
         DMA__vSetEnable(enChannelArg, DMA_enCH_ENABLE_DIS);

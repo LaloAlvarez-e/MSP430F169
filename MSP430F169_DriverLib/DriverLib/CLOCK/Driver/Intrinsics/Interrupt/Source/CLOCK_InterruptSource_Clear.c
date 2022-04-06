@@ -28,7 +28,7 @@
 
 void CLOCK__vClearInterruptSource(void)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_IFG1_OFFSET;
     pstRegisterData.u8Value = CLOCK_IFG1_IFG_NOOCCUR;
     pstRegisterData.u8Mask = CLOCK_IFG1_IFG_MASK;

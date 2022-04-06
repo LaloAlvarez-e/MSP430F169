@@ -29,7 +29,7 @@
 
 void WDT__vSetInterval(WDT_nINTERVAL enIntervalArg)
 {
-    WDT_Register16Bits_t pstRegisterData = {0UL};
+    WDT_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enIntervalArg;
     u16Value <<= WDT_CTL_R_IS_BIT;
@@ -45,7 +45,7 @@ void WDT__vSetInterval(WDT_nINTERVAL enIntervalArg)
 
 WDT_nINTERVAL WDT__enGetInterval(void)
 {
-    WDT_Register16Bits_t pstRegisterData = {0UL};
+    WDT_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = WDT_CTL_OFFSET;
     pstRegisterData.u16Value = (uint16_t) WDT_enINTERVAL_32768;
     pstRegisterData.u16Mask = WDT_CTL_IS_MASK;

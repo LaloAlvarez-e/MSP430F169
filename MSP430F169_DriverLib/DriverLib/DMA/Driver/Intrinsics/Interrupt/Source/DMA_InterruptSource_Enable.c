@@ -29,7 +29,7 @@
 void DMA__vSetEnableInterruptSource(DMA_nCH enChannelArg,
                                     DMA_nCH_INT_ENABLE enState)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
 
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = (uint16_t) enState;
@@ -52,7 +52,7 @@ void DMA__vDisInterruptSource(DMA_nCH enChannelArg)
 
 DMA_nCH_INT_ENABLE DMA__enGetEnableInterruptSource(DMA_nCH enChannelArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     DMA_nCH_INT_ENABLE enEnable = DMA_enCH_INT_ENABLE_DIS;
 
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;

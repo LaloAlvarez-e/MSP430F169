@@ -28,7 +28,7 @@
 
 void FLASH__vClearInterruptSource(void)
 {
-    MCU_Register16Bits_t pstRegisterData = {0UL};
+    MCU_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
     pstRegisterData.u16Value = FLASH_CTL3_R_KEY_WRITE | FLASH_CTL3_R_ACCVIFG_NOOCCUR;
     pstRegisterData.u16Mask = FLASH_CTL3_R_KEY_MASK | FLASH_CTL3_R_ACCVIFG_MASK;
@@ -39,7 +39,7 @@ void FLASH__vClearInterruptSource(void)
 
 void FLASH__vClearInterruptSource_RAM(void)
 {
-    MCU_Register16Bits_t pstRegisterData = {0UL};
+    MCU_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
     pstRegisterData.u16Value = FLASH_CTL3_ACCVIFG_NOOCCUR;
     pstRegisterData.u16Mask = FLASH_CTL3_R_KEY_MASK | FLASH_CTL3_R_ACCVIFG_MASK;

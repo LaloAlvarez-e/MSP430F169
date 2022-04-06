@@ -29,7 +29,7 @@
 
 void WDT__vSetClock(WDT_nCLOCK enClockArg)
 {
-    WDT_Register16Bits_t pstRegisterData = {0UL};
+    WDT_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enClockArg;
     u16Value <<= WDT_CTL_R_SSEL_BIT;
@@ -44,7 +44,7 @@ void WDT__vSetClock(WDT_nCLOCK enClockArg)
 
 WDT_nCLOCK WDT__enGetClock(void)
 {
-    WDT_Register16Bits_t pstRegisterData = {0UL};
+    WDT_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = WDT_CTL_OFFSET;
     pstRegisterData.u16Value = (uint16_t) WDT_enCLOCK_SMCLK;
     pstRegisterData.u16Mask = WDT_CTL_SSEL_MASK;

@@ -29,7 +29,7 @@
 
 void CLOCK__vSetDCOResistorSelect(CLOCK_nRESISTOR enResistorSelect)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enResistorSelect;
     pstRegisterData.u8Mask = CLOCK_BCSCTL2_DCOR_MASK;
@@ -39,7 +39,7 @@ void CLOCK__vSetDCOResistorSelect(CLOCK_nRESISTOR enResistorSelect)
 
 CLOCK_nRESISTOR CLOCK__enGetDCOResistorSelect(void)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL2_OFFSET;
     pstRegisterData.u8Value = (uint8_t) CLOCK_enRESISTOR_INTERNAL;
     pstRegisterData.u8Mask = CLOCK_BCSCTL2_DCOR_MASK;

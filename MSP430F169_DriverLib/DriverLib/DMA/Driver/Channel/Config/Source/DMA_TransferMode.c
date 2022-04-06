@@ -28,7 +28,7 @@
 void DMA__vSetTransferMode(DMA_nCH enChannelArg,
                           DMA_nCH_MODE enModeArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = (uint16_t) enModeArg;
     pstRegisterData.u16Mask = DMA_CH_CTL_DT_MASK;
@@ -39,7 +39,7 @@ void DMA__vSetTransferMode(DMA_nCH enChannelArg,
 
 DMA_nCH_MODE DMA__enGetTransferMode(DMA_nCH enChannelArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = 0U;
     pstRegisterData.u16Mask = DMA_CH_CTL_DT_MASK;

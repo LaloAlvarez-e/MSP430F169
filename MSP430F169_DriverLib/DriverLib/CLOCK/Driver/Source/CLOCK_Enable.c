@@ -74,7 +74,7 @@ void CLOCK__vSetDCOEnable(CLOCK_nENABLE enEnable)
 
 void CLOCK__vSetXT2Enable(CLOCK_nENABLE enEnable)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enEnable;
     pstRegisterData.u8Mask = CLOCK_BCSCTL1_XT2OFF_MASK;
@@ -132,7 +132,7 @@ CLOCK_nENABLE CLOCK__enGetDCOEnable(void)
 
 CLOCK_nENABLE CLOCK__enGetXT2Enable(void)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) CLOCK_enENABLE_ENA;
     pstRegisterData.u8Mask = CLOCK_BCSCTL1_XT2OFF_MASK;

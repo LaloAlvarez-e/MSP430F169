@@ -27,7 +27,7 @@
 
 void DMA__vSetNMITranferStop(DMA_nENABLE enNMIEnableArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CTL1_OFFSET;
     pstRegisterData.u16Value = (uint16_t) enNMIEnableArg;
     pstRegisterData.u16Mask = DMA_CTL1_ENNMI_MASK;
@@ -37,7 +37,7 @@ void DMA__vSetNMITranferStop(DMA_nENABLE enNMIEnableArg)
 
 DMA_nENABLE DMA__enGetNMITranferStop(void)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CTL1_OFFSET;
     pstRegisterData.u16Value = 0U;
     pstRegisterData.u16Mask = DMA_CTL1_ENNMI_MASK;

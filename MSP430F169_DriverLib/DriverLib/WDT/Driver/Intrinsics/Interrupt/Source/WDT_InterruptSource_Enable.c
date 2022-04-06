@@ -28,7 +28,7 @@
 
 void WDT__vSetEnableInterruptSource(WDT_nINT_ENABLE enState)
 {
-    WDT_Register8Bits_t pstRegisterData = {0UL};
+    WDT_Register8Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = WDT_IE1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enState;
     pstRegisterData.u8Mask = WDT_IE1_IE_MASK;
@@ -49,7 +49,7 @@ void WDT__vDisInterruptSource(void)
 
 WDT_nINT_ENABLE WDT__enGetEnableInterruptSource(void)
 {
-    WDT_Register8Bits_t pstRegisterData = {0UL};
+    WDT_Register8Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = WDT_IE1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) WDT_enINT_ENABLE_DIS;
     pstRegisterData.u8Mask = WDT_IE1_IE_MASK;

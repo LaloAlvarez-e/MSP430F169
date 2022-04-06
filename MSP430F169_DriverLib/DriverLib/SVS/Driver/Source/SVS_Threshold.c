@@ -52,7 +52,7 @@ static const uint16_t SVS_pu16Threshold[THRESHOLD_VALUES] =
 
 void SVS__vSetThreshold(SVS_nTHRESHOLD enthresholdArg)
 {
-    SVS_Register_t pstRegisterData = {0UL};
+    SVS_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = SVS_CTL_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enthresholdArg;
     pstRegisterData.u8Mask = SVS_CTL_VLD_MASK;
@@ -63,7 +63,7 @@ void SVS__vSetThreshold(SVS_nTHRESHOLD enthresholdArg)
 
 SVS_nTHRESHOLD SVS__enGetThreshold(void)
 {
-    SVS_Register_t pstRegisterData = {0UL};
+    SVS_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = SVS_CTL_OFFSET;
     pstRegisterData.u8Value = (uint8_t) SVS_enTHRESHOLD_OFF;
     pstRegisterData.u8Mask = SVS_CTL_VLD_MASK;

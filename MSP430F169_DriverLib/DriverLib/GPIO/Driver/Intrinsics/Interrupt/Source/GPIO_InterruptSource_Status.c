@@ -30,7 +30,7 @@ void GPIO__vSetStatusInterruptSource(GPIO_nPORT enPortArg,
                                      GPIO_nPIN enPinMask,
                                      GPIO_nINT_STATUS enStatus)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     uint8_t u8Value = 0U;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
@@ -51,7 +51,7 @@ void GPIO__vSetStatusInterruptSourceByNumber(GPIO_nPORT enPortArg,
                                              GPIO_nPIN_NUMBER enPinNumber,
                                              GPIO_nINT_STATUS enStatus)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
         pstRegisterData.uptrAddress = PORT_IFG_OFFSET;
@@ -67,7 +67,7 @@ void GPIO__vSetStatusInterruptSourceByMask(GPIO_nPORT enPortArg,
                                      GPIO_nPIN enPinMask,
                                      GPIO_nPIN enPinValue)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
         pstRegisterData.uptrAddress = PORT_IFG_OFFSET;
@@ -103,7 +103,7 @@ void GPIO__vSetStatusInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunction
 GPIO_nPIN GPIO__enGetStatusInterruptSource(GPIO_nPORT enPortArg,
                                            GPIO_nPIN enPinMask)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     GPIO_nPIN enStatus = GPIO_enPIN_NONE;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
@@ -119,7 +119,7 @@ GPIO_nPIN GPIO__enGetStatusInterruptSource(GPIO_nPORT enPortArg,
 GPIO_nINT_STATUS GPIO__enGetStatusInterruptSourceByNumber(GPIO_nPORT enPortArg,
                                            GPIO_nPIN_NUMBER enPinNumber)
 {
-    GPIO_Register_t pstRegisterData = {0UL};
+    GPIO_Register_t pstRegisterData;
     GPIO_nINT_STATUS enStatus = GPIO_enINT_STATUS_NOOCCUR;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {

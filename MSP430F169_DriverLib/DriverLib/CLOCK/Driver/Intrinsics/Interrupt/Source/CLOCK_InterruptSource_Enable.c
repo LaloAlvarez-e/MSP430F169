@@ -28,7 +28,7 @@
 
 void CLOCK__vSetEnableInterruptSource(CLOCK_nINT_ENABLE enState)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_IE1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enState;
     pstRegisterData.u8Mask = CLOCK_IE1_IE_MASK;
@@ -49,7 +49,7 @@ void CLOCK__vDisInterruptSource(void)
 
 CLOCK_nINT_ENABLE CLOCK__enGetEnableInterruptSource(void)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_IE1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) CLOCK_enINT_ENABLE_DIS;
     pstRegisterData.u8Mask = CLOCK_IE1_IE_MASK;

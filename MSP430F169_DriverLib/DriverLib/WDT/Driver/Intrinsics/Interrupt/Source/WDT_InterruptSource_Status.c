@@ -28,7 +28,7 @@
 
 void WDT__vSetStatusInterruptSource(WDT_nINT_STATUS enStatus)
 {
-    WDT_Register8Bits_t pstRegisterData = {0UL};
+    WDT_Register8Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = WDT_IFG1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enStatus;
     pstRegisterData.u8Mask = WDT_IFG1_IFG_MASK;
@@ -39,7 +39,7 @@ void WDT__vSetStatusInterruptSource(WDT_nINT_STATUS enStatus)
 
 WDT_nINT_STATUS WDT__enGetStatusInterruptSource(void)
 {
-    WDT_Register8Bits_t pstRegisterData = {0UL};
+    WDT_Register8Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = WDT_IFG1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) WDT_enINT_STATUS_NOOCCUR;
     pstRegisterData.u8Mask = WDT_IFG1_IFG_MASK;

@@ -27,7 +27,7 @@
 
 void DMA__vSetFetchMode(DMA_nFETCH enFetchModeArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CTL1_OFFSET;
     pstRegisterData.u16Value = (uint16_t) enFetchModeArg;
     pstRegisterData.u16Mask = DMA_CTL1_DMAONFETCH_MASK;
@@ -37,7 +37,7 @@ void DMA__vSetFetchMode(DMA_nFETCH enFetchModeArg)
 
 DMA_nFETCH DMA__enGetFetchMode(void)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CTL1_OFFSET;
     pstRegisterData.u16Value = 0U;
     pstRegisterData.u16Mask = DMA_CTL1_DMAONFETCH_MASK;

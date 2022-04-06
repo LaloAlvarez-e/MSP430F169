@@ -28,7 +28,7 @@
 
 void WDT__vClearInterruptSource(void)
 {
-    WDT_Register8Bits_t pstRegisterData = {0UL};
+    WDT_Register8Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = WDT_IFG1_OFFSET;
     pstRegisterData.u8Value = WDT_IFG1_IFG_NOOCCUR;
     pstRegisterData.u8Mask = WDT_IFG1_IFG_MASK;

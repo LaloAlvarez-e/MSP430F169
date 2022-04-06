@@ -28,7 +28,7 @@
 
 void NMI__vSetStatusInterruptSource(NMI_nINT_STATUS enStatus)
 {
-    NMI_Register8Bits_t pstRegisterData = {0UL};
+    NMI_Register8Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = NMI_IFG1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enStatus;
     pstRegisterData.u8Mask = NMI_IFG1_IFG_MASK;
@@ -39,7 +39,7 @@ void NMI__vSetStatusInterruptSource(NMI_nINT_STATUS enStatus)
 
 NMI_nINT_STATUS NMI__enGetStatusInterruptSource(void)
 {
-    NMI_Register8Bits_t pstRegisterData = {0UL};
+    NMI_Register8Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = NMI_IFG1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) NMI_enINT_STATUS_NOOCCUR;
     pstRegisterData.u8Mask = NMI_IFG1_IFG_MASK;

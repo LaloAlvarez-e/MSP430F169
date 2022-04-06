@@ -28,7 +28,7 @@
 void DMA__vSetSourceAddress(DMA_nCH enChannelArg,
                          uint16_t u16AddressArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_SA_OFFSET;
     pstRegisterData.u16Value = (uint16_t) u16AddressArg;
     pstRegisterData.u16Mask = DMA_CH_SA_SA_MASK;
@@ -39,7 +39,7 @@ void DMA__vSetSourceAddress(DMA_nCH enChannelArg,
 
 uint16_t DMA__u16GetSourceAddress(DMA_nCH enChannelArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_SA_OFFSET;
     pstRegisterData.u16Value = 0U;
     pstRegisterData.u16Mask = DMA_CH_SA_SA_MASK;

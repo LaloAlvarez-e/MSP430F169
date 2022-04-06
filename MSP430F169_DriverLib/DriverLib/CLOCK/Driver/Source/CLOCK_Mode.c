@@ -29,7 +29,7 @@
 
 void CLOCK__vSetLFXT1FrequencyMode(CLOCK_nFREQMODE enFrequencyMode)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) enFrequencyMode;
     pstRegisterData.u8Mask = CLOCK_BCSCTL1_XTS_MASK;
@@ -39,7 +39,7 @@ void CLOCK__vSetLFXT1FrequencyMode(CLOCK_nFREQMODE enFrequencyMode)
 
 CLOCK_nFREQMODE CLOCK__enGetLFXT1FrequencyMode(void)
 {
-    CLOCK_Register_t pstRegisterData = {0UL};
+    CLOCK_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = CLOCK_BCSCTL1_OFFSET;
     pstRegisterData.u8Value = (uint8_t) CLOCK_enFREQMODE_LOW;
     pstRegisterData.u8Mask = CLOCK_BCSCTL1_XTS_MASK;

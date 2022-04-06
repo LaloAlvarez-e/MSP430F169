@@ -28,7 +28,7 @@
 void DMA__vSetEnable(DMA_nCH enChannelArg,
                       DMA_nCH_ENABLE enEnableArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = (uint16_t) enEnableArg;
     pstRegisterData.u16Mask = DMA_CH_CTL_EN_MASK;
@@ -39,7 +39,7 @@ void DMA__vSetEnable(DMA_nCH enChannelArg,
 
 DMA_nCH_ENABLE DMA__enGetEnable(DMA_nCH enChannelArg)
 {
-    DMA_Register_t pstRegisterData = {0UL};
+    DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Value = 0U;
     pstRegisterData.u16Mask = DMA_CH_CTL_EN_MASK;

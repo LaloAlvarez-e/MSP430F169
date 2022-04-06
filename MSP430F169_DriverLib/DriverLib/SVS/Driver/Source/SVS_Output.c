@@ -28,7 +28,7 @@
 
 SVS_nLEVEL SVS__enGetOutputState(void)
 {
-    SVS_Register_t pstRegisterData = {0UL};
+    SVS_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = SVS_CTL_OFFSET;
     pstRegisterData.u8Value = (uint8_t) SVS_enLEVEL_LOW;
     pstRegisterData.u8Mask = SVS_CTL_OP_MASK;
