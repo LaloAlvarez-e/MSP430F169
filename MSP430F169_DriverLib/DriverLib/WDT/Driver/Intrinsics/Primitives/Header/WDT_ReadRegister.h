@@ -27,7 +27,10 @@
 
 #include "DriverLib/WDT/Peripheral/Header/WDT_Enum.h"
 
+#pragma CODE_SECTION(WDT__u16ReadRegister_RAM, ".TI.ramfunc")
+
 uint8_t WDT__u8ReadRegister(WDT_Register8Bits_t* pstRegisterData);
 uint16_t WDT__u16ReadRegister(WDT_Register16Bits_t* pstRegisterData);
+uint16_t WDT__u16ReadRegister_RAM(WDT_Register16Bits_t* pstRegisterData);
 
 #endif /* DRIVERLIB_WDT_DRIVER_INTRINSICS_PRIMITIVES_HEADER_WDT_READREGISTER_H_ */

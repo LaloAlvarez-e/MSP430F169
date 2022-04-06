@@ -27,7 +27,14 @@
 
 #include "DriverLib/WDT/Peripheral/Header/WDT_Enum.h"
 
+#pragma CODE_SECTION(WDT__enGetMode_RAM, ".TI.ramfunc")
+#pragma CODE_SECTION(WDT__vSetMode_RAM, ".TI.ramfunc")
+
 void WDT__vSetMode(WDT_nMODE enMode);
 WDT_nMODE WDT__enGetMode(void);
+
+WDT_nMODE WDT__enGetMode_RAM(void);
+void WDT__vSetMode_RAM(WDT_nMODE enModeArg);
+
 
 #endif /* DRIVERLIB_WDT_DRIVER_HEADER_WDT_MODE_H_ */

@@ -56,4 +56,30 @@ WDT_nMODE WDT__enGetMode(void)
 
 
 
+void WDT__vSetMode_RAM(WDT_nMODE enModeArg)
+{
+    WDT_Register16Bits_t pstRegisterData = {0UL};
+    uint16_t u16Value = 0U;
+    u16Value = (uint16_t) enModeArg;
+    u16Value <<= WDT_CTL_R_TMSEL_BIT;
+    u16Value |= WDT_CTL_R_PW_WRITE;
+    pstRegisterData.uptrAddress = WDT_CTL_OFFSET;
+    pstRegisterData.u16Value = u16Value;
+    pstRegisterData.u16Mask = WDT_CTL_R_PW_MASK | WDT_CTL_R_TMSEL_MASK;
+    pstRegisterData.u8Shift = 0UL;
+
+    WDT__vWriteRegister_16bits_RAM(&pstRegisterData);
+}
+
+WDT_nMODE WDT__enGetMode_RAM(void)
+{
+    WDT_Register16Bits_t pstRegisterData = {0UL};
+    pstRegisterData.uptrAddress = WDT_CTL_OFFSET;
+    pstRegisterData.u16Value = (uint16_t) WDT_enMODE_WDT;
+    pstRegisterData.u16Mask = WDT_CTL_TMSEL_MASK;
+    pstRegisterData.u8Shift = WDT_CTL_R_TMSEL_BIT;
+    (void) WDT__u16ReadRegister_RAM(&pstRegisterData);
+
+    return ((WDT_nMODE) pstRegisterData.u16Value);
+}
 

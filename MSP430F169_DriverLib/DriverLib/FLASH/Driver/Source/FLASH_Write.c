@@ -29,7 +29,7 @@
 
 void FLASH__vStartWriteProcess(FLASH_nWRITE enWriteProcessArg)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enWriteProcessArg;
     u16Value <<= FLASH_CTL1_R_WRITE_BIT;
@@ -44,7 +44,7 @@ void FLASH__vStartWriteProcess(FLASH_nWRITE enWriteProcessArg)
 
 FLASH_nWRITE FLASH__enGetWriteProcess(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL1_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enWRITE_OFF;
     pstRegisterData.u16Mask = FLASH_CTL1_WRITE_MASK;
@@ -57,7 +57,7 @@ FLASH_nWRITE FLASH__enGetWriteProcess(void)
 
 void FLASH__vStartWriteProcess_RAM(FLASH_nWRITE enWriteProcessArg)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enWriteProcessArg;
     u16Value <<= FLASH_CTL1_R_WRITE_BIT;
@@ -72,7 +72,7 @@ void FLASH__vStartWriteProcess_RAM(FLASH_nWRITE enWriteProcessArg)
 
 FLASH_nWRITE FLASH__enGetWriteProcess_RAM(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL1_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enWRITE_OFF;
     pstRegisterData.u16Mask = FLASH_CTL1_WRITE_MASK;

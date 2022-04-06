@@ -52,7 +52,7 @@ void FLASH__vClearKeyViolation_RAM(void)
 
 void FLASH__vSetKeyViolation(FLASH_nINT_STATUS enStatus)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enStatus;
     u16Value <<= FLASH_CTL3_R_KEYV_BIT;
@@ -68,7 +68,7 @@ void FLASH__vSetKeyViolation(FLASH_nINT_STATUS enStatus)
 
 FLASH_nINT_STATUS FLASH__enGetKeyViolation(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
 
     pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enINT_STATUS_NOOCCUR;
@@ -81,7 +81,7 @@ FLASH_nINT_STATUS FLASH__enGetKeyViolation(void)
 
 void FLASH__vSetKeyViolation_RAM(FLASH_nINT_STATUS enStatus)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enStatus;
     u16Value <<= FLASH_CTL3_R_KEYV_BIT;
@@ -97,7 +97,7 @@ void FLASH__vSetKeyViolation_RAM(FLASH_nINT_STATUS enStatus)
 
 FLASH_nINT_STATUS FLASH__enGetKeyViolation_RAM(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
 
     pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enINT_STATUS_NOOCCUR;

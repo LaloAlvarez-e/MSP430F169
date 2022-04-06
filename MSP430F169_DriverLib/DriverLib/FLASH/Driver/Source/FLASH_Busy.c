@@ -29,7 +29,7 @@
 
 FLASH_nBUSY FLASH__enGetBusyState(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enBUSY_NOBUSY;
     pstRegisterData.u16Mask = FLASH_CTL3_BUSY_MASK;
@@ -41,7 +41,7 @@ FLASH_nBUSY FLASH__enGetBusyState(void)
 
 FLASH_nBUSY FLASH__enGetBusyState_RAM(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enBUSY_NOBUSY;
     pstRegisterData.u16Mask = FLASH_CTL3_BUSY_MASK;

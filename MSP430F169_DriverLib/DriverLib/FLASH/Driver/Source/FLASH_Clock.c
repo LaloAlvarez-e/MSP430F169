@@ -29,7 +29,7 @@
 
 void FLASH__vSetClockSource(FLASH_nCLOCK enClockArg)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enClockArg;
     u16Value <<= FLASH_CTL2_R_SSEL_BIT;
@@ -44,7 +44,7 @@ void FLASH__vSetClockSource(FLASH_nCLOCK enClockArg)
 
 FLASH_nCLOCK FLASH__enGetClockSource(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL2_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enCLOCK_SMCLK;
     pstRegisterData.u16Mask = FLASH_CTL2_SSEL_MASK;
@@ -57,7 +57,7 @@ FLASH_nCLOCK FLASH__enGetClockSource(void)
 
 void FLASH__vSetClockSource_RAM(FLASH_nCLOCK enClockArg)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enClockArg;
     u16Value <<= FLASH_CTL2_R_SSEL_BIT;
@@ -72,7 +72,7 @@ void FLASH__vSetClockSource_RAM(FLASH_nCLOCK enClockArg)
 
 FLASH_nCLOCK FLASH__enGetClockSource_RAM(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL2_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enCLOCK_SMCLK;
     pstRegisterData.u16Mask = FLASH_CTL2_SSEL_MASK;

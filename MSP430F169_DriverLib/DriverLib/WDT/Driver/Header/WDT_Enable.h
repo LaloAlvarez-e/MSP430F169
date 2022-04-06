@@ -27,7 +27,13 @@
 
 #include "DriverLib/WDT/Peripheral/Header/WDT_Enum.h"
 
+#pragma CODE_SECTION(WDT__vSetEnable_RAM, ".TI.ramfunc")
+#pragma CODE_SECTION(WDT__enGetEnable_RAM, ".TI.ramfunc")
+
 void WDT__vSetEnable(WDT_nENABLE enEnableArg);
 WDT_nENABLE WDT__enGetEnable(void);
+
+void WDT__vSetEnable_RAM(WDT_nENABLE enEnableArg);
+WDT_nENABLE WDT__enGetEnable_RAM(void);
 
 #endif /* DRIVERLIB_WDT_DRIVER_HEADER_WDT_ENABLE_H_ */

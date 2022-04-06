@@ -28,7 +28,7 @@
 
 void FLASH__vSetStatusInterruptSource(FLASH_nINT_STATUS enStatus)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enStatus;
     u16Value <<= FLASH_CTL3_R_ACCVIFG_BIT;
@@ -44,7 +44,7 @@ void FLASH__vSetStatusInterruptSource(FLASH_nINT_STATUS enStatus)
 
 FLASH_nINT_STATUS FLASH__enGetStatusInterruptSource(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
 
     pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enINT_STATUS_NOOCCUR;
@@ -57,7 +57,7 @@ FLASH_nINT_STATUS FLASH__enGetStatusInterruptSource(void)
 
 void FLASH__vSetStatusInterruptSource_RAM(FLASH_nINT_STATUS enStatus)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enStatus;
     u16Value <<= FLASH_CTL3_R_ACCVIFG_BIT;
@@ -73,7 +73,7 @@ void FLASH__vSetStatusInterruptSource_RAM(FLASH_nINT_STATUS enStatus)
 
 FLASH_nINT_STATUS FLASH__enGetStatusInterruptSource_RAM(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
 
     pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enINT_STATUS_NOOCCUR;

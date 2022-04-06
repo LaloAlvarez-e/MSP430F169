@@ -27,7 +27,10 @@
 
 #include "DriverLib/WDT/Peripheral/Header/WDT_Enum.h"
 
+#pragma CODE_SECTION(WDT__vWriteRegister_16bits_RAM, ".TI.ramfunc")
+
 void WDT__vWriteRegister_8bits(WDT_Register8Bits_t* pstRegisterData);
 void WDT__vWriteRegister_16bits(WDT_Register16Bits_t* pstRegisterData);
+void WDT__vWriteRegister_16bits_RAM(WDT_Register16Bits_t* pstRegisterData);
 
 #endif /* DRIVERLIB_WDT_DRIVER_INTRINSICS_PRIMITIVES_HEADER_WDT_WRITEREGISTER_H_ */

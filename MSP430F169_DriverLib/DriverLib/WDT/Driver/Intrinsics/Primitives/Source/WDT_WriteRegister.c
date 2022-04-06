@@ -42,3 +42,12 @@ void WDT__vWriteRegister_16bits(WDT_Register16Bits_t* pstRegisterData)
     pstRegisterData->uptrAddress += ptrAddressBase;
     MCU__vWriteRegister_16bits(pstRegisterData);
 }
+
+
+void WDT__vWriteRegister_16bits_RAM(WDT_Register16Bits_t* pstRegisterData)
+{
+    const uintptr_t ptrAddressBase = WDT_BASE;
+
+    pstRegisterData->uptrAddress += ptrAddressBase;
+    MCU__vWriteRegister_16bits_RAM(pstRegisterData);
+}

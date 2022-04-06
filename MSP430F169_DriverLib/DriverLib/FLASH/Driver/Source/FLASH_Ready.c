@@ -29,7 +29,7 @@
 
 FLASH_nREADY FLASH__enGetReadyState(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enREADY_NOREADY;
     pstRegisterData.u16Mask = FLASH_CTL3_WAIT_MASK;
@@ -41,7 +41,7 @@ FLASH_nREADY FLASH__enGetReadyState(void)
 
 FLASH_nREADY FLASH__enGetReadyState_RAM(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enREADY_NOREADY;
     pstRegisterData.u16Mask = FLASH_CTL3_WAIT_MASK;

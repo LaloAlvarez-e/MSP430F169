@@ -29,7 +29,7 @@
 
 void FLASH__vSetLockState(FLASH_nLOCK enLockArg)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enLockArg;
     u16Value <<= FLASH_CTL3_R_LOCK_BIT;
@@ -55,7 +55,7 @@ void FLASH__vUnlock(void)
 
 FLASH_nLOCK FLASH__enGetLockState(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enLOCK_LOCK;
     pstRegisterData.u16Mask = FLASH_CTL3_LOCK_MASK;
@@ -68,7 +68,7 @@ FLASH_nLOCK FLASH__enGetLockState(void)
 
 void FLASH__vSetLockState_RAM(FLASH_nLOCK enLockArg)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enLockArg;
     u16Value <<= FLASH_CTL3_R_LOCK_BIT;
@@ -93,7 +93,7 @@ void FLASH__vUnlock_RAM(void)
 
 FLASH_nLOCK FLASH__enGetLockState_RAM(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL3_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enLOCK_LOCK;
     pstRegisterData.u16Mask = FLASH_CTL3_LOCK_MASK;

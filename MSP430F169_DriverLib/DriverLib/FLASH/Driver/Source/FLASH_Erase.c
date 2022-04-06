@@ -29,7 +29,7 @@
 
 void FLASH__vStartEraseProcess(FLASH_nERASE enEraseProcessArg)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enEraseProcessArg;
     u16Value <<= FLASH_CTL1_R_ERASE_BIT;
@@ -44,7 +44,7 @@ void FLASH__vStartEraseProcess(FLASH_nERASE enEraseProcessArg)
 
 FLASH_nERASE FLASH__enGetEraseProcess(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL1_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enERASE_OFF;
     pstRegisterData.u16Mask = FLASH_CTL1_ERASE_MASK;
@@ -57,7 +57,7 @@ FLASH_nERASE FLASH__enGetEraseProcess(void)
 
 void FLASH__vStartEraseProcess_RAM(FLASH_nERASE enEraseProcessArg)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     uint16_t u16Value = 0U;
     u16Value = (uint16_t) enEraseProcessArg;
     u16Value <<= FLASH_CTL1_R_ERASE_BIT;
@@ -72,7 +72,7 @@ void FLASH__vStartEraseProcess_RAM(FLASH_nERASE enEraseProcessArg)
 
 FLASH_nERASE FLASH__enGetEraseProcess_RAM(void)
 {
-    FLASH_Register16Bits_t pstRegisterData = {0UL};
+    FLASH_Register16Bits_t pstRegisterData;
     pstRegisterData.uptrAddress = FLASH_CTL1_OFFSET;
     pstRegisterData.u16Value = (uint16_t) FLASH_enERASE_OFF;
     pstRegisterData.u16Mask = FLASH_CTL1_ERASE_MASK;

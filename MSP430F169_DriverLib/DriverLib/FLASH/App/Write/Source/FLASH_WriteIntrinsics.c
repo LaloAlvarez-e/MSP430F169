@@ -32,7 +32,6 @@ FLASH_nSTATUS FLASH__enMainWriteWord(uint16_t u16DataArg, uintptr_t uptrAddressA
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
     FLASH_Segment_t stSegmentCallback = {0U};
 
-    uptrAddressArg &= ~0x1;
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetMainStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetMainEndAddress;
     stSegmentCallback.vStartProcess = &FLASH__vStartWriteProcess;
@@ -72,7 +71,6 @@ FLASH_nSTATUS FLASH__enInfoWriteWord(uint16_t u16DataArg, uintptr_t uptrAddressA
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
     FLASH_Segment_t stSegmentCallback = {0U};
 
-    uptrAddressArg &= ~0x1;
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetInfoStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetInfoEndAddress;
     stSegmentCallback.vStartProcess = &FLASH__vStartWriteProcess;
