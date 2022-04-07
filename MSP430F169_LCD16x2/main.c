@@ -185,7 +185,7 @@ void main(void)
     LCD1602_Data('N');
     LCD1602_Data('D');
     LCD1602_Data('O');
-    LCD1602_Pos(0,1);
+    LCD1602_Pos(1,1);
     LCD1602_Data('L'); //escribe H en 0,0. Cursor 0,1
     LCD1602_Data('a');
     LCD1602_Data('l'); //escribe H en 0,0. Cursor 0,1
@@ -204,7 +204,7 @@ void main(void)
         {
             _NOP();
         }
-        LCD1602_Pos(13,1);
+        LCD1602_Pos(14,1);
         LCD1602_Data('0' + u8Value);
         if(u8Value >= 9U)
         {
