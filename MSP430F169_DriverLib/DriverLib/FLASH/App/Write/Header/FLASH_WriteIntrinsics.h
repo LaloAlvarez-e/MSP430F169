@@ -29,14 +29,12 @@
 
 FLASH_nSTATUS FLASH__enMainWriteWord(uint16_t u16DataArg, uintptr_t uptrAddressArg);
 FLASH_nSTATUS FLASH__enInfoWriteWord(uint16_t u16DataArg, uintptr_t uptrAddressArg);
-FLASH_nSTATUS FLASH__enWriteWord(FLASH_nSECTION enSectionArg,
-                                 uint16_t u16DataArg,
+FLASH_nSTATUS FLASH__enWriteWord(uint16_t u16DataArg,
                                  uintptr_t uptrAddressArg);
 
 FLASH_nSTATUS FLASH__enMainWriteByte(uint8_t u8DataArg, uintptr_t uptrAddressArg);
 FLASH_nSTATUS FLASH__enInfoWriteByte(uint8_t u8DataArg, uintptr_t uptrAddressArg);
-FLASH_nSTATUS FLASH__enWriteByte(FLASH_nSECTION enSectionArg,
-                                 uint8_t u8DataArg,
+FLASH_nSTATUS FLASH__enWriteByte(uint8_t u8DataArg,
                                  uintptr_t uptrAddressArg);
 
 

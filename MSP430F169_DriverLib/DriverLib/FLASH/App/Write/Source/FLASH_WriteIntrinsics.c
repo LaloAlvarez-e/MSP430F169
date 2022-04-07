@@ -30,7 +30,7 @@
 FLASH_nSTATUS FLASH__enMainWriteWord(uint16_t u16DataArg, uintptr_t uptrAddressArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    FLASH_Segment_t stSegmentCallback = {0U};
+    FLASH_Segment_t stSegmentCallback;
 
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetMainStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetMainEndAddress;
@@ -69,7 +69,7 @@ FLASH_nSTATUS FLASH__enMainWriteByte(uint8_t u8DataArg, uintptr_t uptrAddressArg
 FLASH_nSTATUS FLASH__enInfoWriteWord(uint16_t u16DataArg, uintptr_t uptrAddressArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    FLASH_Segment_t stSegmentCallback = {0U};
+    FLASH_Segment_t stSegmentCallback;
 
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetInfoStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetInfoEndAddress;
@@ -106,40 +106,28 @@ FLASH_nSTATUS FLASH__enInfoWriteByte(uint8_t u8DataArg, uintptr_t uptrAddressArg
 }
 
 
-FLASH_nSTATUS FLASH__enWriteWord(FLASH_nSECTION enSectionArg,
-                                 uint16_t u16DataArg,
+FLASH_nSTATUS FLASH__enWriteWord(uint16_t u16DataArg,
                                  uintptr_t uptrAddressArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    switch(enSectionArg)
+
+    enStatusReg = FLASH__enInfoWriteWord(u16DataArg, uptrAddressArg);
+    if(FLASH_enSTATUS_ERROR == enStatusReg)
     {
-    case FLASH_enSECTION_MAIN:
         enStatusReg = FLASH__enMainWriteWord(u16DataArg, uptrAddressArg);
-        break;
-    case FLASH_enSECTION_INFO:
-        enStatusReg = FLASH__enInfoWriteWord(u16DataArg, uptrAddressArg);
-        break;
-    default:
-        break;
     }
     return (enStatusReg);
 }
 
-FLASH_nSTATUS FLASH__enWriteByte(FLASH_nSECTION enSectionArg,
-                                 uint8_t u8DataArg,
+FLASH_nSTATUS FLASH__enWriteByte(uint8_t u8DataArg,
                                  uintptr_t uptrAddressArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    switch(enSectionArg)
+
+    enStatusReg = FLASH__enInfoWriteByte(u8DataArg, uptrAddressArg);
+    if(FLASH_enSTATUS_ERROR == enStatusReg)
     {
-    case FLASH_enSECTION_MAIN:
         enStatusReg = FLASH__enMainWriteByte(u8DataArg, uptrAddressArg);
-        break;
-    case FLASH_enSECTION_INFO:
-        enStatusReg = FLASH__enInfoWriteByte(u8DataArg, uptrAddressArg);
-        break;
-    default:
-        break;
     }
     return (enStatusReg);
 }

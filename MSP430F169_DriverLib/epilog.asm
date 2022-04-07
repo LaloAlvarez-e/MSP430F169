@@ -65,7 +65,7 @@
          .global func_epilog_5, func_epilog_6, func_epilog_7
 
 
-    .sect  ".TI.ramfunc"
+    .sect  ".text"
 	.align 2
 	.clink
 

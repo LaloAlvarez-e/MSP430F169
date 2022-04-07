@@ -77,7 +77,7 @@ FLASH_nSTATUS FLASH__enMassErase(void)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
     uintptr_t uptrStartAddressReg = 0U;
-    FLASH_Segment_t stSegmentCallback = {0UL};
+    FLASH_Segment_t stSegmentCallback;
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetMainStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetMainEndAddress;
     stSegmentCallback.u16GetSegmentSize = &FLASH__u16GetMainSegmentSize;
@@ -91,7 +91,7 @@ FLASH_nSTATUS FLASH__enFullErase(void)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
     uintptr_t uptrStartAddressReg = 0U;
-    FLASH_Segment_t stSegmentCallback = {0UL};
+    FLASH_Segment_t stSegmentCallback;
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetMainStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetMainEndAddress;
     stSegmentCallback.u16GetSegmentSize = &FLASH__u16GetMainSegmentSize;
@@ -106,7 +106,7 @@ FLASH_nSTATUS FLASH__enFullErase(void)
 FLASH_nSTATUS FLASH__enMainSegmentEraseByAddress(uintptr_t uptrAddressArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    FLASH_Segment_t stSegmentCallback = {0UL};
+    FLASH_Segment_t stSegmentCallback;
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetMainStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetMainEndAddress;
     stSegmentCallback.u16GetSegmentSize = &FLASH__u16GetMainSegmentSize;
@@ -118,7 +118,7 @@ FLASH_nSTATUS FLASH__enMainSegmentEraseByAddress(uintptr_t uptrAddressArg)
 FLASH_nSTATUS FLASH__enInfoSegmentEraseByAddress(uintptr_t uptrAddressArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    FLASH_Segment_t stSegmentCallback = {0UL};
+    FLASH_Segment_t stSegmentCallback;
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetInfoStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetInfoEndAddress;
     stSegmentCallback.u16GetSegmentSize = &FLASH__u16GetInfoSegmentSize;
@@ -127,20 +127,14 @@ FLASH_nSTATUS FLASH__enInfoSegmentEraseByAddress(uintptr_t uptrAddressArg)
     return (enStatusReg);
 }
 
-FLASH_nSTATUS FLASH__enSegmentEraseByAddress(FLASH_nSECTION enSectionArg,
-                                             uintptr_t uptrAddressArg)
+FLASH_nSTATUS FLASH__enSegmentEraseByAddress(uintptr_t uptrAddressArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    switch(enSectionArg)
+
+    enStatusReg = FLASH__enInfoSegmentEraseByAddress(uptrAddressArg);
+    if(FLASH_enSTATUS_ERROR == enStatusReg)
     {
-    case FLASH_enSECTION_MAIN:
         enStatusReg = FLASH__enMainSegmentEraseByAddress(uptrAddressArg);
-        break;
-    case FLASH_enSECTION_INFO:
-        enStatusReg = FLASH__enInfoSegmentEraseByAddress(uptrAddressArg);
-        break;
-    default:
-        break;
     }
     return (enStatusReg);
 }
@@ -149,7 +143,7 @@ FLASH_nSTATUS FLASH__enSegmentEraseByAddress(FLASH_nSECTION enSectionArg,
 FLASH_nSTATUS FLASH__enMainSegmentErase(uint16_t u16SegmentPosArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    FLASH_Segment_t stSegmentCallback = {0UL};
+    FLASH_Segment_t stSegmentCallback;
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetMainStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetMainEndAddress;
     stSegmentCallback.u16GetSegmentSize = &FLASH__u16GetMainSegmentSize;
@@ -160,7 +154,7 @@ FLASH_nSTATUS FLASH__enMainSegmentErase(uint16_t u16SegmentPosArg)
 FLASH_nSTATUS FLASH__enInfoSegmentErase(uint16_t u16SegmentPosArg)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    FLASH_Segment_t stSegmentCallback = {0UL};
+    FLASH_Segment_t stSegmentCallback;
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetInfoStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetInfoEndAddress;
     stSegmentCallback.u16GetSegmentSize = &FLASH__u16GetInfoSegmentSize;

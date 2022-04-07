@@ -63,7 +63,7 @@
         .asg __mspabi_slli_1, I_LSL_1
      .endif
 	
-            .sect  ".TI.ramfunc"
+            .sect  ".text"
 	    .align 2
 	
      .if $DEFINED(.MSP430X)

@@ -32,8 +32,7 @@ FLASH_nSTATUS FLASH__enFullErase(void);
 
 FLASH_nSTATUS FLASH__enMainSegmentEraseByAddress(uintptr_t uptrAddressArg);
 FLASH_nSTATUS FLASH__enInfoSegmentEraseByAddress(uintptr_t uptrAddressArg);
-FLASH_nSTATUS FLASH__enSegmentEraseByAddress(FLASH_nSECTION enSectionArg,
-                                             uintptr_t uptrAddressArg);
+FLASH_nSTATUS FLASH__enSegmentEraseByAddress(uintptr_t uptrAddressArg);
 
 FLASH_nSTATUS FLASH__enMainSegmentEraseByPosition(uint16_t u16SegmentPosArg);
 FLASH_nSTATUS FLASH__enInfoSegmentEraseByPosition(uint16_t u16SegmentPosArg);
