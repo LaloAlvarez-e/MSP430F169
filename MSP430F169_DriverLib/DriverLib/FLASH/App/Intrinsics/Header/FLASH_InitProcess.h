@@ -36,13 +36,10 @@ uint16_t FLASH__u16WriteBlockProcess_RAM(uint16_t* pu16DataArg,
                                                uint16_t u16BlockMaskArg);
 
 FLASH_nSTATUS FLASH__enInitProcess(FLASH_Segment_t* pstSegmentCallback ,
-                                         uint8_t u8ModeArg,
-                                         uint16_t u16DataArg,
-                                         uintptr_t uptrAddressArg);
-FLASH_nSTATUS FLASH__enInitWriteBlockProcess(FLASH_Segment_t* pstSegmentCallback,
-                                         uint16_t* pu16DataArg,
-                                         uint16_t u16DataCountArg,
-                                         uintptr_t uptrAddressArg);
+                                 uint8_t u8ModeArg,
+                                 uint16_t* pu16DataArg,
+                                 uint16_t u16DataCountArg,
+                                 uintptr_t uptrAddressArg);
 
 
 #endif /* DRIVERLIB_FLASH_APP_INTRINSICS_HEADER_FLASH_INITPROCESS_H_ */

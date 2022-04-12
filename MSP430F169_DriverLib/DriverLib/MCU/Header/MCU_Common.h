@@ -39,6 +39,9 @@ typedef enum
 
 typedef uint16_t (*MCU__pu16fIRQSourceHandler_t)(uintptr_t uptrModule, uint8_t u8IntSource);
 
+uint16_t MCU__u16IRQSourceHandler_Dummy(uintptr_t uptrModule, uint8_t u8IntSource);
+
+
 typedef struct
 {
     uintptr_t uptrAddress;

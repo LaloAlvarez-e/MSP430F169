@@ -59,13 +59,10 @@ void main(void)
 
     u32FlashFreq = FLASH__u32Init(FLASH_enCLOCK_MCLK);
 
-    uint16_t pu16Buffer[65U] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-    FLASH_Segment_t stSegmentCallback;
+    FLASH__enSegmentEraseByAddress(0x1000U);
+    uint16_t pu16Buffer[300U] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 
-    stSegmentCallback.u16GetSegmentSize = &FLASH__u16GetMainSegmentSize;
-    stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetMainStartAddress;
-    stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetMainEndAddress;
-    FLASH__enInitWriteBlockProcess(&stSegmentCallback, pu16Buffer, 64U, 0xF000U);
+    FLASH__enWriteBlock(pu16Buffer, 300U, 0x1080U);
 
     _EINT();
 	while(1U)

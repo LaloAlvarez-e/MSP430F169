@@ -76,10 +76,11 @@ void Conf_LCD1602(void)
 
     LCD1602_Command(HOME);//Manda cursor a home
     for(Delay=3000; Delay>0; Delay--);//1.60 ms aprox a 16MHz
+   /* LCD1602_Command(SRDisp);
     LCD1602_Command(SRDisp);
     LCD1602_Command(SRDisp);
     LCD1602_Command(SRDisp);
-    LCD1602_Command(SRDisp);
+    */
 }
 
 PORT_t* pstDataPort[4U] = {P_D4, P_D5, P_D6, P_D7};

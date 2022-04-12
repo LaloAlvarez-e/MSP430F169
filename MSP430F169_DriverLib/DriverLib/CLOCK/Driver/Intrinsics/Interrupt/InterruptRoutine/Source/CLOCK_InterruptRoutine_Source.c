@@ -23,19 +23,7 @@
  */
 #include "DriverLib/CLOCK/Driver/Intrinsics/Interrupt/InterruptRoutine/Header/CLOCK_InterruptRoutine_Source.h"
 
-static uint16_t CLOCK_u16IRQSourceHandler_Dummy(uintptr_t uptrModule,
-                                               uint8_t u8IntSource);
-
-static MCU__pu16fIRQSourceHandler_t CLOCK_pu16fIRQSourceHandler = &CLOCK_u16IRQSourceHandler_Dummy;
-
-static uint16_t CLOCK_u16IRQSourceHandler_Dummy(uintptr_t uptrModule,
-                                               uint8_t u8IntSource)
-{
-    while(1U)
-    {
-    }
-    return (0U);
-}
+static MCU__pu16fIRQSourceHandler_t CLOCK_pu16fIRQSourceHandler = &MCU__u16IRQSourceHandler_Dummy;
 
 
 MCU__pu16fIRQSourceHandler_t CLOCK__pu16fGetIRQSourceHandler(void)

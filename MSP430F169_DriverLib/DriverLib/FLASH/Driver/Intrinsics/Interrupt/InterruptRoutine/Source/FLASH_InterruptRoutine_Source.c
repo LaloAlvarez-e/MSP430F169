@@ -23,19 +23,8 @@
  */
 #include "DriverLib/FLASH/Driver/Intrinsics/Interrupt/InterruptRoutine/Header/FLASH_InterruptRoutine_Source.h"
 
-static uint16_t FLASH_u16IRQSourceHandler_Dummy(uintptr_t uptrModule,
-                                               uint8_t u8IntSource);
+static MCU__pu16fIRQSourceHandler_t FLASH_pu16fIRQSourceHandler = &MCU__u16IRQSourceHandler_Dummy;
 
-static MCU__pu16fIRQSourceHandler_t FLASH_pu16fIRQSourceHandler = &FLASH_u16IRQSourceHandler_Dummy;
-
-static uint16_t FLASH_u16IRQSourceHandler_Dummy(uintptr_t uptrModule,
-                                               uint8_t u8IntSource)
-{
-    while(1U)
-    {
-    }
-    return (0U);
-}
 
 
 MCU__pu16fIRQSourceHandler_t FLASH__pu16fGetIRQSourceHandler(void)

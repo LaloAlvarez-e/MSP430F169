@@ -23,42 +23,31 @@
  */
 #include "DriverLib/GPIO/Driver/Intrinsics/Interrupt/InterruptRoutine/Header/GPIO_InterruptRoutine_Source.h"
 
-static uint16_t GPIO_u16IRQSourceHandler_Dummy(uintptr_t uptrModule,
-                                               uint8_t u8IntSource);
-
 static MCU__pu16fIRQSourceHandler_t GPIO_pu16fIRQSourceHandler[(uint8_t) GPIO_enPORT2 + 1U]
                                                               [(uint8_t) GPIO_enPIN_NUMBER_MAX]=
 {
     {
-        &GPIO_u16IRQSourceHandler_Dummy,
-        &GPIO_u16IRQSourceHandler_Dummy,
-        &GPIO_u16IRQSourceHandler_Dummy,
-        &GPIO_u16IRQSourceHandler_Dummy,
-        &GPIO_u16IRQSourceHandler_Dummy,
-        &GPIO_u16IRQSourceHandler_Dummy,
-        &GPIO_u16IRQSourceHandler_Dummy,
-        &GPIO_u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
     },
     {
-        &GPIO_u16IRQSourceHandler_Dummy,
-        &GPIO_u16IRQSourceHandler_Dummy,
-        &GPIO_u16IRQSourceHandler_Dummy,
-        &GPIO_u16IRQSourceHandler_Dummy,
-        &GPIO_u16IRQSourceHandler_Dummy,
-        &GPIO_u16IRQSourceHandler_Dummy,
-        &GPIO_u16IRQSourceHandler_Dummy,
-        &GPIO_u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
+        &MCU__u16IRQSourceHandler_Dummy,
     },
 };
 
-static uint16_t GPIO_u16IRQSourceHandler_Dummy(uintptr_t uptrModule,
-                                               uint8_t u8IntSource)
-{
-    while(1U)
-    {
-    }
-    return (0U);
-}
 MCU__pu16fIRQSourceHandler_t GPIO__pu16fGetIRQSourceHandler(GPIO_nPORT enPortArg, GPIO_nPIN_NUMBER enPin)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandler = (MCU__pu16fIRQSourceHandler_t) 0U;
