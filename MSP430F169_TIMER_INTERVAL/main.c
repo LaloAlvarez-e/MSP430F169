@@ -2,6 +2,7 @@
 
 
 uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source);
+uint16_t MAIN_u16TIMERAInterval(uintptr_t ptrBlock, uint8_t u8Source);
 uint16_t MAIN_u16TIMERA_CC0(uintptr_t ptrBlock, uint8_t u8Source);
 uint16_t MAIN_u16TIMERA_CC1(uintptr_t ptrBlock, uint8_t u8Source);
 uint16_t MAIN_u16TIMERA_CC2(uintptr_t ptrBlock, uint8_t u8Source);
@@ -22,6 +23,9 @@ uint16_t MAIN_u16TIMERA_CC2(uintptr_t ptrBlock, uint8_t u8Source);
  */
 uint16_t u16WDTCount = 0U;
 uint16_t u16TIMERACount = 0U;
+uint16_t u16TIMERA_CC0Count = 0U;
+uint16_t u16TIMERA_CC1Count = 0U;
+uint16_t u16TIMERA_CC2Count = 0U;
 
 void main(void)
 {
@@ -41,8 +45,8 @@ void main(void)
         TIMERA_enCLOCK_SMCLK,
         TIMERA_enCLOCK_DIV_8,
         TIMERA_enMODE_CONTINUOS,
-        TIMERA_enINT_ENABLE_DIS,
-        TIMERA_enINT_STATUS_OCCUR,
+        TIMERA_enINT_ENABLE_ENA,
+        TIMERA_enINT_STATUS_NOOCCUR,
     };
 
     SVS->CTL_bits.VLD = 0U;
@@ -50,12 +54,14 @@ void main(void)
 
     GPIO__vSetDirectionByNumber(LED1_PORT, LED1_PIN, GPIO_enDIR_OUTPUT);
     GPIO__vSetSelectionByNumber(LED1_PORT, LED1_PIN, GPIO_enSEL_IO);
-    GPIO__vSetDirectionByNumber(LED3_PORT, LED3_PIN, GPIO_enDIR_OUTPUT);
-    GPIO__vSetSelectionByNumber(LED3_PORT, LED3_PIN, GPIO_enSEL_IO);
     GPIO__vSetDirectionByNumber(LED2_PORT, LED2_PIN, GPIO_enDIR_OUTPUT);
     GPIO__vSetSelectionByNumber(LED2_PORT, LED2_PIN, GPIO_enSEL_IO);
+    GPIO__vSetDirectionByNumber(LED3_PORT, LED3_PIN, GPIO_enDIR_OUTPUT);
+    GPIO__vSetSelectionByNumber(LED3_PORT, LED3_PIN, GPIO_enSEL_IO);
     GPIO__vSetDirectionByNumber(LED4_PORT, LED4_PIN, GPIO_enDIR_OUTPUT);
     GPIO__vSetSelectionByNumber(LED4_PORT, LED4_PIN, GPIO_enSEL_IO);
+    GPIO__vSetDirectionByNumber(TEST_PORT, TEST_PIN, GPIO_enDIR_OUTPUT);
+    GPIO__vSetSelectionByNumber(TEST_PORT, TEST_PIN, GPIO_enSEL_IO);
 
     /** Rosc*/
     GPIO__vSetConfig(GPIO_enROSC);
@@ -78,17 +84,24 @@ void main(void)
     WDT__vSetConfig(&stWDTConfig);
 
 
-    TIMERA_CC__vRegisterIRQSourceHandler(TIMERA_enCC0, TIMERA_enCC_MODE_COMPARE, &MAIN_u16TIMERA_CC0);
-    TIMERA_CC__vRegisterIRQSourceHandler(TIMERA_enCC1, TIMERA_enCC_MODE_COMPARE, &MAIN_u16TIMERA_CC1);
-    TIMERA_CC__vRegisterIRQSourceHandler(TIMERA_enCC2, TIMERA_enCC_MODE_COMPARE, &MAIN_u16TIMERA_CC2);
-
+    TIMERA__vRegisterIRQSourceHandler(&MAIN_u16TIMERAInterval);
+    TIMERA_CC__vRegisterIRQSourceHandler(TIMERA_enCC0, TIMERA_enCC_MODE_COMPARE,
+                                         &MAIN_u16TIMERA_CC0);
+    TIMERA_CC__vRegisterIRQSourceHandler(TIMERA_enCC1, TIMERA_enCC_MODE_COMPARE,
+                                         &MAIN_u16TIMERA_CC1);
+    TIMERA_CC__vRegisterIRQSourceHandler(TIMERA_enCC2, TIMERA_enCC_MODE_COMPARE,
+                                         &MAIN_u16TIMERA_CC2);
     TIMERA__vSetModuleValue(TIMERA_enCC0, 10000U - 1U);
     TIMERA__vSetModuleValue(TIMERA_enCC1, 20000U - 1U);
     TIMERA__vSetModuleValue(TIMERA_enCC2, 40000U - 1U);
+    TIMERA_CC__vClearInterruptSource(TIMERA_enCC0);
+    TIMERA_CC__vClearInterruptSource(TIMERA_enCC1);
+    TIMERA_CC__vClearInterruptSource(TIMERA_enCC2);
     TIMERA_CC__vEnaInterruptSource(TIMERA_enCC0);
     TIMERA_CC__vEnaInterruptSource(TIMERA_enCC1);
     TIMERA_CC__vEnaInterruptSource(TIMERA_enCC2);
     TIMERA__vSetConfigExt(&stTIMERAConfig);
+    WDT_CTL_R = (WDT_CTL_R & ~WDT_CTL_R_PW_MASK) | WDT_CTL_R_PW_WRITE | WDT_CTL_R_CNTCL_CLEAR;
     _EINT();
 	while(1U)
 	{
@@ -103,24 +116,33 @@ uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source)
     return (0U);
 }
 
-uint16_t MAIN_u16TIMERA_CC0(uintptr_t ptrBlock, uint8_t u8Source)
+uint16_t MAIN_u16TIMERAInterval(uintptr_t ptrBlock, uint8_t u8Source)
 {
     u16TIMERACount++;
-    TIMERA_CC0_R_R +=  10000U;
+    PORT3_OUT_R ^= PORT_OUT_R_PIN4_MASK;
+    return (0U);
+}
+
+uint16_t MAIN_u16TIMERA_CC0(uintptr_t ptrBlock, uint8_t u8Source)
+{
+    u16TIMERA_CC0Count++;
+    TIMERA_CC0_R_R += 10000U;
     PORT1_OUT_R ^= PORT_OUT_R_PIN1_MASK;
     return (0U);
 }
 
 uint16_t MAIN_u16TIMERA_CC1(uintptr_t ptrBlock, uint8_t u8Source)
 {
-    TIMERA_CC1_R_R +=  20000U;
+    u16TIMERA_CC1Count++;
+    TIMERA_CC1_R_R += 20000U;
     PORT1_OUT_R ^= PORT_OUT_R_PIN2_MASK;
     return (0U);
 }
 
 uint16_t MAIN_u16TIMERA_CC2(uintptr_t ptrBlock, uint8_t u8Source)
 {
-    TIMERA_CC2_R_R +=  40000U;
+    u16TIMERA_CC2Count++;
+    TIMERA_CC2_R_R += 40000U;
     PORT1_OUT_R ^= PORT_OUT_R_PIN3_MASK;
     return (0U);
 }
