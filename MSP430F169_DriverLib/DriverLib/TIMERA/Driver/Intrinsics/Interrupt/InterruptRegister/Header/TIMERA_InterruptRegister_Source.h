@@ -28,7 +28,7 @@
 #include "DriverLib/TIMERA/Peripheral/Header/TIMERA_Enum.h"
 #include "DriverLib/MCU/Header/MCU_Common.h"
 
-void TIMERA_CC_vRegisterIRQSourceHandler(TIMERA_nCC enModuleArg, TIMERA_nCC_MODE enMODE,
+void TIMERA_CC__vRegisterIRQSourceHandler(TIMERA_nCC enModuleArg, TIMERA_nCC_MODE enMODE,
          MCU__pu16fIRQSourceHandler_t pu16fIRQSourceHandler);
 void TIMERA__vRegisterIRQSourceHandler(MCU__pu16fIRQSourceHandler_t pu16fIRQSourceHandler);
 

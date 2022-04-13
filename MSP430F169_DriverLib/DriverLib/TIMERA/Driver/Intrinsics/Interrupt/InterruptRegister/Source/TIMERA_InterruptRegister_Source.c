@@ -25,7 +25,7 @@
 #include "DriverLib/TIMERA/Driver/Intrinsics/Interrupt/InterruptRegister/Header/TIMERA_InterruptRegister_Source.h"
 #include "DriverLib/TIMERA/Driver/Intrinsics/Interrupt/InterruptRoutine/Header/TIMERA_InterruptRoutine_Source.h"
 
-void TIMERA_CC_vRegisterIRQSourceHandler(TIMERA_nCC enModuleArg, TIMERA_nCC_MODE enMODE,
+void TIMERA_CC__vRegisterIRQSourceHandler(TIMERA_nCC enModuleArg, TIMERA_nCC_MODE enMODE,
          MCU__pu16fIRQSourceHandler_t pu16fIRQSourceHandler)
 {
     if(0U != (uintptr_t) pu16fIRQSourceHandler)
