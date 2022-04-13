@@ -46,7 +46,7 @@ void TIMERA__vSetCaptureConfig(TIMERA_nCC enModuleArg,
         stConfigReg.COV = TIMERA_CC_CTL_COV_NOOCCUR;
         stConfigReg.CAP = TIMERA_CC_CTL_CAP_CAPTURE;
 
-        pstRegisterData.uptrAddress = TIMERA_CTL_OFFSET;
+        pstRegisterData.uptrAddress = TIMERA_CC_CTL_OFFSET;
         pstRegisterData.u16Value = (*(uint16_t*) &stConfigReg);
         pstRegisterData.u16Mask = TIMERA_CC_CTL_R_CM_MASK |
                                     TIMERA_CC_CTL_R_SCS_MASK |
@@ -87,7 +87,7 @@ void TIMERA__vSetCaptureConfigExt(TIMERA_nCC enModuleArg,
         stConfigReg.IE = (uint16_t) pstCaptureConfigArg->enInterruptEnable;
         stConfigReg.IFG = (uint16_t) pstCaptureConfigArg->enInterruptStatus;
 
-        pstRegisterData.uptrAddress = TIMERA_CTL_OFFSET;
+        pstRegisterData.uptrAddress = TIMERA_CC_CTL_OFFSET;
         pstRegisterData.u16Value = (*(uint16_t*) &stConfigReg);
         pstRegisterData.u16Mask = TIMERA_CC_CTL_R_CM_MASK |
                                     TIMERA_CC_CTL_R_SCS_MASK |

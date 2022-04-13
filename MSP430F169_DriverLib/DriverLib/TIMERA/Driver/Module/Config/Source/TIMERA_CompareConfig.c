@@ -45,7 +45,7 @@ void TIMERA__vSetCompareConfig(TIMERA_nCC enModuleArg,
         stConfigReg.OUT = (uint16_t) pstCompareConfigArg->enCompareState;
         stConfigReg.CAP = TIMERA_CC_CTL_CAP_COMPARE;
 
-        pstRegisterData.uptrAddress = TIMERA_CTL_OFFSET;
+        pstRegisterData.uptrAddress = TIMERA_CC_CTL_OFFSET;
         pstRegisterData.u16Value = (*(uint16_t*) &stConfigReg);
         pstRegisterData.u16Mask = TIMERA_CC_CTL_R_OUTMOD_MASK |
                                     TIMERA_CC_CTL_R_OUT_MASK |
@@ -73,7 +73,7 @@ void TIMERA__vGetCompareConfig(TIMERA_nCC enModuleArg,
 void TIMERA__vSetCompareConfigExt(TIMERA_nCC enModuleArg,
                                   TIMERA_Compare_ConfigExt_t* pstCompareConfigArg)
 {
-    TIMERA_CC_CTL_t stConfigReg = {0};
+    static TIMERA_CC_CTL_t stConfigReg = {0};
     TIMERA_Register_t pstRegisterData;
     if(0UL != (uintptr_t) pstCompareConfigArg)
     {
@@ -85,7 +85,7 @@ void TIMERA__vSetCompareConfigExt(TIMERA_nCC enModuleArg,
         stConfigReg.IE = (uint16_t) pstCompareConfigArg->enInterruptEnable;
         stConfigReg.IFG = (uint16_t) pstCompareConfigArg->enInterruptStatus;
 
-        pstRegisterData.uptrAddress = TIMERA_CTL_OFFSET;
+        pstRegisterData.uptrAddress = TIMERA_CC_CTL_OFFSET;
         pstRegisterData.u16Value = (*(uint16_t*) &stConfigReg);
         pstRegisterData.u16Mask = TIMERA_CC_CTL_R_OUTMOD_MASK |
                                     TIMERA_CC_CTL_R_OUT_MASK |
