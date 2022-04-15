@@ -54,6 +54,6 @@ void GPIO__vSetConfig(GPIO_nDIGITAL_FUNCTION enFunctionArg)
                                  (GPIO_nDIR) u16DirectionReg);
     GPIO__vSetSelectionByNumber((GPIO_nPORT) u16PortReg,
                                  (GPIO_nPIN_NUMBER) u16PinNumberReg,
-                                 (GPIO_nSEL) u16DirectionReg);
+                                 (GPIO_nSEL) u16SelectionReg);
 }
 
