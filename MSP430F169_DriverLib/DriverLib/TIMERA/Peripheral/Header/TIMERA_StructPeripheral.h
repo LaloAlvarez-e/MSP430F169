@@ -34,7 +34,7 @@ typedef volatile struct
         volatile const unsigned short IV;
         TIMERA_IV_t IV_bits;
     };
-    const unsigned char reserved1[50U];
+    const unsigned char reserved1[48U];
     union
     {
         volatile unsigned short CTL;

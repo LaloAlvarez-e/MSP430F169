@@ -38,7 +38,7 @@ FLASH_nSTATUS FLASH__enMainWriteWord(uint16_t u16DataArg, uintptr_t uptrAddressA
     enStatusReg = FLASH__enInitProcess(&stSegmentCallback,
                                        (uint8_t) FLASH_enWRITE_SINGLE,
                                        (void*) u16DataArg,
-                                       0U,
+                                       (uint16_t*) 0U,
                                        uptrAddressArg,
                                        FLASH_enWORDSIZE_WORD);
     return (enStatusReg);
@@ -79,7 +79,7 @@ FLASH_nSTATUS FLASH__enInfoWriteWord(uint16_t u16DataArg, uintptr_t uptrAddressA
     enStatusReg = FLASH__enInitProcess(&stSegmentCallback,
                                        (uint8_t) FLASH_enWRITE_SINGLE,
                                        (void*) u16DataArg,
-                                       0U,
+                                       (uint16_t*) 0U,
                                        uptrAddressArg,
                                        FLASH_enWORDSIZE_WORD);
     return (enStatusReg);

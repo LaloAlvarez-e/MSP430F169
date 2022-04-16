@@ -30,7 +30,7 @@
 #pragma CODE_SECTION(FLASH__u16WriteBlockProcess_RAM, ".TI.ramfunc")
 
 uint16_t FLASH__u16WriteBlockProcess_RAM(void* pvDataArg,
-                                       uint16_t u16DataCountArg,
+                                       uint16_t* pu16DataCountArg,
                                        uintptr_t uptrAddressArg,
                                        uintptr_t uptrFlashEndAddressArg,
                                        uint16_t u16BlockMaskArg,
@@ -39,7 +39,7 @@ uint16_t FLASH__u16WriteBlockProcess_RAM(void* pvDataArg,
 FLASH_nSTATUS FLASH__enInitProcess(FLASH_Segment_t* pstSegmentCallback ,
                                  uint8_t u8ModeArg,
                                  void* pvDataArg,
-                                 uint16_t u16DataCountArg,
+                                 uint16_t* pu16DataCountArg,
                                  uintptr_t uptrAddressArg,
                                  FLASH_nWORDSIZE enWordSize);
 
