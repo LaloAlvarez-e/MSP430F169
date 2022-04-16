@@ -68,6 +68,13 @@ typedef enum
 
 typedef enum
 {
+    FLASH_enWORDSIZE_BYTE = 0x0U,
+    FLASH_enWORDSIZE_WORD = 0x1U,
+}FLASH_nWORDSIZE;
+
+
+typedef enum
+{
     FLASH_enCLOCK_ACLK = 0U,
     FLASH_enCLOCK_MCLK = 1U,
     FLASH_enCLOCK_SMCLK = 2U,

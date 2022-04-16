@@ -27,11 +27,25 @@
 
 #include "DriverLib/FLASH/Peripheral/Header/FLASH_Enum.h"
 
-FLASH_nSTATUS FLASH__enMainWriteBlock(uint16_t* pu16DataArg, uint16_t u16DataCountArg,
+FLASH_nSTATUS FLASH__enMainWriteBlock(void* pvDataArg, uint16_t u16DataCountArg,
+                                      uintptr_t uptrAddressArg, FLASH_nWORDSIZE enWordSizeArg);
+FLASH_nSTATUS FLASH__enMainWriteBlockWord(uint16_t* pu16DataArg, uint16_t u16DataCountArg,
                                       uintptr_t uptrAddressArg);
-FLASH_nSTATUS FLASH__enInfoWriteBlock(uint16_t* pu16DataArg, uint16_t u16DataCountArg,
+FLASH_nSTATUS FLASH__enMainWriteBlockByte(uint8_t* pu8DataArg, uint16_t u16DataCountArg,
                                       uintptr_t uptrAddressArg);
-FLASH_nSTATUS FLASH__enWriteBlock(uint16_t* pu16DataArg, uint16_t u16DataCountArg,
-                                  uintptr_t uptrAddressArg);
+
+FLASH_nSTATUS FLASH__enInfoWriteBlock(void* pvDataArg, uint16_t u16DataCountArg,
+                                      uintptr_t uptrAddressArg, FLASH_nWORDSIZE enWordSizeArg);
+FLASH_nSTATUS FLASH__enInfoWriteBlockWord(uint16_t* pu16DataArg, uint16_t u16DataCountArg,
+                                      uintptr_t uptrAddressArg);
+FLASH_nSTATUS FLASH__enInfoWriteBlockByte(uint8_t* pu8DataArg, uint16_t u16DataCountArg,
+                                      uintptr_t uptrAddressArg);
+
+FLASH_nSTATUS FLASH__enWriteBlock(void* pvDataArg, uint16_t u16DataCountArg,
+                                  uintptr_t uptrAddressArg, FLASH_nWORDSIZE enWordSizeArg);
+FLASH_nSTATUS FLASH__enWriteBlockWord(uint16_t* pu16DataArg, uint16_t u16DataCountArg,
+                                      uintptr_t uptrAddressArg);
+FLASH_nSTATUS FLASH__enWriteBlockByte(uint8_t* pu8DataArg, uint16_t u16DataCountArg,
+                                      uintptr_t uptrAddressArg);
 
 #endif /* DRIVERLIB_FLASH_APP_HEADER_FLASH_WRITEBLOCK_H_ */

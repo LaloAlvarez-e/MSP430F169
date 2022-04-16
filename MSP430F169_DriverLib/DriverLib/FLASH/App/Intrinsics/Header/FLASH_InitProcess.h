@@ -29,17 +29,19 @@
 
 #pragma CODE_SECTION(FLASH__u16WriteBlockProcess_RAM, ".TI.ramfunc")
 
-uint16_t FLASH__u16WriteBlockProcess_RAM(uint16_t* pu16DataArg,
-                                               uint16_t u16DataCountArg,
-                                               uintptr_t uptrAddressArg,
-                                               uintptr_t uptrFlashEndAddressArg,
-                                               uint16_t u16BlockMaskArg);
+uint16_t FLASH__u16WriteBlockProcess_RAM(void* pvDataArg,
+                                       uint16_t u16DataCountArg,
+                                       uintptr_t uptrAddressArg,
+                                       uintptr_t uptrFlashEndAddressArg,
+                                       uint16_t u16BlockMaskArg,
+                                       FLASH_nWORDSIZE enWordSize);
 
 FLASH_nSTATUS FLASH__enInitProcess(FLASH_Segment_t* pstSegmentCallback ,
                                  uint8_t u8ModeArg,
-                                 uint16_t* pu16DataArg,
+                                 void* pvDataArg,
                                  uint16_t u16DataCountArg,
-                                 uintptr_t uptrAddressArg);
+                                 uintptr_t uptrAddressArg,
+                                 FLASH_nWORDSIZE enWordSize);
 
 
 #endif /* DRIVERLIB_FLASH_APP_INTRINSICS_HEADER_FLASH_INITPROCESS_H_ */

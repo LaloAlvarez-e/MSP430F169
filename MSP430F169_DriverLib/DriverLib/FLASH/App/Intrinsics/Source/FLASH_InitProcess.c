@@ -29,9 +29,10 @@
 
 FLASH_nSTATUS FLASH__enInitProcess(FLASH_Segment_t* pstSegmentCallback ,
                                  uint8_t u8ModeArg,
-                                 uint16_t* pu16DataArg,
+                                 void* pvDataArg,
                                  uint16_t u16DataCountArg,
-                                 uintptr_t uptrAddressArg)
+                                 uintptr_t uptrAddressArg,
+                                 FLASH_nWORDSIZE enWordSize)
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
     FLASH_nBUSY enBusyStateReg = FLASH_enBUSY_NOBUSY;
@@ -39,6 +40,7 @@ FLASH_nSTATUS FLASH__enInitProcess(FLASH_Segment_t* pstSegmentCallback ,
     WDT_nMODE enWDTModeReg = WDT_enMODE_WDT;
     uint32_t u32FlashFreqReg = 0U;
     uint16_t u16StatusRegister = 0U;
+    uint16_t u16Temp = 0U;
     uintptr_t uptrFlashStartAddress = 0U;
     uintptr_t uptrFlashEndAddress = 0U;
 
@@ -47,7 +49,6 @@ FLASH_nSTATUS FLASH__enInitProcess(FLASH_Segment_t* pstSegmentCallback ,
         u32FlashFreqReg = FLASH__u32Frequency();
         if(0UL != u32FlashFreqReg)
         {
-            uptrAddressArg &= ~1U;
             uptrFlashStartAddress = pstSegmentCallback->uptrGetStartAddress();
             uptrFlashEndAddress = pstSegmentCallback->uptrGetEndAddress();
             if((uptrAddressArg >= uptrFlashStartAddress) && (uptrAddressArg <= uptrFlashEndAddress))
@@ -68,7 +69,7 @@ FLASH_nSTATUS FLASH__enInitProcess(FLASH_Segment_t* pstSegmentCallback ,
                 FLASH__vUnlock();
                 if((3U == u8ModeArg) &&
                    (0UL != u16DataCountArg) &&
-                   (0UL != (uintptr_t) pu16DataArg))
+                   (0UL != (uintptr_t) pvDataArg))
                 {
                     uint16_t u16BlockSize = 0U;
                     uint16_t u16BlockMask = 0U;
@@ -76,9 +77,9 @@ FLASH_nSTATUS FLASH__enInitProcess(FLASH_Segment_t* pstSegmentCallback ,
                     u16BlockSize = FLASH__u16GetBlockSize();
                     u16BlockMask = u16BlockSize;
                     u16BlockMask -= 1U;
-                    u16FinalCount = FLASH__u16WriteBlockProcess_RAM(pu16DataArg, u16DataCountArg,
+                    u16FinalCount = FLASH__u16WriteBlockProcess_RAM(pvDataArg, u16DataCountArg,
                                                     uptrAddressArg, uptrFlashEndAddress,
-                                                    u16BlockMask);
+                                                    u16BlockMask, enWordSize);
                     if(0UL != u16FinalCount)
                     {
                         enStatusReg = FLASH_enSTATUS_ERROR;
@@ -87,9 +88,23 @@ FLASH_nSTATUS FLASH__enInitProcess(FLASH_Segment_t* pstSegmentCallback ,
                 else if(0U != u8ModeArg)
                 {
                     uint16_t* pu16DataReg = (uint16_t*) 0U;
-                    pu16DataReg = ((uint16_t*) uptrAddressArg);
+                    uint8_t* pu8DataReg = (uint8_t*) 0U;
                     pstSegmentCallback->vStartProcess(u8ModeArg);
-                    *pu16DataReg = (uint16_t) pu16DataArg;
+                    switch(enWordSize)
+                    {
+                    case FLASH_enWORDSIZE_BYTE:
+                        pu8DataReg = ((uint8_t*) uptrAddressArg);
+                        u16Temp =  (uint16_t) pvDataArg;
+                        *pu8DataReg = (uint8_t) u16Temp;
+                        break;
+                    case FLASH_enWORDSIZE_WORD:
+                        uptrAddressArg &= ~1U;
+                        pu16DataReg = ((uint16_t*) uptrAddressArg);
+                        *pu16DataReg = (uint16_t) pvDataArg;
+                        break;
+                    default:
+                        break;
+                    }
                 }
                 FLASH__vLock();
                 WDT__vSetEnable(enWDTEnableReg);
@@ -102,45 +117,90 @@ FLASH_nSTATUS FLASH__enInitProcess(FLASH_Segment_t* pstSegmentCallback ,
 
 
 
-uint16_t FLASH__u16WriteBlockProcess_RAM(uint16_t* pu16DataArg,
+uint16_t FLASH__u16WriteBlockProcess_RAM(void* pvDataArg,
                                        uint16_t u16DataCountArg,
                                        uintptr_t uptrAddressArg,
                                        uintptr_t uptrFlashEndAddressArg,
-                                       uint16_t u16BlockMaskArg)
+                                       uint16_t u16BlockMaskArg,
+                                       FLASH_nWORDSIZE enWordSize)
 {
     uint16_t u16BusyStateReg = 0U;
     uint16_t u16ReadyStateReg = 0U;
     uint16_t u16AddressMask = 0U;
     uint16_t* pu16DataReg = (uint16_t*) 0U;
-    pu16DataReg = ((uint16_t*) uptrAddressArg);
-    while((0UL != u16DataCountArg) &&  (uptrFlashEndAddressArg >= (uintptr_t) pu16DataReg))
+    uint8_t* pu8DataReg = (uint8_t*) 0U;
+    uint16_t* pu16DataInReg = (uint16_t*) 0U;
+    uint8_t* pu8DataInReg = (uint8_t*) 0U;
+    switch(enWordSize)
     {
-        FLASH_CTL1_R = FLASH_CTL1_R_KEY_WRITE | FLASH_CTL1_R_WRITE_BLOCK;
-        do
+    case FLASH_enWORDSIZE_BYTE:
+        pu8DataReg = ((uint8_t*) uptrAddressArg);
+        pu8DataInReg = ((uint8_t*) pvDataArg);
+        while((0UL != u16DataCountArg) &&  (uptrFlashEndAddressArg >= (uintptr_t) pu8DataReg))
         {
-            *pu16DataReg = *pu16DataArg;
+            FLASH_CTL1_R = FLASH_CTL1_R_KEY_WRITE | FLASH_CTL1_R_WRITE_BLOCK;
             do
             {
-                u16ReadyStateReg = FLASH_CTL3_R;
-                u16ReadyStateReg &= FLASH_CTL3_R_WAIT_MASK;
-            }while(FLASH_CTL3_R_WAIT_NOREADY == u16ReadyStateReg);
-            pu16DataReg += 1U;
-            pu16DataArg += 1U;
-            u16DataCountArg--;
-            u16AddressMask = (uintptr_t) pu16DataReg;
-            u16AddressMask &= u16BlockMaskArg;
-        }while((0UL != u16DataCountArg) &&
-            (uptrFlashEndAddressArg >= (uintptr_t) pu16DataReg) &&
-            (0UL != u16AddressMask));
+                *pu8DataReg = *pu8DataInReg;
+                do
+                {
+                    u16ReadyStateReg = FLASH_CTL3_R;
+                    u16ReadyStateReg &= FLASH_CTL3_R_WAIT_MASK;
+                }while(FLASH_CTL3_R_WAIT_NOREADY == u16ReadyStateReg);
+                pu8DataReg += 1U;
+                pu8DataInReg += 1U;
+                u16DataCountArg--;
+                u16AddressMask = (uintptr_t) pu8DataReg;
+                u16AddressMask &= u16BlockMaskArg;
+            }while((0UL != u16DataCountArg) &&
+                (uptrFlashEndAddressArg >= (uintptr_t) pu8DataReg) &&
+                (0UL != u16AddressMask));
+            FLASH_CTL1_R = FLASH_CTL1_R_KEY_WRITE | FLASH_CTL1_R_WRITE_SINGLE;
+            do
+            {
+                u16BusyStateReg = FLASH_CTL3_R;
+                u16BusyStateReg &= FLASH_CTL3_R_BUSY_MASK;
+            }while (FLASH_CTL3_R_BUSY_NOBUSY != u16BusyStateReg);
+        }
+        FLASH_CTL1_R = FLASH_CTL1_R_KEY_WRITE;
 
-        FLASH_CTL1_R = FLASH_CTL1_R_KEY_WRITE | FLASH_CTL1_R_WRITE_SINGLE;
-        do
+        break;
+    case FLASH_enWORDSIZE_WORD:
+        uptrAddressArg &= ~1U;
+        pu16DataReg = ((uint16_t*) uptrAddressArg);
+        pu16DataInReg = ((uint16_t*) pvDataArg);
+        while((0UL != u16DataCountArg) &&  (uptrFlashEndAddressArg >= (uintptr_t) pu16DataReg))
         {
-            u16BusyStateReg = FLASH_CTL3_R;
-            u16BusyStateReg &= FLASH_CTL3_R_BUSY_MASK;
-        }while (FLASH_CTL3_R_BUSY_NOBUSY != u16BusyStateReg);
+            FLASH_CTL1_R = FLASH_CTL1_R_KEY_WRITE | FLASH_CTL1_R_WRITE_BLOCK;
+            do
+            {
+                *pu16DataReg = *pu16DataInReg;
+                do
+                {
+                    u16ReadyStateReg = FLASH_CTL3_R;
+                    u16ReadyStateReg &= FLASH_CTL3_R_WAIT_MASK;
+                }while(FLASH_CTL3_R_WAIT_NOREADY == u16ReadyStateReg);
+                pu16DataReg += 1U;
+                pu16DataInReg += 1U;
+                u16DataCountArg--;
+                u16AddressMask = (uintptr_t) pu16DataReg;
+                u16AddressMask &= u16BlockMaskArg;
+            }while((0UL != u16DataCountArg) &&
+                (uptrFlashEndAddressArg >= (uintptr_t) pu16DataReg) &&
+                (0UL != u16AddressMask));
+
+            FLASH_CTL1_R = FLASH_CTL1_R_KEY_WRITE | FLASH_CTL1_R_WRITE_SINGLE;
+            do
+            {
+                u16BusyStateReg = FLASH_CTL3_R;
+                u16BusyStateReg &= FLASH_CTL3_R_BUSY_MASK;
+            }while (FLASH_CTL3_R_BUSY_NOBUSY != u16BusyStateReg);
+        }
+        FLASH_CTL1_R = FLASH_CTL1_R_KEY_WRITE;
+        break;
+    default:
+        break;
     }
-    FLASH_CTL1_R = FLASH_CTL1_R_KEY_WRITE;
     return (u16DataCountArg);
 }
 

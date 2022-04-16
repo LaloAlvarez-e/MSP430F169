@@ -29,7 +29,6 @@ uint16_t MCU__u16IRQSourceHandler_Dummy(uintptr_t uptrModule,
     while(1U)
     {
     }
-    return (0U);
 }
 
 

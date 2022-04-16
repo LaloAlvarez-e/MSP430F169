@@ -40,12 +40,13 @@ static FLASH_nSTATUS FLASH__enEraseByAddress(FLASH_Segment_t* pstSegmentCallback
 {
     FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
 
-    pstSegmentCallback->vStartProcess = &FLASH__vStartEraseProcess;
+    pstSegmentCallback->vStartProcess = (void (*)(uint8_t u8Value)) &FLASH__vStartEraseProcess;
     enStatusReg = FLASH__enInitProcess(pstSegmentCallback,
                                        (uint8_t)enEraseModeArg,
-                                       (uint16_t*) 0U,
+                                       (void*) 0U,
                                        0U,
-                                       uptrAddressArg);
+                                       uptrAddressArg,
+                                       FLASH_enWORDSIZE_WORD);
     return (enStatusReg);
 }
 

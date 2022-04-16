@@ -34,12 +34,13 @@ FLASH_nSTATUS FLASH__enMainWriteWord(uint16_t u16DataArg, uintptr_t uptrAddressA
 
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetMainStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetMainEndAddress;
-    stSegmentCallback.vStartProcess = &FLASH__vStartWriteProcess;
+    stSegmentCallback.vStartProcess = (void (*)(uint8_t u8Value)) &FLASH__vStartWriteProcess;
     enStatusReg = FLASH__enInitProcess(&stSegmentCallback,
                                        (uint8_t) FLASH_enWRITE_SINGLE,
-                                       (uint16_t*) u16DataArg,
+                                       (void*) u16DataArg,
                                        0U,
-                                       uptrAddressArg);
+                                       uptrAddressArg,
+                                       FLASH_enWORDSIZE_WORD);
     return (enStatusReg);
 }
 
@@ -74,12 +75,13 @@ FLASH_nSTATUS FLASH__enInfoWriteWord(uint16_t u16DataArg, uintptr_t uptrAddressA
 
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetInfoStartAddress;
     stSegmentCallback.uptrGetEndAddress = &FLASH__uptrGetInfoEndAddress;
-    stSegmentCallback.vStartProcess = &FLASH__vStartWriteProcess;
+    stSegmentCallback.vStartProcess = (void (*)(uint8_t u8Value)) &FLASH__vStartWriteProcess;
     enStatusReg = FLASH__enInitProcess(&stSegmentCallback,
                                        (uint8_t) FLASH_enWRITE_SINGLE,
-                                       (uint16_t*) u16DataArg,
+                                       (void*) u16DataArg,
                                        0U,
-                                       uptrAddressArg);
+                                       uptrAddressArg,
+                                       FLASH_enWORDSIZE_WORD);
     return (enStatusReg);
 }
 
