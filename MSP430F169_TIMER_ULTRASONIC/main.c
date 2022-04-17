@@ -53,10 +53,11 @@ void main(void)
     GPIO__vSetDirectionByNumber(TRIGGER_PORT, TRIGGER_PIN, GPIO_enDIR_OUTPUT);
     GPIO__vSetSelectionByNumber(TRIGGER_PORT, TRIGGER_PIN, GPIO_enSEL_IO);
     GPIO__vSetOutputByNumber(TRIGGER_PORT, TRIGGER_PIN, GPIO_enLEVEL_LOW);
-    GPIO__vSetConfig(GPIO_enTA_CCI1A);
+    GPIO__vSetConfig(GPIO_enTA_CCI1A_P12);
 
     /** Rosc*/
-    GPIO__vSetConfig(GPIO_enROSC);
+    GPIO__vSetConfig(GPIO_enROSC_P25);
+    GPIO__vSetConfig(GPIO_enMCLK_P54);
 
     CLOCK__vSetDCOFrequency(800000UL, CLOCK_enRESISTOR_EXTERNAL);
     CLOCK__vSetLFXT1FrequencyMode(CLOCK_enFREQMODE_LOW);
