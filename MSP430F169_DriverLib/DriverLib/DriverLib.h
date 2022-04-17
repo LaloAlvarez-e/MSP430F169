@@ -33,6 +33,7 @@
 #include "DriverLib/SVS/SVS.h"
 #include "DriverLib/WDT/WDT.h"
 #include "DriverLib/TIMERA/TIMERA.h"
+#include "DriverLib/TIMERB/TIMERB.h"
 #include "DriverLib/FLASH/FLASH.h"
 
 #endif /* DRIVERLIB_DRIVERLIB_H_ */

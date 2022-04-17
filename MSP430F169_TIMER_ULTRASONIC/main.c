@@ -12,9 +12,11 @@ uint16_t MAIN_u16TimerOverflow(uintptr_t ptrBlock, uint8_t u8Source);
  * main.c
  */
 uint32_t u32FirstTime = 0UL;
+uint32_t u32FirstOverflowTime = 0UL;
+uint32_t u32LastOverflowTime = 0UL;
 uint32_t u32LastTime = 0UL;
 uint16_t u16TimerOverflow = 0U;
-uint32_t u32CaptureTime = 0UL;
+volatile uint32_t u32CaptureTime = 0UL;
 
 
 void main(void)
@@ -35,7 +37,7 @@ void main(void)
     {
         TIMERA_enCLOCK_SMCLK,
         TIMERA_enCLOCK_DIV_8,
-        TIMERA_enMODE_STOP,
+        TIMERA_enMODE_CONTINUOS,
         TIMERA_enINT_ENABLE_ENA,
         TIMERA_enINT_STATUS_NOOCCUR,
     };
@@ -77,10 +79,6 @@ void main(void)
     WDT__vSetConfig(&stWDTConfig);
 
 
-
-
-
-
     TIMERA_CC__vRegisterIRQSourceHandler(TIMERA_enCC1,
                                          TIMERA_enCC_MODE_CAPTURE,
                                          &MAIN_u16UltrasonicCapture);
@@ -98,7 +96,6 @@ void main(void)
 
 uint16_t MAIN_u16UltrasonicTrigger(uintptr_t ptrBlock, uint8_t u8Source)
 {
-    TIMERA_CTL->MC = TIMERA_CTL_MC_CONTINUOS;
     PORT4_OUT_R |= PORT_OUT_R_PIN4_MASK;
     _NOP();
     PORT4_OUT_R &= ~PORT_OUT_R_PIN4_MASK;
@@ -119,19 +116,20 @@ uint16_t MAIN_u16UltrasonicCapture(uintptr_t ptrBlock, uint8_t u8Source)
     u8Edge &= TIMERA_CC_CTL_R_CCI_MASK;
     if(TIMERA_CC_CTL_R_CCI_HIGH == u8Edge) /*Rising Detection*/
     {
+        u32FirstOverflowTime = u16TimerOverflow;
         u32FirstTime = TIMERA_CC1_R_R;
     }
     else /*Falling Detection*/
     {
         /*Reset timer*/
-        TIMERA_CTL->MC = TIMERA_CTL_MC_STOP;
-        TIMERA_R_R = 0U;
-        u32LastTime = u16TimerOverflow * 0x10000;
+        u32LastOverflowTime = u16TimerOverflow;
+        u32LastOverflowTime -= u32FirstOverflowTime;
+        u32LastTime = u32LastOverflowTime;
+        u32LastTime *= 0x10000;
         u32LastTime += TIMERA_CC1_R_R;
 
         u32CaptureTime = u32LastTime;
         u32CaptureTime -= u32FirstTime;
-        u16TimerOverflow = 0U;
     }
 
 
