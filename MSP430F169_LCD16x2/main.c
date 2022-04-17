@@ -158,7 +158,7 @@ void main(void)
     GPIO__vSetSelectionByNumber(TEST_PORT, TEST_PIN, GPIO_enSEL_IO);
 
     /** Rosc*/
-    GPIO__vSetConfig(GPIO_enROSC);
+    GPIO__vSetConfig(GPIO_enROSC_P25);
 
     CLOCK__vSetDCOFrequency(800000UL, CLOCK_enRESISTOR_EXTERNAL);
     CLOCK__vSetLFXT1FrequencyMode(CLOCK_enFREQMODE_LOW);

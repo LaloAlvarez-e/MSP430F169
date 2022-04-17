@@ -1,6 +1,6 @@
 #include <msp430.h> 
 #include "stdint.h"
-
+#include "DriverLib/GPIO/GPIO.h"
 void MAIN_vInitInput(void);
 void MAIN_vInitOutput(void);
 

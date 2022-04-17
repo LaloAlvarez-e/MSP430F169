@@ -1,5 +1,5 @@
-#include "MCU/MCU.h"
-#include "GPIO/GPIO.h"
+#include "DriverLib/MCU/MCU.h"
+#include "DriverLib/GPIO/GPIO.h"
 
 #include <msp430.h> 
 #include <stdint.h>

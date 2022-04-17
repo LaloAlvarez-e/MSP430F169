@@ -54,9 +54,9 @@ void main(void)
     CLOCK__vSetXT2Enable(CLOCK_enENABLE_ENA);
 	do
 	{
-	    CLOCK_IFG1_R &= ~ CLOCK_IFG1_R_OFIFG_MASK;
+	    CLOCK_IFG1_R &= ~ CLOCK_IFG1_R_IFG_MASK;
 	    for(u16Iter = 0U; u16Iter < 4000U; u16Iter++); /*At least 50us*/
-	}while(0U != (CLOCK_IFG1_R_OFIFG_MASK & CLOCK_IFG1_R));
+	}while(0U != (CLOCK_IFG1_R_IFG_MASK & CLOCK_IFG1_R));
 
 
     CLOCK__enSetACLKSource(CLOCK_enSOURCE_LFXT1);
@@ -90,11 +90,11 @@ void main(void)
                 u8ValueMod = u8Value;
                 u8ValueMod %= 10U;
                 u8Value/= 10U;
-                SEGMENTS__vPrint(u8ValueMod, u8Digit, SEGMENTS_enCOMMON_ANODE);
+                SEGMENTS__vPrint(u8ValueMod, (SEGMENTS_nDIGIT) u8Digit, SEGMENTS_enCOMMON_ANODE);
             }
             else
             {
-                SEGMENTS__vPrint(*pu8CharTemp, SEGMENTS_enDIGIT_MAX - u8Digit - 1U, SEGMENTS_enCOMMON_ANODE);
+                SEGMENTS__vPrint(*pu8CharTemp, (SEGMENTS_nDIGIT) ( (uint8_t) SEGMENTS_enDIGIT_MAX - u8Digit - 1U), SEGMENTS_enCOMMON_ANODE);
                 pu8CharTemp++;
             }
             for(u16Iter = 0U; u16Iter < 7000U; u16Iter++); /*At least 50us*/

@@ -51,9 +51,9 @@ void main(void)
     CLOCK__vSetXT2Enable(CLOCK_enENABLE_ENA);
 	do
 	{
-	    CLOCK_IFG1_R &= ~ CLOCK_IFG1_R_OFIFG_MASK;
+	    CLOCK_IFG1_R &= ~ CLOCK_IFG1_R_IFG_MASK;
 	    for(u16Iter = 0U; u16Iter < 400U; u16Iter++); /*At least 50us*/
-	}while(0U != (CLOCK_IFG1_R_OFIFG_MASK & CLOCK_IFG1_R));
+	}while(0U != (CLOCK_IFG1_R_IFG_MASK & CLOCK_IFG1_R));
 	CLOCK__enSetMCLKSource(CLOCK_enSOURCE_LFXT1);
     CLOCK__enSetSMCLKSource(CLOCK_enSOURCE_DCO);
 

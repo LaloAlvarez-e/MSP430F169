@@ -29,21 +29,21 @@ __interrupt void IntDefaultHandler(void);
 #pragma DATA_SECTION(INTERRUPT__pfvVector, ".intvecs")
 void (* const INTERRUPT__pfvVector[15U])(void) =
 {
-    &DACDMA_IRQVectorHandler,                      /* The DACDMA handler*/
-    &PORT2_IRQVectorHandler,                      /* The PORT2 handler*/
+    &DACDMA_IRQVectorHandler,                /* The DACDMA handler*/
+    &PORT2_IRQVectorHandler,                 /* The PORT2 handler*/
     &IntDefaultHandler,                      /* The USART1TX handler*/
     &IntDefaultHandler,                      /* The USART1RX handler*/
-    &PORT1_IRQVectorHandler,                      /* The PORT1 handler*/
-    &IntDefaultHandler,                      /* The TIMERA1 handler*/
-    &IntDefaultHandler,                      /* The TIMERA0 handler*/
+    &PORT1_IRQVectorHandler,                 /* The PORT1 handler*/
+    &TIMERA_IRQVectorHandler,                /* The TIMERA1 handler*/
+    &TIMERA_CC0_IRQVectorHandler,            /* The TIMERA0 handler*/
     &IntDefaultHandler,                      /* The ADC12 handler*/
     &IntDefaultHandler,                      /* The USART0TX handler*/
     &IntDefaultHandler,                      /* The USART0RX handler*/
-    &WDT_IRQVectorHandler,                      /* The WDT handler*/
+    &WDT_IRQVectorHandler,                   /* The WDT handler*/
     &IntDefaultHandler,                      /* The COMPARATORA handler*/
     &IntDefaultHandler,                      /* The TIMERB1 handler*/
     &IntDefaultHandler,                      /* The TIMERB0 handler*/
-    &NMI_IRQVectorHandler,                      /* The NMI handler*/
+    &NMI_IRQVectorHandler,                   /* The NMI handler*/
 };
 
 __interrupt void IntDefaultHandler(void)

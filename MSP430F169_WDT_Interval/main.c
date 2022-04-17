@@ -32,9 +32,9 @@ void main(void)
     CLOCK__vSetXT2Enable(CLOCK_enENABLE_ENA);
 	do
 	{
-	    CLOCK_IFG1_R &= ~ CLOCK_IFG1_R_OFIFG_MASK;
+	    CLOCK_IFG1_R &= ~ CLOCK_IFG1_R_IFG_MASK;
 	    for(u16Iter = 0U; u16Iter < 4000U; u16Iter++); /*At least 50us*/
-	}while(0U != (CLOCK_IFG1_R_OFIFG_MASK & CLOCK_IFG1_R));
+	}while(0U != (CLOCK_IFG1_R_IFG_MASK & CLOCK_IFG1_R));
 
     CLOCK__enSetACLKSource(CLOCK_enSOURCE_LFXT1); /*32768 Hz*/
 	CLOCK__enSetMCLKSource(CLOCK_enSOURCE_DCO); /*~8 MHz*/
@@ -76,7 +76,6 @@ uint16_t MAIN_u16SwitchInterrupt(uintptr_t uptrModule, uint8_t u8IntSource)
 {
     uint16_t u16WDTReg = 0U;
     uint16_t u16Period = 0U;
-    GPIO_t* stPort = (GPIO_t*) uptrModule;
     GPIO_nPIN_NUMBER enPinNumber = (GPIO_nPIN_NUMBER) u8IntSource;
 
     if(SWITCH1_PIN == enPinNumber)

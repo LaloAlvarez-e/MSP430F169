@@ -12,7 +12,7 @@ uint8_t u8Activate = 0U;
 void main(void)
 {
     uint16_t u16Iter = 0U;
-    WDT_CONFIG_t stWDTConfig =
+    WDT_Config_t stWDTConfig =
     {
      WDT_enENABLE_RUN,
      WDT_enINT_ENABLE_ENA,

@@ -38,7 +38,7 @@ void main(void)
     GPIO__vSetSelectionByNumber(TEST_PORT, TEST_PIN, GPIO_enSEL_IO);
 
     /** Rosc*/
-    GPIO__vSetConfig(GPIO_enROSC);
+    GPIO__vSetConfig(GPIO_enROSC_P25);
 
     CLOCK__vSetDCOFrequency(500000UL, CLOCK_enRESISTOR_EXTERNAL);
     CLOCK__vSetLFXT1FrequencyMode(CLOCK_enFREQMODE_LOW);
@@ -61,8 +61,8 @@ void main(void)
 
     FLASH__enSegmentEraseByAddress(0x1000U);
     uint16_t pu16Buffer[300U] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-
-    FLASH__enWriteBlock(pu16Buffer, 300U, 0x1080U);
+    uint16_t u16Cant = 300U;
+    FLASH__enWriteBlock((void*) pu16Buffer, &u16Cant, 0x1080U, FLASH_enWORDSIZE_WORD);
 
     _EINT();
 	while(1U)

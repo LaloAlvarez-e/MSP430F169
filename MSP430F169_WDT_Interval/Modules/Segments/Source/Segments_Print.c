@@ -221,7 +221,7 @@ void SEGMENTS__vPrint(uint8_t u8Number, SEGMENTS_nDIGIT enDigit, SEGMENTS_nCOMMO
 
     enPort = SEGMENTS__enGetDigitPort(enDigit);
     enPin = SEGMENTS__enGetDigitPin(enDigit);
-    GPIO__vSetOutputByNumber(enPort, enPin, u8LevelNeg);
+    GPIO__vSetOutputByNumber(enPort, enPin, (GPIO_nLEVEL) u8LevelNeg);
 }
 
 

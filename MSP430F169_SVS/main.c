@@ -20,7 +20,7 @@ void main(void)
     SVS_nSTATE enSVSState = SVS_enSTATE_OFF;
     SVS_nFLAG enSVSFlag = SVS_enFLAG_CLEAR;
     uint16_t u16Iter = 0U;
-    WDT_CONFIG_t stWDTConfig =
+    WDT_Config_t stWDTConfig =
     {
      WDT_enENABLE_RUN,
      WDT_enINT_ENABLE_ENA,
@@ -90,8 +90,6 @@ void main(void)
 
 uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source)
 {
-    SVS_nSTATE enSVSState = SVS_enSTATE_OFF;
-    SVS_nLEVEL enSVSLevel = SVS_enLEVEL_LOW;
     static uint8_t u8Level = 1U;
     u8Level ^= 1U;
     GPIO__vSetOutputByNumber(LED4_PORT, LED4_PIN, (GPIO_nLEVEL) u8Level);

@@ -59,7 +59,8 @@ MEMORY
     RAM                     : origin = 0x0200, length = 0x0800
     INFOA                   : origin = 0x1080, length = 0x0080
     INFOB                   : origin = 0x1000, length = 0x0080
-    FLASH                   : origin = 0x1100, length = 0xEEE0
+    FLASH                   : origin = 0x1100, length = 0xDF00
+    FLASH_NVM               : origin = 0xF000, length = 0x0FE0
     INTVECT                 : origin = 0xFFE0, length = 0x001E
     RESET                   : origin = 0xFFFE, length = 0x0002
 }
@@ -70,6 +71,8 @@ MEMORY
 
 SECTIONS
 {
+
+	.nvm 		: {} run = FLASH_NVM
     .intvecs	: {} > INTVECT
     .bss        : {} > RAM                  /* Global & static vars              */
     .data       : {} > RAM                  /* Global & static vars              */
