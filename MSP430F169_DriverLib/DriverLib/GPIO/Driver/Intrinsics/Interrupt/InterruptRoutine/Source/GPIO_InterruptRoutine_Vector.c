@@ -31,7 +31,7 @@
 __interrupt void PORT1_IRQVectorHandler(void)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
-    uint16_t u16Status = LPM4_bits;
+    uint16_t u16Status = 0xFFU;
     uint8_t u8Flags = PORT1_IFG_R;
     uint8_t u8Enable = PORT1_IE_R;
     const uintptr_t optrBaseAddress = PORT1_BASE;
@@ -86,15 +86,18 @@ __interrupt void PORT1_IRQVectorHandler(void)
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT1, GPIO_enPIN_NUMBER7);
         u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER7);
     }
-    __low_power_mode_off_on_exit();
-    __bis_SR_register_on_exit(u16Status);
-    _NOP();
+    if(0xFFU != u16Status)
+    {
+        __low_power_mode_off_on_exit();
+        __bis_SR_register_on_exit(u16Status);
+        _NOP();
+    }
 }
 
 __interrupt void PORT2_IRQVectorHandler(void)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
-    uint16_t u16Status = LPM4_bits;
+    uint16_t u16Status = 0xFFU;
     uint8_t u8Flags = PORT2_IFG_R;
     uint8_t u8Enable = PORT2_IE_R;
     const uintptr_t optrBaseAddress = PORT2_BASE;
@@ -148,9 +151,12 @@ __interrupt void PORT2_IRQVectorHandler(void)
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT2, GPIO_enPIN_NUMBER7);
         u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER7);
     }
-    __low_power_mode_off_on_exit();
-    __bis_SR_register_on_exit(u16Status);
-    _NOP();
+    if(0xFFU != u16Status)
+    {
+        __low_power_mode_off_on_exit();
+        __bis_SR_register_on_exit(u16Status);
+        _NOP();
+    }
 }
 
 

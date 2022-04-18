@@ -31,13 +31,16 @@
 __interrupt void WDT_IRQVectorHandler(void)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
-    uint16_t u16Status = LPM4_bits;
+    uint16_t u16Status = 0xFFU;
     const uintptr_t optrBaseAddress = WDT_BASE;
 
     IRQSourceHandlerReg = WDT__pu16fGetIRQSourceHandler();
     u16Status &= IRQSourceHandlerReg(optrBaseAddress, 0U);
 
-    __low_power_mode_off_on_exit();
-    __bis_SR_register_on_exit(u16Status);
-    _NOP();
+    if(0xFFU != u16Status)
+    {
+        __low_power_mode_off_on_exit();
+        __bis_SR_register_on_exit(u16Status);
+        _NOP();
+    }
 }

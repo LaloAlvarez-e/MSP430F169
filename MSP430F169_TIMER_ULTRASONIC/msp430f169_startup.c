@@ -41,8 +41,8 @@ void (* const INTERRUPT__pfvVector[15U])(void) =
     &IntDefaultHandler,                      /* The USART0RX handler*/
     &WDT_IRQVectorHandler,                   /* The WDT handler*/
     &IntDefaultHandler,                      /* The COMPARATORA handler*/
-    &IntDefaultHandler,                      /* The TIMERB1 handler*/
-    &IntDefaultHandler,                      /* The TIMERB0 handler*/
+    &TIMERB_IRQVectorHandler,                /* The TIMERB1 handler*/
+    &TIMERB_CC0_IRQVectorHandler,            /* The TIMERB0 handler*/
     &NMI_IRQVectorHandler,                   /* The NMI handler*/
 };
 

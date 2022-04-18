@@ -31,7 +31,7 @@
 __interrupt void DACDMA_IRQVectorHandler(void)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
-    uint16_t u16Status = LPM4_bits;
+    uint16_t u16Status = 0xFFU;
     uint16_t u16ControlDMA_CH0 = DMA_CH0_CTL_R;
     uint16_t u16ControlDMA_CH1 = DMA_CH1_CTL_R;
     uint16_t u16ControlDMA_CH2 = DMA_CH2_CTL_R;
@@ -78,9 +78,12 @@ __interrupt void DACDMA_IRQVectorHandler(void)
 
         u16Status &= IRQSourceHandlerReg(DMA_CH2_BASE, (uint8_t) u16Trigger);
     }
-    __low_power_mode_off_on_exit();
-    __bis_SR_register_on_exit(u16Status);
-    _NOP();
+    if(0xFFU != u16Status)
+    {
+        __low_power_mode_off_on_exit();
+        __bis_SR_register_on_exit(u16Status);
+        _NOP();
+    }
 }
 
 

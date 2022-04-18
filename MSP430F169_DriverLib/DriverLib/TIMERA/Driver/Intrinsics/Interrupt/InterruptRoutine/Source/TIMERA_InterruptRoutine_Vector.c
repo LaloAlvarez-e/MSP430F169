@@ -31,7 +31,7 @@
 __interrupt void TIMERA_CC0_IRQVectorHandler(void)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
-    uint16_t u16Status = LPM4_bits;
+    uint16_t u16Status = 0xFFU;
     uint16_t u16Mode = TIMERA_CC0_CTL_R;
     uint16_t u16PinValue = 0U;
     u16PinValue = u16Mode;
@@ -51,9 +51,12 @@ __interrupt void TIMERA_CC0_IRQVectorHandler(void)
 
         u16Status &= IRQSourceHandlerReg(TIMERA_CC0_BASE, u16PinValue | (uint8_t) TIMERA_enCC_MODE_CAPTURE);
     }
-    __low_power_mode_off_on_exit();
-    __bis_SR_register_on_exit(u16Status);
-    _NOP();
+    if(0xFFU != u16Status)
+    {
+        __low_power_mode_off_on_exit();
+        __bis_SR_register_on_exit(u16Status);
+        _NOP();
+    }
 }
 
 
@@ -61,7 +64,7 @@ __interrupt void TIMERA_CC0_IRQVectorHandler(void)
 __interrupt void TIMERA_IRQVectorHandler(void)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
-    uint16_t u16Status = LPM4_bits;
+    uint16_t u16Status = 0xFFU;
     uint16_t u16Mode = 0U;
     uint16_t u16PinValue = 0U;
 
@@ -111,9 +114,12 @@ __interrupt void TIMERA_IRQVectorHandler(void)
         u16Status &= IRQSourceHandlerReg(TIMERA_BASE, 0U);
         break;
     }
-    __low_power_mode_off_on_exit();
-    __bis_SR_register_on_exit(u16Status);
-    _NOP();
+    if(0xFFU != u16Status)
+    {
+        __low_power_mode_off_on_exit();
+        __bis_SR_register_on_exit(u16Status);
+        _NOP();
+    }
 }
 
 

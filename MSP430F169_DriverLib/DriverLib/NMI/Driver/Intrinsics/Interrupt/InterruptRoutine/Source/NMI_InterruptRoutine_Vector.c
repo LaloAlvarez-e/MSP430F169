@@ -34,7 +34,7 @@
 __interrupt void NMI_IRQVectorHandler(void)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
-    uint16_t u16Status = LPM4_bits;
+    uint16_t u16Status = 0xFFU;
     uint8_t u8FlagsNMI = NMI_IFG1_R;
     uint8_t u8EnableNMI = NMI_IE1_R;
     uint8_t u8FlagsCLOCK = CLOCK_IFG1_R;
@@ -68,8 +68,10 @@ __interrupt void NMI_IRQVectorHandler(void)
         IRQSourceHandlerReg = FLASH__pu16fGetIRQSourceHandler();
         u16Status &= IRQSourceHandlerReg(optrBaseAddressFLASH, 0U);
     }
-
-    __low_power_mode_off_on_exit();
-    __bis_SR_register_on_exit(u16Status);
-    _NOP();
+    if(0xFFU != u16Status)
+    {
+        __low_power_mode_off_on_exit();
+        __bis_SR_register_on_exit(u16Status);
+        _NOP();
+    }
 }
