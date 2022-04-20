@@ -35,5 +35,6 @@
 #include "DriverLib/TIMERA/TIMERA.h"
 #include "DriverLib/TIMERB/TIMERB.h"
 #include "DriverLib/FLASH/FLASH.h"
+#include "DriverLib/ADC12/ADC12.h"
 
 #endif /* DRIVERLIB_DRIVERLIB_H_ */
