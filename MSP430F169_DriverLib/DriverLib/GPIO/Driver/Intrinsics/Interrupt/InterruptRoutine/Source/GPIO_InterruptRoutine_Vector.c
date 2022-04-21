@@ -42,49 +42,49 @@ __interrupt void PORT1_IRQVectorHandler(void)
         PORT1_IFG_R &= ~PORT_IFG_R_PIN0_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT1, GPIO_enPIN_NUMBER0);
 
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER0);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER0);
     }
     if(0U != (u8Flags & PORT_IFG_R_PIN1_MASK))
     {
         PORT1_IFG_R &= ~PORT_IFG_R_PIN1_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT1, GPIO_enPIN_NUMBER1);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER1);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER1);
     }
     if(0U != (u8Flags & PORT_IFG_R_PIN2_MASK))
     {
         PORT1_IFG_R &= ~PORT_IFG_R_PIN2_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT1, GPIO_enPIN_NUMBER2);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER2);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER2);
     }
     if(0U != (u8Flags & PORT_IFG_R_PIN3_MASK))
     {
         PORT1_IFG_R &= ~PORT_IFG_R_PIN3_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT1, GPIO_enPIN_NUMBER3);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER3);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER3);
     }
     if(0U != (u8Flags & PORT_IFG_R_PIN4_MASK))
     {
         PORT1_IFG_R &= ~PORT_IFG_R_PIN4_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT1, GPIO_enPIN_NUMBER4);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER4);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER4);
     }
     if(0U != (u8Flags & PORT_IFG_R_PIN5_MASK))
     {
         PORT1_IFG_R &= ~PORT_IFG_R_PIN5_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT1, GPIO_enPIN_NUMBER5);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER5);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER5);
     }
     if(0U != (u8Flags & PORT_IFG_R_PIN6_MASK))
     {
         PORT1_IFG_R &= ~PORT_IFG_R_PIN6_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT1, GPIO_enPIN_NUMBER6);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER6);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER6);
     }
     if(0U != (u8Flags & PORT_IFG_R_PIN7_MASK))
     {
         PORT1_IFG_R &= ~PORT_IFG_R_PIN7_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT1, GPIO_enPIN_NUMBER7);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER7);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER7);
     }
     if(0xFFU != u16Status)
     {
@@ -107,49 +107,49 @@ __interrupt void PORT2_IRQVectorHandler(void)
     {
         PORT2_IFG_R &= ~PORT_IFG_R_PIN0_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT2, GPIO_enPIN_NUMBER0);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER0);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER0);
     }
     if(0U != (u8Flags & PORT_IFG_R_PIN1_MASK))
     {
         PORT2_IFG_R &= ~PORT_IFG_R_PIN1_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT2, GPIO_enPIN_NUMBER1);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER1);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER1);
     }
     if(0U != (u8Flags & PORT_IFG_R_PIN2_MASK))
     {
         PORT2_IFG_R &= ~PORT_IFG_R_PIN2_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT2, GPIO_enPIN_NUMBER2);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER2);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER2);
     }
     if(0U != (u8Flags & PORT_IFG_R_PIN3_MASK))
     {
         PORT2_IFG_R &= ~PORT_IFG_R_PIN3_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT2, GPIO_enPIN_NUMBER3);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER3);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER3);
     }
     if(0U != (u8Flags & PORT_IFG_R_PIN4_MASK))
     {
         PORT2_IFG_R &= ~PORT_IFG_R_PIN4_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT2, GPIO_enPIN_NUMBER4);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER4);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER4);
     }
     if(0U != (u8Flags & PORT_IFG_R_PIN5_MASK))
     {
         PORT2_IFG_R &= ~PORT_IFG_R_PIN5_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT2, GPIO_enPIN_NUMBER5);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER5);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER5);
     }
     if(0U != (u8Flags & PORT_IFG_R_PIN6_MASK))
     {
         PORT2_IFG_R &= ~PORT_IFG_R_PIN6_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT2, GPIO_enPIN_NUMBER6);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER6);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER6);
     }
     if(0U != (u8Flags & PORT_IFG_R_PIN7_MASK))
     {
         PORT2_IFG_R &= ~PORT_IFG_R_PIN7_MASK;
         IRQSourceHandlerReg = GPIO__pu16fGetIRQSourceHandler(GPIO_enPORT2, GPIO_enPIN_NUMBER7);
-        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint8_t) GPIO_enPIN_NUMBER7);
+        u16Status &= IRQSourceHandlerReg(optrBaseAddress, (uint16_t) GPIO_enPIN_NUMBER7);
     }
     if(0xFFU != u16Status)
     {

@@ -1,6 +1,6 @@
 /**
  *
- * @file MCU_Common.c
+ * @file ADC12_Config.c
  * @copyright
  * @verbatim InDeviceMex 2021 @endverbatim
  *
@@ -11,7 +11,7 @@
  * @verbatim 1.0 @endverbatim
  *
  * @date
- * @verbatim 12 abr. 2022 @endverbatim
+ * @verbatim 28 mar. 2022 @endverbatim
  *
  * @author
  * @verbatim InDeviceMex @endverbatim
@@ -19,17 +19,8 @@
  * @par Change History
  * @verbatim
  * Date           Author     Version     Description
- * 12 abr. 2022     InDeviceMex    1.0         initial Version@endverbatim
+ * 28 mar. 2022     InDeviceMex    1.0         initial Version@endverbatim
  */
-#include "DriverLib/MCU/Header/MCU_Common.h"
-
-uint16_t MCU__u16IRQSourceHandler_Dummy(uintptr_t uptrModule,
-                                       uint16_t u16IntSource)
-{
-    while(1U)
-    {
-    }
-}
 
 
 

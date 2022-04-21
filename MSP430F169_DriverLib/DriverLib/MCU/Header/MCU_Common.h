@@ -37,9 +37,9 @@ typedef enum
     MCU_enSTATUS_ERROR = 1U,
 }MCU_nSTATUS;
 
-typedef uint16_t (*MCU__pu16fIRQSourceHandler_t)(uintptr_t uptrModule, uint8_t u8IntSource);
+typedef uint16_t (*MCU__pu16fIRQSourceHandler_t)(uintptr_t uptrModule, uint16_t u16IntSource);
 
-uint16_t MCU__u16IRQSourceHandler_Dummy(uintptr_t uptrModule, uint8_t u8IntSource);
+uint16_t MCU__u16IRQSourceHandler_Dummy(uintptr_t uptrModule, uint16_t u16IntSource);
 
 
 typedef struct

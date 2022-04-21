@@ -43,13 +43,13 @@ __interrupt void TIMERB_CC0_IRQVectorHandler(void)
     {
         IRQSourceHandlerReg = TIMERB_CC__pu16fGetIRQSourceHandler(TIMERB_enCC0, TIMERB_enCC_MODE_COMPARE);
 
-        u16Status &= IRQSourceHandlerReg(TIMERB_CC0_BASE, u16PinValue | (uint8_t) TIMERB_enCC_MODE_COMPARE);
+        u16Status &= IRQSourceHandlerReg(TIMERB_CC0_BASE, u16PinValue | (uint16_t) TIMERB_enCC_MODE_COMPARE);
     }
     else
     {
         IRQSourceHandlerReg = TIMERB_CC__pu16fGetIRQSourceHandler(TIMERB_enCC0, TIMERB_enCC_MODE_CAPTURE);
 
-        u16Status &= IRQSourceHandlerReg(TIMERB_CC0_BASE, u16PinValue | (uint8_t) TIMERB_enCC_MODE_CAPTURE);
+        u16Status &= IRQSourceHandlerReg(TIMERB_CC0_BASE, u16PinValue | (uint16_t) TIMERB_enCC_MODE_CAPTURE);
     }
     if(0xFFU != u16Status)
     {
@@ -80,14 +80,14 @@ __interrupt void TIMERB_IRQVectorHandler(void)
             IRQSourceHandlerReg = TIMERB_CC__pu16fGetIRQSourceHandler(
                     TIMERB_enCC1, TIMERB_enCC_MODE_COMPARE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERB_CC1_BASE,  u16PinValue | (uint8_t) TIMERB_enCC_MODE_COMPARE);
+            u16Status &= IRQSourceHandlerReg(TIMERB_CC1_BASE,  u16PinValue | (uint16_t) TIMERB_enCC_MODE_COMPARE);
         }
         else
         {
             IRQSourceHandlerReg = TIMERB_CC__pu16fGetIRQSourceHandler(
                     TIMERB_enCC1, TIMERB_enCC_MODE_CAPTURE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERB_CC1_BASE, u16PinValue | (uint8_t) TIMERB_enCC_MODE_CAPTURE);
+            u16Status &= IRQSourceHandlerReg(TIMERB_CC1_BASE, u16PinValue | (uint16_t) TIMERB_enCC_MODE_CAPTURE);
         }
         break;
     case TIMERB_IV_R_IV_CC2:
@@ -99,13 +99,13 @@ __interrupt void TIMERB_IRQVectorHandler(void)
         {
             IRQSourceHandlerReg = TIMERB_CC__pu16fGetIRQSourceHandler(TIMERB_enCC2, TIMERB_enCC_MODE_COMPARE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERB_CC2_BASE, u16PinValue | (uint8_t) TIMERB_enCC_MODE_COMPARE);
+            u16Status &= IRQSourceHandlerReg(TIMERB_CC2_BASE, u16PinValue | (uint16_t) TIMERB_enCC_MODE_COMPARE);
         }
         else
         {
             IRQSourceHandlerReg = TIMERB_CC__pu16fGetIRQSourceHandler(TIMERB_enCC2, TIMERB_enCC_MODE_CAPTURE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERB_CC2_BASE, u16PinValue | (uint8_t) TIMERB_enCC_MODE_CAPTURE);
+            u16Status &= IRQSourceHandlerReg(TIMERB_CC2_BASE, u16PinValue | (uint16_t) TIMERB_enCC_MODE_CAPTURE);
         }
         break;
     case TIMERB_IV_R_IV_CC3:
@@ -118,14 +118,14 @@ __interrupt void TIMERB_IRQVectorHandler(void)
             IRQSourceHandlerReg = TIMERB_CC__pu16fGetIRQSourceHandler(
                     TIMERB_enCC3, TIMERB_enCC_MODE_COMPARE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERB_CC3_BASE,  u16PinValue | (uint8_t) TIMERB_enCC_MODE_COMPARE);
+            u16Status &= IRQSourceHandlerReg(TIMERB_CC3_BASE,  u16PinValue | (uint16_t) TIMERB_enCC_MODE_COMPARE);
         }
         else
         {
             IRQSourceHandlerReg = TIMERB_CC__pu16fGetIRQSourceHandler(
                     TIMERB_enCC3, TIMERB_enCC_MODE_CAPTURE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERB_CC3_BASE, u16PinValue | (uint8_t) TIMERB_enCC_MODE_CAPTURE);
+            u16Status &= IRQSourceHandlerReg(TIMERB_CC3_BASE, u16PinValue | (uint16_t) TIMERB_enCC_MODE_CAPTURE);
         }
         break;
     case TIMERB_IV_R_IV_CC4:
@@ -138,14 +138,14 @@ __interrupt void TIMERB_IRQVectorHandler(void)
             IRQSourceHandlerReg = TIMERB_CC__pu16fGetIRQSourceHandler(
                     TIMERB_enCC4, TIMERB_enCC_MODE_COMPARE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERB_CC4_BASE,  u16PinValue | (uint8_t) TIMERB_enCC_MODE_COMPARE);
+            u16Status &= IRQSourceHandlerReg(TIMERB_CC4_BASE,  u16PinValue | (uint16_t) TIMERB_enCC_MODE_COMPARE);
         }
         else
         {
             IRQSourceHandlerReg = TIMERB_CC__pu16fGetIRQSourceHandler(
                     TIMERB_enCC4, TIMERB_enCC_MODE_CAPTURE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERB_CC4_BASE, u16PinValue | (uint8_t) TIMERB_enCC_MODE_CAPTURE);
+            u16Status &= IRQSourceHandlerReg(TIMERB_CC4_BASE, u16PinValue | (uint16_t) TIMERB_enCC_MODE_CAPTURE);
         }
         break;
     case TIMERB_IV_R_IV_CC5:
@@ -158,14 +158,14 @@ __interrupt void TIMERB_IRQVectorHandler(void)
             IRQSourceHandlerReg = TIMERB_CC__pu16fGetIRQSourceHandler(
                     TIMERB_enCC5, TIMERB_enCC_MODE_COMPARE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERB_CC5_BASE,  u16PinValue | (uint8_t) TIMERB_enCC_MODE_COMPARE);
+            u16Status &= IRQSourceHandlerReg(TIMERB_CC5_BASE,  u16PinValue | (uint16_t) TIMERB_enCC_MODE_COMPARE);
         }
         else
         {
             IRQSourceHandlerReg = TIMERB_CC__pu16fGetIRQSourceHandler(
                     TIMERB_enCC5, TIMERB_enCC_MODE_CAPTURE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERB_CC5_BASE, u16PinValue | (uint8_t) TIMERB_enCC_MODE_CAPTURE);
+            u16Status &= IRQSourceHandlerReg(TIMERB_CC5_BASE, u16PinValue | (uint16_t) TIMERB_enCC_MODE_CAPTURE);
         }
         break;
     case TIMERB_IV_R_IV_CC6:
@@ -178,14 +178,14 @@ __interrupt void TIMERB_IRQVectorHandler(void)
             IRQSourceHandlerReg = TIMERB_CC__pu16fGetIRQSourceHandler(
                     TIMERB_enCC6, TIMERB_enCC_MODE_COMPARE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERB_CC6_BASE,  u16PinValue | (uint8_t) TIMERB_enCC_MODE_COMPARE);
+            u16Status &= IRQSourceHandlerReg(TIMERB_CC6_BASE,  u16PinValue | (uint16_t) TIMERB_enCC_MODE_COMPARE);
         }
         else
         {
             IRQSourceHandlerReg = TIMERB_CC__pu16fGetIRQSourceHandler(
                     TIMERB_enCC6, TIMERB_enCC_MODE_CAPTURE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERB_CC6_BASE, u16PinValue | (uint8_t) TIMERB_enCC_MODE_CAPTURE);
+            u16Status &= IRQSourceHandlerReg(TIMERB_CC6_BASE, u16PinValue | (uint16_t) TIMERB_enCC_MODE_CAPTURE);
         }
         break;
     default:

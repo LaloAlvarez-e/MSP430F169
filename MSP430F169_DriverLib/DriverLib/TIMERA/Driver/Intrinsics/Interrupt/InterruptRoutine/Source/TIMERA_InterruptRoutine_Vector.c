@@ -43,13 +43,13 @@ __interrupt void TIMERA_CC0_IRQVectorHandler(void)
     {
         IRQSourceHandlerReg = TIMERA_CC__pu16fGetIRQSourceHandler(TIMERA_enCC0, TIMERA_enCC_MODE_COMPARE);
 
-        u16Status &= IRQSourceHandlerReg(TIMERA_CC0_BASE, u16PinValue | (uint8_t) TIMERA_enCC_MODE_COMPARE);
+        u16Status &= IRQSourceHandlerReg(TIMERA_CC0_BASE, u16PinValue | (uint16_t) TIMERA_enCC_MODE_COMPARE);
     }
     else
     {
         IRQSourceHandlerReg = TIMERA_CC__pu16fGetIRQSourceHandler(TIMERA_enCC0, TIMERA_enCC_MODE_CAPTURE);
 
-        u16Status &= IRQSourceHandlerReg(TIMERA_CC0_BASE, u16PinValue | (uint8_t) TIMERA_enCC_MODE_CAPTURE);
+        u16Status &= IRQSourceHandlerReg(TIMERA_CC0_BASE, u16PinValue | (uint16_t) TIMERA_enCC_MODE_CAPTURE);
     }
     if(0xFFU != u16Status)
     {
@@ -80,14 +80,14 @@ __interrupt void TIMERA_IRQVectorHandler(void)
             IRQSourceHandlerReg = TIMERA_CC__pu16fGetIRQSourceHandler(
                     TIMERA_enCC1, TIMERA_enCC_MODE_COMPARE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERA_CC1_BASE,  u16PinValue | (uint8_t) TIMERA_enCC_MODE_COMPARE);
+            u16Status &= IRQSourceHandlerReg(TIMERA_CC1_BASE,  u16PinValue | (uint16_t) TIMERA_enCC_MODE_COMPARE);
         }
         else
         {
             IRQSourceHandlerReg = TIMERA_CC__pu16fGetIRQSourceHandler(
                     TIMERA_enCC1, TIMERA_enCC_MODE_CAPTURE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERA_CC1_BASE, u16PinValue | (uint8_t) TIMERA_enCC_MODE_CAPTURE);
+            u16Status &= IRQSourceHandlerReg(TIMERA_CC1_BASE, u16PinValue | (uint16_t) TIMERA_enCC_MODE_CAPTURE);
         }
         break;
     case TIMERA_IV_R_IV_CC2:
@@ -99,13 +99,13 @@ __interrupt void TIMERA_IRQVectorHandler(void)
         {
             IRQSourceHandlerReg = TIMERA_CC__pu16fGetIRQSourceHandler(TIMERA_enCC2, TIMERA_enCC_MODE_COMPARE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERA_CC2_BASE, u16PinValue | (uint8_t) TIMERA_enCC_MODE_COMPARE);
+            u16Status &= IRQSourceHandlerReg(TIMERA_CC2_BASE, u16PinValue | (uint16_t) TIMERA_enCC_MODE_COMPARE);
         }
         else
         {
             IRQSourceHandlerReg = TIMERA_CC__pu16fGetIRQSourceHandler(TIMERA_enCC2, TIMERA_enCC_MODE_CAPTURE);
 
-            u16Status &= IRQSourceHandlerReg(TIMERA_CC2_BASE, u16PinValue | (uint8_t) TIMERA_enCC_MODE_CAPTURE);
+            u16Status &= IRQSourceHandlerReg(TIMERA_CC2_BASE, u16PinValue | (uint16_t) TIMERA_enCC_MODE_CAPTURE);
         }
         break;
     default:
