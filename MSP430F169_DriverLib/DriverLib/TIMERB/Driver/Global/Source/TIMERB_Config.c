@@ -23,7 +23,7 @@
  */
 #include <DriverLib/TIMERB/Driver/Global/Header/TIMERB_Config.h>
 
-
+#include <DriverLib/TIMERB/Driver/Module/Header/TIMERB_ModuleValue.h>
 #include <DriverLib/TIMERB/Driver/Global/Header/TIMERB_Reset.h>
 #include <DriverLib/TIMERB/Driver/Global/Header/TIMERB_Clock.h>
 #include <DriverLib/TIMERB/Driver/Global/Header/TIMERB_ClockDivider.h>
@@ -41,6 +41,12 @@ void TIMERB__vSetConfig(TIMERB_Config_t* pstConfigArg)
     if(0UL != (uintptr_t) pstConfigArg)
     {
         TIMERB__vReset();
+
+        if((TIMERB_enMODE_UP == pstConfigArg->enOperationMode) ||
+           (TIMERB_enMODE_UP_DOWN == pstConfigArg->enOperationMode))
+        {
+            TIMERB_CC__vSetValue(TIMERB_enCC0, pstConfigArg->u16PeriodTicks);
+        }
 
         stConfigReg.MC = (uint16_t) pstConfigArg->enOperationMode;
         stConfigReg.ID = (uint16_t) pstConfigArg->enClockDivider;
@@ -82,6 +88,13 @@ void TIMERB__vSetConfigExt(TIMERB_ConfigExt_t* pstConfigArg)
     if(0UL != (uintptr_t) pstConfigArg)
     {
         TIMERB__vReset();
+
+        if((TIMERB_enMODE_UP == pstConfigArg->enOperationMode) ||
+           (TIMERB_enMODE_UP_DOWN == pstConfigArg->enOperationMode))
+        {
+            TIMERB_CC__vSetValue(TIMERB_enCC0, pstConfigArg->u16PeriodTicks);
+        }
+
         stConfigReg.MC = (uint16_t) pstConfigArg->enOperationMode;
         stConfigReg.ID = (uint16_t) pstConfigArg->enClockDivider;
         stConfigReg.SSEL = (uint16_t) pstConfigArg->enClockSource;

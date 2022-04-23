@@ -171,6 +171,7 @@ void main(void)
 
     TIMERA_ConfigExt_t stTIMERAConfig =
     {
+        0U,
         TIMERA_enCLOCK_SMCLK,
         TIMERA_enCLOCK_DIV_8,
         TIMERA_enMODE_CONTINUOS,

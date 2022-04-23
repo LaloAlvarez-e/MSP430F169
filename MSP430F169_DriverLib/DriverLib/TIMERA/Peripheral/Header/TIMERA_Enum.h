@@ -127,6 +127,7 @@ typedef MCU_Register16Bits_t TIMERA_Register_t;
 
 typedef struct
 {
+    uint16_t u16PeriodTicks;
     TIMERA_nCLOCK enClockSource;
     TIMERA_nCLOCK_DIV enClockDivider;
     TIMERA_nMODE enOperationMode;
@@ -134,6 +135,7 @@ typedef struct
 
 typedef struct
 {
+    uint16_t u16PeriodTicks;
     TIMERA_nCLOCK enClockSource;
     TIMERA_nCLOCK_DIV enClockDivider;
     TIMERA_nMODE enOperationMode;

@@ -35,6 +35,7 @@ void main(void)
 
     TIMERA_ConfigExt_t stTIMERAConfig =
     {
+         10000U - 1U,
          TIMERA_enCLOCK_SMCLK,
          TIMERA_enCLOCK_DIV_8,
          TIMERA_enMODE_UP,
@@ -73,7 +74,6 @@ void main(void)
     CLOCK__enSetSMCLKSource(CLOCK_enSOURCE_XT2); /*8 MHz*/
 
     TIMERA__vSetConfigExt(&stTIMERAConfig);
-    TIMERA_CC__vSetValue(TIMERA_enCC0, 10000U - 1U);
     TIMERA_CC__vSetCompareConfigExt(TIMERA_enCC1, &stTIMERA_CCR1Config);
 
     GPIO__vSetConfig(GPIO_enA0_P60);

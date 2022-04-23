@@ -24,6 +24,7 @@
 #include <DriverLib/TIMERA/Driver/Global/Header/TIMERA_Config.h>
 
 
+#include <DriverLib/TIMERA/Driver/Module/Header/TIMERA_ModuleValue.h>
 #include <DriverLib/TIMERA/Driver/Global/Header/TIMERA_Reset.h>
 #include <DriverLib/TIMERA/Driver/Global/Header/TIMERA_Clock.h>
 #include <DriverLib/TIMERA/Driver/Global/Header/TIMERA_ClockDivider.h>
@@ -39,6 +40,12 @@ void TIMERA__vSetConfig(TIMERA_Config_t* pstConfigArg)
     if(0UL != (uintptr_t) pstConfigArg)
     {
         TIMERA__vReset();
+
+        if((TIMERA_enMODE_UP == pstConfigArg->enOperationMode) ||
+           (TIMERA_enMODE_UP_DOWN == pstConfigArg->enOperationMode))
+        {
+            TIMERA_CC__vSetValue(TIMERA_enCC0, pstConfigArg->u16PeriodTicks);
+        }
 
         stConfigReg.MC = (uint16_t) pstConfigArg->enOperationMode;
         stConfigReg.ID = (uint16_t) pstConfigArg->enClockDivider;
@@ -73,6 +80,13 @@ void TIMERA__vSetConfigExt(TIMERA_ConfigExt_t* pstConfigArg)
     if(0UL != (uintptr_t) pstConfigArg)
     {
         TIMERA__vReset();
+
+        if((TIMERA_enMODE_UP == pstConfigArg->enOperationMode) ||
+           (TIMERA_enMODE_UP_DOWN == pstConfigArg->enOperationMode))
+        {
+            TIMERA_CC__vSetValue(TIMERA_enCC0, pstConfigArg->u16PeriodTicks);
+        }
+
         stConfigReg.MC = (uint16_t) pstConfigArg->enOperationMode;
         stConfigReg.ID = (uint16_t) pstConfigArg->enClockDivider;
         stConfigReg.SSEL = (uint16_t) pstConfigArg->enClockSource;

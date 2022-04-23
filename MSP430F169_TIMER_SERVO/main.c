@@ -43,6 +43,7 @@ void main(void)
 
     TIMERA_ConfigExt_t stTIMERAConfig =
     {
+        20000U - 1U,
         TIMERA_enCLOCK_SMCLK,
         TIMERA_enCLOCK_DIV_8,
         TIMERA_enMODE_UP,
@@ -96,7 +97,6 @@ void main(void)
     WDT__vRegisterIRQSourceHandler(&MAIN_u16WDTInterval);
     WDT__vSetConfig(&stWDTConfig);
 
-    TIMERA_CC__vSetValue(TIMERA_enCC0, 20000U - 1U);
     TIMERA_CC__vSetCompareConfigExt(TIMERA_enCC1, &stCC1Config);
 
     TIMERA__vSetConfigExt(&stTIMERAConfig);

@@ -36,7 +36,7 @@ void (* const INTERRUPT__pfvVector[15U])(void) =
     &PORT1_IRQVectorHandler,                 /* The PORT1 handler*/
     &TIMERA_IRQVectorHandler,                /* The TIMERA1 handler*/
     &TIMERA_CC0_IRQVectorHandler,            /* The TIMERA0 handler*/
-    &IntDefaultHandler,                      /* The ADC12 handler*/
+    &ADC12_IRQVectorHandler,                 /* The ADC12 handler*/
     &IntDefaultHandler,                      /* The USART0TX handler*/
     &IntDefaultHandler,                      /* The USART0RX handler*/
     &WDT_IRQVectorHandler,                   /* The WDT handler*/
