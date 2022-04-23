@@ -26,126 +26,81 @@
 #include "DriverLib/ADC12/Driver/Intrinsics/ADC12_Intrinsics.h"
 #include "DriverLib/ADC12/Peripheral/ADC12_Peripheral.h"
 
-void ADC12__vSetChannelConfig(ADC12_nCH enChannelArg,
+void ADC12_CH__vSetConfig(ADC12_nCH enChannelArg,
                             ADC12_CH_Config_t* pstConfigArg)
 {
     ADC12_CH_CTL_t stConfigReg = {0};
-    ADC12_Register16Bits_t pstRegisterData;
+    ADC12_Register8Bits_t pstRegisterData;
     if(0UL != (uintptr_t) pstConfigArg)
     {
-        ADC12__vSetEnable(enChannelArg, ADC12_enCH_ENABLE_DIS);
-        ADC12__vSetTrigger(enChannelArg, pstConfigArg->enTrigger);
-        ADC12__vSetTransferSize(enChannelArg, pstConfigArg->u16TranferSize);
-        ADC12__vSetSourceAddress(enChannelArg, pstConfigArg->u16SourceAddress);
-        ADC12__vSetDestAddress(enChannelArg, pstConfigArg->u16DestAddress);
-
-
-        stConfigReg.DT = (uint16_t) pstConfigArg->enTransferMode;
-        stConfigReg.DSTINCR = (uint16_t) pstConfigArg->enDestIncMode;
-        stConfigReg.SRCINCR = (uint16_t) pstConfigArg->enSourceIncMode;
-        stConfigReg.DSTBYTE = (uint16_t) pstConfigArg->enDestDataSize;
-        stConfigReg.SRCBYTE = (uint16_t) pstConfigArg->enSourceDataSize;
-        stConfigReg.LEVEL = (uint16_t) pstConfigArg->enSense;
-        stConfigReg.EN = (uint16_t) pstConfigArg->enEnable;
-        stConfigReg.ABORT = (uint16_t) pstConfigArg->enAbort;
+        stConfigReg.EOS = (uint16_t) pstConfigArg->enEndOfSequence;
+        stConfigReg.SREFP = (uint16_t) pstConfigArg->enVoltageRefPositive;
+        stConfigReg.SREFN = (uint16_t) pstConfigArg->enVoltageRefNegative;
+        stConfigReg.INCH = (uint16_t) pstConfigArg->enInputConversion;
 
         pstRegisterData.uptrAddress = ADC12_CH_CTL_OFFSET;
-        pstRegisterData.u16Value = (*(uint16_t*) &stConfigReg);
-        pstRegisterData.u16Mask = ADC12_CH_CTL_R_DT_MASK |
-                                  ADC12_CH_CTL_R_DSTINCR_MASK |
-                                  ADC12_CH_CTL_R_SRCINCR_MASK |
-                                  ADC12_CH_CTL_R_DSTBYTE_MASK |
-                                  ADC12_CH_CTL_R_SRCBYTE_MASK |
-                                  ADC12_CH_CTL_R_LEVEL_MASK |
-                                  ADC12_CH_CTL_R_EN_MASK |
-                                  ADC12_CH_CTL_R_ABORT_MASK;
+        pstRegisterData.u8Value = (*(uint8_t*) &stConfigReg);
+        pstRegisterData.u8Mask = ADC12_CH_CTL_R_EOS_MASK|
+                                  ADC12_CH_CTL_R_SREFP_MASK|
+                                  ADC12_CH_CTL_R_SREFN_MASK|
+                                  ADC12_CH_CTL_R_INCH_MASK;
         pstRegisterData.u8Shift = 0U;
-        ADC12_CH__vWriteRegister_16bits(enChannelArg, &pstRegisterData);
+        ADC12_CH__vWriteRegister_8bits(enChannelArg, &pstRegisterData);
     }
 }
 
 
-void ADC12__vSetChannelExtendedConfig(ADC12_nCH enChannelArg,
-                                    ADC12_CH_ConfigExt_t* pstConfigArg)
+void ADC12_CH__vSetConfigExt(ADC12_nCH enChannelArg,
+                             ADC12_CH_ConfigExt_t* pstConfigArg)
 {
     ADC12_CH_CTL_t stConfigReg = {0};
-    ADC12_Register16Bits_t pstRegisterData;
+    ADC12_Register8Bits_t pstRegisterData;
     if(0UL != (uintptr_t) pstConfigArg)
     {
-        ADC12__vSetEnable(enChannelArg, ADC12_enCH_ENABLE_DIS);
-        ADC12__vSetTrigger(enChannelArg, pstConfigArg->enTrigger);
-        ADC12__vSetTransferSize(enChannelArg, pstConfigArg->u16TranferSize);
-        ADC12__vSetSourceAddress(enChannelArg, pstConfigArg->u16SourceAddress);
-        ADC12__vSetDestAddress(enChannelArg, pstConfigArg->u16DestAddress);
-
-        stConfigReg.DT = (uint16_t) pstConfigArg->enTransferMode;
-        stConfigReg.DSTINCR = (uint16_t) pstConfigArg->enDestIncMode;
-        stConfigReg.SRCINCR = (uint16_t) pstConfigArg->enSourceIncMode;
-        stConfigReg.DSTBYTE = (uint16_t) pstConfigArg->enDestDataSize;
-        stConfigReg.SRCBYTE = (uint16_t) pstConfigArg->enSourceDataSize;
-        stConfigReg.LEVEL = (uint16_t) pstConfigArg->enSense;
-        stConfigReg.EN = (uint16_t) pstConfigArg->enEnable;
-        stConfigReg.IE = (uint16_t) pstConfigArg->enInterruptEnable;
-        stConfigReg.IFG = (uint16_t) pstConfigArg->enInterruptStatus;
-        stConfigReg.ABORT = (uint16_t) pstConfigArg->enAbort;
+        stConfigReg.EOS = (uint16_t) pstConfigArg->enEndOfSequence;
+        stConfigReg.SREFP = (uint16_t) pstConfigArg->enVoltageRefPositive;
+        stConfigReg.SREFN = (uint16_t) pstConfigArg->enVoltageRefNegative;
+        stConfigReg.INCH = (uint16_t) pstConfigArg->enInputConversion;
 
         pstRegisterData.uptrAddress = ADC12_CH_CTL_OFFSET;
-        pstRegisterData.u16Value = (*(uint16_t*) &stConfigReg);
-        pstRegisterData.u16Mask = ADC12_CH_CTL_R_DT_MASK |
-                                  ADC12_CH_CTL_R_DSTINCR_MASK |
-                                  ADC12_CH_CTL_R_SRCINCR_MASK |
-                                  ADC12_CH_CTL_R_DSTBYTE_MASK |
-                                  ADC12_CH_CTL_R_SRCBYTE_MASK |
-                                  ADC12_CH_CTL_R_LEVEL_MASK |
-                                  ADC12_CH_CTL_R_EN_MASK |
-                                  ADC12_CH_CTL_R_IE_MASK |
-                                  ADC12_CH_CTL_R_IFG_MASK |
-                                  ADC12_CH_CTL_R_ABORT_MASK;
+        pstRegisterData.u8Value = (*(uint8_t*) &stConfigReg);
+        pstRegisterData.u8Mask = ADC12_CH_CTL_R_EOS_MASK|
+                                  ADC12_CH_CTL_R_SREFP_MASK|
+                                  ADC12_CH_CTL_R_SREFN_MASK|
+                                  ADC12_CH_CTL_R_INCH_MASK;
         pstRegisterData.u8Shift = 0U;
-        ADC12_CH__vWriteRegister_16bits(enChannelArg, &pstRegisterData);
+        ADC12_CH__vWriteRegister_8bits(enChannelArg, &pstRegisterData);
+
+        ADC12_CH__vSetStatusInterruptSource(enChannelArg, pstConfigArg->enInterruptStatus);
+        ADC12_CH__vSetEnableInterruptSource(enChannelArg, pstConfigArg->enInterruptEnable);
     }
 }
 
-void ADC12__vGetChannelConfig(ADC12_nCH enChannelArg,
-                            ADC12_CH_Config_t* pstConfigArg)
+void ADC12_CH__vGetConfig(ADC12_nCH enChannelArg,
+                          ADC12_CH_Config_t* pstConfigArg)
 {
     if(0UL != (uintptr_t) pstConfigArg)
     {
-        pstConfigArg->enTrigger = ADC12__enGetTrigger(enChannelArg);
-        pstConfigArg->u16TranferSize = ADC12__u16GetTransferSize(enChannelArg);
-        pstConfigArg->u16SourceAddress = ADC12__u16GetSourceAddress(enChannelArg);
-        pstConfigArg->u16DestAddress = ADC12__u16GetDestAddress(enChannelArg);
-        pstConfigArg->enTransferMode = ADC12__enGetTransferMode(enChannelArg);
-        pstConfigArg->enDestIncMode = ADC12__enGetDestIncrementMode(enChannelArg);
-        pstConfigArg->enSourceIncMode = ADC12__enGetSourceIncrementMode(enChannelArg);
-        pstConfigArg->enDestDataSize = ADC12__enGetDestDataSize(enChannelArg);
-        pstConfigArg->enSourceDataSize = ADC12__enGetSourceDataSize(enChannelArg);
-        pstConfigArg->enSense = ADC12__enGetSense(enChannelArg);
-        pstConfigArg->enEnable = ADC12__enGetEnable(enChannelArg);
-        pstConfigArg->enAbort = ADC12__enGetAbort(enChannelArg);
+        pstConfigArg->enEndOfSequence = ADC12_CH__enGetEndOfSequence(enChannelArg);
+        pstConfigArg->enVoltageRefPositive = ADC12_CH__enGetVoltageRefPositive(enChannelArg);
+        pstConfigArg->enVoltageRefNegative = ADC12_CH__enGetVoltageRefNegative(enChannelArg);
+        pstConfigArg->enInputConversion = ADC12_CH__enGetInputConversion(enChannelArg);
     }
 }
 
 
-    void ADC12__vGetChannelExtendedConfig(ADC12_nCH enChannelArg,
+void ADC12_CH__vGetConfigExt(ADC12_nCH enChannelArg,
                                 ADC12_CH_ConfigExt_t* pstConfigArg)
 {
     if(0UL != (uintptr_t) pstConfigArg)
     {
-        pstConfigArg->enTrigger = ADC12__enGetTrigger(enChannelArg);
-        pstConfigArg->u16TranferSize = ADC12__u16GetTransferSize(enChannelArg);
-        pstConfigArg->u16SourceAddress = ADC12__u16GetSourceAddress(enChannelArg);
-        pstConfigArg->u16DestAddress = ADC12__u16GetDestAddress(enChannelArg);
-        pstConfigArg->enTransferMode = ADC12__enGetTransferMode(enChannelArg);
-        pstConfigArg->enDestIncMode = ADC12__enGetDestIncrementMode(enChannelArg);
-        pstConfigArg->enSourceIncMode = ADC12__enGetSourceIncrementMode(enChannelArg);
-        pstConfigArg->enDestDataSize = ADC12__enGetDestDataSize(enChannelArg);
-        pstConfigArg->enSourceDataSize = ADC12__enGetSourceDataSize(enChannelArg);
-        pstConfigArg->enSense = ADC12__enGetSense(enChannelArg);
-        pstConfigArg->enEnable = ADC12__enGetEnable(enChannelArg);
-        pstConfigArg->enAbort = ADC12__enGetAbort(enChannelArg);
-        pstConfigArg->enInterruptEnable = ADC12__enGetEnableInterruptSource(enChannelArg);
-        pstConfigArg->enInterruptStatus = ADC12__enGetStatusInterruptSource(enChannelArg);
+        pstConfigArg->enEndOfSequence = ADC12_CH__enGetEndOfSequence(enChannelArg);
+        pstConfigArg->enVoltageRefPositive = ADC12_CH__enGetVoltageRefPositive(enChannelArg);
+        pstConfigArg->enVoltageRefNegative = ADC12_CH__enGetVoltageRefNegative(enChannelArg);
+        pstConfigArg->enInputConversion = ADC12_CH__enGetInputConversion(enChannelArg);
+        pstConfigArg->enInterruptEnable = ADC12_CH__enGetEnableInterruptSource(enChannelArg);
+        pstConfigArg->enInterruptStatus = ADC12_CH__enGetStatusInterruptSource(enChannelArg);
+
     }
 }
 

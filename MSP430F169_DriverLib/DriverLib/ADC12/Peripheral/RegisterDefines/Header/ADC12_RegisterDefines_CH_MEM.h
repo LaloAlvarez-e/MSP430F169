@@ -31,11 +31,11 @@
  ************************************ 7 CH_MEM *********************************************
  ******************************************************************************************/
 /*-----------*/
-#define ADC12_CH_MEM_R_CH_MEM_BIT ((uint16_t) 0U)
+#define ADC12_CH_MEM_R_MEM_BIT ((uint16_t) 0U)
 
-#define ADC12_CH_MEM_CH_MEM_MASK ((uint16_t) 0xFFFFU)
+#define ADC12_CH_MEM_MEM_MASK ((uint16_t) 0xFFFFU)
 
-#define ADC12_CH_MEM_R_CH_MEM_MASK (ADC12_CH_MEM_CH_MEM_MASK << ADC12_CH_MEM_R_CH_MEM_BIT)
+#define ADC12_CH_MEM_R_MEM_MASK (ADC12_CH_MEM_MEM_MASK << ADC12_CH_MEM_R_MEM_BIT)
 /*-----------*/
 
 

@@ -25,12 +25,8 @@
 #ifndef DRIVERLIB_ADC12_DRIVER_CHANNEL_CONFIG_ADC12_CONFIG_H_
 #define DRIVERLIB_ADC12_DRIVER_CHANNEL_CONFIG_ADC12_CONFIG_H_
 
-#include <DriverLib/ADC12/Driver/Channel/Config/Header/ADC12_Abort.h>
-#include <DriverLib/ADC12/Driver/Channel/Config/Header/ADC12_DataSize.h>
-#include <DriverLib/ADC12/Driver/Channel/Config/Header/ADC12_Enable.h>
-#include <DriverLib/ADC12/Driver/Channel/Config/Header/ADC12_IncrementMode.h>
-#include <DriverLib/ADC12/Driver/Channel/Config/Header/ADC12_Request.h>
-#include <DriverLib/ADC12/Driver/Channel/Config/Header/ADC12_Sense.h>
-#include <DriverLib/ADC12/Driver/Channel/Config/Header/ADC12_TransferMode.h>
+#include <DriverLib/ADC12/Driver/Channel/Config/Header/ADC12_EndOfSequence.h>
+#include <DriverLib/ADC12/Driver/Channel/Config/Header/ADC12_InputConversion.h>
+#include <DriverLib/ADC12/Driver/Channel/Config/Header/ADC12_VoltageReference.h>
 
 #endif /* DRIVERLIB_ADC12_DRIVER_CHANNEL_CONFIG_ADC12_CONFIG_H_ */

@@ -1,6 +1,6 @@
 /**
  *
- * @file ADC12_NMI.h
+ * @file ADC12_BusyState.h
  * @copyright
  * @verbatim InDeviceMex 2021 @endverbatim
  *
@@ -11,7 +11,7 @@
  * @verbatim 1.0 @endverbatim
  *
  * @date
- * @verbatim 27 mar. 2022 @endverbatim
+ * @verbatim 22 abr. 2022 @endverbatim
  *
  * @author
  * @verbatim InDeviceMex @endverbatim
@@ -19,15 +19,14 @@
  * @par Change History
  * @verbatim
  * Date           Author     Version     Description
- * 27 mar. 2022     InDeviceMex    1.0         initial Version@endverbatim
+ * 22 abr. 2022     InDeviceMex    1.0         initial Version@endverbatim
  */
 
-#ifndef DRIVERLIB_ADC12_DRIVER_HEADER_ADC12_NMI_H_
-#define DRIVERLIB_ADC12_DRIVER_HEADER_ADC12_NMI_H_
+#ifndef DRIVERLIB_ADC12_DRIVER_GLOBAL_HEADER_ADC12_BUSYSTATE_H_
+#define DRIVERLIB_ADC12_DRIVER_GLOBAL_HEADER_ADC12_BUSYSTATE_H_
 
 #include "DriverLib/ADC12/Peripheral/Header/ADC12_Enum.h"
 
-void ADC12__vSetNMITranferStop(ADC12_nENABLE enNMIEnableArg);
-ADC12_nENABLE ADC12__enGetNMITranferStop(void);
+ADC12_nBUSY ADC12__enGetBusyState(void);
 
-#endif /* DRIVERLIB_ADC12_DRIVER_HEADER_ADC12_NMI_H_ */
+#endif /* DRIVERLIB_ADC12_DRIVER_GLOBAL_HEADER_ADC12_BUSYSTATE_H_ */

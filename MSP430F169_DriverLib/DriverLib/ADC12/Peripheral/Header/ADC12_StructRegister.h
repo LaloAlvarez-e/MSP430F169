@@ -104,7 +104,8 @@ typedef volatile struct
 typedef volatile struct
 {
     volatile unsigned char INCH : 4;
-    volatile unsigned char SREF : 3;
+    volatile unsigned char SREFP : 2;
+    volatile unsigned char SREFN : 1;
     volatile unsigned char EOS : 1;
 }ADC12_CH_CTL_t;
 

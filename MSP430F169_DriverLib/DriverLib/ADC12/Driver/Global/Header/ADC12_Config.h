@@ -28,6 +28,9 @@
 #include "DriverLib/ADC12/Peripheral/Header/ADC12_Enum.h"
 
 void ADC12__vSetConfig(ADC12_Config_t* pstConfigArg);
+void ADC12__vSetConfigExt(ADC12_ConfigExt_t* pstConfigArg);
+
 void ADC12__vGetConfig(ADC12_Config_t* pstConfigArg);
+void ADC12__vGetConfigExt(ADC12_ConfigExt_t* pstConfigArg);
 
 #endif /* DRIVERLIB_ADC12_DRIVER_HEADER_ADC12_CONFIG_H_ */

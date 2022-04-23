@@ -26,21 +26,17 @@
 #define DRIVERLIB_ADC12_DRIVER_CHANNEL_ADC12_CHANNEL_H_
 
 #include "DriverLib/ADC12/Driver/Channel/Config/ADC12_Config.h"
-#include "DriverLib/ADC12/Driver/Channel/Header/ADC12_DestAddress.h"
-#include "DriverLib/ADC12/Driver/Channel/Header/ADC12_SourceAddress.h"
-#include "DriverLib/ADC12/Driver/Channel/Header/ADC12_TransferSize.h"
-#include "DriverLib/ADC12/Driver/Channel/Header/ADC12_Trigger.h"
+#include "DriverLib/ADC12/Driver/Channel/Header/ADC12_ConversionValue.h"
 
 
-void ADC12__vSetChannelConfig(ADC12_nCH enChannelArg,
-                         ADC12_CH_Config_t* pstConfigArg);
-void ADC12__vSetChannelExtendedConfig(ADC12_nCH enChannelArg,
-                                 ADC12_CH_ConfigExt_t* pstConfigArg);
+void ADC12_CH__vSetConfig(ADC12_nCH enChannelArg,
+                            ADC12_CH_Config_t* pstConfigArg);
+void ADC12_CH__vSetConfigExt(ADC12_nCH enChannelArg,
+                             ADC12_CH_ConfigExt_t* pstConfigArg);
 
-
-void ADC12__vGetChannelConfig(ADC12_nCH enChannelArg,
-                         ADC12_CH_Config_t* pstConfigArg);
-void ADC12__vGetChannelExtendedConfig(ADC12_nCH enChannelArg,
-                         ADC12_CH_ConfigExt_t* pstConfigArg);
+void ADC12_CH__vGetConfig(ADC12_nCH enChannelArg,
+                          ADC12_CH_Config_t* pstConfigArg);
+void ADC12_CH__vGetConfigExt(ADC12_nCH enChannelArg,
+                                ADC12_CH_ConfigExt_t* pstConfigArg);
 
 #endif /* DRIVERLIB_ADC12_DRIVER_CHANNEL_ADC12_CHANNEL_H_ */
