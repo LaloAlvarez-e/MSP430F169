@@ -27,9 +27,9 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-void DMA__vSetEnable(DMA_nCH enChannelArg,
+void DMA_CH__vSetEnable(DMA_nCH enChannelArg,
                      DMA_nCH_ENABLE enEnableArg);
 
-DMA_nCH_ENABLE DMA__enGetEnable(DMA_nCH enChannelArg);
+DMA_nCH_ENABLE DMA_CH__enGetEnable(DMA_nCH enChannelArg);
 
 #endif /* DRIVERLIB_DMA_DRIVER_CHANNEL_CONFIG_HEADER_DMA_ENABLE_H_ */

@@ -27,9 +27,9 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-void DMA__vSetStatusInterruptSource(DMA_nCH enChannelArg,
+void DMA_CH__vSetStatusInterruptSource(DMA_nCH enChannelArg,
                                     DMA_nCH_INT_STATUS enStatus);
 
-DMA_nCH_INT_STATUS DMA__enGetStatusInterruptSource(DMA_nCH enChannelArg);
+DMA_nCH_INT_STATUS DMA_CH__enGetStatusInterruptSource(DMA_nCH enChannelArg);
 
 #endif /* DMA_DRIVER_INTRINSICS_INTERRUPT_HEADER_DMA_INTERRUPTSOURCE_STATUS_H_ */

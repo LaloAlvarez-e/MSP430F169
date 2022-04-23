@@ -27,6 +27,6 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-void DMA__vRequestSWTransfer(DMA_nCH enChannelArg);
+void DMA_CH__vRequestSWTransfer(DMA_nCH enChannelArg);
 
 #endif /* DRIVERLIB_DMA_DRIVER_CHANNEL_CONFIG_HEADER_DMA_REQUEST_H_ */

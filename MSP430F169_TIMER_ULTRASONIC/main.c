@@ -219,7 +219,7 @@ void main(void)
     TIMERA_CC__vRegisterIRQSourceHandler(TIMERA_enCC1,
                                          TIMERA_enCC_MODE_CAPTURE,
                                          &MAIN_u16UltrasonicCapture);
-    TIMERA__vSetCaptureConfigExt(TIMERA_enCC1, &stCC1Config);
+    TIMERA_CC__vSetCaptureConfigExt(TIMERA_enCC1, &stCC1Config);
 
 
     TIMERA__vRegisterIRQSourceHandler(&MAIN_u16TimerOverflow);

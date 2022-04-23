@@ -76,7 +76,7 @@ uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint16_t u16Source)
     static uint8_t u8Level = 1U;
     u8Level ^= 1U;
     GPIO__vSetOutputByNumber(TEST_PORT, TEST_PIN, (GPIO_nLEVEL) u8Level);
-    DMA__vRequestSWTransfer(DMA_enCH0);
+    DMA_CH__vRequestSWTransfer(DMA_enCH0);
     return (0U);
 }
 

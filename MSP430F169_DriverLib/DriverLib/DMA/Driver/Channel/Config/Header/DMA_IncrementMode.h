@@ -27,12 +27,12 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-void DMA__vSetSourceIncrementMode(DMA_nCH enChannelArg,
+void DMA_CH__vSetSourceIncrementMode(DMA_nCH enChannelArg,
                             DMA_nCH_INCMODE enIncModeArg);
-void DMA__vSetDestIncrementMode(DMA_nCH enChannelArg,
+void DMA_CH__vSetDestIncrementMode(DMA_nCH enChannelArg,
                             DMA_nCH_INCMODE enIncModeArg);
 
-DMA_nCH_INCMODE DMA__enGetSourceIncrementMode(DMA_nCH enChannelArg);
-DMA_nCH_INCMODE DMA__enGetDestIncrementMode(DMA_nCH enChannelArg);
+DMA_nCH_INCMODE DMA_CH__enGetSourceIncrementMode(DMA_nCH enChannelArg);
+DMA_nCH_INCMODE DMA_CH__enGetDestIncrementMode(DMA_nCH enChannelArg);
 
 #endif /* DRIVERLIB_DMA_DRIVER_CHANNEL_CONFIG_HEADER_DMA_INCREMENTMODE_H_ */

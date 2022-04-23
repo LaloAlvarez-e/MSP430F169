@@ -32,7 +32,7 @@
 #include "DriverLib/TIMERB/Driver/Intrinsics/TIMERB_Intrinsics.h"
 #include "DriverLib/TIMERB/Peripheral/TIMERB_Peripheral.h"
 
-void TIMERB__vSetCaptureConfig(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCaptureConfig(TIMERB_nCC enModuleArg,
                                TIMERB_Capture_Config_t* pstCaptureConfigArg)
 {
     TIMERB_CC_CTL_t stConfigReg = {0};
@@ -59,19 +59,19 @@ void TIMERB__vSetCaptureConfig(TIMERB_nCC enModuleArg,
 }
 
 
-void TIMERB__vGetCaptureConfig(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vGetCaptureConfig(TIMERB_nCC enModuleArg,
                         TIMERB_Capture_Config_t* pstCaptureConfigArg)
 {
     if(0UL != (uintptr_t) pstCaptureConfigArg)
     {
-        pstCaptureConfigArg->enCaptureMode = TIMERB__enGetCaptureMode(enModuleArg);
-        pstCaptureConfigArg->enSyncMode = TIMERB__enGetCaptureSyncMode(enModuleArg);
-        pstCaptureConfigArg->enCaptureInput = TIMERB__enGetCaptureInputSelection(enModuleArg);
+        pstCaptureConfigArg->enCaptureMode = TIMERB_CC__enGetCaptureMode(enModuleArg);
+        pstCaptureConfigArg->enSyncMode = TIMERB_CC__enGetCaptureSyncMode(enModuleArg);
+        pstCaptureConfigArg->enCaptureInput = TIMERB_CC__enGetCaptureInputSelection(enModuleArg);
     }
 }
 
 
-void TIMERB__vSetCaptureConfigExt(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCaptureConfigExt(TIMERB_nCC enModuleArg,
                                   TIMERB_Capture_ConfigExt_t* pstCaptureConfigArg)
 {
     TIMERB_CC_CTL_t stConfigReg = {0};
@@ -102,14 +102,14 @@ void TIMERB__vSetCaptureConfigExt(TIMERB_nCC enModuleArg,
 }
 
 
-void TIMERB__vGetCaptureConfigExt(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vGetCaptureConfigExt(TIMERB_nCC enModuleArg,
                                   TIMERB_Capture_ConfigExt_t* pstCaptureConfigArg)
 {
     if(0UL != (uintptr_t) pstCaptureConfigArg)
     {
-        pstCaptureConfigArg->enCaptureMode = TIMERB__enGetCaptureMode(enModuleArg);
-        pstCaptureConfigArg->enSyncMode = TIMERB__enGetCaptureSyncMode(enModuleArg);
-        pstCaptureConfigArg->enCaptureInput = TIMERB__enGetCaptureInputSelection(enModuleArg);
+        pstCaptureConfigArg->enCaptureMode = TIMERB_CC__enGetCaptureMode(enModuleArg);
+        pstCaptureConfigArg->enSyncMode = TIMERB_CC__enGetCaptureSyncMode(enModuleArg);
+        pstCaptureConfigArg->enCaptureInput = TIMERB_CC__enGetCaptureInputSelection(enModuleArg);
         pstCaptureConfigArg->enInterruptEnable = TIMERB_CC__enGetEnableInterruptSource(enModuleArg);
         pstCaptureConfigArg->enInterruptStatus = TIMERB_CC__enGetStatusInterruptSource(enModuleArg);
     }

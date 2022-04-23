@@ -26,7 +26,7 @@
 #include "DriverLib/DMA/Driver/Intrinsics/Primitives/DMA_Primitives.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-void DMA__vClearInterruptSource(DMA_nCH enChannelArg)
+void DMA_CH__vClearInterruptSource(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;

@@ -28,10 +28,10 @@
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
 
-void DMA__vSetEnableInterruptSource(DMA_nCH enChannelArg,
+void DMA_CH__vSetEnableInterruptSource(DMA_nCH enChannelArg,
                                     DMA_nCH_INT_ENABLE enState);
-void DMA__vEnaInterruptSource(DMA_nCH enChannelArg);
-void DMA__vDisInterruptSource(DMA_nCH enChannelArg);
-DMA_nCH_INT_ENABLE DMA__enGetEnableInterruptSource(DMA_nCH enChannelArg);
+void DMA_CH__vEnaInterruptSource(DMA_nCH enChannelArg);
+void DMA_CH__vDisInterruptSource(DMA_nCH enChannelArg);
+DMA_nCH_INT_ENABLE DMA_CH__enGetEnableInterruptSource(DMA_nCH enChannelArg);
 
 #endif /* DMA_DRIVER_INTRINSICS_INTERRUPT_HEADER_DMA_INTERRUPTSOURCE_ENABLE_H_ */

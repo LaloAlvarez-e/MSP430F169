@@ -28,8 +28,8 @@
 #include "DriverLib/MCU/Header/MCU_Common.h"
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-MCU__pu16fIRQSourceHandler_t DMA__pu16fGetIRQSourceHandler(DMA_nCH enChannelArg, DMA_nCH_TRIGGER enTrigger);
-void DMA__vSetIRQSourceHandler(DMA_nCH enChannelArg, DMA_nCH_TRIGGER enTrigger,
+MCU__pu16fIRQSourceHandler_t DMA_CH__pu16fGetIRQSourceHandler(DMA_nCH enChannelArg, DMA_nCH_TRIGGER enTrigger);
+void DMA_CH__vSetIRQSourceHandler(DMA_nCH enChannelArg, DMA_nCH_TRIGGER enTrigger,
                                MCU__pu16fIRQSourceHandler_t pu16fIRQSourceHandler);
 
 #endif /* DMA_DRIVER_INTRINSICS_INTERRUPT_INTERRUPTROUTINE_HEADER_DMA_INTERRUPTROUTINE_SOURCE_H_ */

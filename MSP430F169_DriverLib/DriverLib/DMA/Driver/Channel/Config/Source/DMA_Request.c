@@ -25,7 +25,7 @@
 #include "DriverLib/DMA/Driver/Intrinsics/DMA_Intrinsics.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-void DMA__vRequestSWTransfer(DMA_nCH enChannelArg)
+void DMA_CH__vRequestSWTransfer(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;

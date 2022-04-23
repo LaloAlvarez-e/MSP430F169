@@ -48,7 +48,7 @@ __interrupt void DACDMA_IRQVectorHandler(void)
         u16Trigger = DMA_CTL0_R;
         u16Trigger >>= DMA_CTL0_R_CH0TSEL_BIT;
         u16Trigger &= DMA_CTL0_CHTSEL_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enCH0, (DMA_nCH_TRIGGER) u16Trigger);
+        IRQSourceHandlerReg = DMA_CH__pu16fGetIRQSourceHandler(DMA_enCH0, (DMA_nCH_TRIGGER) u16Trigger);
 
         u16Status &= IRQSourceHandlerReg(DMA_CH0_BASE, (uint16_t) u16Trigger);
     }
@@ -61,7 +61,7 @@ __interrupt void DACDMA_IRQVectorHandler(void)
         u16Trigger = DMA_CTL0_R;
         u16Trigger >>= DMA_CTL0_R_CH1TSEL_BIT;
         u16Trigger &= DMA_CTL0_CHTSEL_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enCH1, (DMA_nCH_TRIGGER) u16Trigger);
+        IRQSourceHandlerReg = DMA_CH__pu16fGetIRQSourceHandler(DMA_enCH1, (DMA_nCH_TRIGGER) u16Trigger);
 
         u16Status &= IRQSourceHandlerReg(DMA_CH1_BASE, (uint16_t) u16Trigger);
     }
@@ -74,7 +74,7 @@ __interrupt void DACDMA_IRQVectorHandler(void)
         u16Trigger = DMA_CTL0_R;
         u16Trigger >>= DMA_CTL0_R_CH2TSEL_BIT;
         u16Trigger &= DMA_CTL0_CHTSEL_MASK;
-        IRQSourceHandlerReg = DMA__pu16fGetIRQSourceHandler(DMA_enCH2, (DMA_nCH_TRIGGER) u16Trigger);
+        IRQSourceHandlerReg = DMA_CH__pu16fGetIRQSourceHandler(DMA_enCH2, (DMA_nCH_TRIGGER) u16Trigger);
 
         u16Status &= IRQSourceHandlerReg(DMA_CH2_BASE, (uint16_t) u16Trigger);
     }

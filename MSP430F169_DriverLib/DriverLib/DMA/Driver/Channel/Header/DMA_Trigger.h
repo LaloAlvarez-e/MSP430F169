@@ -27,9 +27,9 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-void DMA__vSetTrigger(DMA_nCH enChannelArg,
+void DMA_CH__vSetTrigger(DMA_nCH enChannelArg,
                       DMA_nCH_TRIGGER enTriggerArg);
 
-DMA_nCH_TRIGGER DMA__enGetTrigger(DMA_nCH enChannelArg);
+DMA_nCH_TRIGGER DMA_CH__enGetTrigger(DMA_nCH enChannelArg);
 
 #endif /* DRIVERLIB_DMA_DRIVER_HEADER_DMA_TRIGGER_H_ */

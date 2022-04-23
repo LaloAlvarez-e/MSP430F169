@@ -27,8 +27,8 @@
 
 #include "DriverLib/TIMERA/Peripheral/Header/TIMERA_Enum.h"
 
-void TIMERA__vSetCompareOutput(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vSetCompareOutput(TIMERA_nCC enModuleArg,
                              TIMERA_nCC_STATE enCompareOutputArg);
-TIMERA_nCC_STATE TIMERA__enGetCompareOutput(TIMERA_nCC enModuleArg);
+TIMERA_nCC_STATE TIMERA_CC__enGetCompareOutput(TIMERA_nCC enModuleArg);
 
 #endif /* DRIVERLIB_TIMERA_DRIVER_MODULE_HEADER_TIMERA_COMPAREOUTPUT_H_ */

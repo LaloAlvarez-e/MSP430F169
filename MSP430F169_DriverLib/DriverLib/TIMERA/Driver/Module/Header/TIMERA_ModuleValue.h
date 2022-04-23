@@ -27,9 +27,9 @@
 
 #include "DriverLib/TIMERA/Peripheral/Header/TIMERA_Enum.h"
 
-void TIMERA__vSetModuleValue(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vSetValue(TIMERA_nCC enModuleArg,
                             uint16_t u16ModuleValueArg);
-uint16_t TIMERA__u16GetModuleValue(TIMERA_nCC enModuleArg);
+uint16_t TIMERA_CC__u16GetValue(TIMERA_nCC enModuleArg);
 
 
 

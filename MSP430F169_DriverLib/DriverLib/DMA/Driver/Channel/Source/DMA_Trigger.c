@@ -25,7 +25,7 @@
 #include "DriverLib/DMA/Driver/Intrinsics/DMA_Intrinsics.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-void DMA__vSetTrigger(DMA_nCH enChannelArg,
+void DMA_CH__vSetTrigger(DMA_nCH enChannelArg,
                       DMA_nCH_TRIGGER enTriggerArg)
 {
     uint16_t u16ShiftTemp = DMA_CTL0_R_CH1TSEL_BIT;
@@ -38,7 +38,7 @@ void DMA__vSetTrigger(DMA_nCH enChannelArg,
     DMA__vWriteRegister(&pstRegisterData);
 }
 
-DMA_nCH_TRIGGER DMA__enGetTrigger(DMA_nCH enChannelArg)
+DMA_nCH_TRIGGER DMA_CH__enGetTrigger(DMA_nCH enChannelArg)
 {
     uint16_t u16ShiftTemp = DMA_CTL0_R_CH1TSEL_BIT;
     DMA_Register_t pstRegisterData;

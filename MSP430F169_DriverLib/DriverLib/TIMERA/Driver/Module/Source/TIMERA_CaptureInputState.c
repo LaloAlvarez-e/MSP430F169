@@ -26,7 +26,7 @@
 #include "DriverLib/TIMERA/Peripheral/TIMERA_Peripheral.h"
 
 
-TIMERA_nCC_STATE TIMERA__enGetCaptureInputState(TIMERA_nCC enModuleArg)
+TIMERA_nCC_STATE TIMERA_CC__enGetCaptureInputState(TIMERA_nCC enModuleArg)
 {
     TIMERA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = TIMERA_CC_CTL_OFFSET;
@@ -37,7 +37,7 @@ TIMERA_nCC_STATE TIMERA__enGetCaptureInputState(TIMERA_nCC enModuleArg)
     return ((TIMERA_nCC_STATE) pstRegisterData.u16Value);
 }
 
-TIMERA_nCC_STATE TIMERA__enGetCaptureInputState_Sync(TIMERA_nCC enModuleArg)
+TIMERA_nCC_STATE TIMERA_CC__enGetCaptureInputState_Sync(TIMERA_nCC enModuleArg)
 {
     TIMERA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = TIMERA_CC_CTL_OFFSET;

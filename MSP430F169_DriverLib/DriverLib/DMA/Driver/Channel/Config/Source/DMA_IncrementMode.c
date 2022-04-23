@@ -25,7 +25,7 @@
 #include "DriverLib/DMA/Driver/Intrinsics/DMA_Intrinsics.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-void DMA__vSetSourceIncrementMode(DMA_nCH enChannelArg,
+void DMA_CH__vSetSourceIncrementMode(DMA_nCH enChannelArg,
                           DMA_nCH_INCMODE enIncModeArg)
 {
     DMA_Register_t pstRegisterData;
@@ -37,7 +37,7 @@ void DMA__vSetSourceIncrementMode(DMA_nCH enChannelArg,
                          &pstRegisterData);
 }
 
-DMA_nCH_INCMODE DMA__enGetSourceIncrementMode(DMA_nCH enChannelArg)
+DMA_nCH_INCMODE DMA_CH__enGetSourceIncrementMode(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
@@ -48,7 +48,7 @@ DMA_nCH_INCMODE DMA__enGetSourceIncrementMode(DMA_nCH enChannelArg)
     return ((DMA_nCH_INCMODE) pstRegisterData.u16Value);
 }
 
-void DMA__vSetDestIncrementMode(DMA_nCH enChannelArg,
+void DMA_CH__vSetDestIncrementMode(DMA_nCH enChannelArg,
                           DMA_nCH_INCMODE enIncModeArg)
 {
     DMA_Register_t pstRegisterData;
@@ -60,7 +60,7 @@ void DMA__vSetDestIncrementMode(DMA_nCH enChannelArg,
                          &pstRegisterData);
 }
 
-DMA_nCH_INCMODE DMA__enGetDestIncrementMode(DMA_nCH enChannelArg)
+DMA_nCH_INCMODE DMA_CH__enGetDestIncrementMode(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;

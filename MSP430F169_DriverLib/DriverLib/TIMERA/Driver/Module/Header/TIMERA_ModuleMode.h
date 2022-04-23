@@ -27,9 +27,9 @@
 
 #include "DriverLib/TIMERA/Peripheral/Header/TIMERA_Enum.h"
 
-void TIMERA__vSetModuleMode(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vSetModuleMode(TIMERA_nCC enModuleArg,
                              TIMERA_nCC_MODE enModuleModeArg);
-TIMERA_nCC_MODE TIMERA__enGetModuleMode(TIMERA_nCC enModuleArg);
+TIMERA_nCC_MODE TIMERA_CC__enGetModuleMode(TIMERA_nCC enModuleArg);
 
 
 

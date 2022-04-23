@@ -27,8 +27,8 @@
 
 #include "DriverLib/TIMERB/Peripheral/Header/TIMERB_Enum.h"
 
-void TIMERB__vSetCaptureInputSelection(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCaptureInputSelection(TIMERB_nCC enModuleArg,
                              TIMERB_nCC_CAPTUREINPUT enCaptureInputSelectionArg);
-TIMERB_nCC_CAPTUREINPUT TIMERB__enGetCaptureInputSelection(TIMERB_nCC enModuleArg);
+TIMERB_nCC_CAPTUREINPUT TIMERB_CC__enGetCaptureInputSelection(TIMERB_nCC enModuleArg);
 
 #endif /* DRIVERLIB_TIMERB_DRIVER_MODULE_HEADER_TIMERB_CAPTUREINPUTSELECTION_H_ */

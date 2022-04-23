@@ -27,9 +27,9 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-void DMA__vSetSourceAddress(DMA_nCH enChannelArg,
+void DMA_CH__vSetSourceAddress(DMA_nCH enChannelArg,
                          uint16_t u16AddressArg);
 
-uint16_t DMA__u16GetSourceAddress(DMA_nCH enChannelArg);
+uint16_t DMA_CH__u16GetSourceAddress(DMA_nCH enChannelArg);
 
 #endif /* DRIVERLIB_DMA_DRIVER_HEADER_DMA_SOURCEADDRESS_H_ */

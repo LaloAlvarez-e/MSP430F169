@@ -27,9 +27,9 @@
 
 #include "DriverLib/TIMERB/Peripheral/Header/TIMERB_Enum.h"
 
-void TIMERB__vSetCaptureOverflow(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCaptureOverflow(TIMERB_nCC enModuleArg,
                                  TIMERB_nINT_STATUS enCaptureOverflowArg);
-void TIMERB__vClearCaptureOverflow(TIMERB_nCC enModuleArg);
-TIMERB_nINT_STATUS TIMERB__enGetCaptureOverflow(TIMERB_nCC enModuleArg);
+void TIMERB_CC__vClearCaptureOverflow(TIMERB_nCC enModuleArg);
+TIMERB_nINT_STATUS TIMERB_CC__enGetCaptureOverflow(TIMERB_nCC enModuleArg);
 
 #endif /* DRIVERLIB_TIMERB_DRIVER_MODULE_HEADER_TIMERB_CAPTUREOVERFLOW_H_ */

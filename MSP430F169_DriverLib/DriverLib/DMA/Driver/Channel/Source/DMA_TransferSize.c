@@ -25,7 +25,7 @@
 #include "DriverLib/DMA/Driver/Intrinsics/DMA_Intrinsics.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-void DMA__vSetTransferSize(DMA_nCH enChannelArg,
+void DMA_CH__vSetTransferSize(DMA_nCH enChannelArg,
                          uint16_t u16SizeArg)
 {
     DMA_Register_t pstRegisterData;
@@ -37,7 +37,7 @@ void DMA__vSetTransferSize(DMA_nCH enChannelArg,
                          &pstRegisterData);
 }
 
-uint16_t DMA__u16GetTransferSize(DMA_nCH enChannelArg)
+uint16_t DMA_CH__u16GetTransferSize(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_SZ_OFFSET;

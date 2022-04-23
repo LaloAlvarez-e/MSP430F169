@@ -25,7 +25,7 @@
 #include "DriverLib/DMA/Driver/Intrinsics/DMA_Intrinsics.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-void DMA__vSetTransferMode(DMA_nCH enChannelArg,
+void DMA_CH__vSetTransferMode(DMA_nCH enChannelArg,
                           DMA_nCH_MODE enModeArg)
 {
     DMA_Register_t pstRegisterData;
@@ -37,7 +37,7 @@ void DMA__vSetTransferMode(DMA_nCH enChannelArg,
                          &pstRegisterData);
 }
 
-DMA_nCH_MODE DMA__enGetTransferMode(DMA_nCH enChannelArg)
+DMA_nCH_MODE DMA_CH__enGetTransferMode(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;

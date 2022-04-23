@@ -96,8 +96,8 @@ void main(void)
     WDT__vRegisterIRQSourceHandler(&MAIN_u16WDTInterval);
     WDT__vSetConfig(&stWDTConfig);
 
-    TIMERA__vSetModuleValue(TIMERA_enCC0, 20000U - 1U);
-    TIMERA__vSetCompareConfigExt(TIMERA_enCC1, &stCC1Config);
+    TIMERA_CC__vSetValue(TIMERA_enCC0, 20000U - 1U);
+    TIMERA_CC__vSetCompareConfigExt(TIMERA_enCC1, &stCC1Config);
 
     TIMERA__vSetConfigExt(&stTIMERAConfig);
     WDT_CTL_R = (WDT_CTL_R & ~WDT_CTL_R_PW_MASK) | WDT_CTL_R_PW_WRITE | WDT_CTL_R_CNTCL_CLEAR;

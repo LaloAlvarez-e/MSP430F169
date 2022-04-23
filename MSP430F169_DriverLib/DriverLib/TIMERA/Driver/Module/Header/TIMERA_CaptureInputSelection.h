@@ -27,8 +27,8 @@
 
 #include "DriverLib/TIMERA/Peripheral/Header/TIMERA_Enum.h"
 
-void TIMERA__vSetCaptureInputSelection(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vSetCaptureInputSelection(TIMERA_nCC enModuleArg,
                              TIMERA_nCC_CAPTUREINPUT enCaptureInputSelectionArg);
-TIMERA_nCC_CAPTUREINPUT TIMERA__enGetCaptureInputSelection(TIMERA_nCC enModuleArg);
+TIMERA_nCC_CAPTUREINPUT TIMERA_CC__enGetCaptureInputSelection(TIMERA_nCC enModuleArg);
 
 #endif /* DRIVERLIB_TIMERA_DRIVER_MODULE_HEADER_TIMERA_CAPTUREINPUTSELECTION_H_ */

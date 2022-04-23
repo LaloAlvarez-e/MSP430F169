@@ -27,8 +27,8 @@
 
 #include "DriverLib/TIMERA/Peripheral/Header/TIMERA_Enum.h"
 
-void TIMERA__vSetCaptureSyncMode(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vSetCaptureSyncMode(TIMERA_nCC enModuleArg,
                              TIMERA_nCC_CAPTURESYNC enCaptureSyncModeArg);
-TIMERA_nCC_CAPTURESYNC TIMERA__enGetCaptureSyncMode(TIMERA_nCC enModuleArg);
+TIMERA_nCC_CAPTURESYNC TIMERA_CC__enGetCaptureSyncMode(TIMERA_nCC enModuleArg);
 
 #endif /* DRIVERLIB_TIMERA_DRIVER_MODULE_HEADER_TIMERA_CAPTURESYNCMODE_H_ */

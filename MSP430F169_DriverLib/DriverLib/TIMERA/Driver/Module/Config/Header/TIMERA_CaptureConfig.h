@@ -27,13 +27,13 @@
 
 #include "DriverLib/TIMERA/Peripheral/Header/TIMERA_Enum.h"
 
-void TIMERA__vSetCaptureConfig(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vSetCaptureConfig(TIMERA_nCC enModuleArg,
                                TIMERA_Capture_Config_t* pstCaptureConfigArg);
-void TIMERA__vGetCaptureConfig(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vGetCaptureConfig(TIMERA_nCC enModuleArg,
                         TIMERA_Capture_Config_t* pstCaptureConfigArg);
-void TIMERA__vSetCaptureConfigExt(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vSetCaptureConfigExt(TIMERA_nCC enModuleArg,
                                   TIMERA_Capture_ConfigExt_t* pstCaptureConfigArg);
-void TIMERA__vGetCaptureConfigExt(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vGetCaptureConfigExt(TIMERA_nCC enModuleArg,
                                   TIMERA_Capture_ConfigExt_t* pstCaptureConfigArg);
 
 

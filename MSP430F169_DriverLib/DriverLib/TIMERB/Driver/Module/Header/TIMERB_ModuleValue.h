@@ -27,9 +27,9 @@
 
 #include "DriverLib/TIMERB/Peripheral/Header/TIMERB_Enum.h"
 
-void TIMERB__vSetModuleValue(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetValue(TIMERB_nCC enModuleArg,
                             uint16_t u16ModuleValueArg);
-uint16_t TIMERB__u16GetModuleValue(TIMERB_nCC enModuleArg);
+uint16_t TIMERB_CC__u16GetValue(TIMERB_nCC enModuleArg);
 
 
 

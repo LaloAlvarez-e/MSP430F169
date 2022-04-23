@@ -27,8 +27,8 @@
 
 #include "DriverLib/TIMERB/Peripheral/Header/TIMERB_Enum.h"
 
-void TIMERB__vSetCompareOutput(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCompareOutput(TIMERB_nCC enModuleArg,
                              TIMERB_nCC_STATE enCompareOutputArg);
-TIMERB_nCC_STATE TIMERB__enGetCompareOutput(TIMERB_nCC enModuleArg);
+TIMERB_nCC_STATE TIMERB_CC__enGetCompareOutput(TIMERB_nCC enModuleArg);
 
 #endif /* DRIVERLIB_TIMERB_DRIVER_MODULE_HEADER_TIMERB_COMPAREOUTPUT_H_ */

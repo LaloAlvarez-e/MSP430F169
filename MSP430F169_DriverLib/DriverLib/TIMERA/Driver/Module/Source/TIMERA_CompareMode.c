@@ -26,7 +26,7 @@
 #include "DriverLib/TIMERA/Driver/Intrinsics/TIMERA_Intrinsics.h"
 #include "DriverLib/TIMERA/Peripheral/TIMERA_Peripheral.h"
 
-void TIMERA__vSetCompareMode(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vSetCompareMode(TIMERA_nCC enModuleArg,
                              TIMERA_nCC_COMPAREMODE enCompareModeArg)
 {
     TIMERA_Register_t pstRegisterData;
@@ -38,7 +38,7 @@ void TIMERA__vSetCompareMode(TIMERA_nCC enModuleArg,
                          &pstRegisterData);
 }
 
-TIMERA_nCC_COMPAREMODE TIMERA__enGetCompareMode(TIMERA_nCC enModuleArg)
+TIMERA_nCC_COMPAREMODE TIMERA_CC__enGetCompareMode(TIMERA_nCC enModuleArg)
 {
     TIMERA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = TIMERA_CC_CTL_OFFSET;

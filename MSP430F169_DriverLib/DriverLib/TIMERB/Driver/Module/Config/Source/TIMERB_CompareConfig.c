@@ -33,14 +33,14 @@
 #include "DriverLib/TIMERB/Driver/Intrinsics/TIMERB_Intrinsics.h"
 #include "DriverLib/TIMERB/Peripheral/TIMERB_Peripheral.h"
 
-void TIMERB__vSetCompareConfig(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCompareConfig(TIMERB_nCC enModuleArg,
                                TIMERB_Compare_Config_t* pstCompareConfigArg)
 {
     TIMERB_CC_CTL_t stConfigReg = {0};
     TIMERB_Register_t pstRegisterData;
     if(0UL != (uintptr_t) pstCompareConfigArg)
     {
-        TIMERB__vSetCompareOutput(enModuleArg, pstCompareConfigArg->enCompareState);
+        TIMERB_CC__vSetCompareOutput(enModuleArg, pstCompareConfigArg->enCompareState);
 
         stConfigReg.OUTMOD = (uint16_t) pstCompareConfigArg->enCompareMode;
         stConfigReg.OUT = (uint16_t) pstCompareConfigArg->enCompareState;
@@ -56,32 +56,32 @@ void TIMERB__vSetCompareConfig(TIMERB_nCC enModuleArg,
         pstRegisterData.u8Shift = 0U;
         TIMERB_CC__vWriteRegister(enModuleArg, &pstRegisterData);
 
-        TIMERB__vSetModuleValue(enModuleArg, pstCompareConfigArg->u16CompareValue);
+        TIMERB_CC__vSetValue(enModuleArg, pstCompareConfigArg->u16CompareValue);
     }
 }
 
 
-void TIMERB__vGetCompareConfig(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vGetCompareConfig(TIMERB_nCC enModuleArg,
                         TIMERB_Compare_Config_t* pstCompareConfigArg)
 {
     if(0UL != (uintptr_t) pstCompareConfigArg)
     {
-        pstCompareConfigArg->enCompareMode = TIMERB__enGetCompareMode(enModuleArg);
-        pstCompareConfigArg->enCompareState = TIMERB__enGetCompareOutput(enModuleArg);
-        pstCompareConfigArg->u16CompareValue = TIMERB__u16GetModuleValue(enModuleArg);
-        pstCompareConfigArg->enCompareLoadMode = TIMERB__enGetCompareLoadMode(enModuleArg);
+        pstCompareConfigArg->enCompareMode = TIMERB_CC__enGetCompareMode(enModuleArg);
+        pstCompareConfigArg->enCompareState = TIMERB_CC__enGetCompareOutput(enModuleArg);
+        pstCompareConfigArg->u16CompareValue = TIMERB_CC__u16GetValue(enModuleArg);
+        pstCompareConfigArg->enCompareLoadMode = TIMERB_CC__enGetCompareLoadMode(enModuleArg);
     }
 }
 
 
-void TIMERB__vSetCompareConfigExt(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCompareConfigExt(TIMERB_nCC enModuleArg,
                                   TIMERB_Compare_ConfigExt_t* pstCompareConfigArg)
 {
     static TIMERB_CC_CTL_t stConfigReg = {0};
     TIMERB_Register_t pstRegisterData;
     if(0UL != (uintptr_t) pstCompareConfigArg)
     {
-        TIMERB__vSetCompareOutput(enModuleArg, pstCompareConfigArg->enCompareState);
+        TIMERB_CC__vSetCompareOutput(enModuleArg, pstCompareConfigArg->enCompareState);
 
         stConfigReg.OUTMOD = (uint16_t) pstCompareConfigArg->enCompareMode;
         stConfigReg.OUT = (uint16_t) pstCompareConfigArg->enCompareState;
@@ -101,22 +101,22 @@ void TIMERB__vSetCompareConfigExt(TIMERB_nCC enModuleArg,
         pstRegisterData.u8Shift = 0U;
         TIMERB_CC__vWriteRegister(enModuleArg, &pstRegisterData);
 
-        TIMERB__vSetModuleValue(enModuleArg, pstCompareConfigArg->u16CompareValue);
+        TIMERB_CC__vSetValue(enModuleArg, pstCompareConfigArg->u16CompareValue);
     }
 }
 
 
-void TIMERB__vGetCompareConfigExt(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vGetCompareConfigExt(TIMERB_nCC enModuleArg,
                                   TIMERB_Compare_ConfigExt_t* pstCompareConfigArg)
 {
     if(0UL != (uintptr_t) pstCompareConfigArg)
     {
-        pstCompareConfigArg->enCompareMode = TIMERB__enGetCompareMode(enModuleArg);
-        pstCompareConfigArg->enCompareState = TIMERB__enGetCompareOutput(enModuleArg);
-        pstCompareConfigArg->u16CompareValue = TIMERB__u16GetModuleValue(enModuleArg);
+        pstCompareConfigArg->enCompareMode = TIMERB_CC__enGetCompareMode(enModuleArg);
+        pstCompareConfigArg->enCompareState = TIMERB_CC__enGetCompareOutput(enModuleArg);
+        pstCompareConfigArg->u16CompareValue = TIMERB_CC__u16GetValue(enModuleArg);
         pstCompareConfigArg->enInterruptEnable = TIMERB_CC__enGetEnableInterruptSource(enModuleArg);
         pstCompareConfigArg->enInterruptStatus = TIMERB_CC__enGetStatusInterruptSource(enModuleArg);
-        pstCompareConfigArg->enCompareLoadMode = TIMERB__enGetCompareLoadMode(enModuleArg);
+        pstCompareConfigArg->enCompareLoadMode = TIMERB_CC__enGetCompareLoadMode(enModuleArg);
     }
 }
 

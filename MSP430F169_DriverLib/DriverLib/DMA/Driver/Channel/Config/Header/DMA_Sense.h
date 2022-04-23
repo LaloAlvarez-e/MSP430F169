@@ -28,9 +28,9 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-void DMA__vSetSense(DMA_nCH enChannelArg,
+void DMA_CH__vSetSense(DMA_nCH enChannelArg,
                     DMA_nCH_SENSE enSenseArg);
 
-DMA_nCH_SENSE DMA__enGetSense(DMA_nCH enChannelArg);
+DMA_nCH_SENSE DMA_CH__enGetSense(DMA_nCH enChannelArg);
 
 #endif /* DRIVERLIB_DMA_DRIVER_CHANNEL_CONFIG_HEADER_DMA_SENSE_H_ */

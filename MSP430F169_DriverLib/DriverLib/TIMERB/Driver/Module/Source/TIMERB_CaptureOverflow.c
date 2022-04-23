@@ -26,7 +26,7 @@
 #include "DriverLib/TIMERB/Driver/Intrinsics/TIMERB_Intrinsics.h"
 #include "DriverLib/TIMERB/Peripheral/TIMERB_Peripheral.h"
 
-void TIMERB__vSetCaptureOverflow(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCaptureOverflow(TIMERB_nCC enModuleArg,
                                  TIMERB_nINT_STATUS enCaptureOverflowArg)
 {
     TIMERB_Register_t pstRegisterData;
@@ -38,12 +38,12 @@ void TIMERB__vSetCaptureOverflow(TIMERB_nCC enModuleArg,
                          &pstRegisterData);
 }
 
-void TIMERB__vClearCaptureOverflow(TIMERB_nCC enModuleArg)
+void TIMERB_CC__vClearCaptureOverflow(TIMERB_nCC enModuleArg)
 {
-    TIMERB__vSetCaptureOverflow(enModuleArg, TIMERB_enINT_STATUS_NOOCCUR);
+    TIMERB_CC__vSetCaptureOverflow(enModuleArg, TIMERB_enINT_STATUS_NOOCCUR);
 }
 
-TIMERB_nINT_STATUS TIMERB__enGetCaptureOverflow(TIMERB_nCC enModuleArg)
+TIMERB_nINT_STATUS TIMERB_CC__enGetCaptureOverflow(TIMERB_nCC enModuleArg)
 {
     TIMERB_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = TIMERB_CC_CTL_OFFSET;

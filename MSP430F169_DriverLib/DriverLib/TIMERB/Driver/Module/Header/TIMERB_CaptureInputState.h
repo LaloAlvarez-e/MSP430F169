@@ -27,6 +27,6 @@
 
 #include "DriverLib/TIMERB/Peripheral/Header/TIMERB_Enum.h"
 
-TIMERB_nCC_STATE TIMERB__enGetCaptureInputState(TIMERB_nCC enModuleArg);
+TIMERB_nCC_STATE TIMERB_CC__enGetCaptureInputState(TIMERB_nCC enModuleArg);
 
 #endif /* DRIVERLIB_TIMERB_DRIVER_MODULE_HEADER_TIMERB_CAPTUREINPUTSTATE_H_ */

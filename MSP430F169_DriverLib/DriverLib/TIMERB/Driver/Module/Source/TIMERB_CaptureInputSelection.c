@@ -26,7 +26,7 @@
 #include "DriverLib/TIMERB/Driver/Intrinsics/TIMERB_Intrinsics.h"
 #include "DriverLib/TIMERB/Peripheral/TIMERB_Peripheral.h"
 
-void TIMERB__vSetCaptureInputSelection(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCaptureInputSelection(TIMERB_nCC enModuleArg,
                              TIMERB_nCC_CAPTUREINPUT enCaptureInputSelectionArg)
 {
     TIMERB_Register_t pstRegisterData;
@@ -38,7 +38,7 @@ void TIMERB__vSetCaptureInputSelection(TIMERB_nCC enModuleArg,
                          &pstRegisterData);
 }
 
-TIMERB_nCC_CAPTUREINPUT TIMERB__enGetCaptureInputSelection(TIMERB_nCC enModuleArg)
+TIMERB_nCC_CAPTUREINPUT TIMERB_CC__enGetCaptureInputSelection(TIMERB_nCC enModuleArg)
 {
     TIMERB_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = TIMERB_CC_CTL_OFFSET;

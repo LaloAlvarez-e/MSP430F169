@@ -27,7 +27,7 @@
 
 #include "DriverLib/TIMERA/Peripheral/Header/TIMERA_Enum.h"
 
-TIMERA_nCC_STATE TIMERA__enGetCaptureInputState(TIMERA_nCC enModuleArg);
-TIMERA_nCC_STATE TIMERA__enGetCaptureInputState_Sync(TIMERA_nCC enModuleArg);
+TIMERA_nCC_STATE TIMERA_CC__enGetCaptureInputState(TIMERA_nCC enModuleArg);
+TIMERA_nCC_STATE TIMERA_CC__enGetCaptureInputState_Sync(TIMERA_nCC enModuleArg);
 
 #endif /* DRIVERLIB_TIMERA_DRIVER_MODULE_HEADER_TIMERA_CAPTUREINPUTSTATE_H_ */

@@ -26,7 +26,7 @@
 #include "DriverLib/DMA/Driver/Intrinsics/Primitives/DMA_Primitives.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-void DMA__vSetEnableInterruptSource(DMA_nCH enChannelArg,
+void DMA_CH__vSetEnableInterruptSource(DMA_nCH enChannelArg,
                                     DMA_nCH_INT_ENABLE enState)
 {
     DMA_Register_t pstRegisterData;
@@ -40,17 +40,17 @@ void DMA__vSetEnableInterruptSource(DMA_nCH enChannelArg,
                          &pstRegisterData);
 }
 
-void DMA__vEnaInterruptSource(DMA_nCH enChannelArg)
+void DMA_CH__vEnaInterruptSource(DMA_nCH enChannelArg)
 {
-    DMA__vSetEnableInterruptSource(enChannelArg, DMA_enCH_INT_ENABLE_ENA);
+    DMA_CH__vSetEnableInterruptSource(enChannelArg, DMA_enCH_INT_ENABLE_ENA);
 }
 
-void DMA__vDisInterruptSource(DMA_nCH enChannelArg)
+void DMA_CH__vDisInterruptSource(DMA_nCH enChannelArg)
 {
-    DMA__vSetEnableInterruptSource(enChannelArg, DMA_enCH_INT_ENABLE_DIS);
+    DMA_CH__vSetEnableInterruptSource(enChannelArg, DMA_enCH_INT_ENABLE_DIS);
 }
 
-DMA_nCH_INT_ENABLE DMA__enGetEnableInterruptSource(DMA_nCH enChannelArg)
+DMA_nCH_INT_ENABLE DMA_CH__enGetEnableInterruptSource(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
     DMA_nCH_INT_ENABLE enEnable = DMA_enCH_INT_ENABLE_DIS;

@@ -25,7 +25,7 @@
 #include "DriverLib/DMA/Driver/Intrinsics/DMA_Intrinsics.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-void DMA__vSetSourceDataSize(DMA_nCH enChannelArg,
+void DMA_CH__vSetSourceDataSize(DMA_nCH enChannelArg,
                           DMA_nCH_DATASIZE enSizeArg)
 {
     DMA_Register_t pstRegisterData;
@@ -37,7 +37,7 @@ void DMA__vSetSourceDataSize(DMA_nCH enChannelArg,
                          &pstRegisterData);
 }
 
-DMA_nCH_DATASIZE DMA__enGetSourceDataSize(DMA_nCH enChannelArg)
+DMA_nCH_DATASIZE DMA_CH__enGetSourceDataSize(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
@@ -48,7 +48,7 @@ DMA_nCH_DATASIZE DMA__enGetSourceDataSize(DMA_nCH enChannelArg)
     return ((DMA_nCH_DATASIZE) pstRegisterData.u16Value);
 }
 
-void DMA__vSetDestDataSize(DMA_nCH enChannelArg,
+void DMA_CH__vSetDestDataSize(DMA_nCH enChannelArg,
                           DMA_nCH_DATASIZE enSizeArg)
 {
     DMA_Register_t pstRegisterData;
@@ -60,7 +60,7 @@ void DMA__vSetDestDataSize(DMA_nCH enChannelArg,
                          &pstRegisterData);
 }
 
-DMA_nCH_DATASIZE DMA__enGetDestDataSize(DMA_nCH enChannelArg)
+DMA_nCH_DATASIZE DMA_CH__enGetDestDataSize(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;

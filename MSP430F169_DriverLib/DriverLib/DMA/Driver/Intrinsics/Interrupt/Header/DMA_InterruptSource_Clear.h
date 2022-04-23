@@ -27,6 +27,6 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-void DMA__vClearInterruptSource(DMA_nCH enChannelArg);
+void DMA_CH__vClearInterruptSource(DMA_nCH enChannelArg);
 
 #endif /* DMA_DRIVER_INTRINSICS_INTERRUPT_HEADER_DMA_INTERRUPTSOURCE_CLEAR_H_ */

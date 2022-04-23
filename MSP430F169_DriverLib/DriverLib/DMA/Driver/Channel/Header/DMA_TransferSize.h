@@ -27,9 +27,9 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-void DMA__vSetTransferSize(DMA_nCH enChannelArg,
+void DMA_CH__vSetTransferSize(DMA_nCH enChannelArg,
                          uint16_t u16SizeArg);
 
-uint16_t DMA__u16GetTransferSize(DMA_nCH enChannelArg);
+uint16_t DMA_CH__u16GetTransferSize(DMA_nCH enChannelArg);
 
 #endif /* DRIVERLIB_DMA_DRIVER_HEADER_DMA_TRANSFERSIZE_H_ */

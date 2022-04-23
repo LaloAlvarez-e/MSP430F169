@@ -26,7 +26,7 @@
 #include "DriverLib/TIMERA/Driver/Intrinsics/TIMERA_Intrinsics.h"
 #include "DriverLib/TIMERA/Peripheral/TIMERA_Peripheral.h"
 
-void TIMERA__vSetModuleValue(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vSetValue(TIMERA_nCC enModuleArg,
                             uint16_t u16ModuleValueArg)
 {
     TIMERA_Register_t pstRegisterData;
@@ -38,7 +38,7 @@ void TIMERA__vSetModuleValue(TIMERA_nCC enModuleArg,
                          &pstRegisterData);
 }
 
-uint16_t TIMERA__u16GetModuleValue(TIMERA_nCC enModuleArg)
+uint16_t TIMERA_CC__u16GetValue(TIMERA_nCC enModuleArg)
 {
     TIMERA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = TIMERA_CC_R_OFFSET;

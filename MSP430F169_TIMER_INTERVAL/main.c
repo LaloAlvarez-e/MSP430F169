@@ -91,9 +91,9 @@ void main(void)
                                          &MAIN_u16TIMERA_CC1);
     TIMERA_CC__vRegisterIRQSourceHandler(TIMERA_enCC2, TIMERA_enCC_MODE_COMPARE,
                                          &MAIN_u16TIMERA_CC2);
-    TIMERA__vSetModuleValue(TIMERA_enCC0, 10000U - 1U);
-    TIMERA__vSetModuleValue(TIMERA_enCC1, 20000U - 1U);
-    TIMERA__vSetModuleValue(TIMERA_enCC2, 40000U - 1U);
+    TIMERA_CC__vSetValue(TIMERA_enCC0, 10000U - 1U);
+    TIMERA_CC__vSetValue(TIMERA_enCC1, 20000U - 1U);
+    TIMERA_CC__vSetValue(TIMERA_enCC2, 40000U - 1U);
     TIMERA_CC__vClearInterruptSource(TIMERA_enCC0);
     TIMERA_CC__vClearInterruptSource(TIMERA_enCC1);
     TIMERA_CC__vClearInterruptSource(TIMERA_enCC2);

@@ -27,9 +27,9 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-void DMA__vSetTransferMode(DMA_nCH enChannelArg,
+void DMA_CH__vSetTransferMode(DMA_nCH enChannelArg,
                           DMA_nCH_MODE enModeArg);
 
-DMA_nCH_MODE DMA__enGetTransferMode(DMA_nCH enChannelArg);
+DMA_nCH_MODE DMA_CH__enGetTransferMode(DMA_nCH enChannelArg);
 
 #endif /* DRIVERLIB_DMA_DRIVER_CHANNEL_CONFIG_HEADER_DMA_TRANSFERMODE_H_ */

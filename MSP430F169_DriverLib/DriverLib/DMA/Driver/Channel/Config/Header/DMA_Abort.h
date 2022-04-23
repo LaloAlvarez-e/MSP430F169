@@ -27,11 +27,11 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-void DMA__vSetAbort(DMA_nCH enChannelArg,
+void DMA_CH__vSetAbort(DMA_nCH enChannelArg,
                      DMA_nCH_ABORT enAbortArg);
 
-void DMA__vClearAbort(DMA_nCH enChannelArg);
+void DMA_CH__vClearAbort(DMA_nCH enChannelArg);
 
-DMA_nCH_ABORT DMA__enGetAbort(DMA_nCH enChannelArg);
+DMA_nCH_ABORT DMA_CH__enGetAbort(DMA_nCH enChannelArg);
 
 #endif /* DRIVERLIB_DMA_DRIVER_CHANNEL_CONFIG_HEADER_DMA_ABORT_H_ */

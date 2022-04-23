@@ -26,7 +26,7 @@
 #include "DriverLib/TIMERA/Driver/Intrinsics/TIMERA_Intrinsics.h"
 #include "DriverLib/TIMERA/Peripheral/TIMERA_Peripheral.h"
 
-void TIMERA__vSetCaptureInputSelection(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vSetCaptureInputSelection(TIMERA_nCC enModuleArg,
                              TIMERA_nCC_CAPTUREINPUT enCaptureInputSelectionArg)
 {
     TIMERA_Register_t pstRegisterData;
@@ -38,7 +38,7 @@ void TIMERA__vSetCaptureInputSelection(TIMERA_nCC enModuleArg,
                          &pstRegisterData);
 }
 
-TIMERA_nCC_CAPTUREINPUT TIMERA__enGetCaptureInputSelection(TIMERA_nCC enModuleArg)
+TIMERA_nCC_CAPTUREINPUT TIMERA_CC__enGetCaptureInputSelection(TIMERA_nCC enModuleArg)
 {
     TIMERA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = TIMERA_CC_CTL_OFFSET;

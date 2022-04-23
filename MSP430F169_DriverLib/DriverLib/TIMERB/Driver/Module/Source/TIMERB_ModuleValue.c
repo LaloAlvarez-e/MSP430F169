@@ -26,7 +26,7 @@
 #include "DriverLib/TIMERB/Driver/Intrinsics/TIMERB_Intrinsics.h"
 #include "DriverLib/TIMERB/Peripheral/TIMERB_Peripheral.h"
 
-void TIMERB__vSetModuleValue(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetValue(TIMERB_nCC enModuleArg,
                             uint16_t u16ModuleValueArg)
 {
     TIMERB_Register_t pstRegisterData;
@@ -38,7 +38,7 @@ void TIMERB__vSetModuleValue(TIMERB_nCC enModuleArg,
                          &pstRegisterData);
 }
 
-uint16_t TIMERB__u16GetModuleValue(TIMERB_nCC enModuleArg)
+uint16_t TIMERB_CC__u16GetValue(TIMERB_nCC enModuleArg)
 {
     TIMERB_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = TIMERB_CC_R_OFFSET;

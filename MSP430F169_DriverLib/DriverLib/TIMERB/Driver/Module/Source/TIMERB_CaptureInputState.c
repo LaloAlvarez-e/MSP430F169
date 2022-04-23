@@ -26,7 +26,7 @@
 #include "DriverLib/TIMERB/Peripheral/TIMERB_Peripheral.h"
 
 
-TIMERB_nCC_STATE TIMERB__enGetCaptureInputState(TIMERB_nCC enModuleArg)
+TIMERB_nCC_STATE TIMERB_CC__enGetCaptureInputState(TIMERB_nCC enModuleArg)
 {
     TIMERB_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = TIMERB_CC_CTL_OFFSET;

@@ -26,7 +26,7 @@
 #include "DriverLib/TIMERA/Driver/Intrinsics/TIMERA_Intrinsics.h"
 #include "DriverLib/TIMERA/Peripheral/TIMERA_Peripheral.h"
 
-void TIMERA__vSetCaptureOverflow(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vSetCaptureOverflow(TIMERA_nCC enModuleArg,
                                  TIMERA_nINT_STATUS enCaptureOverflowArg)
 {
     TIMERA_Register_t pstRegisterData;
@@ -38,12 +38,12 @@ void TIMERA__vSetCaptureOverflow(TIMERA_nCC enModuleArg,
                          &pstRegisterData);
 }
 
-void TIMERA__vClearCaptureOverflow(TIMERA_nCC enModuleArg)
+void TIMERA_CC__vClearCaptureOverflow(TIMERA_nCC enModuleArg)
 {
-    TIMERA__vSetCaptureOverflow(enModuleArg, TIMERA_enINT_STATUS_NOOCCUR);
+    TIMERA_CC__vSetCaptureOverflow(enModuleArg, TIMERA_enINT_STATUS_NOOCCUR);
 }
 
-TIMERA_nINT_STATUS TIMERA__enGetCaptureOverflow(TIMERA_nCC enModuleArg)
+TIMERA_nINT_STATUS TIMERA_CC__enGetCaptureOverflow(TIMERA_nCC enModuleArg)
 {
     TIMERA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = TIMERA_CC_CTL_OFFSET;

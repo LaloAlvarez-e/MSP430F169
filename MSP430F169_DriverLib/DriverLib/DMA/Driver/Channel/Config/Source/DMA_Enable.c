@@ -25,7 +25,7 @@
 #include "DriverLib/DMA/Driver/Intrinsics/DMA_Intrinsics.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-void DMA__vSetEnable(DMA_nCH enChannelArg,
+void DMA_CH__vSetEnable(DMA_nCH enChannelArg,
                       DMA_nCH_ENABLE enEnableArg)
 {
     DMA_Register_t pstRegisterData;
@@ -37,7 +37,7 @@ void DMA__vSetEnable(DMA_nCH enChannelArg,
                          &pstRegisterData);
 }
 
-DMA_nCH_ENABLE DMA__enGetEnable(DMA_nCH enChannelArg)
+DMA_nCH_ENABLE DMA_CH__enGetEnable(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;

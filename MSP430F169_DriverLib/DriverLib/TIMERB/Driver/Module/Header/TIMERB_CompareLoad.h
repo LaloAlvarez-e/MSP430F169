@@ -27,8 +27,8 @@
 
 #include "DriverLib/TIMERB/Peripheral/Header/TIMERB_Enum.h"
 
-void TIMERB__vSetCompareLoadMode(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCompareLoadMode(TIMERB_nCC enModuleArg,
                              TIMERB_nCC_COMPARELOAD enCompareLoadArg);
-TIMERB_nCC_COMPARELOAD TIMERB__enGetCompareLoadMode(TIMERB_nCC enModuleArg);
+TIMERB_nCC_COMPARELOAD TIMERB_CC__enGetCompareLoadMode(TIMERB_nCC enModuleArg);
 
 #endif /* DRIVERLIB_TIMERB_DRIVER_MODULE_HEADER_TIMERB_COMPARELOAD_H_ */

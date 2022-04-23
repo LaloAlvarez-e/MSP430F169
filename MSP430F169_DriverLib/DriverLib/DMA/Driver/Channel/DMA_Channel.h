@@ -32,15 +32,15 @@
 #include "DriverLib/DMA/Driver/Channel/Header/DMA_Trigger.h"
 
 
-void DMA__vSetChannelConfig(DMA_nCH enChannelArg,
+void DMA_CH__vSetConfig(DMA_nCH enChannelArg,
                          DMA_CH_Config_t* pstConfigArg);
-void DMA__vSetChannelExtendedConfig(DMA_nCH enChannelArg,
+void DMA_CH__vSetConfigExt(DMA_nCH enChannelArg,
                                  DMA_CH_ConfigExt_t* pstConfigArg);
 
 
-void DMA__vGetChannelConfig(DMA_nCH enChannelArg,
+void DMA_CH__vGetConfig(DMA_nCH enChannelArg,
                          DMA_CH_Config_t* pstConfigArg);
-void DMA__vGetChannelExtendedConfig(DMA_nCH enChannelArg,
+void DMA_CH__vGetConfigExt(DMA_nCH enChannelArg,
                          DMA_CH_ConfigExt_t* pstConfigArg);
 
 #endif /* DRIVERLIB_DMA_DRIVER_CHANNEL_DMA_CHANNEL_H_ */

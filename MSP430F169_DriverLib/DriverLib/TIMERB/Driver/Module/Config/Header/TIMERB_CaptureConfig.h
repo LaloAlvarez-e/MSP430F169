@@ -27,13 +27,13 @@
 
 #include "DriverLib/TIMERB/Peripheral/Header/TIMERB_Enum.h"
 
-void TIMERB__vSetCaptureConfig(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCaptureConfig(TIMERB_nCC enModuleArg,
                                TIMERB_Capture_Config_t* pstCaptureConfigArg);
-void TIMERB__vGetCaptureConfig(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vGetCaptureConfig(TIMERB_nCC enModuleArg,
                         TIMERB_Capture_Config_t* pstCaptureConfigArg);
-void TIMERB__vSetCaptureConfigExt(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCaptureConfigExt(TIMERB_nCC enModuleArg,
                                   TIMERB_Capture_ConfigExt_t* pstCaptureConfigArg);
-void TIMERB__vGetCaptureConfigExt(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vGetCaptureConfigExt(TIMERB_nCC enModuleArg,
                                   TIMERB_Capture_ConfigExt_t* pstCaptureConfigArg);
 
 

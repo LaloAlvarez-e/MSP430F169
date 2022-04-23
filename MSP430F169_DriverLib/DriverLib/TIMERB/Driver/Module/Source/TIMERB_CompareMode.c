@@ -26,7 +26,7 @@
 #include "DriverLib/TIMERB/Driver/Intrinsics/TIMERB_Intrinsics.h"
 #include "DriverLib/TIMERB/Peripheral/TIMERB_Peripheral.h"
 
-void TIMERB__vSetCompareMode(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCompareMode(TIMERB_nCC enModuleArg,
                              TIMERB_nCC_COMPAREMODE enCompareModeArg)
 {
     TIMERB_Register_t pstRegisterData;
@@ -38,7 +38,7 @@ void TIMERB__vSetCompareMode(TIMERB_nCC enModuleArg,
                          &pstRegisterData);
 }
 
-TIMERB_nCC_COMPAREMODE TIMERB__enGetCompareMode(TIMERB_nCC enModuleArg)
+TIMERB_nCC_COMPAREMODE TIMERB_CC__enGetCompareMode(TIMERB_nCC enModuleArg)
 {
     TIMERB_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = TIMERB_CC_CTL_OFFSET;

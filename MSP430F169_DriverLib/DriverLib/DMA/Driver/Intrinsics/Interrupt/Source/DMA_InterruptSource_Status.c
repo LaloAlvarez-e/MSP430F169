@@ -26,7 +26,7 @@
 #include "DriverLib/DMA/Driver/Intrinsics/Primitives/DMA_Primitives.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-void DMA__vSetStatusInterruptSource(DMA_nCH enChannelArg,
+void DMA_CH__vSetStatusInterruptSource(DMA_nCH enChannelArg,
                                     DMA_nCH_INT_STATUS enStatus)
 {
     DMA_Register_t pstRegisterData;
@@ -39,7 +39,7 @@ void DMA__vSetStatusInterruptSource(DMA_nCH enChannelArg,
                          &pstRegisterData);
 }
 
-DMA_nCH_INT_STATUS DMA__enGetStatusInterruptSource(DMA_nCH enChannelArg)
+DMA_nCH_INT_STATUS DMA_CH__enGetStatusInterruptSource(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
     DMA_nCH_INT_STATUS enStatus = DMA_enCH_INT_STATUS_NOOCCUR;

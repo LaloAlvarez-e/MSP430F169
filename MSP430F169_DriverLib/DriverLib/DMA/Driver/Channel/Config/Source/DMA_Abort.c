@@ -25,7 +25,7 @@
 #include "DriverLib/DMA/Driver/Intrinsics/DMA_Intrinsics.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-void DMA__vSetAbort(DMA_nCH enChannelArg,
+void DMA_CH__vSetAbort(DMA_nCH enChannelArg,
                       DMA_nCH_ABORT enAbortArg)
 {
     DMA_Register_t pstRegisterData;
@@ -37,12 +37,12 @@ void DMA__vSetAbort(DMA_nCH enChannelArg,
                          &pstRegisterData);
 }
 
-void DMA__vClearAbort(DMA_nCH enChannelArg)
+void DMA_CH__vClearAbort(DMA_nCH enChannelArg)
 {
-    DMA__vSetAbort(enChannelArg, DMA_enCH_ABORT_CLEAR);
+    DMA_CH__vSetAbort(enChannelArg, DMA_enCH_ABORT_CLEAR);
 }
 
-DMA_nCH_ABORT DMA__enGetAbort(DMA_nCH enChannelArg)
+DMA_nCH_ABORT DMA_CH__enGetAbort(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;

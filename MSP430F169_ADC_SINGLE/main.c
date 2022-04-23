@@ -73,8 +73,8 @@ void main(void)
     CLOCK__enSetSMCLKSource(CLOCK_enSOURCE_XT2); /*8 MHz*/
 
     TIMERA__vSetConfigExt(&stTIMERAConfig);
-    TIMERA__vSetModuleValue(TIMERA_enCC0, 10000U - 1U);
-    TIMERA__vSetCompareConfigExt(TIMERA_enCC1, &stTIMERA_CCR1Config);
+    TIMERA_CC__vSetValue(TIMERA_enCC0, 10000U - 1U);
+    TIMERA_CC__vSetCompareConfigExt(TIMERA_enCC1, &stTIMERA_CCR1Config);
 
     GPIO__vSetConfig(GPIO_enA0_P60);
     GPIO__vSetConfig(GPIO_enA1_P61);

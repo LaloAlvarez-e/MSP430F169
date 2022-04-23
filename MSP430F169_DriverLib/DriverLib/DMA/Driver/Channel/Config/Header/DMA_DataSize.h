@@ -27,13 +27,13 @@
 
 #include "DriverLib/DMA/Peripheral/Header/DMA_Enum.h"
 
-void DMA__vSetSourceDataSize(DMA_nCH enChannelArg,
+void DMA_CH__vSetSourceDataSize(DMA_nCH enChannelArg,
                             DMA_nCH_DATASIZE enSizeArg);
-void DMA__vSetDestDataSize(DMA_nCH enChannelArg,
+void DMA_CH__vSetDestDataSize(DMA_nCH enChannelArg,
                             DMA_nCH_DATASIZE enSizeArg);
 
-DMA_nCH_DATASIZE DMA__enGetSourceDataSize(DMA_nCH enChannelArg);
-DMA_nCH_DATASIZE DMA__enGetDestDataSize(DMA_nCH enChannelArg);
+DMA_nCH_DATASIZE DMA_CH__enGetSourceDataSize(DMA_nCH enChannelArg);
+DMA_nCH_DATASIZE DMA_CH__enGetDestDataSize(DMA_nCH enChannelArg);
 
 
 #endif /* DRIVERLIB_DMA_DRIVER_CHANNEL_CONFIG_HEADER_DMA_DATASIZE_H_ */

@@ -27,9 +27,9 @@
 
 #include "DriverLib/TIMERB/Peripheral/Header/TIMERB_Enum.h"
 
-void TIMERB__vSetModuleMode(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetModuleMode(TIMERB_nCC enModuleArg,
                              TIMERB_nCC_MODE enModuleModeArg);
-TIMERB_nCC_MODE TIMERB__enGetModuleMode(TIMERB_nCC enModuleArg);
+TIMERB_nCC_MODE TIMERB_CC__enGetModuleMode(TIMERB_nCC enModuleArg);
 
 
 

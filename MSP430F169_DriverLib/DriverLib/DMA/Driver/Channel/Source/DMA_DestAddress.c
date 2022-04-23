@@ -25,7 +25,7 @@
 #include "DriverLib/DMA/Driver/Intrinsics/DMA_Intrinsics.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-void DMA__vSetDestAddress(DMA_nCH enChannelArg,
+void DMA_CH__vSetDestAddress(DMA_nCH enChannelArg,
                          uint16_t u16AddressArg)
 {
     DMA_Register_t pstRegisterData;
@@ -37,7 +37,7 @@ void DMA__vSetDestAddress(DMA_nCH enChannelArg,
                          &pstRegisterData);
 }
 
-uint16_t DMA__u16GetDestAddress(DMA_nCH enChannelArg)
+uint16_t DMA_CH__u16GetDestAddress(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CH_DA_OFFSET;

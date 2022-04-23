@@ -32,7 +32,7 @@
 #include "DriverLib/TIMERA/Driver/Intrinsics/TIMERA_Intrinsics.h"
 #include "DriverLib/TIMERA/Peripheral/TIMERA_Peripheral.h"
 
-void TIMERA__vSetCaptureConfig(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vSetCaptureConfig(TIMERA_nCC enModuleArg,
                                TIMERA_Capture_Config_t* pstCaptureConfigArg)
 {
     TIMERA_CC_CTL_t stConfigReg = {0};
@@ -59,19 +59,19 @@ void TIMERA__vSetCaptureConfig(TIMERA_nCC enModuleArg,
 }
 
 
-void TIMERA__vGetCaptureConfig(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vGetCaptureConfig(TIMERA_nCC enModuleArg,
                         TIMERA_Capture_Config_t* pstCaptureConfigArg)
 {
     if(0UL != (uintptr_t) pstCaptureConfigArg)
     {
-        pstCaptureConfigArg->enCaptureMode = TIMERA__enGetCaptureMode(enModuleArg);
-        pstCaptureConfigArg->enSyncMode = TIMERA__enGetCaptureSyncMode(enModuleArg);
-        pstCaptureConfigArg->enCaptureInput = TIMERA__enGetCaptureInputSelection(enModuleArg);
+        pstCaptureConfigArg->enCaptureMode = TIMERA_CC__enGetCaptureMode(enModuleArg);
+        pstCaptureConfigArg->enSyncMode = TIMERA_CC__enGetCaptureSyncMode(enModuleArg);
+        pstCaptureConfigArg->enCaptureInput = TIMERA_CC__enGetCaptureInputSelection(enModuleArg);
     }
 }
 
 
-void TIMERA__vSetCaptureConfigExt(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vSetCaptureConfigExt(TIMERA_nCC enModuleArg,
                                   TIMERA_Capture_ConfigExt_t* pstCaptureConfigArg)
 {
     TIMERA_CC_CTL_t stConfigReg = {0};
@@ -102,14 +102,14 @@ void TIMERA__vSetCaptureConfigExt(TIMERA_nCC enModuleArg,
 }
 
 
-void TIMERA__vGetCaptureConfigExt(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vGetCaptureConfigExt(TIMERA_nCC enModuleArg,
                                   TIMERA_Capture_ConfigExt_t* pstCaptureConfigArg)
 {
     if(0UL != (uintptr_t) pstCaptureConfigArg)
     {
-        pstCaptureConfigArg->enCaptureMode = TIMERA__enGetCaptureMode(enModuleArg);
-        pstCaptureConfigArg->enSyncMode = TIMERA__enGetCaptureSyncMode(enModuleArg);
-        pstCaptureConfigArg->enCaptureInput = TIMERA__enGetCaptureInputSelection(enModuleArg);
+        pstCaptureConfigArg->enCaptureMode = TIMERA_CC__enGetCaptureMode(enModuleArg);
+        pstCaptureConfigArg->enSyncMode = TIMERA_CC__enGetCaptureSyncMode(enModuleArg);
+        pstCaptureConfigArg->enCaptureInput = TIMERA_CC__enGetCaptureInputSelection(enModuleArg);
         pstCaptureConfigArg->enInterruptEnable = TIMERA_CC__enGetEnableInterruptSource(enModuleArg);
         pstCaptureConfigArg->enInterruptStatus = TIMERA_CC__enGetStatusInterruptSource(enModuleArg);
     }

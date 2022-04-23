@@ -27,9 +27,9 @@
 
 #include "DriverLib/TIMERB/Peripheral/Header/TIMERB_Enum.h"
 
-void TIMERB__vSetCaptureMode(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCaptureMode(TIMERB_nCC enModuleArg,
                              TIMERB_nCC_CAPTUREMODE enCaptureModeArg);
-TIMERB_nCC_CAPTUREMODE TIMERB__enGetCaptureMode(TIMERB_nCC enModuleArg);
+TIMERB_nCC_CAPTUREMODE TIMERB_CC__enGetCaptureMode(TIMERB_nCC enModuleArg);
 
 
 #endif /* DRIVERLIB_TIMERB_DRIVER_MODULE_HEADER_TIMERB_CAPTUREMODE_H_ */

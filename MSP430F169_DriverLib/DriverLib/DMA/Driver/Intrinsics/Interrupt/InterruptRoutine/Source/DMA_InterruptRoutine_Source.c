@@ -23,7 +23,7 @@
  */
 #include "DriverLib/DMA/Driver/Intrinsics/Interrupt/InterruptRoutine/Header/DMA_InterruptRoutine_Source.h"
 
-static MCU__pu16fIRQSourceHandler_t DMA_pu16fIRQSourceHandler[(uint8_t) DMA_enCH_MAX]
+static MCU__pu16fIRQSourceHandler_t DMA_CH_pu16fIRQSourceHandler[(uint8_t) DMA_enCH_MAX]
                                                               [(uint8_t) DMA_enCH_TRIGGER_MAX]=
 {
     {
@@ -83,15 +83,15 @@ static MCU__pu16fIRQSourceHandler_t DMA_pu16fIRQSourceHandler[(uint8_t) DMA_enCH
 };
 
 
-MCU__pu16fIRQSourceHandler_t DMA__pu16fGetIRQSourceHandler(DMA_nCH enChannelArg, DMA_nCH_TRIGGER enTrigger)
+MCU__pu16fIRQSourceHandler_t DMA_CH__pu16fGetIRQSourceHandler(DMA_nCH enChannelArg, DMA_nCH_TRIGGER enTrigger)
 {
     MCU__pu16fIRQSourceHandler_t IRQSourceHandler = (MCU__pu16fIRQSourceHandler_t) 0U;
-    IRQSourceHandler = DMA_pu16fIRQSourceHandler[(uint8_t) enChannelArg][(uint8_t) enTrigger];
+    IRQSourceHandler = DMA_CH_pu16fIRQSourceHandler[(uint8_t) enChannelArg][(uint8_t) enTrigger];
     return (IRQSourceHandler);
 }
 
-void DMA__vSetIRQSourceHandler(DMA_nCH enChannelArg, DMA_nCH_TRIGGER enTrigger,
+void DMA_CH__vSetIRQSourceHandler(DMA_nCH enChannelArg, DMA_nCH_TRIGGER enTrigger,
                                MCU__pu16fIRQSourceHandler_t pu16fIRQSourceHandler)
 {
-    DMA_pu16fIRQSourceHandler[(uint8_t) enChannelArg][(uint8_t) enTrigger] = pu16fIRQSourceHandler;
+    DMA_CH_pu16fIRQSourceHandler[(uint8_t) enChannelArg][(uint8_t) enTrigger] = pu16fIRQSourceHandler;
 }

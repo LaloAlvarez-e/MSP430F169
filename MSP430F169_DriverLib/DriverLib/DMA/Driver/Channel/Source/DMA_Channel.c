@@ -26,18 +26,18 @@
 #include "DriverLib/DMA/Driver/Intrinsics/DMA_Intrinsics.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
 
-void DMA__vSetChannelConfig(DMA_nCH enChannelArg,
+void DMA_CH__vSetConfig(DMA_nCH enChannelArg,
                             DMA_CH_Config_t* pstConfigArg)
 {
     DMA_CH_CTL_t stConfigReg = {0};
     DMA_Register_t pstRegisterData;
     if(0UL != (uintptr_t) pstConfigArg)
     {
-        DMA__vSetEnable(enChannelArg, DMA_enCH_ENABLE_DIS);
-        DMA__vSetTrigger(enChannelArg, pstConfigArg->enTrigger);
-        DMA__vSetTransferSize(enChannelArg, pstConfigArg->u16TranferSize);
-        DMA__vSetSourceAddress(enChannelArg, pstConfigArg->u16SourceAddress);
-        DMA__vSetDestAddress(enChannelArg, pstConfigArg->u16DestAddress);
+        DMA_CH__vSetEnable(enChannelArg, DMA_enCH_ENABLE_DIS);
+        DMA_CH__vSetTrigger(enChannelArg, pstConfigArg->enTrigger);
+        DMA_CH__vSetTransferSize(enChannelArg, pstConfigArg->u16TranferSize);
+        DMA_CH__vSetSourceAddress(enChannelArg, pstConfigArg->u16SourceAddress);
+        DMA_CH__vSetDestAddress(enChannelArg, pstConfigArg->u16DestAddress);
 
 
         stConfigReg.DT = (uint16_t) pstConfigArg->enTransferMode;
@@ -65,18 +65,18 @@ void DMA__vSetChannelConfig(DMA_nCH enChannelArg,
 }
 
 
-void DMA__vSetChannelExtendedConfig(DMA_nCH enChannelArg,
+void DMA_CH__vSetConfigExt(DMA_nCH enChannelArg,
                                     DMA_CH_ConfigExt_t* pstConfigArg)
 {
     DMA_CH_CTL_t stConfigReg = {0};
     DMA_Register_t pstRegisterData;
     if(0UL != (uintptr_t) pstConfigArg)
     {
-        DMA__vSetEnable(enChannelArg, DMA_enCH_ENABLE_DIS);
-        DMA__vSetTrigger(enChannelArg, pstConfigArg->enTrigger);
-        DMA__vSetTransferSize(enChannelArg, pstConfigArg->u16TranferSize);
-        DMA__vSetSourceAddress(enChannelArg, pstConfigArg->u16SourceAddress);
-        DMA__vSetDestAddress(enChannelArg, pstConfigArg->u16DestAddress);
+        DMA_CH__vSetEnable(enChannelArg, DMA_enCH_ENABLE_DIS);
+        DMA_CH__vSetTrigger(enChannelArg, pstConfigArg->enTrigger);
+        DMA_CH__vSetTransferSize(enChannelArg, pstConfigArg->u16TranferSize);
+        DMA_CH__vSetSourceAddress(enChannelArg, pstConfigArg->u16SourceAddress);
+        DMA_CH__vSetDestAddress(enChannelArg, pstConfigArg->u16DestAddress);
 
         stConfigReg.DT = (uint16_t) pstConfigArg->enTransferMode;
         stConfigReg.DSTINCR = (uint16_t) pstConfigArg->enDestIncMode;
@@ -106,46 +106,46 @@ void DMA__vSetChannelExtendedConfig(DMA_nCH enChannelArg,
     }
 }
 
-void DMA__vGetChannelConfig(DMA_nCH enChannelArg,
+void DMA_CH__vGetConfig(DMA_nCH enChannelArg,
                             DMA_CH_Config_t* pstConfigArg)
 {
     if(0UL != (uintptr_t) pstConfigArg)
     {
-        pstConfigArg->enTrigger = DMA__enGetTrigger(enChannelArg);
-        pstConfigArg->u16TranferSize = DMA__u16GetTransferSize(enChannelArg);
-        pstConfigArg->u16SourceAddress = DMA__u16GetSourceAddress(enChannelArg);
-        pstConfigArg->u16DestAddress = DMA__u16GetDestAddress(enChannelArg);
-        pstConfigArg->enTransferMode = DMA__enGetTransferMode(enChannelArg);
-        pstConfigArg->enDestIncMode = DMA__enGetDestIncrementMode(enChannelArg);
-        pstConfigArg->enSourceIncMode = DMA__enGetSourceIncrementMode(enChannelArg);
-        pstConfigArg->enDestDataSize = DMA__enGetDestDataSize(enChannelArg);
-        pstConfigArg->enSourceDataSize = DMA__enGetSourceDataSize(enChannelArg);
-        pstConfigArg->enSense = DMA__enGetSense(enChannelArg);
-        pstConfigArg->enEnable = DMA__enGetEnable(enChannelArg);
-        pstConfigArg->enAbort = DMA__enGetAbort(enChannelArg);
+        pstConfigArg->enTrigger = DMA_CH__enGetTrigger(enChannelArg);
+        pstConfigArg->u16TranferSize = DMA_CH__u16GetTransferSize(enChannelArg);
+        pstConfigArg->u16SourceAddress = DMA_CH__u16GetSourceAddress(enChannelArg);
+        pstConfigArg->u16DestAddress = DMA_CH__u16GetDestAddress(enChannelArg);
+        pstConfigArg->enTransferMode = DMA_CH__enGetTransferMode(enChannelArg);
+        pstConfigArg->enDestIncMode = DMA_CH__enGetDestIncrementMode(enChannelArg);
+        pstConfigArg->enSourceIncMode = DMA_CH__enGetSourceIncrementMode(enChannelArg);
+        pstConfigArg->enDestDataSize = DMA_CH__enGetDestDataSize(enChannelArg);
+        pstConfigArg->enSourceDataSize = DMA_CH__enGetSourceDataSize(enChannelArg);
+        pstConfigArg->enSense = DMA_CH__enGetSense(enChannelArg);
+        pstConfigArg->enEnable = DMA_CH__enGetEnable(enChannelArg);
+        pstConfigArg->enAbort = DMA_CH__enGetAbort(enChannelArg);
     }
 }
 
 
-    void DMA__vGetChannelExtendedConfig(DMA_nCH enChannelArg,
+void DMA_CH__vGetConfigExt(DMA_nCH enChannelArg,
                                 DMA_CH_ConfigExt_t* pstConfigArg)
 {
     if(0UL != (uintptr_t) pstConfigArg)
     {
-        pstConfigArg->enTrigger = DMA__enGetTrigger(enChannelArg);
-        pstConfigArg->u16TranferSize = DMA__u16GetTransferSize(enChannelArg);
-        pstConfigArg->u16SourceAddress = DMA__u16GetSourceAddress(enChannelArg);
-        pstConfigArg->u16DestAddress = DMA__u16GetDestAddress(enChannelArg);
-        pstConfigArg->enTransferMode = DMA__enGetTransferMode(enChannelArg);
-        pstConfigArg->enDestIncMode = DMA__enGetDestIncrementMode(enChannelArg);
-        pstConfigArg->enSourceIncMode = DMA__enGetSourceIncrementMode(enChannelArg);
-        pstConfigArg->enDestDataSize = DMA__enGetDestDataSize(enChannelArg);
-        pstConfigArg->enSourceDataSize = DMA__enGetSourceDataSize(enChannelArg);
-        pstConfigArg->enSense = DMA__enGetSense(enChannelArg);
-        pstConfigArg->enEnable = DMA__enGetEnable(enChannelArg);
-        pstConfigArg->enAbort = DMA__enGetAbort(enChannelArg);
-        pstConfigArg->enInterruptEnable = DMA__enGetEnableInterruptSource(enChannelArg);
-        pstConfigArg->enInterruptStatus = DMA__enGetStatusInterruptSource(enChannelArg);
+        pstConfigArg->enTrigger = DMA_CH__enGetTrigger(enChannelArg);
+        pstConfigArg->u16TranferSize = DMA_CH__u16GetTransferSize(enChannelArg);
+        pstConfigArg->u16SourceAddress = DMA_CH__u16GetSourceAddress(enChannelArg);
+        pstConfigArg->u16DestAddress = DMA_CH__u16GetDestAddress(enChannelArg);
+        pstConfigArg->enTransferMode = DMA_CH__enGetTransferMode(enChannelArg);
+        pstConfigArg->enDestIncMode = DMA_CH__enGetDestIncrementMode(enChannelArg);
+        pstConfigArg->enSourceIncMode = DMA_CH__enGetSourceIncrementMode(enChannelArg);
+        pstConfigArg->enDestDataSize = DMA_CH__enGetDestDataSize(enChannelArg);
+        pstConfigArg->enSourceDataSize = DMA_CH__enGetSourceDataSize(enChannelArg);
+        pstConfigArg->enSense = DMA_CH__enGetSense(enChannelArg);
+        pstConfigArg->enEnable = DMA_CH__enGetEnable(enChannelArg);
+        pstConfigArg->enAbort = DMA_CH__enGetAbort(enChannelArg);
+        pstConfigArg->enInterruptEnable = DMA_CH__enGetEnableInterruptSource(enChannelArg);
+        pstConfigArg->enInterruptStatus = DMA_CH__enGetStatusInterruptSource(enChannelArg);
     }
 }
 

@@ -27,13 +27,13 @@
 
 #include "DriverLib/TIMERB/Peripheral/Header/TIMERB_Enum.h"
 
-void TIMERB__vSetCompareConfig(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCompareConfig(TIMERB_nCC enModuleArg,
                                TIMERB_Compare_Config_t* pstCompareConfigArg);
-void TIMERB__vGetCompareConfig(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vGetCompareConfig(TIMERB_nCC enModuleArg,
                         TIMERB_Compare_Config_t* pstCompareConfigArg);
-void TIMERB__vSetCompareConfigExt(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vSetCompareConfigExt(TIMERB_nCC enModuleArg,
                                   TIMERB_Compare_ConfigExt_t* pstCompareConfigArg);
-void TIMERB__vGetCompareConfigExt(TIMERB_nCC enModuleArg,
+void TIMERB_CC__vGetCompareConfigExt(TIMERB_nCC enModuleArg,
                                   TIMERB_Compare_ConfigExt_t* pstCompareConfigArg);
 
 

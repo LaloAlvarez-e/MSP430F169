@@ -27,9 +27,9 @@
 
 #include "DriverLib/TIMERA/Peripheral/Header/TIMERA_Enum.h"
 
-void TIMERA__vSetCaptureOverflow(TIMERA_nCC enModuleArg,
+void TIMERA_CC__vSetCaptureOverflow(TIMERA_nCC enModuleArg,
                                  TIMERA_nINT_STATUS enCaptureOverflowArg);
-void TIMERA__vClearCaptureOverflow(TIMERA_nCC enModuleArg);
-TIMERA_nINT_STATUS TIMERA__enGetCaptureOverflow(TIMERA_nCC enModuleArg);
+void TIMERA_CC__vClearCaptureOverflow(TIMERA_nCC enModuleArg);
+TIMERA_nINT_STATUS TIMERA_CC__enGetCaptureOverflow(TIMERA_nCC enModuleArg);
 
 #endif /* DRIVERLIB_TIMERA_DRIVER_MODULE_HEADER_TIMERA_CAPTUREOVERFLOW_H_ */
