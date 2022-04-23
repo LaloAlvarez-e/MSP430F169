@@ -83,14 +83,14 @@ typedef enum
 
 typedef enum
 {
-    ADC12_nINT_ENABLE_DIS = 0U,
-    ADC12_nINT_ENABLE_ENA = 1U,
+    ADC12_enINT_ENABLE_DIS = 0U,
+    ADC12_enINT_ENABLE_ENA = 1U,
 }ADC12_nINT_ENABLE;
 
 typedef enum
 {
-    ADC12_nINT_STATUS_NOOCCUR = 0U,
-    ADC12_nINT_STATUS_OCCUR = 1U,
+    ADC12_enINT_STATUS_NOOCCUR = 0U,
+    ADC12_enINT_STATUS_OCCUR = 1U,
 }ADC12_nINT_STATUS;
 
 typedef enum

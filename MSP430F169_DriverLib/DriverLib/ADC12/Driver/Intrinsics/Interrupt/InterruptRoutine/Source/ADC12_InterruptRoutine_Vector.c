@@ -46,7 +46,7 @@ __interrupt void ADC12_IRQVectorHandler(void)
         break;
     case ADC12_IV_R_IV_CH0:
         u16Conversion = ADC12_CH0_MEM_R;
-        IRQSourceHandlerReg = ADC12_CH__pu16fGetIRQSourceHandler(ADC12_enCH0);
+    IRQSourceHandlerReg = ADC12_CH__pu16fGetIRQSourceHandler(ADC12_enCH0);
         u16Status &= IRQSourceHandlerReg(ADC12_CH0_BASE, u16Conversion);
         break;
     case ADC12_IV_R_IV_CH1:

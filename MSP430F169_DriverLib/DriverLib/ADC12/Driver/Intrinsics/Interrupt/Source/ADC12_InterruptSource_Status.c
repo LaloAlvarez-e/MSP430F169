@@ -41,7 +41,7 @@ void ADC12_CH__vSetStatusInterruptSource(ADC12_nCH enChannelArg,
 ADC12_nINT_STATUS ADC12_CH__enGetStatusInterruptSource(ADC12_nCH enChannelArg)
 {
     ADC12_Register16Bits_t pstRegisterData;
-    ADC12_nINT_STATUS enStatus = ADC12_nINT_STATUS_NOOCCUR;
+    ADC12_nINT_STATUS enStatus = ADC12_enINT_STATUS_NOOCCUR;
 
     pstRegisterData.uptrAddress = ADC12_IFG_OFFSET;
     pstRegisterData.u16Mask = ADC12_IFG_CH0_MASK;

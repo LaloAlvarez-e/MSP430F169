@@ -96,11 +96,11 @@ void ADC12__vSetConfigExt(ADC12_ConfigExt_t* pstConfigArg)
         enEnableReg = ADC12__enGetEnableConversion();
         ADC12__vDisableConversion();
 
+        stConfig0Reg.TOVIE = (uint16_t) pstConfigArg->enTOVInterruptEnable;
+        stConfig0Reg.OVIE = (uint16_t) pstConfigArg->enOVInterruptEnable;
         stConfig0Reg.MSC = (uint16_t) pstConfigArg->enConversionRate;
         stConfig0Reg.SHT0 = (uint16_t) pstConfigArg->enSamplingCyclesLow;
         stConfig0Reg.SHT1 = (uint16_t) pstConfigArg->enSamplingCyclesHigh;
-        stConfig0Reg.OVIE = (uint16_t) pstConfigArg->enOVInterruptEnable;
-        stConfig0Reg.TOVIE = (uint16_t) pstConfigArg->enTOVInterruptEnable;
 
         pstRegisterData.uptrAddress = ADC12_CTL0_OFFSET;
         pstRegisterData.u16Value = (*(uint16_t*) &stConfig0Reg);
