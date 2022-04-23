@@ -1,11 +1,11 @@
 #include "DriverLib/DriverLib.h"
 
 
-uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source);
-uint16_t MAIN_u16TIMERAInterval(uintptr_t ptrBlock, uint8_t u8Source);
-uint16_t MAIN_u16TIMERA_CC0(uintptr_t ptrBlock, uint8_t u8Source);
-uint16_t MAIN_u16TIMERA_CC1(uintptr_t ptrBlock, uint8_t u8Source);
-uint16_t MAIN_u16TIMERA_CC2(uintptr_t ptrBlock, uint8_t u8Source);
+uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint16_t u16Source);
+uint16_t MAIN_u16TIMERAInterval(uintptr_t ptrBlock, uint16_t u16Source);
+uint16_t MAIN_u16TIMERA_CC0(uintptr_t ptrBlock, uint16_t u16Source);
+uint16_t MAIN_u16TIMERA_CC1(uintptr_t ptrBlock, uint16_t u16Source);
+uint16_t MAIN_u16TIMERA_CC2(uintptr_t ptrBlock, uint16_t u16Source);
 
 #define LED1_PORT (GPIO_enPORT1)
 #define LED1_PIN (GPIO_enPIN_NUMBER0)
@@ -64,7 +64,7 @@ void main(void)
     GPIO__vSetSelectionByNumber(TEST_PORT, TEST_PIN, GPIO_enSEL_IO);
 
     /** Rosc*/
-    GPIO__vSetConfig(GPIO_enROSC);
+    GPIO__vSetConfig(GPIO_enROSC_P25);
 
     CLOCK__vSetDCOFrequency(800000UL, CLOCK_enRESISTOR_EXTERNAL);
     CLOCK__vSetLFXT1FrequencyMode(CLOCK_enFREQMODE_LOW);
@@ -109,21 +109,21 @@ void main(void)
 	}
 }
 
-uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source)
+uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint16_t u16Source)
 {
     u16WDTCount++;
     PORT1_OUT_R ^= PORT_OUT_R_PIN0_MASK;
     return (0U);
 }
 
-uint16_t MAIN_u16TIMERAInterval(uintptr_t ptrBlock, uint8_t u8Source)
+uint16_t MAIN_u16TIMERAInterval(uintptr_t ptrBlock, uint16_t u16Source)
 {
     u16TIMERACount++;
     PORT3_OUT_R ^= PORT_OUT_R_PIN4_MASK;
     return (0U);
 }
 
-uint16_t MAIN_u16TIMERA_CC0(uintptr_t ptrBlock, uint8_t u8Source)
+uint16_t MAIN_u16TIMERA_CC0(uintptr_t ptrBlock, uint16_t u16Source)
 {
     u16TIMERA_CC0Count++;
     TIMERA_CC0_R_R += 10000U;
@@ -131,7 +131,7 @@ uint16_t MAIN_u16TIMERA_CC0(uintptr_t ptrBlock, uint8_t u8Source)
     return (0U);
 }
 
-uint16_t MAIN_u16TIMERA_CC1(uintptr_t ptrBlock, uint8_t u8Source)
+uint16_t MAIN_u16TIMERA_CC1(uintptr_t ptrBlock, uint16_t u16Source)
 {
     u16TIMERA_CC1Count++;
     TIMERA_CC1_R_R += 20000U;
@@ -139,7 +139,7 @@ uint16_t MAIN_u16TIMERA_CC1(uintptr_t ptrBlock, uint8_t u8Source)
     return (0U);
 }
 
-uint16_t MAIN_u16TIMERA_CC2(uintptr_t ptrBlock, uint8_t u8Source)
+uint16_t MAIN_u16TIMERA_CC2(uintptr_t ptrBlock, uint16_t u16Source)
 {
     u16TIMERA_CC2Count++;
     TIMERA_CC2_R_R += 40000U;

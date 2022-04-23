@@ -1,6 +1,6 @@
 #include "DriverLib/DriverLib.h"
 
-uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source);
+uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint16_t u16Source);
 
 #define LED4_PORT (GPIO_enPORT1)
 #define LED4_PIN (GPIO_enPIN_NUMBER3)
@@ -54,7 +54,7 @@ void main(void)
 	}
 }
 
-uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source)
+uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint16_t u16Source)
 {
     static uint8_t u8Level = 1U;
     u8Level ^= 1U;

@@ -1,8 +1,8 @@
 #include "DriverLib/DriverLib.h"
 
 
-uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source);
-uint16_t MAIN_u16SWITCH1(uintptr_t ptrBlock, uint8_t u8Source);
+uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint16_t u16Source);
+uint16_t MAIN_u16SWITCH1(uintptr_t ptrBlock, uint16_t u16Source);
 
 #define SWITCH1_PORT (GPIO_enPORT1)
 #define SWITCH1_PIN (GPIO_enPIN_NUMBER4)
@@ -77,7 +77,7 @@ void main(void)
     GPIO__vSetConfig(GPIO_enTA_OUT1_P23);
 
     /** Rosc*/
-    GPIO__vSetConfig(GPIO_enROSC);
+    GPIO__vSetConfig(GPIO_enROSC_P25);
 
     CLOCK__vSetDCOFrequency(800000UL, CLOCK_enRESISTOR_EXTERNAL);
     CLOCK__vSetLFXT1FrequencyMode(CLOCK_enFREQMODE_LOW);
@@ -114,7 +114,7 @@ void main(void)
 	}
 }
 
-uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source)
+uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint16_t u16Source)
 {
     static int8_t s8Direction = DEGREE_INCREASE;
     static int16_t s16Degree = 0U;
@@ -136,7 +136,7 @@ uint16_t MAIN_u16WDTInterval(uintptr_t ptrBlock, uint8_t u8Source)
     return (0U);
 }
 
-uint16_t MAIN_u16SWITCH1(uintptr_t ptrBlock, uint8_t u8Source)
+uint16_t MAIN_u16SWITCH1(uintptr_t ptrBlock, uint16_t u16Source)
 {
     PORT1_OUT_R ^= PORT_OUT_R_PIN2_MASK;
     return (0U);

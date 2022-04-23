@@ -1,6 +1,6 @@
 #include "DriverLib/DriverLib.h"
 
-uint16_t MAIN_u16SwitchInterrupt(uintptr_t uptrModule, uint8_t u8IntSource);
+uint16_t MAIN_u16SwitchInterrupt(uintptr_t uptrModule, uint16_t u16IntSource);
 
 #define SWITCH1_PORT (GPIO_enPORT1)
 #define SWITCH2_PORT (GPIO_enPORT1)
@@ -72,11 +72,11 @@ void main(void)
 }
 
 
-uint16_t MAIN_u16SwitchInterrupt(uintptr_t uptrModule, uint8_t u8IntSource)
+uint16_t MAIN_u16SwitchInterrupt(uintptr_t uptrModule, uint16_t u16IntSource)
 {
     uint16_t u16WDTReg = 0U;
     uint16_t u16Period = 0U;
-    GPIO_nPIN_NUMBER enPinNumber = (GPIO_nPIN_NUMBER) u8IntSource;
+    GPIO_nPIN_NUMBER enPinNumber = (GPIO_nPIN_NUMBER) u16IntSource;
 
     if(SWITCH1_PIN == enPinNumber)
     {

@@ -23,7 +23,7 @@
 void MAIN_vInitInput(void);
 void MAIN_vInitOutput(void);
 
-uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint8_t u8PinNumber);
+uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint16_t u16PinNumber);
 
 uint16_t u16Count = 0U;
 uint32_t u32FreqDCO = 0UL;
@@ -92,35 +92,35 @@ void main(void)
 }
 
 
-uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint8_t u8PinNumber)
+uint16_t MAIN_u16Switch(uintptr_t uptrPort, uint16_t u16PinNumber)
 {
     PORT_EXT_t* pstPort = (PORT_EXT_t*) uptrPort;
-    GPIO_nPIN_NUMBER enPinNumber = (GPIO_nPIN_NUMBER) u8PinNumber;
+    GPIO_nPIN_NUMBER enPinNumber = (GPIO_nPIN_NUMBER) u16PinNumber;
     uint8_t u8Mask = 1U;
     uint8_t u8ShiftLed = 7U;
     uint8_t u8MaskLed = 1U;
     uint16_t u16Status = 0U;
     uint8_t u8Edge = pstPort->IES;
     u8Mask <<= (uint8_t) enPinNumber;
-    u8ShiftLed -= u8PinNumber;
+    u8ShiftLed -= u16PinNumber;
     u8MaskLed <<= u8ShiftLed;
     if(0UL != (u8Edge & u8Mask)) /*High-To-Low*/
     {
         pstPort->IES &= ~u8Mask;
         PORT1->OUT &= ~u8MaskLed;
-        if(u8PinNumber == (uint8_t) SWITCH1_PIN)
+        if(u16PinNumber == (uint16_t) SWITCH1_PIN)
         {
             CLOCK__vSetMCLKDividerByNumber(1U);
         }
-        if(u8PinNumber == (uint8_t) SWITCH2_PIN)
+        if(u16PinNumber == (uint16_t) SWITCH2_PIN)
         {
             CLOCK__vSetMCLKDividerByNumber(2U);
         }
-        if(u8PinNumber == (uint8_t) SWITCH3_PIN)
+        if(u16PinNumber == (uint16_t) SWITCH3_PIN)
         {
             CLOCK__vSetMCLKDividerByNumber(4U);
         }
-        if(u8PinNumber == (uint8_t) SWITCH4_PIN)
+        if(u16PinNumber == (uint16_t) SWITCH4_PIN)
         {
             CLOCK__vSetMCLKDividerByNumber(8U);
         }

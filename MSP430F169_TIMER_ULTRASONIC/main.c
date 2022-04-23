@@ -3,9 +3,9 @@
 #include <main.h>
 
 
-uint16_t MAIN_u16UltrasonicTrigger(uintptr_t ptrBlock, uint8_t u8Source);
-uint16_t MAIN_u16UltrasonicCapture(uintptr_t ptrBlock, uint8_t u8Source);
-uint16_t MAIN_u16TimerOverflow(uintptr_t ptrBlock, uint8_t u8Source);
+uint16_t MAIN_u16UltrasonicTrigger(uintptr_t ptrBlock, uint16_t u16Source);
+uint16_t MAIN_u16UltrasonicCapture(uintptr_t ptrBlock, uint16_t u16Source);
+uint16_t MAIN_u16TimerOverflow(uintptr_t ptrBlock, uint16_t u16Source);
 
 #define TRIGGER_PORT (GPIO_enPORT4)
 #define TRIGGER_PIN (GPIO_enPIN_NUMBER4)
@@ -254,7 +254,7 @@ void main(void)
 	}
 }
 
-uint16_t MAIN_u16UltrasonicTrigger(uintptr_t ptrBlock, uint8_t u8Source)
+uint16_t MAIN_u16UltrasonicTrigger(uintptr_t ptrBlock, uint16_t u16Source)
 {
     if(0U == u8Complete)
     {
@@ -266,16 +266,16 @@ uint16_t MAIN_u16UltrasonicTrigger(uintptr_t ptrBlock, uint8_t u8Source)
     return (0xFFU);
 }
 
-uint16_t MAIN_u16TimerOverflow(uintptr_t ptrBlock, uint8_t u8Source)
+uint16_t MAIN_u16TimerOverflow(uintptr_t ptrBlock, uint16_t u16Source)
 {
     u16TimerOverflow++;
     return (0xFFU);
 }
 
 
-uint16_t MAIN_u16UltrasonicCapture(uintptr_t ptrBlock, uint8_t u8Source)
+uint16_t MAIN_u16UltrasonicCapture(uintptr_t ptrBlock, uint16_t u16Source)
 {
-    uint8_t u8Edge = u8Source;
+    uint8_t u8Edge = u16Source;
     u8Edge &= TIMERA_CC_CTL_R_CCI_MASK;
     if(TIMERA_CC_CTL_R_CCI_HIGH == u8Edge) /*Rising Detection*/
     {
