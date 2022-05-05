@@ -37,6 +37,12 @@ typedef enum
     MCU_enSTATUS_ERROR = 1U,
 }MCU_nSTATUS;
 
+typedef enum
+{
+    FALSE = 0U,
+    TRUE = 1U,
+}boolean_t;
+
 typedef uint16_t (*MCU__pu16fIRQSourceHandler_t)(uintptr_t uptrModule, uint16_t u16IntSource);
 
 uint16_t MCU__u16IRQSourceHandler_Dummy(uintptr_t uptrModule, uint16_t u16IntSource);

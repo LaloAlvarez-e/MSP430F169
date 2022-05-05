@@ -35,7 +35,7 @@ __interrupt void TIMERA_CC0_IRQVectorHandler(void)
     uint16_t u16Mode = TIMERA_CC0_CTL_R;
     uint16_t u16PinValue = 0U;
     u16PinValue = u16Mode;
-    u16PinValue &= TIMERA_CC_CTL_R_CCI_MASK;
+    u16PinValue &= TIMERA_CC_CTL_R_CCI_MASK | TIMERA_CC_CTL_R_SCCI_MASK;
     u16Mode &= TIMERA_CC_CTL_R_CAP_MASK;
 
 
