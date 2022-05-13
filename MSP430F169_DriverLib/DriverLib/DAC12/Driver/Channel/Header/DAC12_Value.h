@@ -1,0 +1,33 @@
+/**
+ *
+ * @file DAC12_Value.h
+ * @copyright
+ * @verbatim InDeviceMex 2021 @endverbatim
+ *
+ * @par Responsibility
+ * @verbatim InDeviceMex Developers @endverbatim
+ *
+ * @version
+ * @verbatim 1.0 @endverbatim
+ *
+ * @date
+ * @verbatim 23 abr. 2022 @endverbatim
+ *
+ * @author
+ * @verbatim InDeviceMex @endverbatim
+ *
+ * @par Change History
+ * @verbatim
+ * Date           Author     Version     Description
+ * 23 abr. 2022     InDeviceMex    1.0         initial Version@endverbatim
+ */
+
+#ifndef DRIVERLIB_DAC12_DRIVER_CHANNEL_HEADER_DAC12_VALUE_H_
+#define DRIVERLIB_DAC12_DRIVER_CHANNEL_HEADER_DAC12_VALUE_H_
+
+#include "DriverLib/DAC12/Peripheral/Header/DAC12_Enum.h"
+
+void DAC12__vSetValue(DAC12_nCH enChannelArg, uint16_t u16ValueArg);
+uint16_t DAC12__u16GetValue(DAC12_nCH enChannelArg);
+
+#endif /* DRIVERLIB_DAC12_DRIVER_CHANNEL_HEADER_DAC12_VALUE_H_ */

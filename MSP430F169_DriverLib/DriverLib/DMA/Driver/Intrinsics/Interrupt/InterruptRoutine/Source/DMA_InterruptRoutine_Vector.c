@@ -1,3 +1,4 @@
+
 /**
  *
  * @file DMA_InterruptRoutine_Vector.c
@@ -26,6 +27,10 @@
 
 #include "DriverLib/DMA/Driver/Intrinsics/Primitives/DMA_Primitives.h"
 #include "DriverLib/DMA/Peripheral/DMA_Peripheral.h"
+
+#include "DriverLib/DAC12/Driver/Intrinsics/Interrupt/InterruptRoutine/Header/DAC12_InterruptRoutine_Source.h"
+#include "DriverLib/DAC12/Driver/Intrinsics/Primitives/DAC12_Primitives.h"
+#include "DriverLib/DAC12/Peripheral/DAC12_Peripheral.h"
 #include <msp430.h>
 
 __interrupt void DACDMA_IRQVectorHandler(void)
@@ -35,6 +40,8 @@ __interrupt void DACDMA_IRQVectorHandler(void)
     uint16_t u16ControlDMA_CH0 = DMA_CH0_CTL_R;
     uint16_t u16ControlDMA_CH1 = DMA_CH1_CTL_R;
     uint16_t u16ControlDMA_CH2 = DMA_CH2_CTL_R;
+    uint16_t u16ControlDAC12_CH0 = DAC12_CH0_CTL_R;
+    uint16_t u16ControlDAC12_CH1 = DAC12_CH1_CTL_R;
     uint16_t u16Trigger = 0U;
     uint16_t u16Flag = 0U;
     uint16_t u16Enable = 0U;
@@ -77,6 +84,26 @@ __interrupt void DACDMA_IRQVectorHandler(void)
         IRQSourceHandlerReg = DMA_CH__pu16fGetIRQSourceHandler(DMA_enCH2, (DMA_nCH_TRIGGER) u16Trigger);
 
         u16Status &= IRQSourceHandlerReg(DMA_CH2_BASE, (uint16_t) u16Trigger);
+    }
+    u16Flag = u16ControlDAC12_CH0 & DAC12_CH_CTL_R_IFG_MASK;
+    u16Enable = u16ControlDAC12_CH0 & DAC12_CH_CTL_R_IE_MASK;
+    u16Enable |= u16Flag;
+    if((DAC12_CH_CTL_R_IFG_MASK | DAC12_CH_CTL_R_IE_MASK) == u16Enable)
+    {
+        DAC12_CH0_CTL_R &= ~DAC12_CH_CTL_R_IFG_MASK;
+        IRQSourceHandlerReg = DAC12_CH__pu16fGetIRQSourceHandler(DAC12_enCH0);
+
+        u16Status &= IRQSourceHandlerReg(DAC12_CH0_BASE, 0U);
+    }
+    u16Flag = u16ControlDAC12_CH1 & DAC12_CH_CTL_R_IFG_MASK;
+    u16Enable = u16ControlDAC12_CH1 & DAC12_CH_CTL_R_IE_MASK;
+    u16Enable |= u16Flag;
+    if((DAC12_CH_CTL_R_IFG_MASK | DAC12_CH_CTL_R_IE_MASK) == u16Enable)
+    {
+        DAC12_CH1_CTL_R &= ~DAC12_CH_CTL_R_IFG_MASK;
+        IRQSourceHandlerReg = DAC12_CH__pu16fGetIRQSourceHandler(DAC12_enCH1);
+
+        u16Status &= IRQSourceHandlerReg(DAC12_CH1_BASE, 0U);
     }
     if(0xFFU != u16Status)
     {
