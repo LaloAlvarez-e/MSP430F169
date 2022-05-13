@@ -48,7 +48,7 @@ void (* const INTERRUPT__pfvVector[15U])(void) =
 
 __interrupt void IntDefaultHandler(void)
 {
-    while(1)
+    while(1U)
     {
 
     }
