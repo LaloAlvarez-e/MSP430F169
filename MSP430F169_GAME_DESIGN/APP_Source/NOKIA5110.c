@@ -14,110 +14,479 @@
 #include <DriverLib/DriverLib.h>
 #include <SPI.h>
 #include "xUtils/Font/Font.h"
-#include "xUtils/Conversion/Conversion.h"
+#include <xApplication/Printf/Printf.h>
 
-#include "stdarg.h"
+static void LCD_vDmaInit(void);
+static void LCD_vClearDmaInit(void);
 
 static uint8_t NOKIA5110_u8ImageBuffer[NOKIA5110_MAX_X*(NOKIA5110_MAX_Y/8)];
-static const uint8_t NOKIA5110_u8ASCII[96][5] = {
-  {0x00, 0x00, 0x00, 0x00, 0x00} // 20
-  ,{0x00, 0x00, 0x5f, 0x00, 0x00} // 21 !
-  ,{0x00, 0x07, 0x00, 0x07, 0x00} // 22 "
-  ,{0x14, 0x7f, 0x14, 0x7f, 0x14} // 23 #
-  ,{0x24, 0x2a, 0x7f, 0x2a, 0x12} // 24 $
-  ,{0x23, 0x13, 0x08, 0x64, 0x62} // 25 %
-  ,{0x36, 0x49, 0x55, 0x22, 0x50} // 26 &
-  ,{0x00, 0x05, 0x03, 0x00, 0x00} // 27 '
-  ,{0x00, 0x1c, 0x22, 0x41, 0x00} // 28 (
-  ,{0x00, 0x41, 0x22, 0x1c, 0x00} // 29 )
-  ,{0x14, 0x08, 0x3e, 0x08, 0x14} // 2a *
-  ,{0x08, 0x08, 0x3e, 0x08, 0x08} // 2b +
-  ,{0x00, 0x50, 0x30, 0x00, 0x00} // 2c ,
-  ,{0x08, 0x08, 0x08, 0x08, 0x08} // 2d -
-  ,{0x00, 0x60, 0x60, 0x00, 0x00} // 2e .
-  ,{0x20, 0x10, 0x08, 0x04, 0x02} // 2f /
-  ,{0x3e, 0x51, 0x49, 0x45, 0x3e} // 30 0
-  ,{0x00, 0x42, 0x7f, 0x40, 0x00} // 31 1
-  ,{0x42, 0x61, 0x51, 0x49, 0x46} // 32 2
-  ,{0x21, 0x41, 0x45, 0x4b, 0x31} // 33 3
-  ,{0x18, 0x14, 0x12, 0x7f, 0x10} // 34 4
-  ,{0x27, 0x45, 0x45, 0x45, 0x39} // 35 5
-  ,{0x3c, 0x4a, 0x49, 0x49, 0x30} // 36 6
-  ,{0x01, 0x71, 0x09, 0x05, 0x03} // 37 7
-  ,{0x36, 0x49, 0x49, 0x49, 0x36} // 38 8
-  ,{0x06, 0x49, 0x49, 0x29, 0x1e} // 39 9
-  ,{0x00, 0x36, 0x36, 0x00, 0x00} // 3a :
-  ,{0x00, 0x56, 0x36, 0x00, 0x00} // 3b ;
-  ,{0x08, 0x14, 0x22, 0x41, 0x00} // 3c <
-  ,{0x14, 0x14, 0x14, 0x14, 0x14} // 3d =
-  ,{0x00, 0x41, 0x22, 0x14, 0x08} // 3e >
-  ,{0x02, 0x01, 0x51, 0x09, 0x06} // 3f ?
-  ,{0x32, 0x49, 0x79, 0x41, 0x3e} // 40 @
-  ,{0x7e, 0x11, 0x11, 0x11, 0x7e} // 41 A
-  ,{0x7f, 0x49, 0x49, 0x49, 0x36} // 42 B
-  ,{0x3e, 0x41, 0x41, 0x41, 0x22} // 43 C
-  ,{0x7f, 0x41, 0x41, 0x22, 0x1c} // 44 D
-  ,{0x7f, 0x49, 0x49, 0x49, 0x41} // 45 E
-  ,{0x7f, 0x09, 0x09, 0x09, 0x01} // 46 F
-  ,{0x3e, 0x41, 0x49, 0x49, 0x7a} // 47 G
-  ,{0x7f, 0x08, 0x08, 0x08, 0x7f} // 48 H
-  ,{0x00, 0x41, 0x7f, 0x41, 0x00} // 49 I
-  ,{0x20, 0x40, 0x41, 0x3f, 0x01} // 4a J
-  ,{0x7f, 0x08, 0x14, 0x22, 0x41} // 4b K
-  ,{0x7f, 0x40, 0x40, 0x40, 0x40} // 4c L
-  ,{0x7f, 0x02, 0x0c, 0x02, 0x7f} // 4d M
-  ,{0x7f, 0x04, 0x08, 0x10, 0x7f} // 4e N
-  ,{0x3e, 0x41, 0x41, 0x41, 0x3e} // 4f O
-  ,{0x7f, 0x09, 0x09, 0x09, 0x06} // 50 P
-  ,{0x3e, 0x41, 0x51, 0x21, 0x5e} // 51 Q
-  ,{0x7f, 0x09, 0x19, 0x29, 0x46} // 52 R
-  ,{0x46, 0x49, 0x49, 0x49, 0x31} // 53 S
-  ,{0x01, 0x01, 0x7f, 0x01, 0x01} // 54 T
-  ,{0x3f, 0x40, 0x40, 0x40, 0x3f} // 55 U
-  ,{0x1f, 0x20, 0x40, 0x20, 0x1f} // 56 V
-  ,{0x3f, 0x40, 0x38, 0x40, 0x3f} // 57 W
-  ,{0x63, 0x14, 0x08, 0x14, 0x63} // 58 X
-  ,{0x07, 0x08, 0x70, 0x08, 0x07} // 59 Y
-  ,{0x61, 0x51, 0x49, 0x45, 0x43} // 5a Z
-  ,{0x00, 0x7f, 0x41, 0x41, 0x00} // 5b [
-  ,{0x02, 0x04, 0x08, 0x10, 0x20} // 5c '\'
-  ,{0x00, 0x41, 0x41, 0x7f, 0x00} // 5d ]
-  ,{0x04, 0x02, 0x01, 0x02, 0x04} // 5e ^
-  ,{0x40, 0x40, 0x40, 0x40, 0x40} // 5f _
-  ,{0x00, 0x01, 0x02, 0x04, 0x00} // 60 `
-  ,{0x20, 0x54, 0x54, 0x54, 0x78} // 61 a
-  ,{0x7f, 0x48, 0x44, 0x44, 0x38} // 62 b
-  ,{0x38, 0x44, 0x44, 0x44, 0x20} // 63 c
-  ,{0x38, 0x44, 0x44, 0x48, 0x7f} // 64 d
-  ,{0x38, 0x54, 0x54, 0x54, 0x18} // 65 e
-  ,{0x08, 0x7e, 0x09, 0x01, 0x02} // 66 f
-  ,{0x0c, 0x52, 0x52, 0x52, 0x3e} // 67 g
-  ,{0x7f, 0x08, 0x04, 0x04, 0x78} // 68 h
-  ,{0x00, 0x44, 0x7d, 0x40, 0x00} // 69 i
-  ,{0x20, 0x40, 0x44, 0x3d, 0x00} // 6a j
-  ,{0x7f, 0x10, 0x28, 0x44, 0x00} // 6b k
-  ,{0x00, 0x41, 0x7f, 0x40, 0x00} // 6c l
-  ,{0x7c, 0x04, 0x18, 0x04, 0x78} // 6d m
-  ,{0x7c, 0x08, 0x04, 0x04, 0x78} // 6e n
-  ,{0x38, 0x44, 0x44, 0x44, 0x38} // 6f o
-  ,{0x7c, 0x14, 0x14, 0x14, 0x08} // 70 p
-  ,{0x08, 0x14, 0x14, 0x18, 0x7c} // 71 q
-  ,{0x7c, 0x08, 0x04, 0x04, 0x08} // 72 r
-  ,{0x48, 0x54, 0x54, 0x54, 0x20} // 73 s
-  ,{0x04, 0x3f, 0x44, 0x40, 0x20} // 74 t
-  ,{0x3c, 0x40, 0x40, 0x20, 0x7c} // 75 u
-  ,{0x1c, 0x20, 0x40, 0x20, 0x1c} // 76 v
-  ,{0x3c, 0x40, 0x30, 0x40, 0x3c} // 77 w
-  ,{0x44, 0x28, 0x10, 0x28, 0x44} // 78 x
-  ,{0x0c, 0x50, 0x50, 0x50, 0x3c} // 79 y
-  ,{0x44, 0x64, 0x54, 0x4c, 0x44} // 7a z
-  ,{0x00, 0x08, 0x36, 0x41, 0x00} // 7b {
-  ,{0x00, 0x00, 0x7f, 0x00, 0x00} // 7c |
-  ,{0x00, 0x41, 0x36, 0x08, 0x00} // 7d }
-  ,{0x10, 0x08, 0x08, 0x10, 0x08} // 7e ~
-//  ,{0x78, 0x46, 0x41, 0x46, 0x78} // 7f DEL
-  ,{0x1f, 0x24, 0x7c, 0x24, 0x1f} // 7f UT sign
+static const uint8_t NOKIA5110_u8ASCII[96U][LCD_CHAR_WIDTH] = {
+   {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00} // 20
+  ,{0x00, 0x00, 0x00, 0x5f, 0x00, 0x00, 0x00} // 21 !
+  ,{0x00, 0x00, 0x07, 0x00, 0x07, 0x00, 0x00} // 22 "
+  ,{0x00, 0x14, 0x7f, 0x14, 0x7f, 0x14, 0x00} // 23 #
+  ,{0x00, 0x24, 0x2a, 0x7f, 0x2a, 0x12, 0x00} // 24 $
+  ,{0x00, 0x23, 0x13, 0x08, 0x64, 0x62, 0x00} // 25 %
+  ,{0x00, 0x36, 0x49, 0x55, 0x22, 0x50, 0x00} // 26 &
+  ,{0x00, 0x00, 0x05, 0x03, 0x00, 0x00, 0x00} // 27 '
+  ,{0x00, 0x00, 0x1c, 0x22, 0x41, 0x00, 0x00} // 28 (
+  ,{0x00, 0x00, 0x41, 0x22, 0x1c, 0x00, 0x00} // 29 )
+  ,{0x00, 0x14, 0x08, 0x3e, 0x08, 0x14, 0x00} // 2a *
+  ,{0x00, 0x08, 0x08, 0x3e, 0x08, 0x08, 0x00} // 2b +
+  ,{0x00, 0x00, 0x50, 0x30, 0x00, 0x00, 0x00} // 2c ,
+  ,{0x00, 0x08, 0x08, 0x08, 0x08, 0x08, 0x00} // 2d -
+  ,{0x00, 0x00, 0x60, 0x60, 0x00, 0x00, 0x00} // 2e .
+  ,{0x00, 0x20, 0x10, 0x08, 0x04, 0x02, 0x00} // 2f /
+  ,{0x00, 0x3e, 0x51, 0x49, 0x45, 0x3e, 0x00} // 30 0
+  ,{0x00, 0x00, 0x42, 0x7f, 0x40, 0x00, 0x00} // 31 1
+  ,{0x00, 0x42, 0x61, 0x51, 0x49, 0x46, 0x00} // 32 2
+  ,{0x00, 0x21, 0x41, 0x45, 0x4b, 0x31, 0x00} // 33 3
+  ,{0x00, 0x18, 0x14, 0x12, 0x7f, 0x10, 0x00} // 34 4
+  ,{0x00, 0x27, 0x45, 0x45, 0x45, 0x39, 0x00} // 35 5
+  ,{0x00, 0x3c, 0x4a, 0x49, 0x49, 0x30, 0x00} // 36 6
+  ,{0x00, 0x01, 0x71, 0x09, 0x05, 0x03, 0x00} // 37 7
+  ,{0x00, 0x36, 0x49, 0x49, 0x49, 0x36, 0x00} // 38 8
+  ,{0x00, 0x06, 0x49, 0x49, 0x29, 0x1e, 0x00} // 39 9
+  ,{0x00, 0x00, 0x36, 0x36, 0x00, 0x00, 0x00} // 3a :
+  ,{0x00, 0x00, 0x56, 0x36, 0x00, 0x00, 0x00} // 3b ;
+  ,{0x00, 0x08, 0x14, 0x22, 0x41, 0x00, 0x00} // 3c <
+  ,{0x00, 0x14, 0x14, 0x14, 0x14, 0x14, 0x00} // 3d =
+  ,{0x00, 0x00, 0x41, 0x22, 0x14, 0x08, 0x00} // 3e >
+  ,{0x00, 0x02, 0x01, 0x51, 0x09, 0x06, 0x00} // 3f ?
+  ,{0x00, 0x32, 0x49, 0x79, 0x41, 0x3e, 0x00} // 40 @
+  ,{0x00, 0x7e, 0x11, 0x11, 0x11, 0x7e, 0x00} // 41 A
+  ,{0x00, 0x7f, 0x49, 0x49, 0x49, 0x36, 0x00} // 42 B
+  ,{0x00, 0x3e, 0x41, 0x41, 0x41, 0x22, 0x00} // 43 C
+  ,{0x00, 0x7f, 0x41, 0x41, 0x22, 0x1c, 0x00} // 44 D
+  ,{0x00, 0x7f, 0x49, 0x49, 0x49, 0x41, 0x00} // 45 E
+  ,{0x00, 0x7f, 0x09, 0x09, 0x09, 0x01, 0x00} // 46 F
+  ,{0x00, 0x3e, 0x41, 0x49, 0x49, 0x7a, 0x00} // 47 G
+  ,{0x00, 0x7f, 0x08, 0x08, 0x08, 0x7f, 0x00} // 48 H
+  ,{0x00, 0x00, 0x41, 0x7f, 0x41, 0x00, 0x00} // 49 I
+  ,{0x00, 0x20, 0x40, 0x41, 0x3f, 0x01, 0x00} // 4a J
+  ,{0x00, 0x7f, 0x08, 0x14, 0x22, 0x41, 0x00} // 4b K
+  ,{0x00, 0x7f, 0x40, 0x40, 0x40, 0x40, 0x00} // 4c L
+  ,{0x00, 0x7f, 0x02, 0x0c, 0x02, 0x7f, 0x00} // 4d M
+  ,{0x00, 0x7f, 0x04, 0x08, 0x10, 0x7f, 0x00} // 4e N
+  ,{0x00, 0x3e, 0x41, 0x41, 0x41, 0x3e, 0x00} // 4f O
+  ,{0x00, 0x7f, 0x09, 0x09, 0x09, 0x06, 0x00} // 50 P
+  ,{0x00, 0x3e, 0x41, 0x51, 0x21, 0x5e, 0x00} // 51 Q
+  ,{0x00, 0x7f, 0x09, 0x19, 0x29, 0x46, 0x00} // 52 R
+  ,{0x00, 0x46, 0x49, 0x49, 0x49, 0x31, 0x00} // 53 S
+  ,{0x00, 0x01, 0x01, 0x7f, 0x01, 0x01, 0x00} // 54 T
+  ,{0x00, 0x3f, 0x40, 0x40, 0x40, 0x3f, 0x00} // 55 U
+  ,{0x00, 0x1f, 0x20, 0x40, 0x20, 0x1f, 0x00} // 56 V
+  ,{0x00, 0x3f, 0x40, 0x38, 0x40, 0x3f, 0x00} // 57 W
+  ,{0x00, 0x63, 0x14, 0x08, 0x14, 0x63, 0x00} // 58 X
+  ,{0x00, 0x07, 0x08, 0x70, 0x08, 0x07, 0x00} // 59 Y
+  ,{0x00, 0x61, 0x51, 0x49, 0x45, 0x43, 0x00} // 5a Z
+  ,{0x00, 0x00, 0x7f, 0x41, 0x41, 0x00, 0x00} // 5b [
+  ,{0x00, 0x02, 0x04, 0x08, 0x10, 0x20, 0x00} // 5c '\'
+  ,{0x00, 0x00, 0x41, 0x41, 0x7f, 0x00, 0x00} // 5d ]
+  ,{0x00, 0x04, 0x02, 0x01, 0x02, 0x04, 0x00} // 5e ^
+  ,{0x00, 0x40, 0x40, 0x40, 0x40, 0x40, 0x00} // 5f _
+  ,{0x00, 0x00, 0x01, 0x02, 0x04, 0x00, 0x00} // 60 `
+  ,{0x00, 0x20, 0x54, 0x54, 0x54, 0x78, 0x00} // 61 a
+  ,{0x00, 0x7f, 0x48, 0x44, 0x44, 0x38, 0x00} // 62 b
+  ,{0x00, 0x38, 0x44, 0x44, 0x44, 0x20, 0x00} // 63 c
+  ,{0x00, 0x38, 0x44, 0x44, 0x48, 0x7f, 0x00} // 64 d
+  ,{0x00, 0x38, 0x54, 0x54, 0x54, 0x18, 0x00} // 65 e
+  ,{0x00, 0x08, 0x7e, 0x09, 0x01, 0x02, 0x00} // 66 f
+  ,{0x00, 0x0c, 0x52, 0x52, 0x52, 0x3e, 0x00} // 67 g
+  ,{0x00, 0x7f, 0x08, 0x04, 0x04, 0x78, 0x00} // 68 h
+  ,{0x00, 0x00, 0x44, 0x7d, 0x40, 0x00, 0x00} // 69 i
+  ,{0x00, 0x20, 0x40, 0x44, 0x3d, 0x00, 0x00} // 6a j
+  ,{0x00, 0x7f, 0x10, 0x28, 0x44, 0x00, 0x00} // 6b k
+  ,{0x00, 0x00, 0x41, 0x7f, 0x40, 0x00, 0x00} // 6c l
+  ,{0x00, 0x7c, 0x04, 0x18, 0x04, 0x78, 0x00} // 6d m
+  ,{0x00, 0x7c, 0x08, 0x04, 0x04, 0x78, 0x00} // 6e n
+  ,{0x00, 0x38, 0x44, 0x44, 0x44, 0x38, 0x00} // 6f o
+  ,{0x00, 0x7c, 0x14, 0x14, 0x14, 0x08, 0x00} // 70 p
+  ,{0x00, 0x08, 0x14, 0x14, 0x18, 0x7c, 0x00} // 71 q
+  ,{0x00, 0x7c, 0x08, 0x04, 0x04, 0x08, 0x00} // 72 r
+  ,{0x00, 0x48, 0x54, 0x54, 0x54, 0x20, 0x00} // 73 s
+  ,{0x00, 0x04, 0x3f, 0x44, 0x40, 0x20, 0x00} // 74 t
+  ,{0x00, 0x3c, 0x40, 0x40, 0x20, 0x7c, 0x00} // 75 u
+  ,{0x00, 0x1c, 0x20, 0x40, 0x20, 0x1c, 0x00} // 76 v
+  ,{0x00, 0x3c, 0x40, 0x30, 0x40, 0x3c, 0x00} // 77 w
+  ,{0x00, 0x44, 0x28, 0x10, 0x28, 0x44, 0x00} // 78 x
+  ,{0x00, 0x0c, 0x50, 0x50, 0x50, 0x3c, 0x00} // 79 y
+  ,{0x00, 0x44, 0x64, 0x54, 0x4c, 0x44, 0x00} // 7a z
+  ,{0x00, 0x00, 0x08, 0x36, 0x41, 0x00, 0x00} // 7b {
+  ,{0x00, 0x00, 0x00, 0x7f, 0x00, 0x00, 0x00} // 7c |
+  ,{0x00, 0x00, 0x41, 0x36, 0x08, 0x00, 0x00} // 7d , 0x00}
+  ,{0x00, 0x10, 0x08, 0x08, 0x10, 0x08, 0x00} // 7e ~
+//,{0x00, 0x78, 0x46, 0x41, 0x46, 0x78, 0x00} // 7f DEL
+  ,{0x00, 0x1f, 0x24, 0x7c, 0x24, 0x1f, 0x00} // 7f UT sign
 };
+
+
+void LCD__vPixelSection(uint8_t u8PixelValue, uint8_t* pu8Column, uint8_t* pu8Row,
+                        uint8_t u8ColumnStart, uint8_t u8RowStart, uint8_t u8Width, uint8_t u8Height)
+{
+    uint8_t u8RowBit;
+    uint8_t u8RowByte;
+    uint16_t u16Address;
+    uint16_t u16TotalWidth = u8ColumnStart + u8Width;
+    uint16_t u16TotalHeight = u8RowStart + u8Height;
+
+    if(*pu8Column >= u16TotalWidth)
+    {
+        *pu8Column -= u16TotalWidth;
+    }
+    if(*pu8Column < u8ColumnStart)
+    {
+        *pu8Column = u8ColumnStart;
+    }
+    if(*pu8Row >= u16TotalHeight)
+    {
+        *pu8Row -= u16TotalHeight;
+    }
+    if(*pu8Row < u8RowStart)
+    {
+        *pu8Row = u8RowStart;
+    }
+
+    u8RowByte = (*pu8Row) >> 3U;
+    u8RowBit = (*pu8Row) & 0x7U;
+    u16Address = u8RowByte * NOKIA5110_MAX_X;
+    u16Address += (*pu8Column);
+
+    if(0U == u8PixelValue)
+    {
+        NOKIA5110_u8ImageBuffer[u16Address] &= ~ (1U << u8RowBit);
+    }
+    else
+    {
+        NOKIA5110_u8ImageBuffer[u16Address] |= (1U << u8RowBit);
+    }
+    (*pu8Column)++;
+    if(*pu8Column >= u16TotalWidth)
+    {
+        *pu8Column = u8ColumnStart;
+        (*pu8Row)++;
+        if(*pu8Row >= u16TotalHeight)
+        {
+            *pu8Row = u8RowStart;
+        }
+    }
+}
+
+
+void LCD__vPixel(uint8_t u8PixelValue, uint8_t* pu8Column, uint8_t* pu8Row)
+{
+    LCD__vPixelSection(u8PixelValue, pu8Column, pu8Row,
+                            0U, 0U, LCD_WIDTH, LCD_HEIGHT);
+}
+
+void LCD__vRowPixelSection(uint8_t u8RowValue, uint8_t* pu8Column, uint8_t* pu8Row,
+                    uint8_t u8ColumnStart, uint8_t u8RowStart, uint8_t u8Width, uint8_t u8Height)
+{
+    uint8_t u8RowStartBit;
+    uint8_t u8RowStartByte;
+    uint8_t u8RowDifferential;
+    uint8_t u8RowDifferential2;
+    uint8_t u8BitsLeft;
+    uint8_t u8Mask;
+    uint8_t u8RowTemp;
+    uint8_t u8RowInit;
+    uint16_t u16Address;
+    uint8_t u8TempValue;
+    uint16_t u16TotalWidth = u8ColumnStart + u8Width;
+    uint16_t u16TotalHeight = u8RowStart + u8Height;
+
+
+    if(*pu8Column >= u16TotalWidth)
+    {
+        *pu8Column -= u16TotalWidth;
+    }
+    if(*pu8Column < u8ColumnStart)
+    {
+        *pu8Column = u8ColumnStart;
+    }
+    if(*pu8Row >= u16TotalHeight)
+    {
+        *pu8Row -= u16TotalHeight;
+    }
+    if(*pu8Row < u8RowStart)
+    {
+        *pu8Row = u8RowStart;
+    }
+    u8BitsLeft = 8U;
+    u8RowInit = *pu8Row;
+    while(u8BitsLeft != 0U)
+    {
+        u8RowStartByte = u8RowInit >> 3U;
+        u8RowStartBit = u8RowInit & 0x7U;
+        u16Address = u8RowStartByte * NOKIA5110_MAX_X;
+        u16Address += (*pu8Column);
+
+        u8TempValue = NOKIA5110_u8ImageBuffer[u16Address];
+        u8RowDifferential = u16TotalHeight - u8RowInit;
+        if(u8RowDifferential < u8BitsLeft)
+        {
+            u8RowDifferential2 = (LCD_CHAR_HEIGHT * (u8RowStartByte + 1)) - u8RowInit;
+            if(u8RowDifferential2 < u8RowDifferential)
+            {
+                u8Mask = 0xFFU >> (LCD_CHAR_HEIGHT - u8RowDifferential2);
+                u8BitsLeft -= u8RowDifferential2;
+                u8RowTemp = u8RowValue;
+                u8RowValue >>= u8RowDifferential2;
+                u8RowInit += u8RowDifferential2;
+                if(u8RowInit >= u16TotalHeight)
+                {
+                    u8RowInit -= u8Height;
+                }
+            }
+            else
+            {
+                u8Mask = 0xFFU >> (LCD_CHAR_HEIGHT - u8RowDifferential);
+                u8BitsLeft -= u8RowDifferential;
+                u8RowTemp = u8RowValue;
+                u8RowValue >>= u8RowDifferential;
+                u8RowInit += u8RowDifferential;
+                if(u8RowInit >= u16TotalHeight)
+                {
+                    u8RowInit -= u8Height;
+                }
+            }
+        }
+        else
+        {
+            u8RowDifferential = LCD_CHAR_HEIGHT - u8RowStartBit;
+            if(u8RowDifferential < u8BitsLeft)
+            {
+                u8Mask = 0xFFU >> (LCD_CHAR_HEIGHT - u8RowDifferential);
+                u8BitsLeft -= u8RowDifferential;
+                u8RowTemp = u8RowValue;
+                u8RowValue >>= u8RowDifferential;
+                u8RowInit += u8RowDifferential;
+                if(u8RowInit >= u16TotalHeight)
+                {
+                    u8RowInit -= u8Height;
+                }
+            }
+            else
+            {
+                u8Mask = 0xFFU >> (LCD_CHAR_HEIGHT - u8BitsLeft);
+                u8BitsLeft = 0U;
+                u8RowTemp = u8RowValue;
+            }
+        }
+        u8Mask <<= u8RowStartBit;
+        u8RowTemp <<= u8RowStartBit;
+        u8TempValue &= ~u8Mask;
+        u8TempValue |= u8RowTemp & u8Mask;
+        NOKIA5110_u8ImageBuffer[u16Address] = u8TempValue;
+    }
+
+    (*pu8Column)++;
+    if(*pu8Column >= u16TotalWidth)
+    {
+        *pu8Column = u8ColumnStart;
+        (*pu8Row) += LCD_ROW_HEIGHT;
+        if(*pu8Row >= u16TotalHeight)
+        {
+            (*pu8Row) -= u8Height;
+        }
+    }
+}
+void LCD__vRowPixel(uint8_t u8RowValue, uint8_t* pu8Column, uint8_t* pu8Row)
+{
+    LCD__vRowPixelSection(u8RowValue, pu8Column, pu8Row,
+                        0U, 0U, LCD_WIDTH, LCD_HEIGHT);
+}
+
+void LCD__vCharSection(char cChar, uint8_t* pu8Column, uint8_t* pu8Row,
+                uint8_t u8ColumnStart, uint8_t u8RowStart, uint8_t u8Width, uint8_t u8Height)
+{
+    uint8_t u8Iter;
+    if(0x20 <= cChar)
+    {
+        cChar -= 0x20U;
+        for(u8Iter = 0U; u8Iter < LCD_CHAR_WIDTH; u8Iter++)
+        {
+            LCD__vRowPixelSection(NOKIA5110_u8ASCII[cChar][u8Iter], pu8Column, pu8Row,
+                                  u8ColumnStart, u8RowStart, u8Width, u8Height);
+        }
+    }
+}
+
+void LCD__vChar(char cChar, uint8_t* pu8Column, uint8_t* pu8Row)
+{
+    uint8_t u8Iter;
+    if(0x20 <= cChar)
+    {
+        cChar -= 0x20U;
+        for(u8Iter = 0U; u8Iter < LCD_CHAR_WIDTH; u8Iter++)
+        {
+            LCD__vRowPixel(NOKIA5110_u8ASCII[cChar][u8Iter], pu8Column, pu8Row);
+        }
+    }
+}
+
+void LCD__vClearSection(uint8_t u8Value, uint8_t u8ColumnStart, uint8_t u8RowStart, uint8_t u8Width, uint8_t u8Height)
+{
+    uint16_t u16Iter;
+    static uint8_t u8Row = 0U;
+    static uint8_t u8Column = 0U;
+    for(u16Iter = 0U; u16Iter < (u8Width*u8Height); u16Iter++)
+    {
+        LCD__vPixelSection(u8Value, &u8Column, &u8Row,
+                           u8ColumnStart, u8RowStart, u8Width, u8Height);
+    }
+}
+
+uint8_t u8ClearValue = 0U;
+void LCD__vClear(uint8_t u8Value)
+{
+    if(0U != u8Value)
+    {
+        u8Value = 0xFFU;
+    }
+    u8ClearValue = u8Value;
+    while(DMA_CH_CTL_EN_DIS != DMA->CH[1U].CTL_bits.EN);
+    DMA->CH[1U].SA = (uint16_t) &u8ClearValue;
+    DMA->CH[1U].CTL_bits.EN = DMA_CH_CTL_EN_ENA;
+    DMA->CH[1U].CTL_bits.REQ = DMA_CH_CTL_REQ_REQUEST;
+    while(DMA_CH_CTL_EN_DIS != DMA->CH[1U].CTL_bits.EN);
+}
+
+void LCD__vRefresh(void)
+{
+    LCD__vSetCursor(0,0);
+    NOKIA5110_DC_DATA();
+    while(DMA_CH_CTL_EN_DIS != DMA->CH[0U].CTL_bits.EN);
+    while(0U == (IFG1 & UTXIFG0));
+    P3OUT&=~BIT0;
+    IFG1 &= ~UTXIFG0;
+    DMA->CH[0U].CTL_bits.EN = DMA_CH_CTL_EN_ENA;
+    IFG1 |= UTXIFG0;
+    while(DMA_CH_CTL_EN_DIS != DMA->CH[0U].CTL_bits.EN);
+    P3OUT|=BIT0;
+}
+
+uint8_t LCD__u8StringSection(char* cString,uint8_t* u8Column, uint8_t* u8Row,
+                             uint8_t u8ColumnStart, uint8_t u8RowStart, uint8_t u8Width, uint8_t u8Height)
+{
+    uint8_t u8Count = 0U;
+
+    while(*cString != 0U)
+    {
+        LCD__vCharSection(*cString, u8Column, u8Row,
+                          u8ColumnStart, u8RowStart, u8Width, u8Height);
+        cString++;
+        u8Count++;
+    }
+    return u8Count;
+}
+
+uint8_t LCD__u8String(char* cString,uint8_t* u8Column, uint8_t* u8Row)
+{
+    uint8_t u8Count = 0U;
+
+    while(*cString != 0U)
+    {
+        LCD__vChar(*cString, u8Column, u8Row );
+        cString++;
+        u8Count++;
+    }
+    return u8Count;
+}
+
+void LCD__vCommand(uint8_t u8Data)
+{
+    NOKIA5110_DC_COMMAND();
+    P3OUT&=~BIT0;
+    SPI__vSendByte(u8Data);
+    P3OUT|=BIT0;
+}
+
+void LCD__vData(uint8_t u8Data)
+{
+    NOKIA5110_DC_DATA();
+    P3OUT&=~BIT0;
+    SPI__vSendByte(u8Data);
+    P3OUT|=BIT0;
+}
+
+void LCD__vSetCursor(uint8_t u8Column, uint8_t u8Row)
+{
+    if(u8Column >= LCD_WIDTH)
+    {
+        u8Column = 0U;
+    }
+    if(u8Row >= LCD_HEIGHT)
+    {
+        u8Row = 0U;
+    }
+
+    LCD__vCommand(0x80U|u8Column);
+    LCD__vCommand(0x40U|u8Row);
+}
+
+static void LCD_vDmaInit(void)
+{
+    DMA_CH_ConfigExt_t stDMAChannelConfig =
+    {
+        NOKIA5110_MAX_X*(NOKIA5110_MAX_Y/8),
+        (uint16_t) NOKIA5110_u8ImageBuffer,
+        (uint16_t) &U0TXBUF,
+        DMA_enCH_TRIGGER_USART0_TX,
+        DMA_enCH_MODE_SINGLE,
+        DMA_enCH_INCMODE_INCREMENT,
+        DMA_enCH_INCMODE_UNCHANGED,
+        DMA_enCH_DATASIZE_BYTE,
+        DMA_enCH_DATASIZE_BYTE,
+        DMA_enCH_SENSE_EDGE,
+        DMA_enCH_ENABLE_DIS,
+        DMA_enCH_ABORT_CLEAR,
+        DMA_enCH_INT_ENABLE_DIS,
+        DMA_enCH_INT_STATUS_NOOCCUR,
+    };
+
+    DMA_Config_t stDMAGlobalConfig =
+    {
+     DMA_enENABLE_DIS,
+     DMA_enPRIORITY_STATIC,
+     DMA_enFETCH_NEXT,
+    };
+
+    DMA__vSetConfig(&stDMAGlobalConfig);
+    DMA_CH__vSetConfigExt(DMA_enCH0, &stDMAChannelConfig);
+}
+
+
+static void LCD_vClearDmaInit(void)
+{
+    DMA_CH_ConfigExt_t stDMAChannelConfig =
+    {
+        NOKIA5110_MAX_X*(NOKIA5110_MAX_Y/8),
+        (uint16_t) &u8ClearValue,
+        (uint16_t) NOKIA5110_u8ImageBuffer,
+        DMA_enCH_TRIGGER_SW,
+        DMA_enCH_MODE_BLOCK,
+        DMA_enCH_INCMODE_UNCHANGED,
+        DMA_enCH_INCMODE_INCREMENT,
+        DMA_enCH_DATASIZE_BYTE,
+        DMA_enCH_DATASIZE_BYTE,
+        DMA_enCH_SENSE_EDGE,
+        DMA_enCH_ENABLE_DIS,
+        DMA_enCH_ABORT_CLEAR,
+        DMA_enCH_INT_ENABLE_DIS,
+        DMA_enCH_INT_STATUS_NOOCCUR,
+    };
+
+    DMA_Config_t stDMAGlobalConfig =
+    {
+     DMA_enENABLE_DIS,
+     DMA_enPRIORITY_STATIC,
+     DMA_enFETCH_NEXT,
+    };
+
+    DMA__vSetConfig(&stDMAGlobalConfig);
+    DMA_CH__vSetConfigExt(DMA_enCH1, &stDMAChannelConfig);
+}
 
 void NOKIA5110__vInit(void)
 {
@@ -133,1042 +502,140 @@ void NOKIA5110__vInit(void)
     P3DIR|=BIT0;
     P3OUT|=BIT0;
     P3SEL&=~BIT0;
-
+    LCD_vDmaInit();
+    LCD_vClearDmaInit();
 	SPI__vInit(SPI_enModeMaster, SPI_enMSBFirst,SPI_enClockIdleHigh,SPI_enClockSampleFirst,6U);
 	SPI__vInitPin((SPI_nPin) (SPI_enPinCLK|SPI_enPinMOSI|SPI_enPinMISO));
-	for(u32Delay=0; u32Delay<0x3FF; u32Delay++);
-    NOKIA5110__vSendCommand(0x21);
-    NOKIA5110__vSendCommand(0xB0);
-    NOKIA5110__vSendCommand(0x04);
-    NOKIA5110__vSendCommand(0x14);
-    NOKIA5110__vSendCommand(0x20);
-    NOKIA5110__vSendCommand(0x0C);
+	for(u32Delay=0; u32Delay<0x7FF; u32Delay++);
+    LCD__vCommand(0x21);
+    LCD__vCommand(0xB0);
+    LCD__vCommand(0x04);
+    LCD__vCommand(0x14);
+    LCD__vCommand(0x20);
+    LCD__vCommand(0x0C);
 
 }
 
-
-void NOKIA5110__vSendCommand(uint8_t u8Data)
+uint16_t LCD__u16Print_Section(char* cString,uint8_t* pu8Column, uint8_t* pu8Row,
+                       uint8_t u8ColumnStart, uint8_t u8RowStart, uint8_t u8Width, uint8_t u8Height)
 {
-	NOKIA5110_DC_COMMAND();
-    P3OUT&=~BIT0;
-    SPI__vSendByte(u8Data);
-    P3OUT|=BIT0;
-}
+    uint16_t u16Count = 0U;//variable usada para saber cuantos caracteres se mandaron a la LCD
+    uint16_t u16TotalWidth = u8ColumnStart + u8Width;
+    uint16_t u16TotalHeight = u8RowStart + u8Height;
 
-void NOKIA5110__vSendData(uint8_t u8Data)
-{
-	NOKIA5110_DC_DATA();
-    P3OUT&=~BIT0;
-    SPI__vSendByte(u8Data);
-    P3OUT|=BIT0;
-}
-
-void NOKIA5110__vSendMultipleData(uint8_t* u8Data, uint16_t u16Cant)
-{
-	NOKIA5110_DC_DATA();
-    P3OUT&=~BIT0;
-	SPI__vSendMultiByte(u8Data,u16Cant);
-    P3OUT|=BIT0;
-}
-
-void NOKIA5110__vSendMultipleCommand(uint8_t* u8Command, uint16_t u16Cant)
-{
-	NOKIA5110_DC_COMMAND();
-    P3OUT&=~BIT0;
-    SPI__vSendMultiByte(u8Command,u16Cant);
-    P3OUT|=BIT0;
-}
-void NOKIA5110__vSendChar(uint8_t u8Ascii)
-{
-  int8_t s8Value=u8Ascii - 0x20;
-  if(s8Value<0)
-	return;
-   NOKIA5110__vSendData(0);
-   NOKIA5110__vSendData(NOKIA5110_u8ASCII[s8Value][0]);
-   NOKIA5110__vSendData(NOKIA5110_u8ASCII[s8Value][1]);
-   NOKIA5110__vSendData(NOKIA5110_u8ASCII[s8Value][2]);
-   NOKIA5110__vSendData(NOKIA5110_u8ASCII[s8Value][3]);
-   NOKIA5110__vSendData(NOKIA5110_u8ASCII[s8Value][4]);
-   NOKIA5110__vSendData(0);
-}
-
-
-
-void NOKIA5110__vSetCursorChar(uint8_t u8X, uint8_t u8Y)
-{
-	if(u8X > (NOKIA5110_COLUMN_SIZE-1))
-		u8X=0;
-	if(u8Y > (NOKIA5110_ROW_SIZE-1))
-		u8Y=0;
-	
-	NOKIA5110__vSendCommand(0x80|(u8X*7));
-	NOKIA5110__vSendCommand(0x40|u8Y);
-}
-
-
-void NOKIA5110__vSetCursor(uint8_t u8X, uint8_t u8Y)
-{
-	if(u8X > (NOKIA5110_MAX_X-1))
-	u8X=0;
-	if(u8Y > (NOKIA5110_ROW_SIZE-1))
-	u8Y=0;
-	
-	NOKIA5110__vSendCommand(0x80|(u8X));
-	NOKIA5110__vSendCommand(0x40|u8Y);
-}
-
-uint8_t NOKIA5110__u8SendString(char* cString,uint8_t* u8Column, uint8_t* u8Row)
-{
-    uint8_t u8Count=0;
-	char* cStringTemp=cString;
-	uint8_t* u8ColumnTemp=u8Column;
-	uint8_t* u8RowTemp=u8Row;
-    if(((uint8_t)(*u8ColumnTemp)&0xF)>(uint8_t)(NOKIA5110_COLUMN_SIZE-1))
+    if(*pu8Column >= u16TotalWidth)
     {
-        *u8ColumnTemp=0;
+        *pu8Column -= u16TotalWidth;
     }
-    else
+    if(*pu8Column < u8ColumnStart)
     {
-        (*u8ColumnTemp)&=0xF;
+        *pu8Column = u8ColumnStart;
     }
-	
-    if((uint8_t)(*u8RowTemp)>(uint8_t)(NOKIA5110_ROW_SIZE-1))
-        *u8RowTemp=0;
-		
-    NOKIA5110__vSetCursorChar((uint8_t)(*u8ColumnTemp),(uint8_t)(*u8RowTemp));
-    while((char)(*cStringTemp)!=0)
+    if(*pu8Row >= u16TotalHeight)
     {
-        NOKIA5110__vSendChar((char)(*(cStringTemp))); //envia el caracter correspondiente
-        (*u8ColumnTemp)++; //suma 1 a la column indicando que se ha escrito un valor
-        if((*u8ColumnTemp&0xF)>(NOKIA5110_COLUMN_SIZE-1)) //si la column es 0 indica que empieza una nueva row
-        {
-            (*u8ColumnTemp)=0;
-            (*u8RowTemp)++; //invierte el valor e row para que se reinciie
-            if(((uint8_t)((*u8RowTemp)&0x7))>(uint8_t)(NOKIA5110_ROW_SIZE-1))
-                (*u8RowTemp)=0;
-            NOKIA5110__vSetCursorChar((uint8_t)(*u8ColumnTemp),(uint8_t)(*u8RowTemp)); //pone el cursor en 0,x
-        }
-        cStringTemp++; //el puntero apunta al siguiente caracter
-        u8Count++; //suma 1 al count total de caracter enviados a la LCD
+        *pu8Row -= u16TotalHeight;
     }
-    return u8Count;
-}
-
-
-uint8_t NOKIA5110__u8SendStringSection(char* cString,uint8_t* u8Column, uint8_t* u8Row, uint8_t u8X1,uint8_t u8X2,uint8_t u8Y1,uint8_t u8Y2)
-{
-	uint8_t u8Count=0;
-    NOKIA5110__vSetCursorChar(*u8Column,*u8Row);
-    while(*cString)
+    if(*pu8Row < u8RowStart)
     {
-        NOKIA5110__vSendChar(*(cString)); //envia el caracter correspondiente
-        (*u8Column)++; //suma 1 a la column indicando que se ha escrito un valor
-        if((*u8Column)>(u8X2)) //si la column es 0 indica que empieza una nueva row
-        {
-            (*u8Column)=u8X1;
-            (*u8Row)++; //invierte el valor e row para que se reinciie
-            if((*u8Row)>(u8Y2))
-                (*u8Row)=u8Y1;
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //pone el cursor en 0,x
-        }
-        cString++; //el puntero apunta al siguiente caracter
-        u8Count++; //suma 1 al count total de caracter enviados a la LCD
+        *pu8Row = u8RowStart;
     }
-    return u8Count;
-}
 
-
-
-uint16_t NOKIA5110__u16Print(char* cString,uint8_t* u8Column, uint8_t* u8Row)
-{
-    uint16_t u16Count=0;//variable usada para saber cuantos caracteres se mandaron a la LCD
-    uint8_t  u8Exit=0; //variable que funciona cuanod encuentra un ESC
-    uint16_t u16Delay; //utilizada para los comandos como clear y home
-    if(((*u8Column)&0xF)>(NOKIA5110_COLUMN_SIZE-1))
-    {
-        *u8Column=0;
-    }
-    else
-    {
-        (*u8Column)&=0xF;
-    }
-    if(*u8Row>(NOKIA5110_ROW_SIZE-1))
-        *u8Row=0;
-		
-    NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //indica la posicion inicial del cursor
     while(*cString)// realiza el ciclo mientras la cString tenga algun valor
            //el valor 0 o '\0' es fin de cString
     {
         switch (*cString) //detecta si existe un caracter especial
         {
         case '\n': //salto de linea
-            (*u8Row)++; //aumenta la u8Row
-            if(*u8Row>(NOKIA5110_ROW_SIZE-1))
-                *u8Row=0;
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
+            (*pu8Row) += LCD_CHAR_HEIGHT;
+            if(*pu8Row >= u16TotalHeight)
+            {
+                (*pu8Row) -= u8Height;
+            }
             break;
         case '\r': //retorno de carro
-            *u8Column=0; //actualiza el valor de la u8Column a la primera posicion
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            break;
-        case '\t': //tabulacion
-            if(((*u8Column)&0xF)<(NOKIA5110_COLUMN_SIZE-NOKIA5110_TAB_SIZE))
-                *u8Column+=NOKIA5110_TAB_SIZE; //aumenta 3 espacios vacios
-            else
-            {
-                *u8Column=0; // pasa a la siguiente u8Row si no cabe la tabulacion
-                (*u8Row)++; //aumenta la u8Row
-                if(*u8Row>(NOKIA5110_ROW_SIZE-1))
-                    *u8Row=0;
-            }
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            break;
-         case '\b': //retroceso
-            if(((*u8Column)!=0) || ((*u8Row)!=0)) //si la u8Column y u8Row es diferente a 0 puede retroceder
-            {
-                if(((*u8Column)!=0)) //si la u8Column encuentra entre 1 y 15 puede disminuir uno
-                    (*u8Column)--;
-                else
-                    if(((*u8Row)!=0)) //si la u8Column es 0 entonces checa si existen rows que disminuir
-                    {
-                        (*u8Column)=NOKIA5110_COLUMN_SIZE-1;
-                        (*u8Row)--;
-                    }
-            }
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            break;
-        case '\a'://borrado (ascii sonido)
-            if(((*u8Column)!=0) || ((*u8Row)!=0)) //si la u8Column es diferente a 0 puede retroceder
-            {
-                if(((*u8Column)!=0))
-                    (*u8Column)--;
-                else
-                    if(((*u8Row)!=0))
-                    {
-                        (*u8Column)=NOKIA5110_COLUMN_SIZE-1;
-                        (*u8Row)--;
-                    }
-            }
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            NOKIA5110__vSendChar(' ');//borra el caracter que pudiera haber en la posicion
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            break;
-        case '\e': //escape
-            u8Exit=1;//indica que se necesita u8Exit de la funcion
+            *pu8Column = u8RowStart; //actualiza el valor de la u8Column a la primera posicion
             break;
         case '\f': //nueva pagina
-            *u8Column=*u8Row=0;//reinicia los valores
-            NOKIA5110__vClear(); //limpia la pantalla
-            for(u16Delay=3000; u16Delay>0; u16Delay--);//1.60 ms aprox a 16MHz
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion a 0,0
+            *pu8Column = u8ColumnStart;
+            *pu8Row = u8RowStart;//reinicia los valores
+            LCD__vClearSection(0U, u8ColumnStart, u8RowStart, u8Width, u8Height); //limpia la pantalla
             break;
         default :
-            NOKIA5110__vSendChar(*(cString)); //envia el caracter correspondiente
-            (*u8Column)++; //suma 1 a la u8Column indicando que se ha escrito un valor
-            if(((*u8Column)&0xF)>(NOKIA5110_COLUMN_SIZE-1)) //si la u8Column es 0 indica que empieza una nueva u8Row
-            {
-                (*u8Column)=0;
-                (*u8Row)++; //aumenta la u8Row
-                if(*u8Row>(NOKIA5110_ROW_SIZE-1))
-                    *u8Row=0;
-                NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //pone el cursor en 0,x
-            }
+            LCD__vCharSection(*(cString), pu8Column, pu8Row, u8ColumnStart, u8RowStart, u8Width, u8Height); //envia el caracter correspondiente
             break;
         }
         cString++; //el puntero apunta al siguiente caracter
         u16Count++; //suma 1 al u16Count total de caracter enviados a la LCD
-        if(u8Exit) //si detecto un \e (escape) sale del ciclo while
-            break;
     }
-     return u16Count; //regresa el u16Count de caracteres y caracteres especiales
+     return (u16Count); //regresa el u16Count de caracteres y caracteres especiales
 }
 
 
-
-
-uint16_t NOKIA5110__u16PrintSection(char* cString,uint8_t* u8Column, uint8_t* u8Row, uint8_t u8X1, uint8_t u8X2, uint8_t u8Y1, uint8_t u8Y2)
+uint16_t LCD__u16Print(char* cString,uint8_t* pu8Column, uint8_t* pu8Row)
 {
     uint16_t u16Count=0;//variable usada para saber cuantos caracteres se mandaron a la LCD
-    uint8_t u8Exit=0; //variable que funciona cuanod encuentra un ESC
-    uint32_t u32Delay; //utilizada para los comandos como clear y home
-    uint8_t u8Temp=0;
 
-    if((u8X1>(NOKIA5110_MAX_X/7)-1) || (u8X2>(NOKIA5110_MAX_X/7)-1) || (u8Y1>(NOKIA5110_MAX_Y/8)-1) || (u8Y2>(NOKIA5110_MAX_Y/8)-1)   )
-         return 0;
-
-
-    if(u8X1>u8X2)
-    {
-        u8Temp=u8X1;
-        u8X1=u8X2;
-        u8X2=u8Temp;
-    }
-    if(u8Y1>u8Y2)
-    {
-        u8Temp=u8Y1;
-        u8Y1=u8Y2;
-        u8Y2=u8Temp;
-    }
-
-    *u8Column+=u8X1;
-    *u8Row+=u8Y1;
-    if((*u8Column)>(u8X2))
-    {
-        (*u8Column)=u8X1;
-    }
-    else
-    {
-        (*u8Column)&=0xF;
-    }
-    if(*u8Row>(u8Y2))
-        (*u8Row)=u8Y1;
-    NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //indica la posicion inicial del cursor
     while(*cString)// realiza el ciclo mientras la cString tenga algun valor
            //el valor 0 o '\0' es fin de cString
     {
         switch (*cString) //detecta si existe un caracter especial
         {
         case '\n': //salto de linea
-            (*u8Row)++; //aumenta la u8Row
-            if(*u8Row>(u8Y2))
-                (*u8Row)=u8Y1;
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
+            (*pu8Row) += LCD_CHAR_HEIGHT;
+            if(*pu8Row >= LCD_HEIGHT)
+            {
+                (*pu8Row) -= LCD_HEIGHT;
+            }
             break;
         case '\r': //retorno de carro
-            (*u8Column)=u8X1; //actualiza el valor de la u8Column a la primera posicion
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            break;
-        case '\t': //tabulacion
-            if(((*u8Column)&0xF)<(u8X2-NOKIA5110_TAB_SIZE))
-                *u8Column+=NOKIA5110_TAB_SIZE; //aumenta 3 espacios vacios
-            else
-            {
-                (*u8Column)=u8X1; // pasa a la siguiente u8Row si no cabe la tabulacion
-                (*u8Row)++; //aumenta la u8Row
-                if(*u8Row>(u8Y2))
-                    (*u8Row)=u8Y1;
-            }
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            break;
-         case '\b': //retroceso
-            if(((*u8Column)!=u8X1) || ((*u8Row)!=u8Y1)) //si la u8Column y u8Row es diferente a 0 puede retroceder
-            {
-                if(((*u8Column)!=u8X1)) //si la u8Column encuentra entre 1 y 15 puede disminuir uno
-                    (*u8Column)--;
-                else
-                    if(((*u8Row)!=u8Y1)) //si la u8Column es 0 entonces checa si existen u8Rows que disminuir
-                    {
-                        (*u8Column)=u8X2;
-                        (*u8Row)--;
-                    }
-            }
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            break;
-        case '\a'://borrado (ascii sonido)
-            if(((*u8Column)!=u8X1) || ((*u8Row)!=u8X1)) //si la u8Column es diferente a 0 puede retroceder
-            {
-                if(((*u8Column)!=u8X1))
-                    (*u8Column)--;
-                else
-                    if(((*u8Row)!=u8X1))
-                    {
-                        (*u8Column)=u8Y2;
-                        (*u8Row)--;
-                    }
-            }
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            NOKIA5110__vSendChar(' ');//borra el caracter que pudiera haber en la posicion
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            break;
-        case '\e': //escape
-            u8Exit=1;//indica que se necesita u8Exit de la funcion
+            *pu8Column = 0U; //actualiza el valor de la u8Column a la primera posicion
             break;
         case '\f': //nueva pagina
-            *u8Column=u8X1;
-            (*u8Row)=u8Y1;//reinicia los valores
-            NOKIA5110__vClearSectionChar(u8X1,u8X2,u8Y1,u8Y2);
-            for(u32Delay=3000; u32Delay>0; u32Delay--);//1.60 ms aprox a 16MHz
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion a 0,0
+            *pu8Column = 0U;
+            *pu8Row = 0U;//reinicia los valores
+            LCD__vClear(0U); //limpia la pantalla
             break;
         default :
-            NOKIA5110__vSendChar(*(cString)); //envia el caracter correspondiente
-            (*u8Column)++; //suma 1 a la u8Column indicando que se ha escrito un valor
-            if(((*u8Column)&0xF)>(u8X2)) //si la u8Column es 0 indica que empieza una nueva u8Row
-            {
-                (*u8Column)=u8X1;
-                (*u8Row)++; //aumenta la u8Row
-                if(*u8Row>(u8Y2))
-                    (*u8Row)=u8Y1;
-                NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //pone el cursor en 0,x
-            }
+            LCD__vChar(*(cString), pu8Column, pu8Row); //envia el caracter correspondiente
             break;
         }
         cString++; //el puntero apunta al siguiente caracter
         u16Count++; //suma 1 al u16Count total de caracter enviados a la LCD
-        if(u8Exit) //si detecto un \e (escape) sale del ciclo while
-            break;
     }
-     return u16Count; //regresa el u16Count de caracteres y caracteres especiales
+     return (u16Count); //regresa el u16Count de caracteres y caracteres especiales
 }
 
 
-
-
-
-uint16_t NOKIA5110__u16Printf(char* cString,uint8_t* u8Column,uint8_t* u8Row,...)
+static char pcBufferReg[400UL] = {0};
+uint32_t LCD__u32Printf_Section(const char* pcFormat,uint8_t* u8Column, uint8_t* u8Row,
+                                 uint8_t u8ColumnStart, uint8_t u8RowStart, uint8_t u8Width, uint8_t u8Height, ... )
 {
-    uint16_t u16Count=0;//variable usada para saber cuantos caracteres se mandaron a la LCD
-    uint8_t u8Exit=0;
-    uint32_t u32Delay;
-
-
-    va_list ap; //crea puntero de los argumentos
-    double valueARGd; //variable donde guardara el valor del argumento
-    char* valueARGc; //variable donde guardara el valor del argumento
-    int32_t valueARGi; //variable donde guardara el valor del argumento
-    int64_t valueARGii; //variable donde guardara el valor del argumento
-    uint64_t valueARGuu; //variable donde guardara el valor del argumento
-    void* valueARGcl; //variable donde guardara el valor del argumento
-    char conversion[30];
-    va_start(ap, u8Row);//maneja la memoria de los argumentos empezando desde el ultimo conocido ingresado
-
-    if(((*u8Column)&0xF)>(NOKIA5110_COLUMN_SIZE-1))
-    {
-        *u8Column=0;
-    }
-    else
-    {
-        (*u8Column)&=0xF;
-    }
-
-    if(*u8Row>(NOKIA5110_ROW_SIZE-1))
-            *u8Row=0;
-
-    NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //indica la posicion inicial del cursor
-
-    while(*cString)// realiza el ciclo mientras la cString tenga algun valor
-    {
-        switch (*cString) //detecta si existe un caracter especial
-        {
-
-
-        case '\n': //salto de linea
-            (*u8Row)++; //aumenta la u8Row
-            if(*u8Row>(NOKIA5110_ROW_SIZE-1))
-                *u8Row=0;
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            break;
-        case '\r': //retorno de carro
-            *u8Column=0; //actualiza el valor de la u8Column a la primera posicion
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            break;
-        case '\t': //tabulacion
-            if(((*u8Column)&0xF)<(NOKIA5110_COLUMN_SIZE-NOKIA5110_TAB_SIZE))
-                *u8Column+=NOKIA5110_TAB_SIZE; //aumenta 3 espacios vacios
-            else
-            {
-                *u8Column=0; // pasa a la siguiente u8Row si no cabe la tabulacion
-                (*u8Row)++; //aumenta la u8Row
-                if(*u8Row>(NOKIA5110_ROW_SIZE-1))
-                    *u8Row=0;
-            }
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            break;
-         case '\b': //retroceso
-            if(((*u8Column)!=0) || ((*u8Row)!=0)) //si la u8Column y u8Row es diferente a 0 puede retroceder
-            {
-                if(((*u8Column)!=0)) //si la u8Column encuentra entre 1 y 15 puede disminuir uno
-                    (*u8Column)--;
-                else
-                    if(((*u8Row)!=0)) //si la u8Column es 0 entonces checa si existen rows que disminuir
-                    {
-                        (*u8Column)=NOKIA5110_COLUMN_SIZE-1;
-                        (*u8Row)--;
-                    }
-            }
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            break;
-        case '\a'://borrado (ascii sonido)
-            if(((*u8Column)!=0) || ((*u8Row)!=0)) //si la u8Column es diferente a 0 puede retroceder
-            {
-                if(((*u8Column)!=0))
-                    (*u8Column)--;
-                else
-                    if(((*u8Row)!=0))
-                    {
-                        (*u8Column)=NOKIA5110_COLUMN_SIZE-1;
-                        (*u8Row)--;
-                    }
-            }
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            NOKIA5110__vSendChar(' ');//borra el caracter que pudiera haber en la posicion
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion
-            break;
-        case '\e': //escape
-            u8Exit=1;//indica que se necesita u8Exit de la funcion
-            break;
-        case '\f': //nueva pagina
-            *u8Column=*u8Row=0;//reinicia los valores
-            NOKIA5110__vClear(); //limpia la pantalla
-            for(u32Delay=3000; u32Delay>0; u32Delay--);//1.60 ms aprox a 16MHz
-            NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //actualiza la posicion a 0,0
-            break;
-
-
-
-
-        case '%':
-            cString++;
-            switch(*cString)
-            {
-                case 'd': //"%d o %i"
-                case 'i':
-                    valueARGi=(int16_t)va_arg(ap, int16_t);
-                    Conv__u8Int2String((int16_t)valueARGi,conversion);
-                    u16Count+=NOKIA5110__u8SendString(conversion,u8Column,u8Row)-1;
-                    break;
-                case 'u':// "%u"
-                    valueARGi=(uint16_t)va_arg(ap, uint16_t);
-                    Conv__u8UInt2String((uint16_t)valueARGi,conversion);
-                    u16Count+=NOKIA5110__u8SendString(conversion,u8Column,u8Row)-1;
-                    break;
-                case 'x': //"%x"
-                    valueARGi=(uint16_t)va_arg(ap, uint16_t);
-                    Conv__u8Hex2String((uint16_t)valueARGi,conversion);
-                    u16Count+=NOKIA5110__u8SendString(conversion,u8Column,u8Row)-1;
-                    break;
-                case 'X':// "%X"
-                    valueARGi=(uint16_t)va_arg(ap, uint16_t);
-                    Conv__u8HEX2String((uint16_t)valueARGi,conversion);
-                    u16Count+=NOKIA5110__u8SendString(conversion,u8Column,u8Row)-1;
-                    break;
-                case 'o': //"%o"
-                    valueARGi=(uint16_t)va_arg(ap, uint16_t);
-                    Conv__u8Oct2String((uint16_t)valueARGi,conversion);
-                    u16Count+=NOKIA5110__u8SendString(conversion,u8Column,u8Row)-1;
-                    break;
-               case 'p': //"%p"
-                    valueARGcl=(void*)va_arg(ap, void*);
-                    Conv__u8Bin2String((uint64_t)((uint16_t)valueARGcl),conversion);
-                    u16Count+=NOKIA5110__u8SendString(conversion,u8Column,u8Row)-1;
-                        break;
-                case 'f': //"%f"
-                    valueARGd=(double)va_arg(ap, double);
-                    Conv__u8Float2String((float)valueARGd,0,1,2,3,conversion);
-                    u16Count+=NOKIA5110__u8SendString(conversion,u8Column,u8Row)-1;
-                    break;
-
-
-
-
-                case 'c': //"%c"
-                    valueARGi=(uint8_t)va_arg(ap, int);
-                    NOKIA5110__vSendChar(valueARGi);//manda el caracter a la LCD
-                    (*u8Column)++;
-                    if(((*u8Column)&0xF)>(NOKIA5110_COLUMN_SIZE-1)) //si la u8Column es 0 indica que empieza una nueva u8Row
-                    {
-                        (*u8Column)=0;
-                        (*u8Row)++; //aumenta la u8Row
-                        if(*u8Row>(NOKIA5110_ROW_SIZE-1))
-                            *u8Row=0;
-                        NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //pone el cursor en 0,x
-                    }
-                    break;
-                case 's':// "%s"
-                    valueARGc=(char*)va_arg(ap,char*);  //el siguiente argumento es un puntero
-                    u16Count+=NOKIA5110__u16Print(valueARGc,u8Column,u8Row)-1;//imprime la cString del puntero
-                    break;
-                case 'l'://"%lf" "%8.4lf" "%5.3f" "%l"
-                    cString++; //aumenta en uno la posicion del cString
-                    if(*cString=='f') //si es 'f' el sig caracter significa que vamos a convertir un double
-                    {
-                        valueARGd=(double)va_arg(ap, double);
-                        Conv__u8Float2String((double)valueARGd,0,1,2,5,conversion);
-                        u16Count+=NOKIA5110__u8SendString(conversion,u8Column,u8Row)-1;
-                        break; //break de este caso
-                    }
-                    if(*cString=='l' ) //si es 'f' el sig caracter significa que vamos a convertir un double
-                    {
-                        cString++;
-                        if(*cString=='d' || *cString=='i' ) //si es 'f' el sig caracter significa que vamos a convertir un double
-                          {
-                          valueARGii=(int64_t)va_arg(ap, int64_t);
-                          Conv__u8Int2String((int64_t)valueARGii,conversion);
-                          u16Count+=NOKIA5110__u8SendString(conversion,u8Column,u8Row)-1;
-                          break; //break de este caso
-                          }
-                        if(*cString=='u' ) //si es 'f' el sig caracter significa que vamos a convertir un double
-                          {
-                          valueARGuu=(uint64_t)va_arg(ap, uint64_t);
-                          Conv__u8UInt2String((uint64_t)valueARGuu,conversion);
-                          u16Count+=NOKIA5110__u8SendString(conversion,u8Column,u8Row)-1;
-                          break; //break de este caso
-                          }
-                    }
-                    if(*cString=='d' || *cString=='i' ) //si es 'f' el sig caracter significa que vamos a convertir un double
-                    {
-                    valueARGi=(int32_t)va_arg(ap, int32_t);
-                    Conv__u8Int2String((int32_t)valueARGi,conversion);
-                    u16Count+=NOKIA5110__u8SendString(conversion,u8Column,u8Row)-1;
-                    break; //break de este caso
-                    }
-                    if(*cString=='u' ) //si es 'f' el sig caracter significa que vamos a convertir un double
-                    {
-                    valueARGi=(uint32_t)va_arg(ap, uint32_t);
-                    Conv__u8Int2String((uint32_t)valueARGi,conversion);
-                    u16Count+=NOKIA5110__u8SendString(conversion,u8Column,u8Row)-1;
-                    break; //break de este caso
-                    }
-                    else
-                    {
-                        cString--; //si no encuentra la 'f' regresa a la 'l'
-                    cString--;//si no es ningun caso anterior regresa al '%'
-                    NOKIA5110__vSendChar(*cString);
-                    break;
-                    }
-                default:// "%p"
-                    cString--;//si no es ningun caso anterior regresa al '%'
-                    NOKIA5110__vSendChar(*cString);
-                    (*u8Column)++;
-                    if(((*u8Column)&0xF)>(NOKIA5110_COLUMN_SIZE-1)) //si la u8Column es 0 indica que empieza una nueva u8Row
-                    {
-                        (*u8Column)=0;
-                        (*u8Row)++; //aumenta la u8Row
-                        if(*u8Row>(NOKIA5110_ROW_SIZE-1))
-                            *u8Row=0;
-                        NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //pone el cursor en 0,x
-                    }
-                    break;
-
-           }
-            break;
-
-
-
-        default :
-            NOKIA5110__vSendChar(*(cString)); //envia el caracter correspondiente
-            (*u8Column)++;
-            if(((*u8Column)&0xF)>(NOKIA5110_COLUMN_SIZE-1)) //si la u8Column es 0 indica que empieza una nueva u8Row
-            {
-                (*u8Column)=0;
-                (*u8Row)++; //aumenta la u8Row
-                if(*u8Row>(NOKIA5110_ROW_SIZE-1))
-                    *u8Row=0;
-                NOKIA5110__vSetCursorChar(*u8Column,*u8Row); //pone el cursor en 0,x
-            }
-            break;
-        }
-        cString++; //el puntero apunta al siguiente caracter
-        u16Count++; //suma 1 al conteo total de caracter enviados a la LCD
-        if(u8Exit)
-            break;
-    }
-    va_end(ap); //reinicia el puntero
-
-     return u16Count; //regresa el conteo de caracteres y caracteres especiales
+    uint32_t u32Lengtht = 0UL;
+    char* pcBufferRegPointer = 0UL;
+    va_list vaList;
+    va_start(vaList, u8Height);
+    u32Lengtht = vsnprintf__u32User(pcBufferReg, 400UL, pcFormat,vaList);
+    va_end(vaList);
+    pcBufferRegPointer = pcBufferReg;
+    LCD__u16Print_Section(pcBufferRegPointer,u8Column, u8Row,
+                                 u8ColumnStart, u8RowStart, u8Width, u8Height);
+    return  (u32Lengtht);
 }
 
-
-/*
-unsigned long long NOKIA5110_PrintfSection(char* string,unsigned char* column,unsigned char* row,unsigned char X1,unsigned char X2,unsigned char Y1,unsigned char Y2,...)
+uint32_t LCD__u32Printf(const char* pcFormat,uint8_t* u8Column, uint8_t* u8Row, ... )
 {
-    register unsigned long long count=0;//variable usada para saber cuantos caracteres se mandaron a la LCD
-    register char exit=0;
-    register int delay;
-    register char temp=0;
-
-    if((X1>(MAX_X/7)-1) || (X2>(MAX_X/7)-1) || (Y1>(MAX_Y/8)-1) || (Y2>(MAX_Y/8)-1)   )
-         return 0;
-
-
-    if(X1>X2)
-    {
-        temp=X1;
-        X1=X2;
-        X2=temp;
-    }
-    if(Y1>Y2)
-    {
-        temp=Y1;
-        Y1=Y2;
-        Y2=temp;
-    }
-
-
-
-    va_list ap; //crea puntero de los argumentos
-    double valueARGd; //variable donde guardara el valor del argumento
-    char* valueARGc; //variable donde guardara el valor del argumento
-    long valueARGi; //variable donde guardara el valor del argumento
-    long long valueARGii; //variable donde guardara el valor del argumento
-    unsigned long long valueARGuu; //variable donde guardara el valor del argumento
-    void* valueARGcl; //variable donde guardara el valor del argumento
-    char conversion[30];
-    va_start(ap, Y2);//maneja la memoria de los argumentos empezando desde el ultimo conocido ingresado
-
-
-    *column+=X1;
-    *row+=Y1;
-
-    if((*column)>(X2))
-    {
-        (*column)=X1;
-    }
-    else
-    {
-        (*column)&=0xF;
-    }
-
-    if(((*column)&0xF)<=(X1))
-    {
-        (*column)=X1;
-    }
-    else
-    {
-        (*column)&=0xF;
-    }
-
-    if(*row>(Y2))
-            (*row)=Y1;
-
-    if(*row<=(Y1))
-            (*row)=Y1;
-
-
-    NOKIA5110_CursorChar(*column,*row); //indica la posicion inicial del cursor
-
-    while(*string)// realiza el ciclo mientras la string tenga algun valor
-    {
-        switch (*string) //detecta si existe un caracter especial
-        {
-
-
-        case '\n': //salto de linea
-            (*row)++; //aumenta la row
-            if(*row>(Y2))
-                (*row)=Y1;
-            NOKIA5110_CursorChar(*column,*row); //actualiza la posicion
-            break;
-        case '\r': //retorno de carro
-            (*column)=X1; //actualiza el valor de la column a la primera posicion
-            NOKIA5110_CursorChar(*column,*row); //actualiza la posicion
-            break;
-        case '\t': //tabulacion
-            if((*column)<(X2-TAB_SIZE))
-                *column+=TAB_SIZE; //aumenta 3 espacios vacios
-            else
-            {
-                (*column)=X1; // pasa a la siguiente row si no cabe la tabulacion
-                (*row)++; //aumenta la row
-                if(*row>(Y2))
-                    (*row)=Y1;
-            }
-            NOKIA5110_CursorChar(*column,*row); //actualiza la posicion
-            break;
-         case '\b': //retroceso
-            if(((*column)!=X1) || ((*row)!=Y1)) //si la column y row es diferente a 0 puede retroceder
-            {
-                if(((*column)!=X1)) //si la column encuentra entre 1 y 15 puede disminuir uno
-                    (*column)--;
-                else
-                    if(((*row)!=Y1)) //si la column es 0 entonces checa si existen rows que disminuir
-                    {
-                        (*column)=X2;
-                        (*row)--;
-                    }
-            }
-            NOKIA5110_CursorChar(*column,*row); //actualiza la posicion
-            break;
-        case '\a'://borrado (ascii sonido)
-            if(((*column)!=X1) || ((*row)!=X1)) //si la column es diferente a 0 puede retroceder
-            {
-                if(((*column)!=X1))
-                    (*column)--;
-                else
-                    if(((*row)!=Y1))
-                    {
-                        (*column)=Y2;
-                        (*row)--;
-                    }
-            }
-            NOKIA5110_CursorChar(*column,*row); //actualiza la posicion
-            Nokia5110_SendChar(' ');//borra el caracter que pudiera haber en la posicion
-            NOKIA5110_CursorChar(*column,*row); //actualiza la posicion
-            break;
-        case '\e': //escape
-            exit=1;//indica que se necesita exit de la funcion
-            break;
-        case '\f': //nueva pagina
-            *column=X1;
-            (*row)=Y1;//reinicia los valores
-            NOKIA5110_ClearSectionChar(X1,X2,Y1,Y2);
-            for(delay=3000; delay>0; delay--);//1.60 ms aprox a 16MHz
-            NOKIA5110_CursorChar(*column,*row); //actualiza la posicion a 0,0
-            break;
-
-
-
-
-        case '%':
-            string++;
-            switch(*string)
-            {
-                case 'd': //"%d o %i"
-                case 'i':
-                    valueARGi=(int)va_arg(ap, int);
-                    Int_To_String((int)valueARGi,conversion);
-                    count+=NOKIA5110_SendStringSection(conversion,column,row,X1,X2,Y1,Y2)-1;
-                    break;
-                case 'u':// "%u"
-                    valueARGi=(unsigned int)va_arg(ap, unsigned int);
-                    UInt_To_String((unsigned int)valueARGi,conversion);
-                    count+=NOKIA5110_SendStringSection(conversion,column,row,X1,X2,Y1,Y2)-1;
-                    break;
-                case 'x': //"%x"
-                    valueARGi=(unsigned int)va_arg(ap, unsigned int);
-                    Hex_To_String((unsigned int)valueARGi,conversion);
-                    count+=NOKIA5110_SendStringSection(conversion,column,row,X1,X2,Y1,Y2)-1;
-                    break;
-                case 'X':// "%X"
-                    valueARGi=(unsigned int)va_arg(ap, unsigned int);
-                    HEX_To_String((unsigned int)valueARGi,conversion);
-                    count+=NOKIA5110_SendStringSection(conversion,column,row,X1,X2,Y1,Y2)-1;
-                    break;
-                case 'o': //"%o"
-                    valueARGi=(unsigned int)va_arg(ap, unsigned int);
-                    Oct_To_String((unsigned int)valueARGi,conversion);
-                    count+=NOKIA5110_SendStringSection(conversion,column,row,X1,X2,Y1,Y2)-1;
-                    break;
-               case 'p': //"%p"
-                    valueARGcl=(void*)va_arg(ap, void*);
-                    Bin_To_String((long long)valueARGcl,conversion);
-                    count+=NOKIA5110_SendStringSection(conversion,column,row,X1,X2,Y1,Y2)-1;
-                        break;
-                case 'f': //"%f"
-                    valueARGd=(double)va_arg(ap, double);
-                    Float_To_String((float)valueARGd,2,conversion);
-                    count+=NOKIA5110_SendStringSection(conversion,column,row,X1,X2,Y1,Y2)-1;
-                    break;
-
-
-
-
-                case 'c': //"%c"
-                    valueARGi=(unsigned char)va_arg(ap, unsigned char);
-                    Nokia5110_SendChar(valueARGi);//manda el caracter a la LCD
-                    (*column)++;
-                    if((*column)>(X2)) //si la column es 0 indica que empieza una nueva row
-                    {
-                        (*column)=X1;
-                        (*row)++; //aumenta la row
-                        if(*row>(Y2))
-                            (*row)=Y1;
-                        NOKIA5110_CursorChar(*column,*row); //pone el cursor en 0,x
-                    }
-                    break;
-                case 's':// "%s"
-                    valueARGc=(char*)va_arg(ap,char*);  //el siguiente argumento es un puntero
-                    count+=NOKIA5110_PrintSection(valueARGc,column,row,X1,X2,Y1,Y2)-1;//imprime la string del puntero
-                    break;
-                case 'l'://"%lf" "%8.4lf" "%5.3f" "%l"
-                    string++; //aumenta en uno la posicion del string
-                    if(*string=='f') //si es 'f' el sig caracter significa que vamos a convertir un double
-                    {
-                        valueARGd=(double)va_arg(ap, double);
-                        Float_To_String((double)valueARGd,5,conversion);
-                        count+=NOKIA5110_SendStringSection(conversion,column,row,X1,X2,Y1,Y2)-1;
-                        break; //break de este caso
-                    }
-                    if(*string=='l' ) //si es 'f' el sig caracter significa que vamos a convertir un double
-                    {
-                        string++;
-                        if(*string=='d' || *string=='i' ) //si es 'f' el sig caracter significa que vamos a convertir un double
-                          {
-                          valueARGii=(long long)va_arg(ap, long long);
-                          Int_To_String((long long)valueARGii,conversion);
-                          count+=NOKIA5110_SendStringSection(conversion,column,row,X1,X2,Y1,Y2)-1;
-                          break; //break de este caso
-                          }
-                        if(*string=='u' ) //si es 'f' el sig caracter significa que vamos a convertir un double
-                          {
-                          valueARGii=(unsigned long long)va_arg(ap, unsigned long long);
-                          UInt_To_String((unsigned long long)valueARGuu,conversion);
-                          count+=NOKIA5110_SendStringSection(conversion,column,row,X1,X2,Y1,Y2)-1;
-                          break; //break de este caso
-                          }
-                    }
-                    if(*string=='d' || *string=='i' ) //si es 'f' el sig caracter significa que vamos a convertir un double
-                    {
-                    valueARGi=(long)va_arg(ap, long);
-                    Int_To_String((long)valueARGi,conversion);
-                    count+=NOKIA5110_SendStringSection(conversion,column,row,X1,X2,Y1,Y2)-1;
-                    break; //break de este caso
-                    }
-                    if(*string=='u' ) //si es 'f' el sig caracter significa que vamos a convertir un double
-                    {
-                    valueARGi=(unsigned long)va_arg(ap, unsigned long);
-                    Int_To_String((unsigned long)valueARGi,conversion);
-                    count+=NOKIA5110_SendStringSection(conversion,column,row,X1,X2,Y1,Y2)-1;
-                    break; //break de este caso
-                    }
-                    else
-                    {
-                        string--; //si no encuentra la 'f' regresa a la 'l'
-                    string--;//si no es ningun caso anterior regresa al '%'
-                    Nokia5110_SendChar(*string);
-                    break;
-                    }
-                default:// "%p"
-                    string--;//si no es ningun caso anterior regresa al '%'
-                    Nokia5110_SendChar(*string);
-                    (*column)++;
-                    if(((*column)&0xF)>(X2)) //si la column es 0 indica que empieza una nueva row
-                    {
-                        (*column)=X1;
-                        (*row)++; //aumenta la row
-                        if(*row>(Y2))
-                            (*row)=Y1;
-                        NOKIA5110_CursorChar(*column,*row); //pone el cursor en 0,x
-                    }
-                    break;
-
-           }
-            break;
-
-
-
-        default :
-            Nokia5110_SendChar(*(string)); //envia el caracter correspondiente
-            (*column)++;
-            if((*column)>(X2)) //si la column es 0 indica que empieza una nueva row
-            {
-                (*column)=X1;
-                (*row)++; //aumenta la row
-                if(*row>(Y2))
-                    (*row)=Y1;
-                NOKIA5110_CursorChar(*column,*row); //pone el cursor en 0,x
-            }
-            break;
-        }
-        string++; //el puntero apunta al siguiente caracter
-        count++; //suma 1 al conteo total de caracter enviados a la LCD
-        if(exit)
-            break;
-    }
-    va_end(ap); //reinicia el puntero
-
-     return count; //regresa el conteo de caracteres y caracteres especiales
+    uint32_t u32Lengtht = 0UL;
+    char* pcBufferRegPointer = 0UL;
+    va_list vaList;
+    va_start(vaList, u8Row);
+    u32Lengtht = vsnprintf__u32User(pcBufferReg, 400UL, pcFormat,vaList);
+    va_end(vaList);
+    pcBufferRegPointer = pcBufferReg;
+    LCD__u16Print(pcBufferRegPointer,u8Column, u8Row);
+    return  (u32Lengtht);
 }
 
-*/
-
-
-
-void NOKIA5110__vClear(void)
-{
-  uint16_t u16I=0;
-  for(u16I=0; u16I<(NOKIA5110_MAX_X*(NOKIA5110_MAX_Y/8)); u16I++){
-      NOKIA5110__vSendData(0);
-  }
-  NOKIA5110__vSetCursor(0, 0);
-}
-
-
-void NOKIA5110__vClearSectionPixel(uint8_t u8X1,uint8_t u8X2,uint8_t u8Y1,uint8_t u8Y2)
-{
-  uint8_t u8Row=0, u8Column=0;
-  uint8_t u8Temp=0;
-  if((u8X1>NOKIA5110_MAX_X-1) || (u8X2>NOKIA5110_MAX_X-1) || (u8Y1>(NOKIA5110_MAX_Y/8)-1) || (u8Y2>(NOKIA5110_MAX_Y/8)-1)   )
-      return;
-
-  if(u8X1>u8X2)
-  {
-      u8Temp=u8X2;
-      u8X2=u8X1;
-      u8X1=u8Temp;
-  }
-  if(u8Y1>u8Y2)
-  {
-      u8Temp=u8Y2;
-      u8Y2=u8Y1;
-      u8Y1=u8Temp;
-  }
-  NOKIA5110__vSetCursor(u8X1, u8Y1);
-  
-  for (u8Row=u8Y1; u8Row<=u8Y2; u8Row++)
-  {
-      for (u8Column=u8X1; u8Column<=u8X2; u8Column++)
-      {
-          NOKIA5110__vSetCursor(u8Column, u8Row);
-          NOKIA5110__vSendData(0);
-      }
-  }
-  NOKIA5110__vSetCursor(u8X1, u8Y1);
-}
-
-
-void NOKIA5110__vClearSectionChar(uint8_t u8X1,uint8_t u8X2,uint8_t u8Y1,uint8_t u8Y2)
-{
-  uint8_t u8Row=0, u8Column=0;
-  uint8_t u8Temp=0;
-  if((u8X1>(NOKIA5110_MAX_X/7)-1) || (u8X2>(NOKIA5110_MAX_X/7)-1) || (u8Y1>(NOKIA5110_MAX_Y/8)-1) || (u8Y2>(NOKIA5110_MAX_Y/8)-1)   )
-      return ;
-
-  if(u8X1>u8X2)
-  {
-      u8Temp=u8X2;
-      u8X2=u8X1;
-      u8X1=u8Temp;
-  }
-  if(u8Y1>u8Y2)
-  {
-      u8Temp=u8Y2;
-      u8Y2=u8Y1;
-      u8Y1=u8Temp;
-  }
-  NOKIA5110__vSetCursorChar(u8X1, u8Y1);
-  for (u8Row=u8Y1; u8Row<=u8Y2; u8Row++)
-  {
-      for (u8Column=u8X1; u8Column<=u8X2; u8Column++)
-      {
-          NOKIA5110__vSetCursorChar(u8Column, u8Row);
-          NOKIA5110__vSendChar(' ');
-      }
-  }
-  NOKIA5110__vSetCursorChar(0, 0);
-}
-
-
-void NOKIA5110__vPrintBuffer(void)
-{
-    NOKIA5110__vPrintImage(NOKIA5110_u8ImageBuffer);
-}
-
-
-void NOKIA5110__vPrintImage( uint8_t *pu8Image)
-{
-	NOKIA5110__vSetCursor(0,0);
-     NOKIA5110__vSendMultipleData(pu8Image,(NOKIA5110_MAX_X*(NOKIA5110_MAX_Y/8)));
-}
-
-
-
-void NOKIA5110__vClearBuffer(void)
-{
-    int i;
-    for(i=0; i<(NOKIA5110_MAX_X*NOKIA5110_MAX_Y/8); i++)
-		NOKIA5110_u8ImageBuffer[i] = 0;
-}
-
-void NOKIA5110__vFillBuffer(uint8_t *pu8Image)
-{
-    int i;
-    for(i=0; i<(NOKIA5110_MAX_X*NOKIA5110_MAX_Y/8); i++)
-    {
-        NOKIA5110_u8ImageBuffer[i] = pu8Image[i];
-    }
-}
-
+#if 0
 /*
 int NOKIA5110_BMPBinary(const unsigned char *ptr)
 {
@@ -1434,4 +901,4 @@ int NOKIA5110_BMPBinary(const unsigned char *ptr)
   */
 //}
 
-
+#endif

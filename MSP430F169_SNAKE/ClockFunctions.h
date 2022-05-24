@@ -1,6 +1,6 @@
 /**
  *
- * @file LCD.h
+ * @file ClockFunctions.h
  * @copyright
  * @verbatim InDeviceMex 2021 @endverbatim
  *
@@ -22,14 +22,9 @@
  * 17 may. 2022     InDeviceMex    1.0         initial Version@endverbatim
  */
 
-#ifndef LCD_H_
-#define LCD_H_
+#ifndef CLOCKFUNCTIONS_H_
+#define CLOCKFUNCTIONS_H_
 
-#include "DriverLib/MCU/Header/MCU_Common.h"
+void System__vClockInit(void);
 
-#define LCD_WIDTH    (84U)
-#define LCD_HEIGHT   (48U)
-
-
-
-#endif /* LCD_H_ */
+#endif /* CLOCKFUNCTIONS_H_ */

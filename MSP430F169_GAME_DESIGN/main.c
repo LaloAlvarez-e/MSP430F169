@@ -63,49 +63,39 @@ void main(void)
     uint8_t pu8ButtonTemp[4U] = {0U,0U,0U,0U};
     uint8_t u8Column=0, u8Row=0;
     WDT__vSetEnable(WDT_enENABLE_STOP);
+
+    _EINT();
     Buzzer__vInit();
+    Button__vInit();
     System__vClockInit();
     SlidePot__vInit();
-    Button__vInit();
     GPIO__vSetConfig(GPIO_enPORT47);
     GPIO__vSetDirectionByFunction(GPIO_enPORT47, GPIO_enDIR_OUTPUT);
     GPIO__vSetOutputByFunction(GPIO_enPORT47, GPIO_enLEVEL_LOW);
     WDT__vRegisterIRQSourceHandler(&Scheduler_u16GameEngine);
     WDT__vSetConfig(&stSchedulerConfig);
-    _EINT();
-
 
     NOKIA5110__vInit();
-    NOKIA5110__vSetCursor(0,0);
-    NOKIA5110__vClear();
+    LCD__vClear(0U);
+    LCD__vRefresh();
 
-
-    u8Column=0, u8Row=0;
-    NOKIA5110__u16Print("InDev\n\rInitializing\n\rRTOS ",&u8Column,&u8Row);
-    NOKIA5110__vSetCursor(0,0);
-    NOKIA5110__vClear();
-    u8Column=0, u8Row=0;
-    NOKIA5110__u16Print("Btn U:\n\rBtn R:\n\rBtn L:\n\rBtn D:\n\rPot   :",&u8Column,&u8Row);
-
-
+    u16ADCValueOld = SlidePort__u16GetValue();
     u8Value = Button__u8GetAllValues();
     for(u8Iter = 0U; u8Iter < 4U; u8Iter++)
     {
-        u8Column=7, u8Row=u8Iter;
         pu8ButtonTemp[u8Iter] = u8Value & 1U;
         u8Value >>= 1U;
-        NOKIA5110__u16Print((char*) pcState[pu8ButtonTemp[u8Iter]],&u8Column,&u8Row);
     }
-    u16ADCValueOld = SlidePort__u16GetValue();
-
 
     while(1U)
     {
+
         if(TRUE == Scheduler_boRun)
         {
+
             uint8_t u8Temp = 0U;
             uint16_t u16Temp = 0U;
-            if(u8Count >= 128)
+            if(u8Count >= 32)
             {
                 u8Count = 0U;
                 Buzzer__vPlaySound(pu8Array[u8ArrayCount], pu16ArraySize[u8ArrayCount]);
@@ -119,24 +109,25 @@ void main(void)
             {
                 u8Count++;
             }
+
             u8Value = Button__u8GetAllValues();
             for(u8Iter = 0U; u8Iter < 4U; u8Iter++)
             {
                 u8Temp = (u8Value & 1U);
+                u8Column = 7 * LCD_CHAR_WIDTH, u8Row = u8Iter * LCD_CHAR_HEIGHT;
                 pu8ButtonTemp[u8Iter] = u8Temp;
-                u8Column=7, u8Row=u8Iter;
-                //NOKIA5110__u16Print((char*) pcState[pu8ButtonTemp[u8Iter]],&u8Column,&u8Row);
-
                 u8Value >>= 1U;
+                LCD__u32Printf((char*) pcState[pu8ButtonTemp[u8Iter]],&u8Column,&u8Row);
             }
             u16Temp = SlidePort__u16GetValue();
             u16ADCValueOld = u16Temp;
-            u8Column=7, u8Row=4;
-            //Conv__u8Int2StringZeros(u16ADCValueOld, 4U, BufferConv);
-            //NOKIA5110__u16Print(BufferConv,&u8Column,&u8Row);
+            u8Column = 7U * LCD_CHAR_WIDTH, u8Row = 4U * LCD_CHAR_HEIGHT;
+            LCD__u32Printf("%3u",&u8Column,&u8Row, u16Temp);
             PORT4->OUT_bits.P7 = 0U;
             Scheduler_boRun = FALSE;
-            LPM1;
+            LCD__vRefresh();
+
         }
+        LPM3;
     }
 }
