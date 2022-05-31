@@ -56,6 +56,11 @@ typedef enum
 void LCD__vPixelSection(uint8_t u8PixelValue, uint8_t* pu8Column, uint8_t* pu8Row,
                         uint8_t u8ColumnStart, uint8_t u8RowStart, uint8_t u8Width, uint8_t u8Height);
 void LCD__vPixel(uint8_t u8PixelValue, uint8_t* pu8Column, uint8_t* pu8Row);
+
+uint8_t LCD__u8ReadPixelSection(uint8_t* pu8Column, uint8_t* pu8Row,
+                        uint8_t u8ColumnStart, uint8_t u8RowStart, uint8_t u8Width, uint8_t u8Height);
+uint8_t LCD__u8ReadPixel(uint8_t* pu8Column, uint8_t* pu8Row);
+
 void LCD__vRowPixelSection(uint8_t u8RowValue, uint8_t* pu8Column, uint8_t* pu8Row,
                     uint8_t u8ColumnStart, uint8_t u8RowStart, uint8_t u8Width, uint8_t u8Height);
 void LCD__vRowPixel(uint8_t u8RowValue, uint8_t* pu8Column, uint8_t* pu8Row);

@@ -33,6 +33,7 @@ CSLinkedListItem_t* Screen_pstLastSnakePointer;
 CSLinkedListItem_t* Screen_pstSnakeHeadPointer;
 int32_t Screen_s32SnakeHeadData;
 int32_t Screen_s32SnakeTailData;
+uint8_t Screen_u8Level = 1U;
 int32_t Screen_s32SnakeHeadDataTemp;
 int32_t Screen_s32SnakeData;
 Coord_t* Screen_pstSnakeData;
@@ -88,7 +89,7 @@ void main(void)
         WDT_enINT_ENABLE_ENA,
         WDT_enMODE_INTERVAL,
         WDT_enCLOCK_ACLK,
-        WDT_enINTERVAL_512,
+        WDT_enINTERVAL_64,
     };
     char pcConv[5U] = {0U};
     uint16_t u16Iter = 0U;
@@ -112,16 +113,27 @@ void main(void)
 
     NOKIA5110__vInit();
     LCD__vClear(0U);
-    u8Column = 0U;
+    u8Column = 7U * 2U;
     u8Row = 0U;
-    LCD__u16Print(":", &u8Column, &u8Row);
-    Conv__u8Int2StringZeros(Screen_u16Number, 3U, pcConv);
+    LCD__u16Print("S:", &u8Column, &u8Row);
+    Conv__u8Int2StringZeros(Screen_u16Number - 1U, 2U, pcConv);
     LCD__u16Print(pcConv, &u8Column, &u8Row);
-    LCD__vClearSection(1U,  0U,  7U, 84U,  1U);
+    u8Column = 7U * 7U;
+    u8Row = 0U;
+    LCD__u16Print("L:", &u8Column, &u8Row);
+    Conv__u8Int2StringZeros(Screen_u8Level, 1U, pcConv);
+    LCD__u16Print(pcConv, &u8Column, &u8Row);
+    LCD__vClearSection(1U,  0U,  3U, 14U,  4U);
+    LCD__vClearSection(1U,  70U, 3U, 14U,  4U);
     LCD__vClearSection(1U,  0U, 44U, 84U,  4U);
     LCD__vClearSection(1U,  0U,  7U,  4U, 40U);
     LCD__vClearSection(1U, 80U,  7U,  4U, 40U);
-    CSLinkedList__enInit(&Screen_stSnakeList, 0U, 0U);
+    u8Column = (7U * 4U) - 4U;
+    u8Row = 15;
+    LCD__u16Print("Press", &u8Column, &u8Row);
+    u8Column = (7U * 3U) - 4U;
+    u8Row = 23;
+    LCD__u16Print("Any Key", &u8Column, &u8Row);
     LCD__vRefresh();
 
 
@@ -171,7 +183,7 @@ void main(void)
                 Screen_u8Direction = 1U;
             }
 
-            if(4U < (u16TimeElapsed - u16TimeCurrent))
+            if((100U - (3* Screen_u8Level)) < (u16TimeElapsed - u16TimeCurrent))
             {
                 u16TimeCurrent = u16TimeElapsed;
 
@@ -181,12 +193,72 @@ void main(void)
                 Screen_pstSnakeHeadData = (Coord_t*) &Screen_s32SnakeHeadData;
                 Screen_pstSnakeTailPointer = CSLinkedList__pstGetTail(&Screen_stSnakeList);
                 CSLinkedList__enRemoveTail(&Screen_stSnakeList);
+
+                LCD__vClearSection(1U,
+                                    (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart,
+                                    (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart,
+                                    Screen_s8SpriteSize,
+                                    Screen_s8SpriteSize);
+
+                if (Screen_u8Direction == 1U)
+                {
+                    LCD__vClearSection(0U,
+                                        (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 0U,
+                                        (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 0U,
+                                        2,
+                                        1);
+                    LCD__vClearSection(0U,
+                                        (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 2U,
+                                        (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 3U,
+                                        2,
+                                        1);
+                }
+                if (Screen_u8Direction == 2U)
+                {
+                    LCD__vClearSection(0U,
+                                        (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 0U,
+                                        (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 0U,
+                                        1,
+                                        2);
+                    LCD__vClearSection(0U,
+                                        (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 3U,
+                                        (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 2U,
+                                        1,
+                                        2);
+                }
+                if (Screen_u8Direction == 3U)
+                {
+                    LCD__vClearSection(0U,
+                                        (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 0U,
+                                        (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 0U,
+                                        1,
+                                        2);
+                    LCD__vClearSection(0U,
+                                        (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 3U,
+                                        (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 2U,
+                                        1,
+                                        2);
+                }
+                if (Screen_u8Direction == 4U)
+                {
+                    LCD__vClearSection(0U,
+                                        (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 0U,
+                                        (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 0U,
+                                        2,
+                                        1);
+                    LCD__vClearSection(0U,
+                                        (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 2U,
+                                        (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 3U,
+                                        2,
+                                        1);
+                }
+
+
                 LCD__vClearSection(0U,
                                    (Screen_pstSnakeTailData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart,
                                    (Screen_pstSnakeTailData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart,
                                    Screen_s8SpriteSize,
                                    Screen_s8SpriteSize);
-
 
                 if (Screen_u8Direction == 1U)
                 {
@@ -227,29 +299,55 @@ void main(void)
                                    (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart,
                                    Screen_s8SpriteSize,
                                    Screen_s8SpriteSize);
-               if(0U == (Screen_u16Number & 1U) )
-               {
-               LCD__vClearSection(0U,
-                                   (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 0U,
-                                   (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 0U,
-                                   1,
-                                   1);
-               LCD__vClearSection(0U,
-                                   (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 1U,
-                                   (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 1U,
-                                   1,
-                                   1);
-               }
-               else
+               if (Screen_u8Direction == 1U)
                {
                    LCD__vClearSection(0U,
-                                       (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 1U,
+                                       (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 0U,
+                                       (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 3U,
+                                       1,
+                                       1);
+                   LCD__vClearSection(0U,
+                                       (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 3U,
+                                       (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 3U,
+                                       1,
+                                       1);
+               }
+               if (Screen_u8Direction == 2U)
+               {
+                   LCD__vClearSection(0U,
+                                       (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 0U,
                                        (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 0U,
                                        1,
                                        1);
                    LCD__vClearSection(0U,
                                        (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 0U,
-                                       (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 1U,
+                                       (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 3U,
+                                       1,
+                                       1);
+               }
+               if (Screen_u8Direction == 3U)
+               {
+                   LCD__vClearSection(0U,
+                                       (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 3U,
+                                       (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 0U,
+                                       1,
+                                       1);
+                   LCD__vClearSection(0U,
+                                       (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 3U,
+                                       (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 3U,
+                                       1,
+                                       1);
+               }
+               if (Screen_u8Direction == 4U)
+               {
+                   LCD__vClearSection(0U,
+                                       (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 0U,
+                                       (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 0U,
+                                       1,
+                                       1);
+                   LCD__vClearSection(0U,
+                                       (Screen_pstSnakeHeadData->s8X*Screen_s8SpriteSize) + Screen_s8WidthStart  + 3U,
+                                       (Screen_pstSnakeHeadData->s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 0U,
                                        1,
                                        1);
                }
@@ -259,13 +357,43 @@ void main(void)
                 if ((Screen_pstSnakeHeadData->s8X == Screen_stFruit.s8X) &&
                     (Screen_pstSnakeHeadData->s8Y == Screen_stFruit.s8Y))
                 {
-                    Screen_u16Number++;
-                    Screen_stFruit.s8X = rand() % Screen_s8WidthSlots;
-                    Screen_stFruit.s8Y = rand() % Screen_s8HeightSlots;
-                    Conv__u8Int2StringZeros(Screen_u16Number, 3U, pcConv);
-                    u8Column = 8U *6U;
+                    int8_t s8X = 0;
+                    int8_t s8Y = 0;
+                    uint8_t u8XTemp = 0;
+                    uint8_t u8YTemp = 0;
+                    uint8_t u8PixelValue = 0U;
+                    Buzzer__vPlaySound(Sounds__pu8highpitch, SOUND_HIGHPITCH_SIZE);
+                    u8Column = 7U * 2U;
                     u8Row = 0U;
+                    LCD__u16Print("S:", &u8Column, &u8Row);
+                    Conv__u8Int2StringZeros(Screen_u16Number, 2U, pcConv);
                     LCD__u16Print(pcConv, &u8Column, &u8Row);
+                    if(0U == (Screen_u16Number&3U))
+                    {
+                        Screen_u8Level += 1U;
+                        if (Screen_u8Level > 33U)
+                        {
+                            Screen_u8Level = 33U;
+                        }
+                        u8Column = 7U * 7U;
+                        u8Row = 0U;
+                        LCD__u16Print("L:", &u8Column, &u8Row);
+                        Conv__u8Int2StringZeros(Screen_u8Level, 1U, pcConv);
+                        LCD__u16Print(pcConv, &u8Column, &u8Row);
+                    }
+                    Screen_u16Number++;
+                    do
+                    {
+                        s8X = rand() % Screen_s8WidthSlots;
+                        s8Y = rand() % Screen_s8HeightSlots;
+                        u8XTemp = s8X;
+                        u8YTemp = s8Y;
+                        u8XTemp = (s8X*Screen_s8SpriteSize) + Screen_s8WidthStart;
+                        u8YTemp = (s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart;
+                        u8PixelValue = LCD__u8ReadPixel(&u8XTemp, &u8YTemp);
+                    }while(((Screen_stFruit.s8X == s8X) && (Screen_stFruit.s8Y == s8Y)) || (0U != u8PixelValue));
+                    Screen_stFruit.s8X = s8X;
+                    Screen_stFruit.s8Y = s8Y;
 
                     CSLinkedList__enInsertAtTail(&Screen_stSnakeList, &Screem_stSnakePoints[Screen_u16Number - 1U]);
                     Screen_pstLastSnakePointer = &Screem_stSnakePoints[Screen_u16Number - 1U];
@@ -276,6 +404,30 @@ void main(void)
                                    (Screen_stFruit.s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart,
                                    Screen_s8SpriteSize,
                                    Screen_s8SpriteSize);
+
+                LCD__vClearSection(0U,
+                                   (Screen_stFruit.s8X*Screen_s8SpriteSize) + Screen_s8WidthStart + 0U,
+                                   (Screen_stFruit.s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 0U,
+                                   1U,
+                                   1U);
+
+                LCD__vClearSection(0U,
+                                   (Screen_stFruit.s8X*Screen_s8SpriteSize) + Screen_s8WidthStart + 3U,
+                                   (Screen_stFruit.s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 0U,
+                                   1U,
+                                   1U);
+
+                LCD__vClearSection(0U,
+                                   (Screen_stFruit.s8X*Screen_s8SpriteSize) + Screen_s8WidthStart + 3U,
+                                   (Screen_stFruit.s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 3U,
+                                   1U,
+                                   1U);
+
+                LCD__vClearSection(0U,
+                                   (Screen_stFruit.s8X*Screen_s8SpriteSize) + Screen_s8WidthStart + 0U,
+                                   (Screen_stFruit.s8Y*Screen_s8SpriteSize) + Screen_s8HeightStart + 3U,
+                                   1U,
+                                   1U);
                 Screen_pstSnakePointer = CSLinkedList_Item__pstGetNextItem(Screen_pstSnakeTailPointer);
                 while(Screen_pstLastSnakePointer != Screen_pstSnakePointer)
                 {
@@ -285,18 +437,23 @@ void main(void)
                         (Screen_pstSnakeHeadData->s8Y == Screen_pstSnakeData->s8Y))
                     {
                         Screen_u16Number = 1U;
+                        Screen_u8Level = 1U;
                         CSLinkedList__enInit(&Screen_stSnakeList, 0U, 0U);
                         CSLinkedList__enInsertAtTail_WithData(&Screen_stSnakeList, &Screem_stSnakePoints[0U], (void*) (*(int16_t*) Screen_pstSnakeHeadData));
 
                         LCD__vClear(0U);
-                        u8Column = 0U;
+                        u8Column = 7U * 2U;
                         u8Row = 0U;
-                        LCD__u16Print("Score:", &u8Column, &u8Row);
-                        Conv__u8Int2StringZeros(Screen_u16Number, 3U, pcConv);
-                        u8Column = 8U *6U;
-                        u8Row = 0U;
+                        LCD__u16Print("S:", &u8Column, &u8Row);
+                        Conv__u8Int2StringZeros(Screen_u16Number - 1U, 2U, pcConv);
                         LCD__u16Print(pcConv, &u8Column, &u8Row);
-                        LCD__vClearSection(1U,  0U,  7U, 84U,  1U);
+                        u8Column = 7U * 7U;
+                        u8Row = 0U;
+                        LCD__u16Print("L:", &u8Column, &u8Row);
+                        Conv__u8Int2StringZeros(Screen_u8Level, 1U, pcConv);
+                        LCD__u16Print(pcConv, &u8Column, &u8Row);
+                        LCD__vClearSection(1U,  0U,  3U, 14U,  4U);
+                        LCD__vClearSection(1U,  70U, 3U, 14U,  4U);
                         LCD__vClearSection(1U,  0U, 44U, 84U,  4U);
                         LCD__vClearSection(1U,  0U,  7U,  4U, 40U);
                         LCD__vClearSection(1U, 80U,  7U,  4U, 40U);

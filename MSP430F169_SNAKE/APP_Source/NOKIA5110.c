@@ -179,6 +179,62 @@ void LCD__vPixel(uint8_t u8PixelValue, uint8_t* pu8Column, uint8_t* pu8Row)
                             0U, 0U, LCD_WIDTH, LCD_HEIGHT);
 }
 
+
+uint8_t LCD__u8ReadPixelSection(uint8_t* pu8Column, uint8_t* pu8Row,
+                        uint8_t u8ColumnStart, uint8_t u8RowStart, uint8_t u8Width, uint8_t u8Height)
+{
+    uint8_t u8PixelValue;
+    uint8_t u8RowBit;
+    uint8_t u8RowByte;
+    uint16_t u16Address;
+    uint16_t u16TotalWidth = u8ColumnStart + u8Width;
+    uint16_t u16TotalHeight = u8RowStart + u8Height;
+
+    if(*pu8Column >= u16TotalWidth)
+    {
+        *pu8Column -= u16TotalWidth;
+    }
+    if(*pu8Column < u8ColumnStart)
+    {
+        *pu8Column = u16TotalWidth - (u8ColumnStart - *pu8Column);
+    }
+    if(*pu8Row >= u16TotalHeight)
+    {
+        *pu8Row -= u16TotalHeight;
+    }
+    if(*pu8Row < u8RowStart)
+    {
+        *pu8Row = u16TotalHeight - (u8RowStart - *pu8Row);
+    }
+
+    u8RowByte = (*pu8Row) >> 3U;
+    u8RowBit = (*pu8Row) & 0x7U;
+    u16Address = u8RowByte * NOKIA5110_MAX_X;
+    u16Address += (*pu8Column);
+
+    u8PixelValue = NOKIA5110_u8ImageBuffer[u16Address];
+    u8PixelValue &= (1U << u8RowBit);
+    u8PixelValue >>= u8RowBit;
+    (*pu8Column)++;
+    if(*pu8Column >= u16TotalWidth)
+    {
+        *pu8Column = u8ColumnStart;
+        (*pu8Row)++;
+        if(*pu8Row >= u16TotalHeight)
+        {
+            *pu8Row = u8RowStart;
+        }
+    }
+}
+
+
+uint8_t LCD__u8ReadPixel(uint8_t* pu8Column, uint8_t* pu8Row)
+{
+    uint8_t u8PixelValue = 0U;
+    u8PixelValue = LCD__u8ReadPixelSection(pu8Column, pu8Row,
+                            0U, 0U, LCD_WIDTH, LCD_HEIGHT);
+}
+
 void LCD__vRowPixelSection(uint8_t u8RowValue, uint8_t* pu8Column, uint8_t* pu8Row,
                     uint8_t u8ColumnStart, uint8_t u8RowStart, uint8_t u8Width, uint8_t u8Height)
 {
