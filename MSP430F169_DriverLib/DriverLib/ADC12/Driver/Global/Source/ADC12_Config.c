@@ -39,10 +39,10 @@
 
 void ADC12__vSetConfig(ADC12_Config_t* pstConfigArg)
 {
-    ADC12_CTL0_t stConfig0Reg = {0};
-    ADC12_CTL1_t stConfig1Reg = {0};
+    ADC12_CTL0_t stConfig0Reg;
+    ADC12_CTL1_t stConfig1Reg;
     ADC12_Register16Bits_t pstRegisterData;
-    ADC12_nENABLE enEnableReg = ADC12_enENABLE_DIS;
+    ADC12_nENABLE enEnableReg;
     if(0UL != (uintptr_t) pstConfigArg)
     {
         enEnableReg = ADC12__enGetEnableConversion();
@@ -87,10 +87,10 @@ void ADC12__vSetConfig(ADC12_Config_t* pstConfigArg)
 
 void ADC12__vSetConfigExt(ADC12_ConfigExt_t* pstConfigArg)
 {
-    ADC12_CTL0_t stConfig0Reg = {0};
-    ADC12_CTL1_t stConfig1Reg = {0};
+    ADC12_CTL0_t stConfig0Reg;
+    ADC12_CTL1_t stConfig1Reg;
     ADC12_Register16Bits_t pstRegisterData;
-    ADC12_nENABLE enEnableReg = ADC12_enENABLE_DIS;
+    ADC12_nENABLE enEnableReg;
     if(0UL != (uintptr_t) pstConfigArg)
     {
         enEnableReg = ADC12__enGetEnableConversion();

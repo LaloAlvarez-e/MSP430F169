@@ -98,10 +98,10 @@ static const uint32_t CLOCK_u32FrequencyLUT_External[CLOCK_MAXINDEX] =
 
 void CLOCK__vSetDCOFrequency(uint32_t u32FrequencyHz, CLOCK_nRESISTOR enResistorSelect)
 {
-    uint8_t u8CurrentIndex = 0UL;
-    uint8_t u8Codification = 0U;
-    const uint32_t* pu32LUTPointerFreq = (uint32_t*) 0U;
-    const uint8_t* pu8LUTPointerCod = (uint8_t*) 0U;
+    uint8_t u8CurrentIndex;
+    uint8_t u8Codification;
+    const uint32_t* pu32LUTPointerFreq;
+    const uint8_t* pu8LUTPointerCod;
 
     if(CLOCK_enRESISTOR_INTERNAL == enResistorSelect)
     {
@@ -131,9 +131,9 @@ void CLOCK__vSetDCOFrequency(uint32_t u32FrequencyHz, CLOCK_nRESISTOR enResistor
 
 uint32_t CLOCK__u32GetDCOFrequency(void)
 {
-    CLOCK_nRESISTOR enResistorSelectReg = CLOCK_enRESISTOR_INTERNAL;
-    uint32_t u32FrequencyReg = 0UL;
-    const uint32_t* pu32LUTPointerFreq = (uint32_t*) 0U;
+    CLOCK_nRESISTOR enResistorSelectReg;
+    uint32_t u32FrequencyReg;
+    const uint32_t* pu32LUTPointerFreq;
 
     enResistorSelectReg = CLOCK__enGetDCOResistorSelect();
     if(CLOCK_enRESISTOR_INTERNAL == enResistorSelectReg)

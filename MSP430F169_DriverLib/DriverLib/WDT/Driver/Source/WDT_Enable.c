@@ -30,7 +30,7 @@
 void WDT__vSetEnable(WDT_nENABLE enEnableArg)
 {
     WDT_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) enEnableArg;
     u16Value <<= WDT_CTL_R_HOLD_BIT;
     u16Value |= WDT_CTL_R_PW_WRITE;
@@ -58,7 +58,7 @@ WDT_nENABLE WDT__enGetEnable(void)
 void WDT__vSetEnable_RAM(WDT_nENABLE enEnableArg)
 {
     WDT_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) enEnableArg;
     u16Value <<= WDT_CTL_R_HOLD_BIT;
     u16Value |= WDT_CTL_R_PW_WRITE;

@@ -28,15 +28,14 @@
 
 void DAC12__vWriteRegister(DAC12_Register_t* pstRegisterData)
 {
-    const uintptr_t ptrBase = DAC12_BASE;
-    pstRegisterData->uptrAddress += ptrBase;
+    pstRegisterData->uptrAddress += DAC12_BASE;
     MCU__vWriteRegister_16bits(pstRegisterData);
 }
 
 void DAC12_CH__vWriteRegister(DAC12_nCH enChannelArg,
                             DAC12_Register_t* pstRegisterData)
 {
-    uintptr_t ptrPortBase = 0U;
+    uintptr_t ptrPortBase;
     ptrPortBase = DAC12_CH__uptrBlockBaseAddress(enChannelArg);
     pstRegisterData->uptrAddress += ptrPortBase;
     MCU__vWriteRegister_16bits(pstRegisterData);

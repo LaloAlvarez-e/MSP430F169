@@ -28,10 +28,9 @@
 
 uint16_t DAC12__u16ReadRegister(DAC12_Register_t* pstRegisterData)
 {
-    const uintptr_t ptrBase = DAC12_BASE;
-    uint16_t u16RegisterValue = 0U;
+    uint16_t u16RegisterValue;
 
-    pstRegisterData->uptrAddress += ptrBase;
+    pstRegisterData->uptrAddress += DAC12_BASE;
     u16RegisterValue = MCU__u16ReadRegister(pstRegisterData);
 
     return (u16RegisterValue);
@@ -40,8 +39,8 @@ uint16_t DAC12__u16ReadRegister(DAC12_Register_t* pstRegisterData)
 uint16_t DAC12_CH__u16ReadRegister(DAC12_nCH enChannelArg,
                                  DAC12_Register_t* pstRegisterData)
 {
-    uintptr_t ptrChannelBase = 0U;
-    uint16_t u16RegisterValue = 0U;
+    uintptr_t ptrChannelBase;
+    uint16_t u16RegisterValue;
 
     ptrChannelBase = DAC12_CH__uptrBlockBaseAddress(enChannelArg);
     pstRegisterData->uptrAddress += ptrChannelBase;

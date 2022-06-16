@@ -30,13 +30,14 @@
 
 __interrupt void TIMERA_CC0_IRQVectorHandler(void)
 {
-    MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg;
     uint16_t u16Status = 0xFFU;
-    uint16_t u16Mode = TIMERA_CC0_CTL_R;
-    uint16_t u16PinValue = 0U;
+    uint16_t u16Mode;
+    uint16_t u16PinValue;
+    u16Mode = TIMERA_CC0_CTL_R;;
+    u16Mode &= TIMERA_CC_CTL_R_CAP_MASK;
     u16PinValue = u16Mode;
     u16PinValue &= TIMERA_CC_CTL_R_CCI_MASK | TIMERA_CC_CTL_R_SCCI_MASK;
-    u16Mode &= TIMERA_CC_CTL_R_CAP_MASK;
 
 
     if(TIMERA_CC_CTL_R_CAP_COMPARE == u16Mode)
@@ -63,10 +64,10 @@ __interrupt void TIMERA_CC0_IRQVectorHandler(void)
 
 __interrupt void TIMERA_IRQVectorHandler(void)
 {
-    MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg;
     uint16_t u16Status = 0xFFU;
-    uint16_t u16Mode = 0U;
-    uint16_t u16PinValue = 0U;
+    uint16_t u16Mode;
+    uint16_t u16PinValue;
 
     switch(TIMERA_IV_R)
     {

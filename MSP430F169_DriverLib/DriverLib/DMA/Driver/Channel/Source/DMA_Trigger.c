@@ -28,11 +28,12 @@
 void DMA_CH__vSetTrigger(DMA_nCH enChannelArg,
                       DMA_nCH_TRIGGER enTriggerArg)
 {
-    uint16_t u16ShiftTemp = DMA_CTL0_R_CH1TSEL_BIT;
+    uint16_t u16ShiftTemp;
     DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CTL0_OFFSET;
     pstRegisterData.u16Value = (uint16_t) enTriggerArg;
     pstRegisterData.u16Mask = DMA_CTL0_CHTSEL_MASK;
+    u16ShiftTemp = DMA_CTL0_R_CH1TSEL_BIT;
     u16ShiftTemp *= (uint16_t) enChannelArg;
     pstRegisterData.u8Shift = u16ShiftTemp;
     DMA__vWriteRegister(&pstRegisterData);
@@ -40,11 +41,12 @@ void DMA_CH__vSetTrigger(DMA_nCH enChannelArg,
 
 DMA_nCH_TRIGGER DMA_CH__enGetTrigger(DMA_nCH enChannelArg)
 {
-    uint16_t u16ShiftTemp = DMA_CTL0_R_CH1TSEL_BIT;
+    uint16_t u16ShiftTemp;
     DMA_Register_t pstRegisterData;
     pstRegisterData.uptrAddress = DMA_CTL0_OFFSET;
     pstRegisterData.u16Value = 0U;
     pstRegisterData.u16Mask = DMA_CTL0_CHTSEL_MASK;
+    u16ShiftTemp = DMA_CTL0_R_CH1TSEL_BIT;
     u16ShiftTemp *= (uint16_t) enChannelArg;
     pstRegisterData.u8Shift = u16ShiftTemp;
     (void) DMA__u16ReadRegister(&pstRegisterData);

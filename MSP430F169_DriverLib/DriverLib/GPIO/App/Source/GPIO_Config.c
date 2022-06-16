@@ -28,10 +28,10 @@
 
 void GPIO__vSetConfig(GPIO_nDIGITAL_FUNCTION enFunctionArg)
 {
-    uint16_t u16PinNumberReg = 0U;
-    uint16_t u16PortReg = 0U;
-    uint16_t u16SelectionReg = 0U;
-    uint16_t u16DirectionReg = 0U;
+    uint16_t u16PinNumberReg;
+    uint16_t u16PortReg;
+    uint16_t u16SelectionReg;
+    uint16_t u16DirectionReg;
 
     u16PinNumberReg = (uint16_t) enFunctionArg;
     u16PinNumberReg >>= GPIO_PIN_OFFSET;

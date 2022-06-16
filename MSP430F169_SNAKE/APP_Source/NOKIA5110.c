@@ -230,9 +230,10 @@ uint8_t LCD__u8ReadPixelSection(uint8_t* pu8Column, uint8_t* pu8Row,
 
 uint8_t LCD__u8ReadPixel(uint8_t* pu8Column, uint8_t* pu8Row)
 {
-    uint8_t u8PixelValue = 0U;
+    uint8_t u8PixelValue;
     u8PixelValue = LCD__u8ReadPixelSection(pu8Column, pu8Row,
                             0U, 0U, LCD_WIDTH, LCD_HEIGHT);
+    return (u8PixelValue);
 }
 
 void LCD__vRowPixelSection(uint8_t u8RowValue, uint8_t* pu8Column, uint8_t* pu8Row,

@@ -42,7 +42,7 @@ void TIMERA_CC__vSetStatusInterruptSource(TIMERA_nCC enModuleArg,
 TIMERA_nINT_STATUS TIMERA_CC__enGetStatusInterruptSource(TIMERA_nCC enModuleArg)
 {
     TIMERA_Register_t pstRegisterData;
-    TIMERA_nINT_STATUS enStatus = TIMERA_enINT_STATUS_NOOCCUR;
+    TIMERA_nINT_STATUS enStatus;
 
     pstRegisterData.uptrAddress = TIMERA_CC_CTL_OFFSET;
     pstRegisterData.u16Mask = TIMERA_CC_CTL_IFG_MASK;
@@ -68,7 +68,7 @@ void TIMERA__vSetStatusInterruptSource(TIMERA_nINT_STATUS enStatus)
 TIMERA_nINT_STATUS TIMERA__enGetStatusInterruptSource(void)
 {
     TIMERA_Register_t pstRegisterData;
-    TIMERA_nINT_STATUS enStatus = TIMERA_enINT_STATUS_NOOCCUR;
+    TIMERA_nINT_STATUS enStatus;
 
     pstRegisterData.uptrAddress = TIMERA_CTL_OFFSET;
     pstRegisterData.u16Mask = TIMERA_CTL_IFG_MASK;

@@ -30,7 +30,7 @@
 void FLASH__vSetLockState(FLASH_nLOCK enLockArg)
 {
     FLASH_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) enLockArg;
     u16Value <<= FLASH_CTL3_R_LOCK_BIT;
     u16Value |= FLASH_CTL3_R_KEY_WRITE;
@@ -69,7 +69,7 @@ FLASH_nLOCK FLASH__enGetLockState(void)
 void FLASH__vSetLockState_RAM(FLASH_nLOCK enLockArg)
 {
     FLASH_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) enLockArg;
     u16Value <<= FLASH_CTL3_R_LOCK_BIT;
     u16Value |= FLASH_CTL3_R_KEY_WRITE;

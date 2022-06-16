@@ -29,7 +29,7 @@
 void GPIO__vWriteRegister(GPIO_nPORT enPortArg,
                           GPIO_Register_t* pstRegisterData)
 {
-    uintptr_t ptrPortBase = 0U;
+    uintptr_t ptrPortBase;
     ptrPortBase = GPIO__uptrBlockBaseAddress(enPortArg);
     pstRegisterData->uptrAddress += ptrPortBase;
     MCU__vWriteRegister_8bits(pstRegisterData);

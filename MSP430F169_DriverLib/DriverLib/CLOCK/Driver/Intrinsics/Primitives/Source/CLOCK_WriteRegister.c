@@ -28,9 +28,7 @@
 
 void CLOCK__vWriteRegister(CLOCK_Register_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = CLOCK_BASE;
-
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += CLOCK_BASE;
     MCU__vWriteRegister_8bits(pstRegisterData);
 }
 

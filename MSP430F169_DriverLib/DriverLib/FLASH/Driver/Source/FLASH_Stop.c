@@ -30,7 +30,7 @@
 void FLASH__vStopProcess(void)
 {
     FLASH_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = FLASH_CTL3_EMEX_STOP;
     u16Value <<= FLASH_CTL3_R_EMEX_BIT;
     u16Value |= FLASH_CTL3_R_KEY_WRITE;
@@ -45,7 +45,7 @@ void FLASH__vStopProcess(void)
 void FLASH__vStopProcess_RAM(void)
 {
     FLASH_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = FLASH_CTL3_EMEX_STOP;
     u16Value <<= FLASH_CTL3_R_EMEX_BIT;
     u16Value |= FLASH_CTL3_R_KEY_WRITE;

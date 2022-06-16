@@ -28,35 +28,27 @@
 
 void FLASH__vWriteRegister_8bits(FLASH_Register8Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = FLASH_BASE;
-
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += FLASH_BASE;
     MCU__vWriteRegister_8bits(pstRegisterData);
 }
 
 
 void FLASH__vWriteRegister_16bits(FLASH_Register16Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = FLASH_BASE;
-
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += FLASH_BASE;
     MCU__vWriteRegister_16bits(pstRegisterData);
 }
 
 void FLASH__vWriteRegister_8bits_RAM(FLASH_Register8Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = FLASH_BASE;
-
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += FLASH_BASE;
     MCU__vWriteRegister_8bits_RAM(pstRegisterData);
 }
 
 
 void FLASH__vWriteRegister_16bits_RAM(FLASH_Register16Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = FLASH_BASE;
-
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += FLASH_BASE;
     MCU__vWriteRegister_16bits_RAM(pstRegisterData);
 }
 

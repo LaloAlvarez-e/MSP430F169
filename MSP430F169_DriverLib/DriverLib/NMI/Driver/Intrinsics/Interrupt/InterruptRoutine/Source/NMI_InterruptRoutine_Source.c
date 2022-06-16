@@ -28,7 +28,7 @@ static MCU__pu16fIRQSourceHandler_t NMI_pu16fIRQSourceHandler = &MCU__u16IRQSour
 
 MCU__pu16fIRQSourceHandler_t NMI__pu16fGetIRQSourceHandler(void)
 {
-    MCU__pu16fIRQSourceHandler_t IRQSourceHandler = (MCU__pu16fIRQSourceHandler_t) 0U;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandler;
     IRQSourceHandler = NMI_pu16fIRQSourceHandler;
     return (IRQSourceHandler);
 }

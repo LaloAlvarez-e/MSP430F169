@@ -28,8 +28,6 @@
 
 void SVS__vWriteRegister(SVS_Register_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = SVS_BASE;
-
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += SVS_BASE;
     MCU__vWriteRegister_8bits(pstRegisterData);
 }

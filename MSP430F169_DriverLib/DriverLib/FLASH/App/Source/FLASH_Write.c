@@ -29,7 +29,7 @@
 
 FLASH_nSTATUS FLASH__enMainWriteWord(uint16_t u16DataArg, uintptr_t uptrAddressArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
+    FLASH_nSTATUS enStatusReg;
     FLASH_Segment_t stSegmentCallback;
 
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetMainStartAddress;
@@ -46,12 +46,12 @@ FLASH_nSTATUS FLASH__enMainWriteWord(uint16_t u16DataArg, uintptr_t uptrAddressA
 
 FLASH_nSTATUS FLASH__enMainWriteByte(uint8_t u8DataArg, uintptr_t uptrAddressArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    uintptr_t uptrAddressReg = 0U;
-    static uint16_t u16DataReg = 0U;
-    uint16_t* pu16DataReg = (uint16_t*) 0U;
-    uint8_t* pu8DataReg = (uint8_t*) 0U;
-    uint16_t u16Offset = 0U;
+    FLASH_nSTATUS enStatusReg;
+    uintptr_t uptrAddressReg;
+    static uint16_t u16DataReg;
+    uint16_t* pu16DataReg;
+    uint8_t* pu8DataReg;
+    uint16_t u16Offset;
 
     u16Offset = uptrAddressArg;
     u16Offset &= 0x1;
@@ -70,7 +70,7 @@ FLASH_nSTATUS FLASH__enMainWriteByte(uint8_t u8DataArg, uintptr_t uptrAddressArg
 
 FLASH_nSTATUS FLASH__enInfoWriteWord(uint16_t u16DataArg, uintptr_t uptrAddressArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
+    FLASH_nSTATUS enStatusReg;
     FLASH_Segment_t stSegmentCallback;
 
     stSegmentCallback.uptrGetStartAddress = &FLASH__uptrGetInfoStartAddress;
@@ -88,12 +88,12 @@ FLASH_nSTATUS FLASH__enInfoWriteWord(uint16_t u16DataArg, uintptr_t uptrAddressA
 
 FLASH_nSTATUS FLASH__enInfoWriteByte(uint8_t u8DataArg, uintptr_t uptrAddressArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    uintptr_t uptrAddressReg = 0U;
-    static uint16_t u16DataReg = 0U;
-    uint16_t* pu16DataReg = (uint16_t*) 0U;
-    uint8_t* pu8DataReg = (uint8_t*) 0U;
-    uint16_t u16Offset = 0U;
+    FLASH_nSTATUS enStatusReg;
+    uintptr_t uptrAddressReg;
+    static uint16_t u16DataReg;
+    uint16_t* pu16DataReg ;
+    uint8_t* pu8DataReg;
+    uint16_t u16Offset;
 
     u16Offset = uptrAddressArg;
     u16Offset &= 0x1;
@@ -113,7 +113,7 @@ FLASH_nSTATUS FLASH__enInfoWriteByte(uint8_t u8DataArg, uintptr_t uptrAddressArg
 FLASH_nSTATUS FLASH__enWriteWord(uint16_t u16DataArg,
                                  uintptr_t uptrAddressArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
+    FLASH_nSTATUS enStatusReg;
 
     enStatusReg = FLASH__enInfoWriteWord(u16DataArg, uptrAddressArg);
     if(FLASH_enSTATUS_ERROR == enStatusReg)
@@ -126,7 +126,7 @@ FLASH_nSTATUS FLASH__enWriteWord(uint16_t u16DataArg,
 FLASH_nSTATUS FLASH__enWriteByte(uint8_t u8DataArg,
                                  uintptr_t uptrAddressArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
+    FLASH_nSTATUS enStatusReg;
 
     enStatusReg = FLASH__enInfoWriteByte(u8DataArg, uptrAddressArg);
     if(FLASH_enSTATUS_ERROR == enStatusReg)

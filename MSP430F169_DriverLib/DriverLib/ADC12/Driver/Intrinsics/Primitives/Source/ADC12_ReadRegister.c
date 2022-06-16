@@ -28,10 +28,9 @@
 
 uint16_t ADC12__u16ReadRegister(ADC12_Register16Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrBase = ADC12_BASE;
-    uint16_t u16RegisterValue = 0U;
+    uint16_t u16RegisterValue;
 
-    pstRegisterData->uptrAddress += ptrBase;
+    pstRegisterData->uptrAddress += ADC12_BASE;
     u16RegisterValue = MCU__u16ReadRegister(pstRegisterData);
 
     return (u16RegisterValue);
@@ -40,8 +39,8 @@ uint16_t ADC12__u16ReadRegister(ADC12_Register16Bits_t* pstRegisterData)
 uint16_t ADC12_CH__u16ReadRegister(ADC12_nCH enChannelArg,
                                  ADC12_Register16Bits_t* pstRegisterData)
 {
-    uintptr_t ptrChannelBase = 0U;
-    uint16_t u16RegisterValue = 0U;
+    uintptr_t ptrChannelBase;
+    uint16_t u16RegisterValue;
 
     ptrChannelBase = ADC12_CH__uptrBlockBaseAddress(enChannelArg);
     pstRegisterData->uptrAddress += ptrChannelBase;
@@ -53,8 +52,8 @@ uint16_t ADC12_CH__u16ReadRegister(ADC12_nCH enChannelArg,
 uint8_t ADC12_CH__u8ReadRegister(ADC12_nCH enChannelArg,
                                  ADC12_Register8Bits_t* pstRegisterData)
 {
-    uintptr_t ptrChannelBase = 0U;
-    uint8_t u8RegisterValue = 0U;
+    uintptr_t ptrChannelBase;
+    uint8_t u8RegisterValue;
 
     ptrChannelBase = ADC12_CH__uptrBlockBaseAddress(enChannelArg);
     pstRegisterData->uptrAddress += ptrChannelBase;

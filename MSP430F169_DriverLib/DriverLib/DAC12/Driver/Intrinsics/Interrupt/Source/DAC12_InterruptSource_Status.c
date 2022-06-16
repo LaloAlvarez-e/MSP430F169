@@ -41,7 +41,7 @@ void DAC12_CH__vSetStatusInterruptSource(DAC12_nCH enChannelArg,
 DAC12_nINT_STATUS DAC12_CH__enGetStatusInterruptSource(DAC12_nCH enChannelArg)
 {
     DAC12_Register_t pstRegisterData;
-    DAC12_nINT_STATUS enStatus = DAC12_enINT_STATUS_NOOCCUR;
+    DAC12_nINT_STATUS enStatus;
 
     pstRegisterData.uptrAddress = DAC12_CH_CTL_OFFSET;
     pstRegisterData.u16Mask = DAC12_CH_CTL_IFG_MASK;

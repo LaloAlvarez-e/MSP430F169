@@ -84,7 +84,7 @@ void CLOCK__vSetXT2Enable(CLOCK_nENABLE enEnable)
 
 CLOCK_nENABLE CLOCK__enGetEnable(CLOCK_nSOURCE enClockSource)
 {
-    CLOCK_nENABLE enEnableReg = CLOCK_enENABLE_DIS;
+    CLOCK_nENABLE enEnableReg;
     switch (enClockSource)
     {
     case CLOCK_enSOURCE_LFXT1:
@@ -97,6 +97,7 @@ CLOCK_nENABLE CLOCK__enGetEnable(CLOCK_nSOURCE enClockSource)
         enEnableReg = CLOCK__enGetDCOEnable();
         break;
     default:
+        enEnableReg = CLOCK_enENABLE_DIS;
         break;
     }
     return (enEnableReg);
@@ -104,8 +105,8 @@ CLOCK_nENABLE CLOCK__enGetEnable(CLOCK_nSOURCE enClockSource)
 
 CLOCK_nENABLE CLOCK__enGetLFXT1Enable(void)
 {
-    CLOCK_nENABLE enEnableReg = CLOCK_enENABLE_ENA;
-    uint8_t u8OscOffReg = 0U;
+    CLOCK_nENABLE enEnableReg;
+    uint8_t u8OscOffReg;
 
     u8OscOffReg = __get_SR_register();
     u8OscOffReg &= OSCOFF;
@@ -113,19 +114,27 @@ CLOCK_nENABLE CLOCK__enGetLFXT1Enable(void)
     {
         enEnableReg = CLOCK_enENABLE_DIS;
     }
+    else
+    {
+        enEnableReg = CLOCK_enENABLE_ENA;
+    }
     return (enEnableReg);
 }
 
 CLOCK_nENABLE CLOCK__enGetDCOEnable(void)
 {
-    CLOCK_nENABLE enEnableReg = CLOCK_enENABLE_ENA;
-    uint8_t u8OscOffReg = 0U;
+    CLOCK_nENABLE enEnableReg;
+    uint8_t u8OscOffReg;
 
     u8OscOffReg = __get_SR_register();
     u8OscOffReg &= SCG0;
     if(0U != u8OscOffReg)
     {
         enEnableReg = CLOCK_enENABLE_DIS;
+    }
+    else
+    {
+        enEnableReg = CLOCK_enENABLE_ENA;
     }
     return (enEnableReg);
 }

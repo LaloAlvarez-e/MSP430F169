@@ -28,13 +28,15 @@ uint16_t MCU__u16GetNearArrayIndex_32Bits(const uint32_t* pu32ArrayValues,
                                 uint32_t u32ValueCompare,
                                 uint16_t u16Length)
 {
-    uint16_t u16Counter = 0U;
-    uint16_t u16CurrentIndex = 0UL;
-    uint32_t u32ValueTemp = 0U;
-    uint32_t u32DiferentialMin = 0UL;
-    uint32_t u32DiferentialMax = 0UL;
-    MCU_nSTATUS enStatus = MCU_enSTATUS_ERROR;
-
+    uint16_t u16Counter;
+    uint16_t u16CurrentIndex;
+    uint32_t u32ValueTemp;
+    uint32_t u32DiferentialMin;
+    uint32_t u32DiferentialMax;
+    MCU_nSTATUS enStatus;
+    u16Counter = 0U;
+    u16CurrentIndex = 0UL;
+    enStatus = MCU_enSTATUS_ERROR;
     if(0UL != (uintptr_t) pu32ArrayValues)
     {
         while((u16Length != u16Counter) && (MCU_enSTATUS_ERROR == enStatus))
@@ -68,12 +70,15 @@ uint16_t MCU__u16GetNearArrayIndex_16Bits(const uint16_t* pu16ArrayValues,
                                 uint16_t u16ValueCompare,
                                 uint16_t u16Length)
 {
-    uint16_t u16Counter = 0U;
-    uint16_t u16CurrentIndex = 0UL;
-    uint16_t u16ValueTemp = 0U;
-    uint16_t u16DiferentialMin = 0UL;
-    uint16_t u16DiferentialMax = 0UL;
-    MCU_nSTATUS enStatus = MCU_enSTATUS_ERROR;
+    uint16_t u16Counter;
+    uint16_t u16CurrentIndex;
+    uint16_t u16ValueTemp;
+    uint16_t u16DiferentialMin;
+    uint16_t u16DiferentialMax;
+    MCU_nSTATUS enStatus;
+    u16Counter = 0U;
+    u16CurrentIndex = 0UL;
+    enStatus = MCU_enSTATUS_ERROR;
 
     if(0UL != (uintptr_t) pu16ArrayValues)
     {
@@ -108,12 +113,15 @@ uint16_t MCU__u16GetNearArrayIndex_8Bits(const uint8_t* pu8ArrayValues,
                                 uint8_t u8ValueCompare,
                                 uint16_t u16Length)
 {
-    uint16_t u16Counter = 0U;
-    uint16_t u16CurrentIndex = 0UL;
-    uint8_t u8ValueTemp = 0U;
-    uint8_t u8DiferentialMin = 0UL;
-    uint8_t u8DiferentialMax = 0UL;
-    MCU_nSTATUS enStatus = MCU_enSTATUS_ERROR;
+    uint16_t u16Counter;
+    uint16_t u16CurrentIndex;
+    uint8_t u8ValueTemp;
+    uint8_t u8DiferentialMin;
+    uint8_t u8DiferentialMax;
+    MCU_nSTATUS enStatus;
+    u16Counter = 0U;
+    u16CurrentIndex = 0UL;
+    enStatus = MCU_enSTATUS_ERROR;
 
     if(0UL != (uintptr_t) pu8ArrayValues)
     {
@@ -149,10 +157,11 @@ uint16_t MCU__u16GetNearArrayIndex(const void* pvArrayValues,
                                 uint16_t u16Length,
                                 uint8_t u8ByteLength)
 {
-    uint16_t u16CurrentIndex = 0UL;
-    const uint8_t* pu8ArrayValues = (uint8_t*) 0UL;
-    const uint16_t* pu16ArrayValues = (uint16_t*) 0UL;
-    const uint32_t* pu32ArrayValues = (uint32_t*) 0UL;
+    uint16_t u16CurrentIndex;
+    const uint8_t* pu8ArrayValues;
+    const uint16_t* pu16ArrayValues;
+    const uint32_t* pu32ArrayValues;
+    u16CurrentIndex = 0UL;
     if(0UL != (uintptr_t) pvArrayValues)
     {
         switch(u8ByteLength)

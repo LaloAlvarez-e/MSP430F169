@@ -29,7 +29,7 @@
 FLASH_nSTATUS FLASH__enMainWriteBlock(void* pvDataArg, uint16_t* pu16DataCountArg,
                                       uintptr_t uptrAddressArg, FLASH_nWORDSIZE enWordSizeArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
+    FLASH_nSTATUS enStatusReg;
     FLASH_Segment_t stSegmentCallback;
 
     if((0UL != (uintptr_t) pvDataArg) && (0UL != (uintptr_t) pu16DataCountArg))
@@ -45,13 +45,17 @@ FLASH_nSTATUS FLASH__enMainWriteBlock(void* pvDataArg, uint16_t* pu16DataCountAr
                                            uptrAddressArg,
                                            enWordSizeArg);
     }
+    else
+    {
+        enStatusReg = FLASH_enSTATUS_ERROR;
+    }
     return (enStatusReg);
 }
 
 FLASH_nSTATUS FLASH__enMainWriteBlockWord(uint16_t* pu16DataArg, uint16_t* pu16DataCountArg,
                                       uintptr_t uptrAddressArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
+    FLASH_nSTATUS enStatusReg;
     enStatusReg = FLASH__enMainWriteBlock((void*) pu16DataArg, pu16DataCountArg, uptrAddressArg, FLASH_enWORDSIZE_WORD);
     return (enStatusReg);
 }
@@ -59,7 +63,7 @@ FLASH_nSTATUS FLASH__enMainWriteBlockWord(uint16_t* pu16DataArg, uint16_t* pu16D
 FLASH_nSTATUS FLASH__enMainWriteBlockByte(uint8_t* pu8DataArg, uint16_t* pu16DataCountArg,
                                       uintptr_t uptrAddressArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
+    FLASH_nSTATUS enStatusReg;
     enStatusReg = FLASH__enMainWriteBlock((void*) pu8DataArg, pu16DataCountArg, uptrAddressArg, FLASH_enWORDSIZE_BYTE);
     return (enStatusReg);
 }
@@ -67,7 +71,7 @@ FLASH_nSTATUS FLASH__enMainWriteBlockByte(uint8_t* pu8DataArg, uint16_t* pu16Dat
 FLASH_nSTATUS FLASH__enInfoWriteBlock(void* pvDataArg, uint16_t* pu16DataCountArg,
                                       uintptr_t uptrAddressArg, FLASH_nWORDSIZE enWordSizeArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
+    FLASH_nSTATUS enStatusReg;
     FLASH_Segment_t stSegmentCallback;
 
     if((0UL != (uintptr_t) pvDataArg) && (0UL != (uintptr_t) pu16DataCountArg))
@@ -83,6 +87,10 @@ FLASH_nSTATUS FLASH__enInfoWriteBlock(void* pvDataArg, uint16_t* pu16DataCountAr
                                            uptrAddressArg,
                                            enWordSizeArg);
     }
+    else
+    {
+        enStatusReg = FLASH_enSTATUS_ERROR;
+    }
     return (enStatusReg);
 
 }
@@ -90,7 +98,7 @@ FLASH_nSTATUS FLASH__enInfoWriteBlock(void* pvDataArg, uint16_t* pu16DataCountAr
 FLASH_nSTATUS FLASH__enInfoWriteBlockWord(uint16_t* pu16DataArg, uint16_t* pu16DataCountArg,
                                       uintptr_t uptrAddressArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
+    FLASH_nSTATUS enStatusReg;
     enStatusReg = FLASH__enInfoWriteBlock((void*) pu16DataArg, pu16DataCountArg, uptrAddressArg, FLASH_enWORDSIZE_WORD);
     return (enStatusReg);
 }
@@ -98,7 +106,7 @@ FLASH_nSTATUS FLASH__enInfoWriteBlockWord(uint16_t* pu16DataArg, uint16_t* pu16D
 FLASH_nSTATUS FLASH__enInfoWriteBlockByte(uint8_t* pu8DataArg, uint16_t* pu16DataCountArg,
                                       uintptr_t uptrAddressArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
+    FLASH_nSTATUS enStatusReg;
     enStatusReg = FLASH__enInfoWriteBlock((void*) pu8DataArg, pu16DataCountArg, uptrAddressArg, FLASH_enWORDSIZE_BYTE);
     return (enStatusReg);
 }
@@ -106,7 +114,7 @@ FLASH_nSTATUS FLASH__enInfoWriteBlockByte(uint8_t* pu8DataArg, uint16_t* pu16Dat
 FLASH_nSTATUS FLASH__enWriteBlock(void* pvDataArg, uint16_t* pu16DataCountArg,
                                   uintptr_t uptrAddressArg, FLASH_nWORDSIZE enWordSizeArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
+    FLASH_nSTATUS enStatusReg;
      FLASH_Segment_t stSegmentCallback;
 
      if((0UL != (uintptr_t) pvDataArg) && (0UL != (uintptr_t) pu16DataCountArg))
@@ -122,6 +130,10 @@ FLASH_nSTATUS FLASH__enWriteBlock(void* pvDataArg, uint16_t* pu16DataCountArg,
                                             uptrAddressArg,
                                             enWordSizeArg);
      }
+     else
+     {
+         enStatusReg = FLASH_enSTATUS_ERROR;
+     }
      return (enStatusReg);
 }
 
@@ -129,7 +141,7 @@ FLASH_nSTATUS FLASH__enWriteBlock(void* pvDataArg, uint16_t* pu16DataCountArg,
 FLASH_nSTATUS FLASH__enWriteBlockWord(uint16_t* pu16DataArg, uint16_t* pu16DataCountArg,
                                       uintptr_t uptrAddressArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
+    FLASH_nSTATUS enStatusReg;
     enStatusReg = FLASH__enWriteBlock((void*) pu16DataArg, pu16DataCountArg, uptrAddressArg, FLASH_enWORDSIZE_WORD);
     return (enStatusReg);
 }
@@ -137,7 +149,7 @@ FLASH_nSTATUS FLASH__enWriteBlockWord(uint16_t* pu16DataArg, uint16_t* pu16DataC
 FLASH_nSTATUS FLASH__enWriteBlockByte(uint8_t* pu8DataArg, uint16_t* pu16DataCountArg,
                                       uintptr_t uptrAddressArg)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
+    FLASH_nSTATUS enStatusReg;
     enStatusReg = FLASH__enWriteBlock((void*) pu8DataArg, pu16DataCountArg, uptrAddressArg, FLASH_enWORDSIZE_BYTE);
     return (enStatusReg);
 }

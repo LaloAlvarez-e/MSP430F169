@@ -61,7 +61,7 @@ static MCU__pu16fIRQSourceHandler_t TIMERB_pu16fIRQSourceHandler = &MCU__u16IRQS
 
 MCU__pu16fIRQSourceHandler_t TIMERB_CC__pu16fGetIRQSourceHandler(TIMERB_nCC enModuleArg, TIMERB_nCC_MODE enMode)
 {
-    MCU__pu16fIRQSourceHandler_t IRQSourceHandler = (MCU__pu16fIRQSourceHandler_t) 0U;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandler;
     IRQSourceHandler = TIMERB_CC_pu16fIRQSourceHandler[(uint8_t) enModuleArg][(uint8_t) enMode];
     return (IRQSourceHandler);
 }
@@ -74,7 +74,7 @@ void TIMERB_CC__vSetIRQSourceHandler(TIMERB_nCC enModuleArg, TIMERB_nCC_MODE enM
 
 MCU__pu16fIRQSourceHandler_t TIMERB__pu16fGetIRQSourceHandler(void)
 {
-    MCU__pu16fIRQSourceHandler_t IRQSourceHandler = (MCU__pu16fIRQSourceHandler_t) 0U;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandler;
     IRQSourceHandler = TIMERB_pu16fIRQSourceHandler;
     return (IRQSourceHandler);
 }

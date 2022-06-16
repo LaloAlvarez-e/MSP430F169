@@ -53,7 +53,7 @@ void DMA_CH__vDisInterruptSource(DMA_nCH enChannelArg)
 DMA_nCH_INT_ENABLE DMA_CH__enGetEnableInterruptSource(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
-    DMA_nCH_INT_ENABLE enEnable = DMA_enCH_INT_ENABLE_DIS;
+    DMA_nCH_INT_ENABLE enEnable;
 
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Mask = DMA_CH_CTL_IE_MASK;

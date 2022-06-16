@@ -35,16 +35,16 @@
 
 __interrupt void DACDMA_IRQVectorHandler(void)
 {
-    MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg;
+    uint16_t u16Trigger;
+    uint16_t u16Flag;
+    uint16_t u16Enable;
     uint16_t u16Status = 0xFFU;
     uint16_t u16ControlDMA_CH0 = DMA_CH0_CTL_R;
     uint16_t u16ControlDMA_CH1 = DMA_CH1_CTL_R;
     uint16_t u16ControlDMA_CH2 = DMA_CH2_CTL_R;
     uint16_t u16ControlDAC12_CH0 = DAC12_CH0_CTL_R;
     uint16_t u16ControlDAC12_CH1 = DAC12_CH1_CTL_R;
-    uint16_t u16Trigger = 0U;
-    uint16_t u16Flag = 0U;
-    uint16_t u16Enable = 0U;
 
     u16Flag = u16ControlDMA_CH0 & DMA_CH_CTL_R_IFG_MASK;
     u16Enable = u16ControlDMA_CH0 & DMA_CH_CTL_R_IE_MASK;

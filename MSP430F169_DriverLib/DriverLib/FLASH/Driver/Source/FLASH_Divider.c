@@ -30,7 +30,7 @@
 void FLASH__vSetClockDivider(uint8_t u8DividerArg)
 {
     FLASH_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) u8DividerArg;
     u16Value <<= FLASH_CTL2_R_FN_BIT;
     u16Value |= FLASH_CTL2_R_KEY_WRITE;
@@ -58,7 +58,7 @@ uint8_t FLASH__enGetClockDivider(void)
 void FLASH__vSetClockDivider_RAM(uint8_t u8DividerArg)
 {
     FLASH_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) u8DividerArg;
     u16Value <<= FLASH_CTL2_R_FN_BIT;
     u16Value |= FLASH_CTL2_R_KEY_WRITE;

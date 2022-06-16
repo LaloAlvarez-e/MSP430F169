@@ -53,7 +53,7 @@ void FLASH__vClearKeyViolation_RAM(void)
 void FLASH__vSetKeyViolation(FLASH_nINT_STATUS enStatus)
 {
     FLASH_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) enStatus;
     u16Value <<= FLASH_CTL3_R_KEYV_BIT;
     u16Value |= FLASH_CTL3_R_KEY_WRITE;
@@ -82,7 +82,7 @@ FLASH_nINT_STATUS FLASH__enGetKeyViolation(void)
 void FLASH__vSetKeyViolation_RAM(FLASH_nINT_STATUS enStatus)
 {
     FLASH_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) enStatus;
     u16Value <<= FLASH_CTL3_R_KEYV_BIT;
     u16Value |= FLASH_CTL3_R_KEY_WRITE;

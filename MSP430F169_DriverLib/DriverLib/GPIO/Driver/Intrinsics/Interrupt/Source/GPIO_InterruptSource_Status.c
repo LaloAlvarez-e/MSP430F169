@@ -31,12 +31,16 @@ void GPIO__vSetStatusInterruptSource(GPIO_nPORT enPortArg,
                                      GPIO_nINT_STATUS enStatus)
 {
     GPIO_Register_t pstRegisterData;
-    uint8_t u8Value = 0U;
+    uint8_t u8Value;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
         if(GPIO_enINT_STATUS_NOOCCUR != enStatus)
         {
             u8Value = (uint8_t) enPinMask;
+        }
+        else
+        {
+            u8Value = 0U;
         }
         pstRegisterData.uptrAddress = PORT_IFG_OFFSET;
         pstRegisterData.u8Value = u8Value;
@@ -82,8 +86,8 @@ void GPIO__vSetStatusInterruptSourceByMask(GPIO_nPORT enPortArg,
 void GPIO__vSetStatusInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg,
                                                GPIO_nINT_STATUS enStatus)
 {
-    uint16_t u16PinNumberReg = 0U;
-    uint16_t u16PortReg = 0U;
+    uint16_t u16PinNumberReg;
+    uint16_t u16PortReg;
 
     u16PinNumberReg = (uint16_t) enFunctionArg;
     u16PinNumberReg >>= GPIO_PIN_OFFSET;
@@ -104,7 +108,7 @@ GPIO_nPIN GPIO__enGetStatusInterruptSource(GPIO_nPORT enPortArg,
                                            GPIO_nPIN enPinMask)
 {
     GPIO_Register_t pstRegisterData;
-    GPIO_nPIN enStatus = GPIO_enPIN_NONE;
+    GPIO_nPIN enStatus;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
         pstRegisterData.uptrAddress = PORT_IFG_OFFSET;
@@ -113,6 +117,10 @@ GPIO_nPIN GPIO__enGetStatusInterruptSource(GPIO_nPORT enPortArg,
         enStatus = (GPIO_nPIN) GPIO__u8ReadRegister(enPortArg,
                                                     &pstRegisterData);
     }
+    else
+    {
+        enStatus = GPIO_enPIN_NONE;
+    }
     return (enStatus);
 }
 
@@ -120,7 +128,7 @@ GPIO_nINT_STATUS GPIO__enGetStatusInterruptSourceByNumber(GPIO_nPORT enPortArg,
                                            GPIO_nPIN_NUMBER enPinNumber)
 {
     GPIO_Register_t pstRegisterData;
-    GPIO_nINT_STATUS enStatus = GPIO_enINT_STATUS_NOOCCUR;
+    GPIO_nINT_STATUS enStatus;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
         pstRegisterData.uptrAddress = PORT_IFG_OFFSET;
@@ -129,15 +137,19 @@ GPIO_nINT_STATUS GPIO__enGetStatusInterruptSourceByNumber(GPIO_nPORT enPortArg,
         enStatus = (GPIO_nINT_STATUS) GPIO__u8ReadRegister(enPortArg,
                                                     &pstRegisterData);
     }
+    else
+    {
+        enStatus = GPIO_enINT_STATUS_NOOCCUR;
+    }
     return (enStatus);
 }
 
 
 GPIO_nINT_STATUS GPIO__enGetStatusInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg)
 {
-    GPIO_nINT_STATUS enStatusInterruptSourceReg = GPIO_enINT_STATUS_NOOCCUR;
-    uint16_t u16PinNumberReg = 0U;
-    uint16_t u16PortReg = 0U;
+    GPIO_nINT_STATUS enStatusInterruptSourceReg;
+    uint16_t u16PinNumberReg;
+    uint16_t u16PortReg;
 
     u16PinNumberReg = (uint16_t) enFunctionArg;
     u16PinNumberReg >>= GPIO_PIN_OFFSET;

@@ -31,8 +31,8 @@ void DAC12_CH__vSetConfig(DAC12_nCH enChannelArg,
 {
     DAC12_CH_CTL_t stConfigReg = {0};
     DAC12_Register_t pstRegisterData;
-    DAC12_nENABLE enEnableReg = DAC12_enENABLE_DIS;
-    DAC12_nENABLE enCalibReg = DAC12_enENABLE_DIS;
+    DAC12_nENABLE enEnableReg;
+    DAC12_nENABLE enCalibReg;
     if(0UL != (uintptr_t) pstConfigArg)
     {
         enEnableReg = DAC12_CH__enGetEnableConversion(enChannelArg);
@@ -74,8 +74,8 @@ void DAC12_CH__vSetConfigExt(DAC12_nCH enChannelArg,
 {
     DAC12_CH_CTL_t stConfigReg = {0};
     DAC12_Register_t pstRegisterData;
-    DAC12_nENABLE enEnableReg = DAC12_enENABLE_DIS;
-    DAC12_nENABLE enCalibReg = DAC12_enENABLE_DIS;
+    DAC12_nENABLE enEnableReg;
+    DAC12_nENABLE enCalibReg;
     if(0UL != (uintptr_t) pstConfigArg)
     {
         enEnableReg = DAC12_CH__enGetEnableConversion(enChannelArg);

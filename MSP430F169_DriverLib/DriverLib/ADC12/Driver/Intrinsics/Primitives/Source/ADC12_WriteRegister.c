@@ -28,15 +28,14 @@
 
 void ADC12__vWriteRegister(ADC12_Register16Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrBase = ADC12_BASE;
-    pstRegisterData->uptrAddress += ptrBase;
+    pstRegisterData->uptrAddress += ADC12_BASE;
     MCU__vWriteRegister_16bits(pstRegisterData);
 }
 
 void ADC12_CH__vWriteRegister_16bits(ADC12_nCH enChannelArg,
                             ADC12_Register16Bits_t* pstRegisterData)
 {
-    uintptr_t ptrPortBase = 0U;
+    uintptr_t ptrPortBase;
     ptrPortBase = ADC12_CH__uptrBlockBaseAddress(enChannelArg);
     pstRegisterData->uptrAddress += ptrPortBase;
     MCU__vWriteRegister_16bits(pstRegisterData);
@@ -46,7 +45,7 @@ void ADC12_CH__vWriteRegister_16bits(ADC12_nCH enChannelArg,
 void ADC12_CH__vWriteRegister_8bits(ADC12_nCH enChannelArg,
                             ADC12_Register8Bits_t* pstRegisterData)
 {
-    uintptr_t ptrPortBase = 0U;
+    uintptr_t ptrPortBase;
     ptrPortBase = ADC12_CH__uptrBlockBaseAddress(enChannelArg);
     pstRegisterData->uptrAddress += ptrPortBase;
     MCU__vWriteRegister_8bits(pstRegisterData);

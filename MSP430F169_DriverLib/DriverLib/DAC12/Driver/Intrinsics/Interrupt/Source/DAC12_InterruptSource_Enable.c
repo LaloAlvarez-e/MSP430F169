@@ -52,7 +52,7 @@ void DAC12_CH__vDisInterruptSource(DAC12_nCH enChannelArg)
 DAC12_nINT_ENABLE DAC12_CH__enGetEnableInterruptSource(DAC12_nCH enChannelArg)
 {
     DAC12_Register_t pstRegisterData;
-    DAC12_nINT_ENABLE enEnable = DAC12_enINT_ENABLE_DIS;
+    DAC12_nINT_ENABLE enEnable;
 
     pstRegisterData.uptrAddress = DAC12_CH_CTL_OFFSET;
     pstRegisterData.u16Mask = DAC12_CH_CTL_IE_MASK;

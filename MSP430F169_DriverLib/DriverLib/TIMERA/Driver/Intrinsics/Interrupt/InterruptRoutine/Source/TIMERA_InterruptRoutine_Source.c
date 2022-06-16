@@ -45,7 +45,7 @@ static MCU__pu16fIRQSourceHandler_t TIMERA_pu16fIRQSourceHandler = &MCU__u16IRQS
 
 MCU__pu16fIRQSourceHandler_t TIMERA_CC__pu16fGetIRQSourceHandler(TIMERA_nCC enModuleArg, TIMERA_nCC_MODE enMode)
 {
-    MCU__pu16fIRQSourceHandler_t IRQSourceHandler = (MCU__pu16fIRQSourceHandler_t) 0U;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandler;
     IRQSourceHandler = TIMERA_CC_pu16fIRQSourceHandler[(uint8_t) enModuleArg][(uint8_t) enMode];
     return (IRQSourceHandler);
 }

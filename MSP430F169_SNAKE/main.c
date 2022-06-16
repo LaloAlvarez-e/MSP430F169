@@ -80,6 +80,7 @@ uint16_t pu16ArraySize[4U] =
  SOUND_HIGHPITCH_SIZE,
 };
 
+uint32_t u32freq = 0U;
 
 void main(void)
  {
@@ -92,7 +93,6 @@ void main(void)
         WDT_enINTERVAL_64,
     };
     char pcConv[5U] = {0U};
-    uint16_t u16Iter = 0U;
     uint8_t u8Column = 0U;
     uint8_t u8Row = 0U;
     uint16_t u16ADCValueOld = 0U;
@@ -104,6 +104,7 @@ void main(void)
     Buzzer__vInit();
     Button__vInit();
     System__vClockInit();
+    u32freq = CLOCK__u32GetFrequency(CLOCK_enSIGNAL_MCLK);
     SlidePot__vInit();
     GPIO__vSetConfig(GPIO_enPORT47);
     GPIO__vSetDirectionByFunction(GPIO_enPORT47, GPIO_enDIR_OUTPUT);

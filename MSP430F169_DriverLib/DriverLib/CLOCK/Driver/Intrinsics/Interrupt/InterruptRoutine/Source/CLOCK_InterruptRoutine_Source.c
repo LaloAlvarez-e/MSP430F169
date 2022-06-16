@@ -28,7 +28,7 @@ static MCU__pu16fIRQSourceHandler_t CLOCK_pu16fIRQSourceHandler = &MCU__u16IRQSo
 
 MCU__pu16fIRQSourceHandler_t CLOCK__pu16fGetIRQSourceHandler(void)
 {
-    MCU__pu16fIRQSourceHandler_t IRQSourceHandler = (MCU__pu16fIRQSourceHandler_t) 0U;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandler;
     IRQSourceHandler = CLOCK_pu16fIRQSourceHandler;
     return (IRQSourceHandler);
 }

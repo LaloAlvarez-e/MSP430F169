@@ -74,10 +74,11 @@ TIMERA_nCLOCK_DIV TIMERA__enGetClockDivider(void)
 
 uint8_t TIMERA__u8GetClockDivider(void)
 {
-    uint8_t u8ClockDividerShift = 0U;
-    uint8_t u8ClockDividerReg = 1U;
+    uint8_t u8ClockDividerShift;
+    uint8_t u8ClockDividerReg;
 
     u8ClockDividerShift = (uint8_t) TIMERA__enGetClockDivider();
+    u8ClockDividerReg = 1U;
     u8ClockDividerReg <<= u8ClockDividerShift;
     return (u8ClockDividerReg);
 }

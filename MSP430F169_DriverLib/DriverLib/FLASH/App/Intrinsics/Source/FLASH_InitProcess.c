@@ -34,16 +34,17 @@ FLASH_nSTATUS FLASH__enInitProcess(FLASH_Segment_t* pstSegmentCallback ,
                                  uintptr_t uptrAddressArg,
                                  FLASH_nWORDSIZE enWordSize)
 {
-    FLASH_nSTATUS enStatusReg = FLASH_enSTATUS_ERROR;
-    FLASH_nBUSY enBusyStateReg = FLASH_enBUSY_NOBUSY;
-    WDT_nENABLE enWDTEnableReg = WDT_enENABLE_RUN;
-    WDT_nMODE enWDTModeReg = WDT_enMODE_WDT;
-    uint32_t u32FlashFreqReg = 0U;
-    uint16_t u16StatusRegister = 0U;
-    uint16_t u16Temp = 0U;
-    uintptr_t uptrFlashStartAddress = 0U;
-    uintptr_t uptrFlashEndAddress = 0U;
+    FLASH_nBUSY enBusyStateReg;
+    WDT_nENABLE enWDTEnableReg;
+    WDT_nMODE enWDTModeReg;
+    uint32_t u32FlashFreqReg;
+    uint16_t u16StatusRegister;
+    uint16_t u16Temp;
+    uintptr_t uptrFlashStartAddress;
+    uintptr_t uptrFlashEndAddress;
+    FLASH_nSTATUS enStatusReg;
 
+    enStatusReg = FLASH_enSTATUS_ERROR;
     if(0UL != (uintptr_t) pstSegmentCallback)
     {
         u32FlashFreqReg = FLASH__u32Frequency();
@@ -123,14 +124,14 @@ uint16_t FLASH__u16WriteBlockProcess_RAM(void* pvDataArg,
                                        uint16_t u16BlockMaskArg,
                                        FLASH_nWORDSIZE enWordSize)
 {
-    uint16_t u16BusyStateReg = 0U;
-    uint16_t u16ReadyStateReg = 0U;
-    uint16_t u16AddressMask = 0U;
-    uint16_t* pu16DataReg = (uint16_t*) 0U;
-    uint8_t* pu8DataReg = (uint8_t*) 0U;
-    uint16_t* pu16DataInReg = (uint16_t*) 0U;
-    uint8_t* pu8DataInReg = (uint8_t*) 0U;
-    uint16_t u16DataCountReg = 0U;
+    uint16_t u16BusyStateReg;
+    uint16_t u16ReadyStateReg;
+    uint16_t u16AddressMask;
+    uint16_t* pu16DataReg;
+    uint8_t* pu8DataReg;
+    uint16_t* pu16DataInReg;
+    uint8_t* pu8DataInReg;
+    uint16_t u16DataCountReg;
     uint16_t u16DataCountWriteReg = 0U;
     if((0U != (uintptr_t) pvDataArg) && (0UL != (uintptr_t) pu16DataCountArg))
     {

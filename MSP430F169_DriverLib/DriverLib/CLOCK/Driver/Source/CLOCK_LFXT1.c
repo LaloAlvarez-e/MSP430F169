@@ -42,8 +42,8 @@ uint32_t CLOCK__u32GetLFFrequency(void)
 
 uint32_t CLOCK__u32GetLFXT1Frequency(void)
 {
-    uint32_t u32LFXT1FreqReg = 0U;
-    CLOCK_nFREQMODE enFreqModeReg = CLOCK_enFREQMODE_LOW;
+    uint32_t u32LFXT1FreqReg;
+    CLOCK_nFREQMODE enFreqModeReg;
     enFreqModeReg = CLOCK__enGetLFXT1FrequencyMode();
     switch(enFreqModeReg)
     {
@@ -54,6 +54,7 @@ uint32_t CLOCK__u32GetLFXT1Frequency(void)
         u32LFXT1FreqReg = CLOCK__u32GetXT1Frequency();
         break;
     default:
+        u32LFXT1FreqReg = 0U;
         break;
     }
     return (u32LFXT1FreqReg);

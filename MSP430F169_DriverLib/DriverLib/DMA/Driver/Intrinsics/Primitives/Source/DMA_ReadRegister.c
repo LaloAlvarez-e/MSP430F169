@@ -28,10 +28,9 @@
 
 uint16_t DMA__u16ReadRegister(DMA_Register_t* pstRegisterData)
 {
-    const uintptr_t ptrBase = DMA_BASE;
-    uint16_t u16RegisterValue = 0U;
+    uint16_t u16RegisterValue;
 
-    pstRegisterData->uptrAddress += ptrBase;
+    pstRegisterData->uptrAddress += DMA_BASE;
     u16RegisterValue = MCU__u16ReadRegister(pstRegisterData);
 
     return (u16RegisterValue);
@@ -40,8 +39,8 @@ uint16_t DMA__u16ReadRegister(DMA_Register_t* pstRegisterData)
 uint16_t DMA_CH__u16ReadRegister(DMA_nCH enChannelArg,
                                  DMA_Register_t* pstRegisterData)
 {
-    uintptr_t ptrChannelBase = 0U;
-    uint16_t u16RegisterValue = 0U;
+    uintptr_t ptrChannelBase;
+    uint16_t u16RegisterValue;
 
     ptrChannelBase = DMA_CH__uptrBlockBaseAddress(enChannelArg);
     pstRegisterData->uptrAddress += ptrChannelBase;

@@ -52,7 +52,7 @@ void TIMERB_CC__vDisInterruptSource(TIMERB_nCC enModuleArg)
 TIMERB_nINT_ENABLE TIMERB_CC__enGetEnableInterruptSource(TIMERB_nCC enModuleArg)
 {
     TIMERB_Register_t pstRegisterData;
-    TIMERB_nINT_ENABLE enEnable = TIMERB_enINT_ENABLE_DIS;
+    TIMERB_nINT_ENABLE enEnable;
 
     pstRegisterData.uptrAddress = TIMERB_CC_CTL_OFFSET;
     pstRegisterData.u16Mask = TIMERB_CC_CTL_IE_MASK;
@@ -88,7 +88,7 @@ void TIMERB__vDisInterruptSource(void)
 TIMERB_nINT_ENABLE TIMERB__enGetEnableInterruptSource(void)
 {
     TIMERB_Register_t pstRegisterData;
-    TIMERB_nINT_ENABLE enEnable = TIMERB_enINT_ENABLE_DIS;
+    TIMERB_nINT_ENABLE enEnable;
 
     pstRegisterData.uptrAddress = TIMERB_CTL_OFFSET;
     pstRegisterData.u16Mask = TIMERB_CTL_IE_MASK;

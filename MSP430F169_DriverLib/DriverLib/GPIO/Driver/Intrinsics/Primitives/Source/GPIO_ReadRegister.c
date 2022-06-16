@@ -29,8 +29,8 @@
 uint8_t GPIO__u8ReadRegister(GPIO_nPORT enPortArg,
                              GPIO_Register_t* pstRegisterData)
 {
-    uintptr_t ptrPortBase = 0U;
-    uint8_t u8RegisterValue = 0U;
+    uintptr_t ptrPortBase;
+    uint8_t u8RegisterValue;
 
     ptrPortBase = GPIO__uptrBlockBaseAddress(enPortArg);
     pstRegisterData->uptrAddress += ptrPortBase;

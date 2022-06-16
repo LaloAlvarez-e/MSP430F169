@@ -30,9 +30,9 @@
 
 __interrupt void ADC12_IRQVectorHandler(void)
 {
-    MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg = (MCU__pu16fIRQSourceHandler_t) 0UL;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandlerReg;
     uint16_t u16Status = 0xFFU;
-    uint16_t u16Conversion = 0U;
+    uint16_t u16Conversion;
 
     switch(ADC12_IV_R)
     {

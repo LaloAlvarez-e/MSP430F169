@@ -30,7 +30,7 @@
 void NMI__vSetInterruptEdge(NMI_nINT_EDGE enInterruptEdgeArg)
 {
     NMI_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) enInterruptEdgeArg;
     u16Value <<= NMI_CTL_R_NMIES_BIT;
     u16Value |= NMI_CTL_R_PW_WRITE;

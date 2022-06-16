@@ -25,12 +25,13 @@
 
 uint8_t MCU__u8ReadRegister(MCU_Register8Bits_t* pstRegisterDataArg)
 {
-    volatile uint8_t* pu8RegisterAddress = (volatile uint8_t*) 0UL;
-    uintptr_t uptrRegisterAddress = 0U;
-    uint8_t u8RegisterValue = 0U;
-    uint8_t u8RegisterMask = 0U;
-    uint8_t u8RegisterShift = 0U;
+    volatile uint8_t* pu8RegisterAddress;
+    uintptr_t uptrRegisterAddress;
+    uint8_t u8RegisterValue;
+    uint8_t u8RegisterMask;
+    uint8_t u8RegisterShift;
 
+    u8RegisterValue = 0U;
     if(0UL != (uintptr_t) pstRegisterDataArg)
     {
         u8RegisterMask = pstRegisterDataArg->u8Mask;
@@ -51,12 +52,13 @@ uint8_t MCU__u8ReadRegister(MCU_Register8Bits_t* pstRegisterDataArg)
 
 uint16_t MCU__u16ReadRegister(MCU_Register16Bits_t* pstRegisterDataArg)
 {
-    volatile uint16_t* pu16RegisterAddress = (volatile uint16_t*) 0UL;
-    uintptr_t uptrRegisterAddress = 0U;
-    uint16_t u16RegisterValue = 0U;
-    uint16_t u16RegisterMask = 0U;
-    uint8_t u8RegisterShift = 0U;
+    volatile uint16_t* pu16RegisterAddress;
+    uintptr_t uptrRegisterAddress;
+    uint16_t u16RegisterValue;
+    uint16_t u16RegisterMask;
+    uint8_t u8RegisterShift;
 
+    u16RegisterValue = 0U;
     if(0UL != (uintptr_t) pstRegisterDataArg)
     {
         u16RegisterMask = pstRegisterDataArg->u16Mask;
@@ -77,12 +79,13 @@ uint16_t MCU__u16ReadRegister(MCU_Register16Bits_t* pstRegisterDataArg)
 
 uint8_t MCU__u8ReadRegister_RAM(MCU_Register8Bits_t* pstRegisterDataArg)
 {
-    volatile uint8_t* pu8RegisterAddress = (volatile uint8_t*) 0UL;
-    uintptr_t uptrRegisterAddress = 0U;
-    uint8_t u8RegisterValue = 0U;
-    uint8_t u8RegisterMask = 0U;
-    uint8_t u8RegisterShift = 0U;
+    volatile uint8_t* pu8RegisterAddress;
+    uintptr_t uptrRegisterAddress;
+    uint8_t u8RegisterValue;
+    uint8_t u8RegisterMask;
+    uint8_t u8RegisterShift;
 
+    u8RegisterValue = 0U;
     if(0UL != (uintptr_t) pstRegisterDataArg)
     {
         u8RegisterMask = pstRegisterDataArg->u8Mask;
@@ -103,12 +106,13 @@ uint8_t MCU__u8ReadRegister_RAM(MCU_Register8Bits_t* pstRegisterDataArg)
 
 uint16_t MCU__u16ReadRegister_RAM(MCU_Register16Bits_t* pstRegisterDataArg)
 {
-    volatile uint16_t* pu16RegisterAddress = (volatile uint16_t*) 0UL;
-    uintptr_t uptrRegisterAddress = 0U;
-    uint16_t u16RegisterValue = 0U;
-    uint16_t u16RegisterMask = 0U;
-    uint8_t u8RegisterShift = 0U;
+    volatile uint16_t* pu16RegisterAddress;
+    uintptr_t uptrRegisterAddress;
+    uint16_t u16RegisterValue;
+    uint16_t u16RegisterMask;
+    uint8_t u8RegisterShift;
 
+    u16RegisterValue = 0U;
     if(0UL != (uintptr_t) pstRegisterDataArg)
     {
         u16RegisterMask = pstRegisterDataArg->u16Mask;

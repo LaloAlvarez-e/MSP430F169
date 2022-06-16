@@ -52,7 +52,7 @@ void TIMERA_CC__vDisInterruptSource(TIMERA_nCC enModuleArg)
 TIMERA_nINT_ENABLE TIMERA_CC__enGetEnableInterruptSource(TIMERA_nCC enModuleArg)
 {
     TIMERA_Register_t pstRegisterData;
-    TIMERA_nINT_ENABLE enEnable = TIMERA_enINT_ENABLE_DIS;
+    TIMERA_nINT_ENABLE enEnable;
 
     pstRegisterData.uptrAddress = TIMERA_CC_CTL_OFFSET;
     pstRegisterData.u16Mask = TIMERA_CC_CTL_IE_MASK;
@@ -88,7 +88,7 @@ void TIMERA__vDisInterruptSource(void)
 TIMERA_nINT_ENABLE TIMERA__enGetEnableInterruptSource(void)
 {
     TIMERA_Register_t pstRegisterData;
-    TIMERA_nINT_ENABLE enEnable = TIMERA_enINT_ENABLE_DIS;
+    TIMERA_nINT_ENABLE enEnable;
 
     pstRegisterData.uptrAddress = TIMERA_CTL_OFFSET;
     pstRegisterData.u16Mask = TIMERA_CTL_IE_MASK;

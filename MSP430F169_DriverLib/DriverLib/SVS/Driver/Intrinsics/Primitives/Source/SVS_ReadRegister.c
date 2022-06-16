@@ -28,10 +28,9 @@
 
 uint8_t SVS__u8ReadRegister(SVS_Register_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = SVS_BASE;
-    uint8_t u8RegisterValue = 0U;
+    uint8_t u8RegisterValue;
 
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += SVS_BASE;
     u8RegisterValue = MCU__u8ReadRegister(pstRegisterData);
     return (u8RegisterValue);
 }

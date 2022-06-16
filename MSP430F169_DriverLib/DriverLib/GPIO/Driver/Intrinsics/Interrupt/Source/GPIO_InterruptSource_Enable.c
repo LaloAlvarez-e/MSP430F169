@@ -31,12 +31,16 @@ void GPIO__vSetEnableInterruptSource(GPIO_nPORT enPortArg,
                                      GPIO_nINT_ENABLE enState)
 {
     GPIO_Register_t pstRegisterData;
-    uint8_t u8Value = 0U;
+    uint8_t u8Value;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
         if(GPIO_enINT_ENABLE_DIS != enState)
         {
             u8Value = (uint8_t) enPinMask;
+        }
+        else
+        {
+            u8Value = 0U;
         }
         pstRegisterData.uptrAddress = PORT_IE_OFFSET;
         pstRegisterData.u8Value = u8Value;
@@ -96,8 +100,8 @@ void GPIO__vSetEnableInterruptSourceByMask(GPIO_nPORT enPortArg,
 void GPIO__vSetEnableInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg,
                                                GPIO_nINT_ENABLE enState)
 {
-    uint16_t u16PinNumberReg = 0U;
-    uint16_t u16PortReg = 0U;
+    uint16_t u16PinNumberReg;
+    uint16_t u16PortReg;
 
     u16PinNumberReg = (uint16_t) enFunctionArg;
     u16PinNumberReg >>= GPIO_PIN_OFFSET;
@@ -142,7 +146,7 @@ GPIO_nPIN GPIO__enGetEnableInterruptSource(GPIO_nPORT enPortArg,
                                            GPIO_nPIN enPinMask)
 {
     GPIO_Register_t pstRegisterData;
-    GPIO_nPIN enEnable = GPIO_enPIN_NONE;
+    GPIO_nPIN enEnable;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
         pstRegisterData.uptrAddress = PORT_IE_OFFSET;
@@ -151,6 +155,10 @@ GPIO_nPIN GPIO__enGetEnableInterruptSource(GPIO_nPORT enPortArg,
         enEnable = (GPIO_nPIN) GPIO__u8ReadRegister(enPortArg,
                                                     &pstRegisterData);
     }
+    else
+    {
+        enEnable = GPIO_enPIN_NONE;
+    }
     return (enEnable);
 }
 
@@ -158,7 +166,7 @@ GPIO_nINT_ENABLE GPIO__enGetEnableInterruptSourceByNumber(GPIO_nPORT enPortArg,
                                            GPIO_nPIN_NUMBER enPinNumber)
 {
     GPIO_Register_t pstRegisterData;
-    GPIO_nINT_ENABLE enEnable = GPIO_enINT_ENABLE_DIS;
+    GPIO_nINT_ENABLE enEnable;
     if((GPIO_enPORT1 == enPortArg) || (GPIO_enPORT2 == enPortArg))
     {
         pstRegisterData.uptrAddress = PORT_IE_OFFSET;
@@ -167,14 +175,18 @@ GPIO_nINT_ENABLE GPIO__enGetEnableInterruptSourceByNumber(GPIO_nPORT enPortArg,
         enEnable = (GPIO_nINT_ENABLE) GPIO__u8ReadRegister(enPortArg,
                                                     &pstRegisterData);
     }
+    else
+    {
+        enEnable = GPIO_enINT_ENABLE_DIS;
+    }
     return (enEnable);
 }
 
 GPIO_nINT_ENABLE GPIO__enGetEnableInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg)
 {
-    GPIO_nINT_ENABLE enEnableInterruptSourceReg = GPIO_enINT_ENABLE_DIS;
-    uint16_t u16PinNumberReg = 0U;
-    uint16_t u16PortReg = 0U;
+    GPIO_nINT_ENABLE enEnableInterruptSourceReg;
+    uint16_t u16PinNumberReg;
+    uint16_t u16PortReg;
 
     u16PinNumberReg = (uint16_t) enFunctionArg;
     u16PinNumberReg >>= GPIO_PIN_OFFSET;

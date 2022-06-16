@@ -77,7 +77,7 @@ void TIMERB_CC__vGetCompareConfig(TIMERB_nCC enModuleArg,
 void TIMERB_CC__vSetCompareConfigExt(TIMERB_nCC enModuleArg,
                                   TIMERB_Compare_ConfigExt_t* pstCompareConfigArg)
 {
-    static TIMERB_CC_CTL_t stConfigReg = {0};
+    TIMERB_CC_CTL_t stConfigReg = {0};
     TIMERB_Register_t pstRegisterData;
     if(0UL != (uintptr_t) pstCompareConfigArg)
     {

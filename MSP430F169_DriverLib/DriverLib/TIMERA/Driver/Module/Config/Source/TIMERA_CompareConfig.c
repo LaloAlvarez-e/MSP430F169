@@ -73,7 +73,7 @@ void TIMERA_CC__vGetCompareConfig(TIMERA_nCC enModuleArg,
 void TIMERA_CC__vSetCompareConfigExt(TIMERA_nCC enModuleArg,
                                   TIMERA_Compare_ConfigExt_t* pstCompareConfigArg)
 {
-    static TIMERA_CC_CTL_t stConfigReg = {0};
+    TIMERA_CC_CTL_t stConfigReg = {0};
     TIMERA_Register_t pstRegisterData;
     if(0UL != (uintptr_t) pstCompareConfigArg)
     {

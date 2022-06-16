@@ -52,7 +52,7 @@ void ADC12_CH__vDisInterruptSource(ADC12_nCH enChannelArg)
 ADC12_nINT_ENABLE ADC12_CH__enGetEnableInterruptSource(ADC12_nCH enChannelArg)
 {
     ADC12_Register16Bits_t pstRegisterData;
-    ADC12_nINT_ENABLE enEnable = ADC12_enINT_ENABLE_DIS;
+    ADC12_nINT_ENABLE enEnable;
 
     pstRegisterData.uptrAddress = ADC12_IE_OFFSET;
     pstRegisterData.u16Mask = ADC12_IE_CH0_MASK;
@@ -66,7 +66,7 @@ void ADC12__vSetEnableInterruptSource(ADC12_nINTERRUPT enInterruptArg,
                                     ADC12_nINT_ENABLE enState)
 {
     ADC12_Register16Bits_t pstRegisterData;
-    uint8_t u8ShiftValue = 0U;
+    uint8_t u8ShiftValue;
 
     pstRegisterData.uptrAddress = ADC12_CTL0_OFFSET;
     pstRegisterData.u16Value = (uint16_t) enState;
@@ -97,8 +97,8 @@ void ADC12__vDisInterruptSource(ADC12_nINTERRUPT enInterruptArg)
 ADC12_nINT_ENABLE ADC12__enGetEnableInterruptSource(ADC12_nINTERRUPT enInterruptArg)
 {
     ADC12_Register16Bits_t pstRegisterData;
-    ADC12_nINT_ENABLE enEnable = ADC12_enINT_ENABLE_DIS;
-    uint8_t u8ShiftValue = 0U;
+    ADC12_nINT_ENABLE enEnable;
+    uint8_t u8ShiftValue;
 
     pstRegisterData.uptrAddress = ADC12_CTL0_OFFSET;
     pstRegisterData.u16Mask = ADC12_CTL0_OVIE_MASK;

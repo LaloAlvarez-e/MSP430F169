@@ -60,8 +60,8 @@ void GPIO__vClearInterruptSourceByNumber(GPIO_nPORT enPortArg,
 
 void GPIO__vClearInterruptSourceByFunction(GPIO_nDIGITAL_FUNCTION enFunctionArg)
 {
-    uint16_t u16PinNumberReg = 0U;
-    uint16_t u16PortReg = 0U;
+    uint16_t u16PinNumberReg;
+    uint16_t u16PortReg;
 
     u16PinNumberReg = (uint16_t) enFunctionArg;
     u16PinNumberReg >>= GPIO_PIN_OFFSET;

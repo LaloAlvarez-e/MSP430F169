@@ -30,7 +30,7 @@
 void WDT__vSetMode(WDT_nMODE enModeArg)
 {
     WDT_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) enModeArg;
     u16Value <<= WDT_CTL_R_TMSEL_BIT;
     u16Value |= WDT_CTL_R_PW_WRITE;
@@ -59,7 +59,7 @@ WDT_nMODE WDT__enGetMode(void)
 void WDT__vSetMode_RAM(WDT_nMODE enModeArg)
 {
     WDT_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) enModeArg;
     u16Value <<= WDT_CTL_R_TMSEL_BIT;
     u16Value |= WDT_CTL_R_PW_WRITE;

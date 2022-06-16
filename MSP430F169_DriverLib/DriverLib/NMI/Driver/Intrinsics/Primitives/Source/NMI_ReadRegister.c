@@ -28,20 +28,18 @@
 
 uint8_t NMI__u8ReadRegister(NMI_Register8Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = NMI_BASE;
-    uint8_t u8RegisterValue = 0U;
+    uint8_t u8RegisterValue;
 
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += NMI_BASE;
     u8RegisterValue = MCU__u8ReadRegister(pstRegisterData);
     return (u8RegisterValue);
 }
 
 uint16_t NMI__u16ReadRegister(NMI_Register16Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = NMI_BASE;
-    uint8_t u16RegisterValue = 0U;
+    uint8_t u16RegisterValue;
 
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += NMI_BASE;
     u16RegisterValue = MCU__u16ReadRegister(pstRegisterData);
     return (u16RegisterValue);
 }

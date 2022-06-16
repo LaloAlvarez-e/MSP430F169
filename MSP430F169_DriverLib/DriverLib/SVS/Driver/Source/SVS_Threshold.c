@@ -76,7 +76,7 @@ SVS_nTHRESHOLD SVS__enGetThreshold(void)
 
 void SVS__vSetThreshold_mV(uint16_t u16ThresholdArg)
 {
-    uint16_t u16Index = 0U;
+    uint16_t u16Index;
     SVS_nTHRESHOLD enThresholdReg = SVS_enTHRESHOLD_OFF;
     u16Index = MCU__u16GetNearArrayIndex_16Bits(SVS_pu16Threshold, u16ThresholdArg, THRESHOLD_VALUES);
 
@@ -95,9 +95,9 @@ void SVS__vSetThreshold_mV(uint16_t u16ThresholdArg)
 
 uint16_t SVS__u16GetThreshold_mV(void)
 {
-    uint16_t u16ThresholdReg = 0U;
+    uint16_t u16ThresholdReg;
     uint16_t u16Index = 0U;
-    SVS_nTHRESHOLD enThresholdReg = SVS_enTHRESHOLD_OFF;
+    SVS_nTHRESHOLD enThresholdReg;
 
     enThresholdReg = SVS__enGetThreshold();
 

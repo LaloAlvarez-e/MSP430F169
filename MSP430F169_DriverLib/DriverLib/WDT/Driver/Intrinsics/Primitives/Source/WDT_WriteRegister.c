@@ -28,26 +28,20 @@
 
 void WDT__vWriteRegister_8bits(WDT_Register8Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = WDT_BASE;
-
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += WDT_BASE;
     MCU__vWriteRegister_8bits(pstRegisterData);
 }
 
 
 void WDT__vWriteRegister_16bits(WDT_Register16Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = WDT_BASE;
-
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += WDT_BASE;
     MCU__vWriteRegister_16bits(pstRegisterData);
 }
 
 
 void WDT__vWriteRegister_16bits_RAM(WDT_Register16Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = WDT_BASE;
-
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += WDT_BASE;
     MCU__vWriteRegister_16bits_RAM(pstRegisterData);
 }

@@ -28,10 +28,9 @@
 
 uint16_t TIMERB__u16ReadRegister(TIMERB_Register_t* pstRegisterData)
 {
-    const uintptr_t ptrBase = TIMERB_BASE;
-    uint16_t u16RegisterValue = 0U;
+    uint16_t u16RegisterValue;
 
-    pstRegisterData->uptrAddress += ptrBase;
+    pstRegisterData->uptrAddress += TIMERB_BASE;
     u16RegisterValue = MCU__u16ReadRegister(pstRegisterData);
 
     return (u16RegisterValue);
@@ -40,8 +39,8 @@ uint16_t TIMERB__u16ReadRegister(TIMERB_Register_t* pstRegisterData)
 uint16_t TIMERB_CC__u16ReadRegister(TIMERB_nCC enModuleArg,
                                  TIMERB_Register_t* pstRegisterData)
 {
-    uintptr_t ptrChannelBase = 0U;
-    uint16_t u16RegisterValue = 0U;
+    uintptr_t ptrChannelBase;
+    uint16_t u16RegisterValue;
 
     ptrChannelBase = TIMERB_CC__uptrBlockBaseAddress(enModuleArg);
     pstRegisterData->uptrAddress += ptrChannelBase;

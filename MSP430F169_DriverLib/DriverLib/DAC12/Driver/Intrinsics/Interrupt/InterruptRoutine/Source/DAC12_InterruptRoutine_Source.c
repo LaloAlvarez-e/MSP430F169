@@ -32,7 +32,7 @@ static MCU__pu16fIRQSourceHandler_t DAC12_CH_pu16fIRQSourceHandler[(uint8_t) DAC
 
 MCU__pu16fIRQSourceHandler_t DAC12_CH__pu16fGetIRQSourceHandler(DAC12_nCH enChannelArg)
 {
-    MCU__pu16fIRQSourceHandler_t IRQSourceHandler = (MCU__pu16fIRQSourceHandler_t) 0U;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandler;
     IRQSourceHandler = DAC12_CH_pu16fIRQSourceHandler[(uint8_t) enChannelArg];
     return (IRQSourceHandler);
 }

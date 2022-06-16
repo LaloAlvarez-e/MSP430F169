@@ -28,7 +28,7 @@
 
 CLOCK_nSTATUS CLOCK__enSetSource(CLOCK_nSIGNAL enClockSignal, CLOCK_nSOURCE enSourceClock)
 {
-    CLOCK_nSTATUS enStatusReg = CLOCK_enSTATUS_ERROR;
+    CLOCK_nSTATUS enStatusReg;
     switch (enClockSignal)
     {
     case CLOCK_enSIGNAL_ACLK:
@@ -41,6 +41,7 @@ CLOCK_nSTATUS CLOCK__enSetSource(CLOCK_nSIGNAL enClockSignal, CLOCK_nSOURCE enSo
         enStatusReg = CLOCK__enSetMCLKSource(enSourceClock);
         break;
     default:
+        enStatusReg = CLOCK_enSTATUS_ERROR;
         break;
     }
     return (enStatusReg);
@@ -48,10 +49,11 @@ CLOCK_nSTATUS CLOCK__enSetSource(CLOCK_nSIGNAL enClockSignal, CLOCK_nSOURCE enSo
 
 CLOCK_nSTATUS CLOCK__enSetACLKSource(CLOCK_nSOURCE enSourceClock)
 {
-    CLOCK_nSTATUS enStatusReg = CLOCK_enSTATUS_OK;
+    CLOCK_nSTATUS enStatusReg;
     switch(enSourceClock)
     {
     case CLOCK_enSOURCE_LFXT1:
+        enStatusReg = CLOCK_enSTATUS_OK;
         break;
     default:
         enStatusReg = CLOCK_enSTATUS_ERROR;

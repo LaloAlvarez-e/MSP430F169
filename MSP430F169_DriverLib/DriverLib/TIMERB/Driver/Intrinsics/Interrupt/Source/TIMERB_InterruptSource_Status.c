@@ -42,7 +42,7 @@ void TIMERB_CC__vSetStatusInterruptSource(TIMERB_nCC enModuleArg,
 TIMERB_nINT_STATUS TIMERB_CC__enGetStatusInterruptSource(TIMERB_nCC enModuleArg)
 {
     TIMERB_Register_t pstRegisterData;
-    TIMERB_nINT_STATUS enStatus = TIMERB_enINT_STATUS_NOOCCUR;
+    TIMERB_nINT_STATUS enStatus;
 
     pstRegisterData.uptrAddress = TIMERB_CC_CTL_OFFSET;
     pstRegisterData.u16Mask = TIMERB_CC_CTL_IFG_MASK;
@@ -68,7 +68,7 @@ void TIMERB__vSetStatusInterruptSource(TIMERB_nINT_STATUS enStatus)
 TIMERB_nINT_STATUS TIMERB__enGetStatusInterruptSource(void)
 {
     TIMERB_Register_t pstRegisterData;
-    TIMERB_nINT_STATUS enStatus = TIMERB_enINT_STATUS_NOOCCUR;
+    TIMERB_nINT_STATUS enStatus;
 
     pstRegisterData.uptrAddress = TIMERB_CTL_OFFSET;
     pstRegisterData.u16Mask = TIMERB_CTL_IFG_MASK;

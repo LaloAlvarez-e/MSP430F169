@@ -28,15 +28,14 @@
 
 void DMA__vWriteRegister(DMA_Register_t* pstRegisterData)
 {
-    uintptr_t ptrBase = DMA_BASE;
-    pstRegisterData->uptrAddress += ptrBase;
+    pstRegisterData->uptrAddress += DMA_BASE;
     MCU__vWriteRegister_16bits(pstRegisterData);
 }
 
 void DMA_CH__vWriteRegister(DMA_nCH enChannelArg,
                             DMA_Register_t* pstRegisterData)
 {
-    uintptr_t ptrPortBase = 0U;
+    uintptr_t ptrPortBase;
     ptrPortBase = DMA_CH__uptrBlockBaseAddress(enChannelArg);
     pstRegisterData->uptrAddress += ptrPortBase;
     MCU__vWriteRegister_16bits(pstRegisterData);

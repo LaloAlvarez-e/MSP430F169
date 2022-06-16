@@ -53,7 +53,7 @@ static MCU__pu16fIRQSourceHandler_t ADC12_pu16fIRQSourceHandler[(uint8_t) ADC12_
 
 MCU__pu16fIRQSourceHandler_t ADC12_CH__pu16fGetIRQSourceHandler(ADC12_nCH enChannelArg)
 {
-    MCU__pu16fIRQSourceHandler_t IRQSourceHandler = (MCU__pu16fIRQSourceHandler_t) 0U;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandler;
     IRQSourceHandler = ADC12_CH_pu16fIRQSourceHandler[(uint8_t) enChannelArg];
     return (IRQSourceHandler);
 }
@@ -68,7 +68,7 @@ void ADC12_CH__vSetIRQSourceHandler(ADC12_nCH enChannelArg,
 
 MCU__pu16fIRQSourceHandler_t ADC12__pu16fGetIRQSourceHandler(ADC12_nINTERRUPT enInterruptArg)
 {
-    MCU__pu16fIRQSourceHandler_t IRQSourceHandler = (MCU__pu16fIRQSourceHandler_t) 0U;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandler;
     IRQSourceHandler = ADC12_pu16fIRQSourceHandler[(uint8_t) enInterruptArg];
     return (IRQSourceHandler);
 }

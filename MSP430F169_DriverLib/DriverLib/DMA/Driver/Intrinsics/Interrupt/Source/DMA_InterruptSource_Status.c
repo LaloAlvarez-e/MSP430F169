@@ -42,7 +42,7 @@ void DMA_CH__vSetStatusInterruptSource(DMA_nCH enChannelArg,
 DMA_nCH_INT_STATUS DMA_CH__enGetStatusInterruptSource(DMA_nCH enChannelArg)
 {
     DMA_Register_t pstRegisterData;
-    DMA_nCH_INT_STATUS enStatus = DMA_enCH_INT_STATUS_NOOCCUR;
+    DMA_nCH_INT_STATUS enStatus;
 
     pstRegisterData.uptrAddress = DMA_CH_CTL_OFFSET;
     pstRegisterData.u16Mask = DMA_CH_CTL_IFG_MASK;

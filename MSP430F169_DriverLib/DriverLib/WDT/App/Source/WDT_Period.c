@@ -28,10 +28,10 @@
 
 uint32_t WDT__u32GetPeriodus(void)
 {
-    uint16_t u16IntervalReg = 0U;
-    uint32_t u32SysFreqReq = 0U;
-    uint32_t u32PeriodReg = 0UL;
-    WDT_nCLOCK enClockReg = WDT_enCLOCK_SMCLK;
+    uint16_t u16IntervalReg;
+    uint32_t u32SysFreqReq;
+    uint32_t u32PeriodReg;
+    WDT_nCLOCK enClockReg;
 
     u16IntervalReg = WDT__u16GetInterval();
     enClockReg = WDT__enGetClock();
@@ -48,6 +48,10 @@ uint32_t WDT__u32GetPeriodus(void)
         u32PeriodReg = 1000000UL;
         u32PeriodReg *= (uint32_t) u16IntervalReg;
         u32PeriodReg /= u32SysFreqReq;
+    }
+    else
+    {
+        u32PeriodReg = 0UL;
     }
     return (u32PeriodReg);
 }

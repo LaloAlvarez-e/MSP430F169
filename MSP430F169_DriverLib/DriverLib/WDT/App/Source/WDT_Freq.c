@@ -28,10 +28,10 @@
 
 uint32_t WDT__u32GetFrequency(void)
 {
-    uint16_t u16IntervalReg = 0U;
-    uint32_t u32SysFreqReq = 0U;
-    uint32_t u32FreqReg = 0UL;
-    WDT_nCLOCK enClockReg = WDT_enCLOCK_SMCLK;
+    uint16_t u16IntervalReg;
+    uint32_t u32SysFreqReq;
+    uint32_t u32FreqReg;
+    WDT_nCLOCK enClockReg;
 
     u16IntervalReg = WDT__u16GetInterval();
     enClockReg = WDT__enGetClock();
@@ -47,6 +47,10 @@ uint32_t WDT__u32GetFrequency(void)
     {
         u32FreqReg = u32SysFreqReq;
         u32FreqReg /= (uint32_t) u16IntervalReg;
+    }
+    else
+    {
+        u32FreqReg = 0UL;
     }
     return (u32FreqReg);
 }

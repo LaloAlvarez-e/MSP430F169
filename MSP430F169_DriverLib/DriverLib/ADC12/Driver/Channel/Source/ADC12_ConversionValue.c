@@ -28,7 +28,8 @@
 uint16_t ADC12__u16GetConversionValue(ADC12_nCH enChannelArg)
 {
     ADC12_Register16Bits_t pstRegisterData;
-    uint16_t u16AuxiliarOffset = ADC12_CH_MEM_OFFSET;
+    uint16_t u16AuxiliarOffset;
+    u16AuxiliarOffset = ADC12_CH_MEM_OFFSET;
     u16AuxiliarOffset += (uint16_t) enChannelArg;
     pstRegisterData.uptrAddress = u16AuxiliarOffset;
     pstRegisterData.u16Value = 0U;

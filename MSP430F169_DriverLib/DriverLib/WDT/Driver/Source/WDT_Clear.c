@@ -30,7 +30,7 @@
 void WDT__vSetClear(void)
 {
     WDT_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = 1UL;
     u16Value <<= WDT_CTL_R_CNTCL_BIT;
     u16Value |= WDT_CTL_R_PW_WRITE;

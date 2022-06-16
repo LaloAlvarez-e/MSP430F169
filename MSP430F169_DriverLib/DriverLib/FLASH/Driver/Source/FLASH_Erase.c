@@ -30,7 +30,7 @@
 void FLASH__vStartEraseProcess(FLASH_nERASE enEraseProcessArg)
 {
     FLASH_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) enEraseProcessArg;
     u16Value <<= FLASH_CTL1_R_ERASE_BIT;
     u16Value |= FLASH_CTL1_R_KEY_WRITE;
@@ -58,7 +58,7 @@ FLASH_nERASE FLASH__enGetEraseProcess(void)
 void FLASH__vStartEraseProcess_RAM(FLASH_nERASE enEraseProcessArg)
 {
     FLASH_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) enEraseProcessArg;
     u16Value <<= FLASH_CTL1_R_ERASE_BIT;
     u16Value |= FLASH_CTL1_R_KEY_WRITE;

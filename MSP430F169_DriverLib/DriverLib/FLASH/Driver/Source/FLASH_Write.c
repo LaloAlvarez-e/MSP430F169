@@ -30,7 +30,7 @@
 void FLASH__vStartWriteProcess(FLASH_nWRITE enWriteProcessArg)
 {
     FLASH_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) enWriteProcessArg;
     u16Value <<= FLASH_CTL1_R_WRITE_BIT;
     u16Value |= FLASH_CTL1_R_KEY_WRITE;
@@ -58,7 +58,7 @@ FLASH_nWRITE FLASH__enGetWriteProcess(void)
 void FLASH__vStartWriteProcess_RAM(FLASH_nWRITE enWriteProcessArg)
 {
     FLASH_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) enWriteProcessArg;
     u16Value <<= FLASH_CTL1_R_WRITE_BIT;
     u16Value |= FLASH_CTL1_R_KEY_WRITE;

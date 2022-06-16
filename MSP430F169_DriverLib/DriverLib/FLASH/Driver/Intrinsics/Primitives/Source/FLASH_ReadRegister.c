@@ -28,10 +28,9 @@
 
 uint8_t FLASH__u8ReadRegister(FLASH_Register8Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = FLASH_BASE;
-    uint8_t u8RegisterValue = 0U;
+    uint8_t u8RegisterValue;
 
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += FLASH_BASE;
     u8RegisterValue = MCU__u8ReadRegister(pstRegisterData);
     return (u8RegisterValue);
 }
@@ -39,20 +38,18 @@ uint8_t FLASH__u8ReadRegister(FLASH_Register8Bits_t* pstRegisterData)
 
 uint16_t FLASH__u16ReadRegister(FLASH_Register16Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = FLASH_BASE;
-    uint8_t u16RegisterValue = 0U;
+    uint8_t u16RegisterValue;
 
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += FLASH_BASE;
     u16RegisterValue = MCU__u16ReadRegister(pstRegisterData);
     return (u16RegisterValue);
 }
 
 uint8_t FLASH__u8ReadRegister_RAM(FLASH_Register8Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = FLASH_BASE;
-    uint8_t u8RegisterValue = 0U;
+    uint8_t u8RegisterValue;
 
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += FLASH_BASE;
     u8RegisterValue = MCU__u8ReadRegister_RAM(pstRegisterData);
     return (u8RegisterValue);
 }
@@ -60,10 +57,9 @@ uint8_t FLASH__u8ReadRegister_RAM(FLASH_Register8Bits_t* pstRegisterData)
 
 uint16_t FLASH__u16ReadRegister_RAM(FLASH_Register16Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = FLASH_BASE;
-    uint8_t u16RegisterValue = 0U;
+    uint8_t u16RegisterValue;
 
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += FLASH_BASE;
     u16RegisterValue = MCU__u16ReadRegister_RAM(pstRegisterData);
     return (u16RegisterValue);
 }

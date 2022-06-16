@@ -57,8 +57,8 @@ ADC12_nCLOCKDIV ADC12__enGetClockDivider(void)
 
 uint8_t ADC12__u8SetClockDividerByNumber(void)
 {
-    ADC12_nCLOCKDIV enClockDiReg = ADC12_enCLOCKDIV_1;
-    uint8_t u8ClockDivReg = 0U;
+    ADC12_nCLOCKDIV enClockDiReg;
+    uint8_t u8ClockDivReg;
 
     enClockDiReg = ADC12__enGetClockDivider();
     u8ClockDivReg = (uint8_t) enClockDiReg;

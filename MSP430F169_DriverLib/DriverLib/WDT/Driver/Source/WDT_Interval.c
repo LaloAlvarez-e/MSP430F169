@@ -30,7 +30,7 @@
 void WDT__vSetInterval(WDT_nINTERVAL enIntervalArg)
 {
     WDT_Register16Bits_t pstRegisterData;
-    uint16_t u16Value = 0U;
+    uint16_t u16Value;
     u16Value = (uint16_t) enIntervalArg;
     u16Value <<= WDT_CTL_R_IS_BIT;
     u16Value |= WDT_CTL_R_PW_WRITE;
@@ -58,9 +58,9 @@ WDT_nINTERVAL WDT__enGetInterval(void)
 uint16_t WDT__u16GetInterval(void)
 {
     const uint16_t pu16LUTInterval[4UL] = {32768U, 8192U, 512U, 64U};
-    WDT_nINTERVAL enIntervalReg = WDT_enINTERVAL_32768;
-    uint16_t u16Reg = 0U;
-    uint16_t u16Index = 0U;
+    WDT_nINTERVAL enIntervalReg;
+    uint16_t u16Reg;
+    uint16_t u16Index;
     enIntervalReg = WDT__enGetInterval();
     u16Index = (uint8_t) enIntervalReg;
     u16Reg = pu16LUTInterval[u16Index];

@@ -28,17 +28,13 @@
 
 void NMI__vWriteRegister_8bits(NMI_Register8Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = NMI_BASE;
-
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += NMI_BASE;
     MCU__vWriteRegister_8bits(pstRegisterData);
 }
 
 
 void NMI__vWriteRegister_16bits(NMI_Register16Bits_t* pstRegisterData)
 {
-    const uintptr_t ptrAddressBase = NMI_BASE;
-
-    pstRegisterData->uptrAddress += ptrAddressBase;
+    pstRegisterData->uptrAddress += NMI_BASE;
     MCU__vWriteRegister_16bits(pstRegisterData);
 }

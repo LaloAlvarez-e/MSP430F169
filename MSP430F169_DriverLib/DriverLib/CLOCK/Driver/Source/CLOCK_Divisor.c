@@ -113,7 +113,7 @@ void CLOCK__vSetMCLKDividerByNumber(uint8_t u8Divider)
 
 CLOCK_nDIV CLOCK__enGetDivider(CLOCK_nSIGNAL enClockSignal)
 {
-    CLOCK_nDIV enDividerReg = CLOCK_nDIV_1;
+    CLOCK_nDIV enDividerReg;
     switch (enClockSignal)
     {
     case CLOCK_enSIGNAL_ACLK:
@@ -126,6 +126,7 @@ CLOCK_nDIV CLOCK__enGetDivider(CLOCK_nSIGNAL enClockSignal)
         enDividerReg = CLOCK__enGetMCLKDivider();
         break;
     default:
+        enDividerReg = CLOCK_nDIV_1;
         break;
     }
     return (enDividerReg);
@@ -166,7 +167,7 @@ CLOCK_nDIV CLOCK__enGetMCLKDivider(void)
 
 uint8_t CLOCK__u8GetDivider(CLOCK_nSIGNAL enClockSignal)
 {
-    uint8_t u8DividerShift = 0U;
+    uint8_t u8DividerShift;
     uint8_t u8DividerReg = 1U;
 
     u8DividerShift = (uint8_t) CLOCK__enGetDivider(enClockSignal);
@@ -176,21 +177,21 @@ uint8_t CLOCK__u8GetDivider(CLOCK_nSIGNAL enClockSignal)
 
 uint8_t CLOCK__u8GetACLKDivider(void)
 {
-    uint8_t u8DividerReg = 0U;
+    uint8_t u8DividerReg;
     u8DividerReg = CLOCK__u8GetDivider(CLOCK_enSIGNAL_ACLK);
     return (u8DividerReg);
 }
 
 uint8_t CLOCK__u8GetSMCLKDivider(void)
 {
-    uint8_t u8DividerReg = 0U;
+    uint8_t u8DividerReg;
     u8DividerReg = CLOCK__u8GetDivider(CLOCK_enSIGNAL_SMCLK);
     return (u8DividerReg);
 }
 
 uint8_t CLOCK__u8GetMCLKDivider(void)
 {
-    uint8_t u8DividerReg = 0U;
+    uint8_t u8DividerReg;
     u8DividerReg = CLOCK__u8GetDivider(CLOCK_enSIGNAL_MCLK);
     return (u8DividerReg);
 }

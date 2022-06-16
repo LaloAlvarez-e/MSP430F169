@@ -85,7 +85,7 @@ static MCU__pu16fIRQSourceHandler_t DMA_CH_pu16fIRQSourceHandler[(uint8_t) DMA_e
 
 MCU__pu16fIRQSourceHandler_t DMA_CH__pu16fGetIRQSourceHandler(DMA_nCH enChannelArg, DMA_nCH_TRIGGER enTrigger)
 {
-    MCU__pu16fIRQSourceHandler_t IRQSourceHandler = (MCU__pu16fIRQSourceHandler_t) 0U;
+    MCU__pu16fIRQSourceHandler_t IRQSourceHandler;
     IRQSourceHandler = DMA_CH_pu16fIRQSourceHandler[(uint8_t) enChannelArg][(uint8_t) enTrigger];
     return (IRQSourceHandler);
 }

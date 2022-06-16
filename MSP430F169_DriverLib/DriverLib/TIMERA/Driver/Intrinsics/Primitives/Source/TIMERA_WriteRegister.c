@@ -28,15 +28,14 @@
 
 void TIMERA__vWriteRegister(TIMERA_Register_t* pstRegisterData)
 {
-    uintptr_t ptrBase = TIMERA_BASE;
-    pstRegisterData->uptrAddress += ptrBase;
+    pstRegisterData->uptrAddress += TIMERA_BASE;
     MCU__vWriteRegister_16bits(pstRegisterData);
 }
 
 void TIMERA_CC__vWriteRegister(TIMERA_nCC enModuleArg,
                             TIMERA_Register_t* pstRegisterData)
 {
-    uintptr_t ptrPortBase = 0U;
+    uintptr_t ptrPortBase;
     ptrPortBase = TIMERA_CC__uptrBlockBaseAddress(enModuleArg);
     pstRegisterData->uptrAddress += ptrPortBase;
     MCU__vWriteRegister_16bits(pstRegisterData);

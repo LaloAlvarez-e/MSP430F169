@@ -32,8 +32,8 @@ static uint32_t FLASH_u32FreqReg = 0UL;
 uint32_t FLASH__u32Init(FLASH_nCLOCK enClockSourceArg)
 {
     const uint32_t pu32FreqRanges[2U] = {257000UL,476000UL};
-    uint8_t u8CountReg = 0U;
-    uint32_t u32SysFreqReq = 0UL;
+    uint8_t u8CountReg;
+    uint32_t u32SysFreqReq;
 
     switch(enClockSourceArg)
     {
@@ -47,6 +47,7 @@ uint32_t FLASH__u32Init(FLASH_nCLOCK enClockSourceArg)
         u32SysFreqReq = CLOCK__u32GetFrequency(CLOCK_enSIGNAL_SMCLK);
         break;
     default:
+        u32SysFreqReq = 0UL;
         break;
     }
 
@@ -54,6 +55,7 @@ uint32_t FLASH__u32Init(FLASH_nCLOCK enClockSourceArg)
 
     if(u32SysFreqReq >= pu32FreqRanges[0U])
     {
+        u8CountReg = 0U;
         do
         {
             u8CountReg++;
