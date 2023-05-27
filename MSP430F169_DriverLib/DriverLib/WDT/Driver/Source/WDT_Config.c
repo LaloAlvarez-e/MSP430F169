@@ -31,8 +31,8 @@
 void WDT__vSetConfig(WDT_Config_t* pstConfig)
 {
     WDT_Register16Bits_t pstRegisterData;
-    uint16_t u16EnableReg;
     WDT_nINT_ENABLE enIntEnable;
+    uint16_t u16EnableReg;
     uint16_t u16Mode;
     uint16_t u16Clock;
     uint16_t u16Interval;

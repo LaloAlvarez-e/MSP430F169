@@ -45,8 +45,8 @@ uint8_t MCU__u8ReadRegister(MCU_Register8Bits_t* pstRegisterDataArg)
             u8RegisterValue >>= u8RegisterShift;
             u8RegisterValue &= u8RegisterMask;
         }
+        pstRegisterDataArg->u8Value = u8RegisterValue;
     }
-    pstRegisterDataArg->u8Value = u8RegisterValue;
     return (u8RegisterValue);
 }
 
@@ -72,8 +72,8 @@ uint16_t MCU__u16ReadRegister(MCU_Register16Bits_t* pstRegisterDataArg)
             u16RegisterValue >>= u8RegisterShift;
             u16RegisterValue &= u16RegisterMask;
         }
+        pstRegisterDataArg->u16Value = u16RegisterValue;
     }
-    pstRegisterDataArg->u16Value = u16RegisterValue;
     return (u16RegisterValue);
 }
 
@@ -99,8 +99,8 @@ uint8_t MCU__u8ReadRegister_RAM(MCU_Register8Bits_t* pstRegisterDataArg)
             u8RegisterValue >>= u8RegisterShift;
             u8RegisterValue &= u8RegisterMask;
         }
+        pstRegisterDataArg->u8Value = u8RegisterValue;
     }
-    pstRegisterDataArg->u8Value = u8RegisterValue;
     return (u8RegisterValue);
 }
 
@@ -126,8 +126,8 @@ uint16_t MCU__u16ReadRegister_RAM(MCU_Register16Bits_t* pstRegisterDataArg)
             u16RegisterValue >>= (uint16_t) u8RegisterShift;
             u16RegisterValue &= u16RegisterMask;
         }
+        pstRegisterDataArg->u16Value = u16RegisterValue;
     }
-    pstRegisterDataArg->u16Value = u16RegisterValue;
     return (u16RegisterValue);
 }
 
